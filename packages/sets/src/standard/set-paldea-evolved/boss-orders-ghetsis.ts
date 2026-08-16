@@ -19,12 +19,12 @@ export class BossOrdersGhetsis extends TrainerCard {
 
   public set: string = 'PAL';
 
-  public name: string = "Boss's Orders (Ghetsis)";
+  public name: string = 'Boss\'s Orders (Ghetsis)';
 
-  public fullName: string = "Boss's Orders (Ghetsis) PAL";
+  public fullName: string = 'Boss\'s Orders (Ghetsis) PAL';
 
   public text: string =
-    "Switch in 1 of your opponent's Benched Pokémon to the Active Spot.";
+    'Switch in 1 of your opponent\'s Benched Pokémon to the Active Spot.';
 
   public reduceEffect(store: StoreLike, state: State, effect: Effect): State {
     if (effect instanceof TrainerEffect && effect.trainerCard === this) {
