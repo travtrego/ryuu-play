@@ -1,11 +1,20 @@
-import { GamePhase, Player, PokemonSlot, SpecialCondition, State } from '@ptcg/common';
+import { Card, GamePhase, Player, PokemonSlot, SpecialCondition, State } from '@ptcg/common';
+
+export interface CardView {
+  name: string;
+  fullName: string;
+  set: string;
+}
 
 export interface PokemonSlotSnapshot {
-  pokemonNames: string[];
+  pokemon: CardView;
+  // The whole stack, bottom-up, so a coach can see what a Pokemon evolved from.
+  evolutionStack: CardView[];
   hp: number;
   damage: number;
-  energyNames: string[];
-  toolNames: string[];
+  remainingHp: number;
+  energies: CardView[];
+  tools: CardView[];
   specialConditions: string[];
 }
 
@@ -13,55 +22,87 @@ export interface PlayerSnapshot {
   id: number;
   name: string;
   deckCount: number;
-  discardCardNames: string[];
-  prizesLeft: number;
-  stadiumCardName: string | undefined;
-  active: PokemonSlotSnapshot;
-  bench: PokemonSlotSnapshot[];
   handCount: number;
-  handCardNames?: string[];
+  discard: CardView[];
+  prizesLeft: number;
+  stadium: CardView[];
+  supporter: CardView[];
+  active: PokemonSlotSnapshot | null;
+  // Index-stable: entry N is always player.bench[N], and an empty slot is null
+  // rather than omitted. RetreatAction and CardTarget address bench positions
+  // by index, so compacting this array would let a recommendation point at the
+  // wrong Pokemon.
+  bench: (PokemonSlotSnapshot | null)[];
+  // Present only for the viewer. Absent - not empty - for the opponent.
+  hand?: CardView[];
+}
+
+export interface TurnFlags {
+  energyAlreadyPlayed: boolean;
+  alreadyRetreated: boolean;
+  stadiumAlreadyPlayed: boolean;
+  stadiumAlreadyUsed: boolean;
 }
 
 export interface GameStateSnapshot {
+  viewerPlayerId: number;
   turn: number;
   phase: string;
   activePlayerId: number;
-  viewerPlayerId: number;
+  isViewerTurn: boolean;
   you: PlayerSnapshot;
   opponent: PlayerSnapshot;
+  turnFlags: TurnFlags;
+  pendingPromptCount: number;
 }
 
-function buildPokemonSlotSnapshot(slot: PokemonSlot): PokemonSlotSnapshot {
+function buildCardView(card: Card): CardView {
+  return {
+    name: card.name,
+    fullName: card.fullName,
+    set: card.set
+  };
+}
+
+function buildPokemonSlotSnapshot(slot: PokemonSlot): PokemonSlotSnapshot | null {
   const pokemonCard = slot.getPokemonCard();
 
+  if (pokemonCard === undefined) {
+    return null;
+  }
+
   return {
-    pokemonNames: slot.getPokemons().map(card => card.name),
-    hp: pokemonCard === undefined ? 0 : pokemonCard.hp,
+    pokemon: buildCardView(pokemonCard),
+    evolutionStack: slot.getPokemons().map(buildCardView),
+    hp: pokemonCard.hp,
     damage: slot.damage,
-    energyNames: slot.energies.cards.map(card => card.name),
-    toolNames: slot.getTools().map(card => card.name),
+    remainingHp: Math.max(0, pokemonCard.hp - slot.damage),
+    energies: slot.energies.cards.map(buildCardView),
+    tools: slot.getTools().map(buildCardView),
     specialConditions: slot.specialConditions.map(condition => SpecialCondition[condition])
   };
 }
 
-// Only information that is public knowledge in a real game (discard pile, prize
-// count, board state, hand size) is included for the opponent. Their hand
-// contents are only revealed when `isViewer` is true.
+// Only information that is public knowledge at a real table is included for the
+// opponent: discard pile, prize count, board state and hand size. The engine
+// internally knows both hands and both decks, so handing State straight to a
+// reasoning layer would quietly produce a cheating coach.
 function buildPlayerSnapshot(player: Player, isViewer: boolean): PlayerSnapshot {
   const snapshot: PlayerSnapshot = {
     id: player.id,
     name: player.name,
     deckCount: player.deck.cards.length,
-    discardCardNames: player.discard.cards.map(card => card.name),
+    handCount: player.hand.cards.length,
+    discard: player.discard.cards.map(buildCardView),
     prizesLeft: player.getPrizeLeft(),
-    stadiumCardName: player.stadium.cards[player.stadium.cards.length - 1]?.name,
+    stadium: player.stadium.cards.map(buildCardView),
+    supporter: player.supporter.cards.map(buildCardView),
     active: buildPokemonSlotSnapshot(player.active),
-    bench: player.bench.map(buildPokemonSlotSnapshot),
-    handCount: player.hand.cards.length
+    bench: player.bench.map(buildPokemonSlotSnapshot)
   };
 
   if (isViewer) {
-    snapshot.handCardNames = player.hand.cards.map(card => card.name);
+    snapshot.hand = player.hand.cards.map(buildCardView);
   }
 
   return snapshot;
@@ -76,16 +117,35 @@ export function buildGameStateSnapshot(state: State, viewerPlayerId: number): Ga
   const viewer = state.players.find(player => player.id === viewerPlayerId);
   const opponent = state.players.find(player => player.id !== viewerPlayerId);
 
-  if (viewer === undefined || opponent === undefined) {
-    throw new Error(`Player ${viewerPlayerId} not found in the given state.`);
+  if (viewer === undefined) {
+    throw new Error(`Player ${viewerPlayerId} does not exist in this game state.`);
   }
 
+  if (opponent === undefined) {
+    throw new Error('Coach snapshots require an opposing player.');
+  }
+
+  // state.activePlayer is an index into state.players, not a player id - the
+  // engine assigns it with players.indexOf() and toggles it between 0 and 1.
+  // Comparing it against a player id directly reports the wrong player's turn.
+  const activePlayer = state.players[state.activePlayer];
+
   return {
+    viewerPlayerId,
     turn: state.turn,
     phase: GamePhase[state.phase],
-    activePlayerId: state.players[state.activePlayer].id,
-    viewerPlayerId,
+    activePlayerId: activePlayer.id,
+    isViewerTurn: activePlayer.id === viewerPlayerId,
     you: buildPlayerSnapshot(viewer, true),
-    opponent: buildPlayerSnapshot(opponent, false)
+    opponent: buildPlayerSnapshot(opponent, false),
+    turnFlags: {
+      energyAlreadyPlayed: viewer.energyPlayedTurn === state.turn,
+      alreadyRetreated: viewer.retreatedTurn === state.turn,
+      stadiumAlreadyPlayed: viewer.stadiumPlayedTurn === state.turn,
+      stadiumAlreadyUsed: viewer.stadiumUsedTurn === state.turn
+    },
+    // Resolved prompts stay in state.prompts with their result set, so an
+    // unfiltered length would overstate how much is actually pending.
+    pendingPromptCount: state.prompts.filter(prompt => prompt.result === undefined).length
   };
 }
