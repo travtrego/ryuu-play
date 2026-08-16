@@ -12,6 +12,7 @@
     "packages/sets",
     "packages/server",
     "packages/simple-bot",
+    "packages/coach",
     "packages/play",
     "packages/cordova"
   ],
