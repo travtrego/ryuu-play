@@ -2,6 +2,7 @@ import {
   Card,
   ChooseCardsPrompt,
   Effect,
+  EnergyCard,
   EnergyType,
   GameError,
   GameMessage,
@@ -33,14 +34,13 @@ export class NightStretcher extends TrainerCard {
       ];
       const eligible = player.discard.cards.filter(card =>
         card.superType === SuperType.POKEMON
-          || (card.superType === SuperType.ENERGY && (card as any).energyType === EnergyType.BASIC)
+          || (card instanceof EnergyCard && card.energyType === EnergyType.BASIC)
       );
 
       if (eligible.length === 0) {
         throw new GameError(GameMessage.CANNOT_PLAY_THIS_CARD);
       }
 
-      let cards: Card[] = [];
       store.prompt(
         state,
         new ChooseCardsPrompt(
@@ -51,7 +51,7 @@ export class NightStretcher extends TrainerCard {
           { min: 1, max: 1, allowCancel: false }
         ),
         selected => {
-          cards = selected || [];
+          const cards: Card[] = selected || [];
           player.discard.moveCardsTo(cards, player.hand);
         }
       );
