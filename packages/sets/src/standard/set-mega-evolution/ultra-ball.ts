@@ -6,6 +6,8 @@ import { UltraBall } from '../set-black-and-white/ultra-ball';
 export class UltraBallMEG extends UltraBall {
   public set: string = 'MEG';
 
+  public name: string = 'Ultra Ball';
+
   public fullName: string = 'Ultra Ball MEG';
 
   public text: string =
