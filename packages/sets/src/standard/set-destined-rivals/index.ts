@@ -3,6 +3,8 @@ import { TeamRocketsAriana } from './team-rockets-ariana';
 import { TeamRocketsFactory } from './team-rockets-factory';
 import { TeamRocketsGiovanni } from './team-rockets-giovanni';
 import { TeamRocketsPetrel } from './team-rockets-petrel';
+import { TeamRocketsSpidops } from './team-rockets-spidops';
+import { TeamRocketsTarountula } from './team-rockets-tarountula';
 import { TeamRocketsTransceiver } from './team-rockets-transceiver';
 
 export const setDestinedRivals: Card[] = [
@@ -10,5 +12,7 @@ export const setDestinedRivals: Card[] = [
   new TeamRocketsFactory(),
   new TeamRocketsGiovanni(),
   new TeamRocketsPetrel(),
+  new TeamRocketsSpidops(),
+  new TeamRocketsTarountula(),
   new TeamRocketsTransceiver(),
 ];
