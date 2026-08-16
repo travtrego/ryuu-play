@@ -29,18 +29,9 @@ jobs:
       - name: Validate current meta deck catalog
         run: node tools/meta-audit.js --json > /tmp/meta-audit.json
 
-  test:
+  build:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
-    strategy:
-      fail-fast: false
-      matrix:
-        workspace:
-          - '@ptcg/common'
-          - '@ptcg/sets'
-          - '@ptcg/server'
-          - '@ptcg/simple-bot'
-          - '@ptcg/play'
+    timeout-minutes: 30
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -54,5 +45,5 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Build workspace
-        run: npm run build --workspace="${{ matrix.workspace }}"
+      - name: Build all workspaces
+        run: npm run build --workspaces
