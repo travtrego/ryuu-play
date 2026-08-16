@@ -21,9 +21,9 @@ export class LilliesDetermination extends TrainerCard {
 
   public set: string = 'MEG';
 
-  public name: string = "Lillie's Determination";
+  public name: string = 'Lillie\'s Determination';
 
-  public fullName: string = "Lillie's Determination MEG";
+  public fullName: string = 'Lillie\'s Determination MEG';
 
   public text: string =
     'Shuffle your hand into your deck. Then, draw 6 cards. If you have exactly ' +
