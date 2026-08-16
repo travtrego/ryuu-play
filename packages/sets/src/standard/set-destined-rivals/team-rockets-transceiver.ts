@@ -29,8 +29,14 @@ function* playCard(
   );
   let cards: Card[] = [];
 
-  if (eligible.length === 0) {
+  if (player.deck.cards.length === 0) {
     throw new GameError(GameMessage.CANNOT_PLAY_THIS_CARD);
+  }
+
+  if (eligible.length === 0) {
+    return store.prompt(state, new ShuffleDeckPrompt(player.id), order => {
+      player.deck.applyOrder(order);
+    });
   }
 
   const searchPool = new CardList();
@@ -43,7 +49,7 @@ function* playCard(
       GameMessage.CHOOSE_CARD_TO_HAND,
       searchPool,
       {},
-      { min: 1, max: 1, allowCancel: false }
+      { min: 0, max: 1, allowCancel: true }
     ),
     selected => {
       cards = selected || [];
