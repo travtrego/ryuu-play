@@ -29,9 +29,7 @@ function* playCard(
     .filter(({ slot }) => slot.pokemons.cards.length > 0 && isTeamRocketsPokemon(slot.getPokemonCard()))
     .map(({ index }) => index);
 
-  if (!isTeamRocketsPokemon(activeCard)
-      || validBenchIndexes.length === 0
-      || !opponent.bench.some(slot => slot.pokemons.cards.length > 0)) {
+  if (!isTeamRocketsPokemon(activeCard) || validBenchIndexes.length === 0) {
     throw new GameError(GameMessage.CANNOT_PLAY_THIS_CARD);
   }
 
@@ -58,6 +56,10 @@ function* playCard(
       next();
     }
   );
+
+  if (!opponent.bench.some(slot => slot.pokemons.cards.length > 0)) {
+    return state;
+  }
 
   return store.prompt(
     state,
