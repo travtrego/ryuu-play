@@ -1,6 +1,6 @@
 import { AttachEnergyPrompt, CardList, ChooseCardsPrompt, ChoosePokemonPrompt, ConfirmPrompt,
-  EnergyCard, GameMessage, PlayerType, PokemonCard, PokemonSlot, SelectPrompt, SlotType,
-  SuperType } from '@ptcg/common';
+  EnergyCard, GameMessage, PlayerType, PokemonCard, PokemonSlot, SelectPrompt, ShowCardsPrompt,
+  ShuffleDeckPrompt, SlotType, SuperType } from '@ptcg/common';
 import { describeCardTarget, describePrompt, describePromptResult,
   humanizeGameMessage } from './prompt-describer';
 
@@ -120,6 +120,23 @@ describe('describePromptResult', () => {
       PlayerType.BOTTOM_PLAYER, [ SlotType.BENCH ]);
 
     expect(describePromptResult(prompt, [ slot ])).toBe('Spidops');
+  });
+
+  // Flagged by GPT: the Team Rocket Transceiver/Petrel/Factory line routes
+  // through these flows. Their results are a deck permutation and a bare
+  // acknowledgement, which would otherwise render as raw data at the user.
+  it('describes a shuffle without printing the deck permutation', () => {
+    const prompt = new ShuffleDeckPrompt(1);
+    const wholeDeck = Array.from({ length: 60 }, (unused, index) => index);
+
+    expect(describePromptResult(prompt, wholeDeck)).toBe('Shuffle your deck');
+  });
+
+  it('describes a show-cards prompt as an acknowledgement, not a yes', () => {
+    const prompt = new ShowCardsPrompt(1, GameMessage.CARDS_SHOWED_BY_THE_OPPONENT,
+      [ testPokemon('Tarountula') ]);
+
+    expect(describePromptResult(prompt, true)).toBe('Acknowledge');
   });
 
   it('describes energy attachments as card to destination', () => {

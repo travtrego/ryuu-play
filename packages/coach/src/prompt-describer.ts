@@ -1,5 +1,6 @@
 import { AttachEnergyPrompt, Card, CardTarget, ChooseCardsPrompt, ChoosePokemonPrompt,
-  ConfirmPrompt, PokemonSlot, Prompt, SelectPrompt, SlotType } from '@ptcg/common';
+  ConfirmPrompt, PokemonSlot, Prompt, SelectPrompt, ShowCardsPrompt, ShuffleDeckPrompt,
+  SlotType } from '@ptcg/common';
 
 // GameMessage values are SCREAMING_SNAKE identifiers such as
 // 'CHOOSE_NEW_ACTIVE_POKEMON'. Rendering them raw at a learner is unhelpful,
@@ -71,6 +72,17 @@ export function describePromptResult(prompt: Prompt<any>, result: any): string {
 
   if (prompt instanceof ConfirmPrompt) {
     return result === true ? 'Yes' : 'No';
+  }
+
+  // Mechanical steps rather than decisions. Their results are a deck
+  // permutation and a bare acknowledgement, neither of which is worth
+  // rendering literally - a 60-entry shuffle order is noise, not advice.
+  if (prompt instanceof ShuffleDeckPrompt) {
+    return 'Shuffle your deck';
+  }
+
+  if (prompt instanceof ShowCardsPrompt) {
+    return 'Acknowledge';
   }
 
   if (prompt instanceof SelectPrompt) {

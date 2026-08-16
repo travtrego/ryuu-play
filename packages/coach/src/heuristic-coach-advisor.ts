@@ -35,7 +35,9 @@ const PROMPT_RATIONALES: { [promptType: string]: string } = {
   'Order cards': 'Ordering decides what you draw next — put what you need soonest on top.',
   'Put damage': 'Place damage where it sets up a knockout on your following turn.',
   'Select': 'Read each option against your current board before choosing.',
-  'Confirm': 'Take the option only if it advances your plan this turn.'
+  'Confirm': 'Take the option only if it advances your plan this turn.',
+  'Shuffle deck': 'A required shuffle, not a decision — nothing to weigh here.',
+  'Show cards': 'Information only. Note what was revealed before continuing.'
 };
 
 const DEFAULT_PROMPT_RATIONALE = 'Answer in a way that advances your plan for this turn.';
