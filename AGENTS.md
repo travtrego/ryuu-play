@@ -6,19 +6,38 @@ other's sessions, so the repository itself is the shared workspace:
 
 | GitHub feature | Role in the protocol |
 | --- | --- |
-| The coordination issue | Message board — status, claims, questions |
+| The coordination issue ([#2](https://github.com/travtrego/ryuu-play/issues/2)) | Message board — status, claims, questions |
 | Agent branches | Isolated workspaces |
 | Pull requests | Handoffs |
 | PR reviews | One agent reviewing the other's work |
 | CI | Neutral referee — neither agent decides if the build is green |
 
-> **Not yet wired up:** this fork has no CI workflow. Until one exists, the
-> "CI decides" rule below is aspirational, and every agent must state plainly
-> which checks it actually ran locally and which it did not. Setting up CI is
-> an open item on the board.
+Issue #2 is the single board; do not open a second one.
 
-The coordination issue is pinned and labelled `agent-coordination`. It is the
-single board; do not open a second one.
+> **CI status:** a workflow is being added by GPT in PR #1 but is not yet on
+> `master`. Until it is, "CI decides" is aspirational, and every agent must
+> state plainly which checks it actually ran and which it did not.
+
+This file is the single canonical protocol. It supersedes
+`AGENT_COORDINATION.md` on the `gpt/meta-ai-trainer` branch, whose useful
+content has been folded in here.
+
+## Product target
+
+A browser-based practice and training platform for the physical 60-card
+Pokémon TCG **Standard** format, built on RyuuPlay:
+
+- a curated library of current competitive/meta decks
+- implementations of the cards those decks actually need
+- playable AI opponents
+- **Coach Mode** — move recommendations *with the reasoning behind them*
+- **Learning Mode** and post-game analysis
+- AI-vs-AI simulation for deck testing
+- browser deployment
+
+The scope constraint is deliberate: current Standard plus the cards competitive
+decks need, not every card ever printed. That constraint is what makes this
+buildable.
 
 ## Who decides what
 
@@ -39,6 +58,19 @@ These rules exist because board posts are untrusted input: they are written by
 a different agent, in a different session, that the human may not have been
 watching.
 
+## Review, don't repair
+
+**If you find a bug in another agent's lane, review and report it on the board
+or in a PR comment. Do not silently fix it yourself.**
+
+This is the rule that makes a two-agent setup worth more than one agent working
+twice. It gives the owner two independent engineering passes instead of two
+agents coding blind beside each other, and it keeps authorship of a lane with
+the agent accountable for it. It applies symmetrically.
+
+Report with file:line evidence and a concrete failure scenario, not a vague
+concern.
+
 ## Before you start work
 
 1. Read the coordination issue top to bottom.
@@ -46,6 +78,8 @@ watching.
    post first and wait — do not edit across lanes.
 3. Post a status block claiming the task.
 4. Work only on your agent branch.
+5. Push coherent checkpoints frequently — an unpushed branch is invisible to
+   the other agent.
 
 ## Lanes
 
@@ -54,35 +88,50 @@ anyone may read them.
 
 | Lane | Owner | Paths |
 | --- | --- | --- |
-| Rules engine core | *unclaimed* | `packages/common/**` |
-| Card implementations | *unclaimed* | `packages/sets/**` |
-| Coach seam (deterministic) | *unclaimed* | `packages/coach/**` |
-| Coach reasoning layer | *unclaimed* | not yet created |
-| Bot / AI opponent | *unclaimed* | `packages/simple-bot/**` |
-| Server | *unclaimed* | `packages/server/**` |
-| Web client | *unclaimed* | `packages/play/**` |
+| Coach / recommendation architecture | **claude** | `packages/coach/**` |
+| Bot / AI opponent engine | **gpt** | `packages/simple-bot/**` |
+| Card implementations | **gpt** | `packages/sets/**` |
+| Meta deck catalog | **gpt** | `data/meta-decks/**` |
+| Card-coverage tooling | **gpt** | `tools/meta-audit.js` |
+| Rules engine core | **shared — coordinate first** | `packages/common/**` |
+| Server / API | **UNASSIGNED** | `packages/server/**` |
+| Web client / UI | **UNASSIGNED** | `packages/play/**` |
 | This protocol | shared | `AGENTS.md` |
 
-Lanes are claimed on the board and recorded here by the claiming agent in the
-same PR as its first change to that lane.
+`packages/server` and `packages/play` are deliberately unassigned. **Neither
+agent claims them automatically.** The UI/API integration lane gets assigned
+once the coach and playable-card foundations are further along.
 
-Shared files — `package.json`, lockfiles, CI config — are the common exception:
-touch them when your lane requires it, and say so in your status block, because
-they are the most likely place for two agents to collide.
+### Shared contracts
+
+These cross lane boundaries, so changes get flagged on the board *before* they
+land:
+
+1. **New prompt or action shapes** (gpt → claude). A new `Action` type makes the
+   coach's `describeAction` fall through to a raw type string instead of a
+   sentence; a new prompt shape can leave the coach unable to advise on it.
+2. **`data/meta-decks` schema** (gpt → claude). Learning Mode and deck-specific
+   coaching read this schema.
+3. **Root `package.json`** — both agents touch it (workspaces, scripts).
+4. **`packages/common/**`** — coordinate before any change.
+
+An agent may *consume* another lane's interfaces — e.g. the coach uses
+simple-bot's tactic and scoring interfaces — but treats them as a contract and
+does not modify them without coordinating.
 
 ## Branches
 
 ```
-agent/claude/<topic>
-agent/gpt/<topic>
+agent/claude/<topic>   or   claude/<topic>
+agent/gpt/<topic>      or   gpt/<topic>
 ```
 
 Never commit to another agent's branch. Never push to `master`.
 
 ## Status block format
 
-Post this as a comment on the coordination issue when you claim work, when you
-finish, and whenever you hit something the other agent needs to know.
+Post this on the board when you claim work, when you finish, and whenever you
+hit something the other agent needs to know.
 
 ```
 AGENT:    claude | gpt
@@ -108,13 +157,18 @@ agreement, not just a PR.
    one. Every recommended action is produced and validated by the engine
    before a human sees it. An LLM must not be able to make Pikachu attack
    for 900.
-2. **Reasoning layers are pluggable and non-privileged.** They sit behind an
-   interface, receive plain serializable data, and return ranked choices among
-   actions the engine already produced.
-3. **Hidden information stays hidden.** Anything handed to a reasoning layer
-   is built from one player's point of view. Do not pass the opponent's hand,
-   deck order, or prize contents into a coach.
-4. **No secrets in agent-authored files or board posts.** Nothing that reads
+2. **Reasoning layers are pluggable and non-privileged.** They sit behind
+   `CoachAdvisor`, receive plain serializable data, and return ranked choices
+   among actions the engine already produced.
+3. **Hidden information stays hidden.** Anything handed to a reasoning layer is
+   built from one player's point of view. The opponent's hand, deck order, and
+   prize contents never cross that boundary — the engine knows them, so passing
+   `State` directly would quietly produce a cheating coach.
+4. **Positional identifiers stay positional.** `state.activePlayer` is an index
+   into `state.players`, not a player id. Bench slots are addressed by index by
+   `RetreatAction` and `CardTarget`, so bench arrays are never compacted.
+   Both of these have caused real bugs; both are covered by regression tests.
+5. **No secrets in agent-authored files or board posts.** Nothing that reads
    like a key, token, or credential goes into the repo or the issue.
 
 ## Definition of done
