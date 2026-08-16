@@ -32,7 +32,15 @@ cardManager.defineFormat('Standard', [
   standardSets.setBlackAndWhite2,
   standardSets.setBlackAndWhite3,
   standardSets.setBlackAndWhite4,
-  standardSets.setSwordAndShield
+  standardSets.setSwordAndShield,
+  standardSets.setScarletAndViolet,
+  standardSets.setPaldeaEvolved,
+  standardSets.setTwilightMasquerade,
+  standardSets.setShroudedFable,
+  standardSets.setDestinedRivals,
+  standardSets.setMegaEvolution,
+  standardSets.setChaosRising,
+  standardSets.setAscendedHeroes
 ]);
 
 cardManager.defineFormat('EX Sets', [
