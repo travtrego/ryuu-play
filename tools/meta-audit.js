@@ -60,11 +60,20 @@ function walkTypeScriptFiles(dir) {
 }
 
 function propertyValues(source, property) {
+  // Card metadata is ordinary TypeScript string literals. The older parser
+  // stopped at any quote character, so a valid value such as
+  // `public name = 'Team Rocket\'s Mewtwo ex'` was silently skipped. Match
+  // each quote style independently and allow escaped characters inside it.
   const pattern = new RegExp(
-    `public\\s+(?:readonly\\s+)?${property}(?:\\s*:\\s*string)?\\s*=\\s*['\"\\x60]([^'\"\\x60]+)['\"\\x60]\\s*;`,
+    `public\\s+(?:readonly\\s+)?${property}(?:\\s*:\\s*string)?\\s*=\\s*` +
+      `(?:'((?:\\\\.|[^'\\\\])*)'|"((?:\\\\.|[^"\\\\])*)"|\\x60((?:\\\\.|[^\\x60\\\\])*)\\x60)\\s*;`,
     'g'
   );
-  return [...source.matchAll(pattern)].map(match => match[1]);
+
+  return [...source.matchAll(pattern)].map(match => {
+    const raw = match[1] ?? match[2] ?? match[3] ?? '';
+    return raw.replace(/\\(['"`\\])/g, '$1');
+  });
 }
 
 function buildImplementationIndex() {
