@@ -12,5 +12,8 @@ export abstract class TrainerCard extends Card {
 
   public useWhenInPlay: boolean = false;
 
-  public canUseOnFirstTurn: boolean = false;
+  // Optional for structural compatibility with legacy cards that implement
+  // TrainerCard instead of extending it. Absence means the normal first-turn
+  // Supporter restriction applies; only explicit `true` opts a card in.
+  public canUseOnFirstTurn?: boolean = false;
 }
