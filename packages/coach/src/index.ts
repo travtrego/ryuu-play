@@ -6,3 +6,6 @@ export * from './candidate-deltas';
 export * from './coaching-request';
 export * from './heuristic-coach-advisor';
 export * from './llm-coach-advisor';
+export * from './game-state-sequence';
+export * from './review-finding';
+export * from './postgame-review';
