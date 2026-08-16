@@ -25,7 +25,7 @@ function* playCard(
   const opponent = StateUtils.getOpponent(state, player);
   let cards: Card[] = [];
 
-  if (!player.deck.cards.some(card => card.superType === SuperType.TRAINER)) {
+  if (player.deck.cards.length === 0) {
     throw new GameError(GameMessage.CANNOT_PLAY_THIS_CARD);
   }
 
@@ -36,7 +36,7 @@ function* playCard(
       GameMessage.CHOOSE_CARD_TO_HAND,
       player.deck,
       { superType: SuperType.TRAINER },
-      { min: 1, max: 1, allowCancel: false }
+      { min: 0, max: 1, allowCancel: true }
     ),
     selected => {
       cards = selected || [];
