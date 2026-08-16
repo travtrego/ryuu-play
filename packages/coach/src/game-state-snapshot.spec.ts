@@ -1,5 +1,6 @@
-import { CardList, EnergyCard, GamePhase, Player, PokemonCard, PokemonSlot,
-  SpecialCondition, State, TrainerCard, TrainerType } from '@ptcg/common';
+import { CardList, ChooseCardsPrompt, ConfirmPrompt, EnergyCard, GameMessage, GamePhase, Player,
+  PokemonCard, PokemonSlot, SpecialCondition, State, SuperType, TrainerCard,
+  TrainerType } from '@ptcg/common';
 import { buildGameStateSnapshot } from './game-state-snapshot';
 
 // Player ids are deliberately not 0 or 1. state.activePlayer is an index into
@@ -245,6 +246,60 @@ describe('buildGameStateSnapshot', () => {
         stadiumAlreadyPlayed: true,
         stadiumAlreadyUsed: false
       });
+    });
+
+    it('surfaces the viewer\'s pending prompt as a readable question with its choices', () => {
+      const cards = new CardList();
+      cards.cards = [ testPokemon('Tarountula', 60), testPokemon('Spidops', 120) ];
+      const prompt = new ChooseCardsPrompt(VIEWER_ID, GameMessage.CHOOSE_CARD_TO_HAND, cards,
+        { superType: SuperType.POKEMON }, { min: 1, max: 1, allowCancel: false });
+      prompt.id = 12;
+      state.prompts = [ prompt ];
+
+      const snapshot = buildGameStateSnapshot(state, VIEWER_ID);
+
+      expect(snapshot.pendingPrompt).toEqual({
+        id: 12,
+        type: 'Choose cards',
+        question: 'Choose card to hand (choose 1)',
+        min: 1,
+        max: 1,
+        allowCancel: false,
+        choices: [ 'Tarountula', 'Spidops' ]
+      });
+    });
+
+    it('omits blocked cards from the offered choices', () => {
+      const cards = new CardList();
+      cards.cards = [ testPokemon('Tarountula', 60), testPokemon('Spidops', 120) ];
+      const prompt = new ChooseCardsPrompt(VIEWER_ID, GameMessage.CHOOSE_CARD_TO_HAND, cards,
+        { superType: SuperType.POKEMON }, { blocked: [ 0 ] });
+      state.prompts = [ prompt ];
+
+      const snapshot = buildGameStateSnapshot(state, VIEWER_ID);
+
+      expect(snapshot.pendingPrompt?.choices).toEqual([ 'Spidops' ]);
+    });
+
+    it('never surfaces a prompt addressed to the opponent', () => {
+      const cards = new CardList();
+      cards.cards = [ testPokemon('Opponent Secret Choice', 60) ];
+      const opponentPrompt = new ChooseCardsPrompt(OPPONENT_ID, GameMessage.CHOOSE_CARD_TO_HAND,
+        cards, { superType: SuperType.POKEMON });
+      state.prompts = [ opponentPrompt ];
+
+      const snapshot = buildGameStateSnapshot(state, VIEWER_ID);
+
+      expect(snapshot.pendingPrompt).toBeNull();
+      expect(JSON.stringify(snapshot)).not.toContain('Opponent Secret Choice');
+    });
+
+    it('reports no pending prompt once the viewer\'s prompt is resolved', () => {
+      const prompt = new ConfirmPrompt(VIEWER_ID, GameMessage.WANT_TO_USE_ABILITY);
+      prompt.result = true;
+      state.prompts = [ prompt ];
+
+      expect(buildGameStateSnapshot(state, VIEWER_ID).pendingPrompt).toBeNull();
     });
 
     it('counts only unresolved prompts as pending', () => {

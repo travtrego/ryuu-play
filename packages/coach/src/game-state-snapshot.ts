@@ -1,4 +1,6 @@
-import { Card, GamePhase, Player, PokemonSlot, SpecialCondition, State } from '@ptcg/common';
+import { Card, ChooseCardsPrompt, GamePhase, Player, PokemonSlot,
+  Prompt, SelectPrompt, SpecialCondition, State } from '@ptcg/common';
+import { describePrompt } from './prompt-describer';
 
 export interface CardView {
   name: string;
@@ -44,6 +46,17 @@ export interface TurnFlags {
   stadiumAlreadyUsed: boolean;
 }
 
+export interface PromptSnapshot {
+  id: number;
+  type: string;
+  question: string;
+  min: number | null;
+  max: number | null;
+  allowCancel: boolean | null;
+  // The options the player picks between, where the prompt enumerates them.
+  choices: string[] | null;
+}
+
 export interface GameStateSnapshot {
   viewerPlayerId: number;
   turn: number;
@@ -54,6 +67,10 @@ export interface GameStateSnapshot {
   opponent: PlayerSnapshot;
   turnFlags: TurnFlags;
   pendingPromptCount: number;
+  // The question the viewer is being asked, if any. Prompts addressed to the
+  // opponent are never included - they are not the viewer's decision, and
+  // their contents can be information the viewer is not entitled to.
+  pendingPrompt: PromptSnapshot | null;
 }
 
 function buildCardView(card: Card): CardView {
@@ -108,6 +125,32 @@ function buildPlayerSnapshot(player: Player, isViewer: boolean): PlayerSnapshot 
   return snapshot;
 }
 
+function buildPromptSnapshot(prompt: Prompt<any>): PromptSnapshot {
+  const options = (prompt as any).options;
+
+  const snapshot: PromptSnapshot = {
+    id: prompt.id,
+    type: prompt.type,
+    question: describePrompt(prompt),
+    min: typeof options?.min === 'number' ? options.min : null,
+    max: typeof options?.max === 'number' ? options.max : null,
+    allowCancel: typeof options?.allowCancel === 'boolean' ? options.allowCancel : null,
+    choices: null
+  };
+
+  if (prompt instanceof SelectPrompt) {
+    snapshot.choices = prompt.values.slice();
+  } else if (prompt instanceof ChooseCardsPrompt) {
+    // Blocked indices are not selectable, so listing them would invite a
+    // recommendation the engine would reject.
+    snapshot.choices = prompt.cards.cards
+      .filter((card, index) => !prompt.options.blocked.includes(index))
+      .map(card => card.name);
+  }
+
+  return snapshot;
+}
+
 // Builds a structured, JSON-serializable summary of the game from one player's
 // point of view. This is the boundary between the deterministic simulator and
 // any external reasoning layer (e.g. an LLM coach): the simulator remains the
@@ -130,6 +173,10 @@ export function buildGameStateSnapshot(state: State, viewerPlayerId: number): Ga
   // Comparing it against a player id directly reports the wrong player's turn.
   const activePlayer = state.players[state.activePlayer];
 
+  const viewerPrompt = state.prompts.find(
+    prompt => prompt.playerId === viewerPlayerId && prompt.result === undefined
+  );
+
   return {
     viewerPlayerId,
     turn: state.turn,
@@ -146,6 +193,7 @@ export function buildGameStateSnapshot(state: State, viewerPlayerId: number): Ga
     },
     // Resolved prompts stay in state.prompts with their result set, so an
     // unfiltered length would overstate how much is actually pending.
-    pendingPromptCount: state.prompts.filter(prompt => prompt.result === undefined).length
+    pendingPromptCount: state.prompts.filter(prompt => prompt.result === undefined).length,
+    pendingPrompt: viewerPrompt === undefined ? null : buildPromptSnapshot(viewerPrompt)
   };
 }
