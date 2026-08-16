@@ -1,3 +1,4 @@
+export * from './set-ascended-heroes';
 export * from './set-black-and-white';
 export * from './set-black-and-white-2';
 export * from './set-black-and-white-3';
@@ -10,5 +11,6 @@ export * from './set-mega-evolution';
 export * from './set-op9';
 export * from './set-paldea-evolved';
 export * from './set-scarlet-and-violet';
+export * from './set-shrouded-fable';
 export * from './set-sword-and-shield';
 export * from './set-twilight-masquerade';
