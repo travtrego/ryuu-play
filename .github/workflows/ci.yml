@@ -26,8 +26,26 @@ jobs:
         with:
           node-version: 18
 
-      - name: Validate and report current meta deck coverage
-        run: node tools/meta-audit.js
+      - name: Generate current meta coverage report
+        run: |
+          node tools/meta-audit.js | tee meta-audit.txt
+          node tools/meta-audit.js --json > meta-audit.json
+          {
+            echo '## Pokémon TCG Meta Coverage Audit'
+            echo
+            echo '```text'
+            cat meta-audit.txt
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload meta coverage report
+        uses: actions/upload-artifact@v4
+        with:
+          name: meta-audit
+          path: |
+            meta-audit.txt
+            meta-audit.json
+          retention-days: 14
 
   build:
     runs-on: ubuntu-latest
