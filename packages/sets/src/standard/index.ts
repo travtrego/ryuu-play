@@ -10,3 +10,4 @@ export * from './set-op9';
 export * from './set-paldea-evolved';
 export * from './set-scarlet-and-violet';
 export * from './set-sword-and-shield';
+export * from './set-twilight-masquerade';
