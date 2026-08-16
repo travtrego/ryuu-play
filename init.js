@@ -35,6 +35,7 @@ cardManager.defineFormat('Standard', [
   standardSets.setSwordAndShield,
   standardSets.setScarletAndViolet,
   standardSets.setPaldeaEvolved,
+  standardSets.setJourneyTogether,
   standardSets.setTwilightMasquerade,
   standardSets.setShroudedFable,
   standardSets.setDestinedRivals,
