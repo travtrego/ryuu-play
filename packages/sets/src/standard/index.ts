@@ -7,6 +7,7 @@ export * from './set-chaos-rising';
 export * from './set-destined-rivals';
 export * from './set-diamond-and-pearl';
 export * from './set-hgss';
+export * from './set-journey-together';
 export * from './set-mega-evolution';
 export * from './set-op9';
 export * from './set-paldea-evolved';
