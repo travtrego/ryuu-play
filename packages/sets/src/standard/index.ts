@@ -6,4 +6,5 @@ export * from './set-diamond-and-pearl';
 export * from './set-hgss';
 export * from './set-mega-evolution';
 export * from './set-op9';
+export * from './set-paldea-evolved';
 export * from './set-sword-and-shield';
