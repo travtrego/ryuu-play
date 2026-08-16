@@ -4,6 +4,7 @@ import {
   CheckPokemonStatsEffect,
   Player,
   PokemonCard,
+  PokemonSlot,
   Stage,
   State,
   StoreLike,
@@ -53,6 +54,7 @@ describe("Lillie's Clefairy ex", () => {
     opponent.id = 2;
     state.players = [player, opponent];
     state.activePlayer = 0;
+    player.bench = [new PokemonSlot()];
 
     player.bench[0].pokemons.cards = [clefairy];
     opponent.active.pokemons.cards = [new TestDragon('Opponent Dragon')];
@@ -91,6 +93,8 @@ describe("Lillie's Clefairy ex", () => {
     opponent.id = 2;
     state.players = [player, opponent];
     state.activePlayer = 0;
+    player.bench = [new PokemonSlot()];
+    opponent.bench = [new PokemonSlot(), new PokemonSlot()];
 
     player.active.pokemons.cards = [clefairy];
     player.bench[0].pokemons.cards = [new TestPokemon('Player Bench')];
