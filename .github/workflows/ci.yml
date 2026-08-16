@@ -4,11 +4,14 @@ on:
   pull_request:
     branches: [master]
   push:
-    branches:
-      - master
-      - 'gpt/**'
-      - 'agent/**'
-      - 'claude/**'
+    branches: [master]
+
+# A new commit to the same PR makes the older run obsolete. Keeping only the
+# newest run avoids burning Actions minutes and, more importantly, prevents a
+# long queue from delaying the integration signal the agents actually need.
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 permissions:
   contents: read
