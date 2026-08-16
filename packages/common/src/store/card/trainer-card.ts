@@ -11,4 +11,6 @@ export abstract class TrainerCard extends Card {
   public text: string = '';
 
   public useWhenInPlay: boolean = false;
+
+  public canUseOnFirstTurn: boolean = false;
 }
