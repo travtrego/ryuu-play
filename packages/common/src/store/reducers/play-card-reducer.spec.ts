@@ -55,6 +55,25 @@ describe('playCardReducer first-turn Supporter rules', () => {
     expect(errorMessage).toBe(GameMessage.CANNOT_PLAY_THIS_CARD);
   });
 
+  it('keeps the first-turn restriction when the card-level opt-in is absent', () => {
+    const supporter = new TestSupporter();
+    delete supporter.canUseOnFirstTurn;
+
+    const state = createFirstTurnState(supporter);
+    const store = {
+      reduceEffect: (currentState: State) => currentState,
+    } as unknown as StoreLike;
+
+    let errorMessage: string | undefined;
+    try {
+      playCardReducer(store, state, createPlayAction());
+    } catch (error) {
+      errorMessage = (error as { message?: string }).message;
+    }
+
+    expect(errorMessage).toBe(GameMessage.CANNOT_PLAY_THIS_CARD);
+  });
+
   it('allows a Supporter that explicitly opts in to first-turn use', () => {
     const supporter = new TestSupporter();
     supporter.canUseOnFirstTurn = true;
@@ -66,5 +85,25 @@ describe('playCardReducer first-turn Supporter rules', () => {
 
     expect(playCardReducer(store, state, createPlayAction())).toBe(state);
     expect(reduceEffect).toHaveBeenCalled();
+  });
+
+  it('does not let the opt-in bypass the one-Supporter-per-turn rule', () => {
+    const supporter = new TestSupporter();
+    supporter.canUseOnFirstTurn = true;
+
+    const state = createFirstTurnState(supporter);
+    state.players[0].supporter.cards = [new TestSupporter()];
+    const store = {
+      reduceEffect: (currentState: State) => currentState,
+    } as unknown as StoreLike;
+
+    let errorMessage: string | undefined;
+    try {
+      playCardReducer(store, state, createPlayAction());
+    } catch (error) {
+      errorMessage = (error as { message?: string }).message;
+    }
+
+    expect(errorMessage).toBe(GameMessage.SUPPORTER_ALREADY_PLAYED);
   });
 });
