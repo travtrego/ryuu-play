@@ -26,8 +26,8 @@ jobs:
         with:
           node-version: 18
 
-      - name: Validate current meta deck catalog
-        run: node tools/meta-audit.js --json > /tmp/meta-audit.json
+      - name: Validate and report current meta deck coverage
+        run: node tools/meta-audit.js
 
   build:
     runs-on: ubuntu-latest
