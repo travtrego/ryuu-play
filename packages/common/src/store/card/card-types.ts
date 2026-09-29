@@ -5,7 +5,11 @@ export enum CardTag {
   POKEMON_GX = 'GX',
   POKEMON_LV_X = 'LV_X',
   ACE_SPEC = 'ACE_SPEC',
-  FOSSIL = 'FOSSIL'
+  FOSSIL = 'FOSSIL',
+  // Cards that reference Tera Pokemon need a way to recognise them. No Tera
+  // card is implemented yet, so nothing carries this tag today - effects that
+  // filter on it correctly find no targets until one does.
+  TERA = 'TERA'
 }
 
 export enum SuperType {
