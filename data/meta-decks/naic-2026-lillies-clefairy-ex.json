@@ -1,0 +1,35 @@
+{
+  "id": "naic-2026-lillies-clefairy-ex",
+  "name": "Lillie's Clefairy ex — 2026 NAIC Champion",
+  "format": "standard",
+  "asOf": "2026-06-14",
+  "source": "Pokemon.com — 2026 North America International Championships Masters Champion, James Kowalski",
+  "cards": [
+    { "count": 4, "name": "Lillie's Clefairy ex", "set": "JTG", "number": "56", "category": "pokemon" },
+    { "count": 4, "name": "Mega Kangaskhan ex", "set": "MEG", "number": "104", "category": "pokemon" },
+    { "count": 4, "name": "Meowth ex", "set": "POR", "number": "62", "category": "pokemon" },
+    { "count": 3, "name": "Latias ex", "set": "SSP", "number": "76", "category": "pokemon" },
+    { "count": 2, "name": "Fezandipiti ex", "set": "SFA", "number": "38", "category": "pokemon" },
+    { "count": 2, "name": "Wellspring Mask Ogerpon ex", "set": "TWM", "number": "64", "category": "pokemon" },
+    { "count": 1, "name": "Chien-Pao", "set": "SSP", "number": "56", "category": "pokemon" },
+    { "count": 1, "name": "Koraidon ex", "set": "ASC", "number": "121", "category": "pokemon" },
+    { "count": 1, "name": "Moltres", "set": "PFL", "number": "14", "category": "pokemon" },
+    { "count": 1, "name": "Telepathic Psychic Energy", "set": "POR", "number": "88", "category": "energy" },
+
+    { "count": 4, "name": "Crispin", "set": "SCR", "number": "133", "category": "trainer" },
+    { "count": 3, "name": "Boss's Orders (Ghetsis)", "set": "PAL", "number": "172", "category": "trainer" },
+    { "count": 2, "name": "Ciphermaniac's Codebreaking", "set": "TEF", "number": "145", "category": "trainer" },
+    { "count": 1, "name": "Cyrano", "set": "SSP", "number": "170", "category": "trainer" },
+    { "count": 4, "name": "Area Zero Underdepths", "set": "SCR", "number": "131", "category": "trainer" },
+    { "count": 4, "name": "Dusk Ball", "set": "SSP", "number": "175", "category": "trainer" },
+    { "count": 4, "name": "Ultra Ball", "set": "MEG", "number": "131", "category": "trainer" },
+    { "count": 3, "name": "Wondrous Patch", "set": "PFL", "number": "94", "category": "trainer" },
+    { "count": 2, "name": "Lillie's Pearl", "set": "JTG", "number": "151", "category": "trainer" },
+    { "count": 1, "name": "Prime Catcher", "set": "TEF", "number": "157", "category": "trainer" },
+
+    { "count": 4, "name": "Psychic Energy", "set": "SVE", "number": "5", "category": "energy", "basic": true },
+    { "count": 2, "name": "Fighting Energy", "set": "SVE", "number": "6", "category": "energy", "basic": true },
+    { "count": 2, "name": "Water Energy", "set": "SVE", "number": "3", "category": "energy", "basic": true },
+    { "count": 1, "name": "Fire Energy", "set": "SVE", "number": "2", "category": "energy", "basic": true }
+  ]
+}

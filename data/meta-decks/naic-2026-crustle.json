@@ -1,0 +1,38 @@
+{
+  "id": "naic-2026-crustle",
+  "name": "Crustle / Mega Kangaskhan ex — 2026 NAIC Top 8",
+  "format": "standard",
+  "asOf": "2026-06-14",
+  "source": "Pokemon.com — 2026 North America International Championships Masters, Rahul Reddy",
+  "cards": [
+    { "count": 4, "name": "Mega Kangaskhan ex", "set": "MEG", "number": "104", "category": "pokemon" },
+    { "count": 3, "name": "Crustle", "set": "DRI", "number": "186", "category": "pokemon" },
+    { "count": 3, "name": "Dwebble", "set": "DRI", "number": "11", "category": "pokemon" },
+
+    { "count": 4, "name": "Boss's Orders (Ghetsis)", "set": "PAL", "number": "172", "category": "trainer" },
+    { "count": 4, "name": "Lillie's Determination", "set": "MEG", "number": "119", "category": "trainer" },
+    { "count": 4, "name": "Team Rocket's Petrel", "set": "DRI", "number": "176", "category": "trainer" },
+    { "count": 2, "name": "Eri", "set": "TEF", "number": "146", "category": "trainer" },
+    { "count": 2, "name": "Hilda", "set": "WHT", "number": "84", "category": "trainer" },
+    { "count": 1, "name": "Bianca's Devotion", "set": "TEF", "number": "142", "category": "trainer" },
+    { "count": 1, "name": "Lisia's Appeal", "set": "SSP", "number": "179", "category": "trainer" },
+    { "count": 1, "name": "Pokémon Center Lady", "set": "MEG", "number": "123", "category": "trainer" },
+    { "count": 1, "name": "Xerosic's Machinations", "set": "SFA", "number": "64", "category": "trainer" },
+    { "count": 1, "name": "Community Center", "set": "TWM", "number": "146", "category": "trainer" },
+    { "count": 1, "name": "Festival Grounds", "set": "TWM", "number": "149", "category": "trainer" },
+    { "count": 4, "name": "Jumbo Ice Cream", "set": "PFL", "number": "91", "category": "trainer" },
+    { "count": 3, "name": "Pokégear 3.0", "set": "SVI", "number": "186", "category": "trainer" },
+    { "count": 2, "name": "Buddy-Buddy Poffin", "set": "TEF", "number": "144", "category": "trainer" },
+    { "count": 1, "name": "Handheld Fan", "set": "TWM", "number": "150", "category": "trainer" },
+    { "count": 1, "name": "Hand Trimmer", "set": "TEF", "number": "150", "category": "trainer" },
+    { "count": 1, "name": "Hero's Cape", "set": "TEF", "number": "152", "category": "trainer" },
+    { "count": 1, "name": "Switch", "set": "SVI", "number": "194", "category": "trainer" },
+    { "count": 1, "name": "Team Rocket's Factory", "set": "DRI", "number": "173", "category": "trainer" },
+    { "count": 1, "name": "Ultra Ball", "set": "MEG", "number": "131", "category": "trainer" },
+
+    { "count": 4, "name": "Growing Grass Energy", "set": "POR", "number": "86", "category": "energy" },
+    { "count": 4, "name": "Spiky Energy", "set": "JTG", "number": "159", "category": "energy" },
+    { "count": 4, "name": "Mist Energy", "set": "TEF", "number": "161", "category": "energy" },
+    { "count": 1, "name": "Grass Energy", "set": "SVE", "number": "1", "category": "energy", "basic": true }
+  ]
+}
