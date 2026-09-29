@@ -13,8 +13,7 @@
     "packages/server",
     "packages/simple-bot",
     "packages/coach",
-    "packages/play",
-    "packages/cordova"
+    "packages/play"
   ],
   "author": "",
   "license": "MIT",
