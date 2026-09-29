@@ -68,3 +68,16 @@ jobs:
 
       - name: Build all workspaces
         run: npm run build --workspaces
+
+      # Source scanning cannot tell whether the engine can actually construct a
+      # deck. This runs after the build, when the compiled packages exist, and
+      # fails if a deck the scan calls complete still will not build.
+      - name: Verify decks build in the engine
+        run: node tools/meta-audit.js --require-engine
+
+      # Proves a game actually happens: real cards, bot taking legal actions
+      # from first turn to last, somebody wins. Fails on an unfinished game or
+      # any illegal action, either of which means the deck is not playable
+      # whatever the coverage audit reports.
+      - name: Play AI-vs-AI games
+        run: node tools/play-match.js --runs 5 --random
