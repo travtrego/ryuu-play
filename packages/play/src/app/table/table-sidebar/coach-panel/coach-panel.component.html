@@ -1,0 +1,57 @@
+<div class="coach-panel">
+
+  <div class="coach-panel__header">
+    <span class="coach-panel__title">Coach</span>
+    <button type="button" class="coach-panel__toggle" (click)="toggle()">
+      {{ enabled ? 'On' : 'Off' }}
+    </button>
+  </div>
+
+  <div class="coach-panel__body" *ngIf="enabled">
+
+    <div class="coach-panel__status" *ngIf="loading">Thinking…</div>
+
+    <div class="coach-panel__status" *ngIf="error && !loading">
+      Coach unavailable right now.
+      <button type="button" class="coach-panel__link" (click)="refresh()">Retry</button>
+    </div>
+
+    <div class="coach-panel__status" *ngIf="!loading && !error && !advice">
+      Nothing to decide right now.
+    </div>
+
+    <div *ngIf="!loading && !error && advice">
+
+      <!-- The question, when the engine is asking rather than the turn being open. -->
+      <div class="coach-panel__question" *ngIf="advice.question">
+        {{ advice.question }}
+      </div>
+
+      <div class="coach-panel__recommended">
+        <div class="coach-panel__label">Recommended</div>
+        <div class="coach-panel__move">{{ advice.description }}</div>
+        <!-- Rationale is explanatory text and may come from a reasoning layer;
+             the move above is engine-generated. They are styled apart so the
+             two are not read as equally authoritative. -->
+        <div class="coach-panel__why">{{ advice.rationale }}</div>
+      </div>
+
+      <div class="coach-panel__alternatives" *ngIf="advice.alternatives.length">
+        <button type="button" class="coach-panel__link" (click)="showAlternatives = !showAlternatives">
+          {{ showAlternatives ? 'Hide' : 'Show' }} {{ advice.alternatives.length }} alternative(s)
+        </button>
+
+        <div *ngIf="showAlternatives">
+          <div class="coach-panel__alternative" *ngFor="let alternative of advice.alternatives">
+            <div class="coach-panel__move">{{ alternative.description }}</div>
+            <div class="coach-panel__why">{{ alternative.rationale }}</div>
+          </div>
+        </div>
+      </div>
+
+      <button type="button" class="coach-panel__link" (click)="refresh()">Ask again</button>
+    </div>
+
+  </div>
+
+</div>

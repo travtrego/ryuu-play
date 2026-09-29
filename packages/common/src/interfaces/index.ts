@@ -1,5 +1,6 @@
 export * from './avatar.interface';
 export * from './cards.interface';
+export * from './coach.interface';
 export * from './core.interface';
 export * from './deck.interface';
 export * from './login.interface';

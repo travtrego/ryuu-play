@@ -1,0 +1,87 @@
+.coach-panel {
+  padding: 8px 12px;
+  font-size: 13px;
+
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &__title {
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    font-size: 12px;
+    opacity: 0.75;
+  }
+
+  &__toggle {
+    border: 1px solid currentColor;
+    border-radius: 10px;
+    background: none;
+    color: inherit;
+    cursor: pointer;
+    font: inherit;
+    padding: 1px 10px;
+    opacity: 0.85;
+  }
+
+  &__body {
+    margin-top: 8px;
+  }
+
+  &__status {
+    opacity: 0.7;
+    font-style: italic;
+  }
+
+  &__question {
+    margin-bottom: 6px;
+    opacity: 0.85;
+  }
+
+  &__label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    opacity: 0.6;
+  }
+
+  // The move comes from the engine and is factual. The reasoning may come from
+  // a language model, so it is set quieter to keep the two distinguishable.
+  &__move {
+    font-weight: 600;
+    margin: 2px 0;
+  }
+
+  &__why {
+    opacity: 0.75;
+    line-height: 1.35;
+  }
+
+  &__alternatives {
+    margin-top: 8px;
+    border-top: 1px solid currentColor;
+    border-color: rgba(128, 128, 128, 0.35);
+    padding-top: 6px;
+  }
+
+  &__alternative {
+    margin-top: 6px;
+    padding-left: 8px;
+    border-left: 2px solid rgba(128, 128, 128, 0.35);
+  }
+
+  &__link {
+    border: none;
+    background: none;
+    color: inherit;
+    cursor: pointer;
+    font: inherit;
+    padding: 0;
+    margin-top: 6px;
+    text-decoration: underline;
+    opacity: 0.8;
+  }
+}

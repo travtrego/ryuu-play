@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ClientInfo, GameState, State, CardTarget, StateLog, Replay,
+import { ClientInfo, CoachAdvice, GameState, State, CardTarget, StateLog, Replay,
   Base64, StateSerializer, PlayerStats } from '@ptcg/common';
 import { Observable } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
@@ -31,6 +31,24 @@ export class GameService {
 
   public getPlayerStats(gameId: number) {
     return this.api.get<PlayerStatsResponse>('/v1/game/' + gameId + '/playerStats');
+  }
+
+  /**
+   * Asks the server what it would recommend for this player right now.
+   * Advisory only - the returned advice carries no action, so acting on it
+   * still goes through the normal action API. Resolves to null when there is
+   * no decision to advise on.
+   */
+  public getCoachAdvice(gameId: number): Observable<CoachAdvice | null> {
+    return new Observable<CoachAdvice | null>(observer => {
+      this.socketService.emit('game:coach:advise', gameId)
+        .pipe(finalize(() => observer.complete()))
+        .subscribe((advice: CoachAdvice | null) => {
+          observer.next(advice);
+        }, (error: any) => {
+          observer.error(error);
+        });
+    });
   }
 
   public join(gameId: number): Observable<GameState> {

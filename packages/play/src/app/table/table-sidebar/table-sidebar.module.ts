@@ -6,6 +6,7 @@ import { ProfileModule } from 'src/app/profile/profile.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { TableSidebarComponent } from './table-sidebar.component';
 import { PlayerActionsComponent } from './player-actions/player-actions.component';
+import { CoachPanelComponent } from './coach-panel/coach-panel.component';
 import { GameLogsComponent } from './game-logs/game-logs.component';
 import { ReplayControlsComponent } from './replay-controls/replay-controls.component';
 import { ChooseAvatarPopupComponent } from './choose-avatar-popup/choose-avatar-popup.component';
@@ -20,6 +21,7 @@ import { PlayerTimeComponent } from './player-time/player-time.component';
     ],
     declarations: [
         ChooseAvatarPopupComponent,
+        CoachPanelComponent,
         GameLogsComponent,
         PlayerActionsComponent,
         PlayerAvatarComponent,

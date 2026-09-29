@@ -3,6 +3,8 @@ import { AddPlayerAction, AppendLogAction, Action, PassTurnAction,
   RetreatAction, AttackAction, UseAbilityAction, StateSerializer,
   UseStadiumAction, GameLog, UseTrainerInPlayAction} from '@ptcg/common';
 import { Base64 } from '@ptcg/common';
+import { CoachAdvice } from '@ptcg/common';
+import { HeuristicCoachAdvisor } from '@ptcg/coach';
 import { ChangeAvatarAction } from '@ptcg/common';
 import { Client } from '../../game/client/client.interface';
 import { CoreSocket } from './core-socket';
@@ -35,6 +37,7 @@ export class GameSocket {
     this.socket.addListener('game:join', this.joinGame.bind(this));
     this.socket.addListener('game:leave', this.leaveGame.bind(this));
     this.socket.addListener('game:getStatus', this.getGameStatus.bind(this));
+    this.socket.addListener('game:coach:advise', this.coachAdvise.bind(this));
     this.socket.addListener('game:action:ability', this.ability.bind(this));
     this.socket.addListener('game:action:attack', this.attack.bind(this));
     this.socket.addListener('game:action:stadium', this.stadium.bind(this));
@@ -100,6 +103,46 @@ export class GameSocket {
       return;
     }
     response('ok', CoreSocket.buildGameState(game));
+  }
+
+  /**
+   * Advisory only. Builds a recommendation for the *requesting* client and
+   * returns display strings - never an Action, and never anything derived from
+   * another player's hidden information.
+   *
+   * The advisor resolves the player by id, so a spectator or a client that is
+   * not in this game gets nothing rather than someone else's advice.
+   */
+  private coachAdvise(gameId: number, response: Response<CoachAdvice | null>): void {
+    const game = this.core.games.find(g => g.id === gameId);
+    if (game === undefined) {
+      response('error', ApiErrorEnum.GAME_INVALID_ID);
+      return;
+    }
+
+    try {
+      const advisor = new HeuristicCoachAdvisor();
+      const recommendation = advisor.getRecommendation(game.state, this.client.id);
+
+      if (recommendation === undefined) {
+        // No decision to advise on right now. Not an error.
+        response('ok', null);
+        return;
+      }
+
+      response('ok', {
+        kind: recommendation.kind,
+        question: recommendation.question,
+        description: recommendation.description,
+        rationale: recommendation.rationale,
+        alternatives: recommendation.alternatives.map(alternative => ({
+          description: alternative.description,
+          rationale: alternative.rationale
+        }))
+      });
+    } catch (error: any) {
+      response('error', error.message);
+    }
   }
 
   private dispatch(gameId: number, action: Action, response: Response<void>) {

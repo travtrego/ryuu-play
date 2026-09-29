@@ -36,6 +36,12 @@
     [gameState]="gameState">
   </ptcg-replay-controls>
 
+  <!-- Advisory only, and hidden during replays where there is no live
+       decision for the viewer to make. -->
+  <ptcg-coach-panel *ngIf="!gameState?.replay"
+    [gameState]="gameState">
+  </ptcg-coach-panel>
+
   <ptcg-game-logs [gameState]="gameState"></ptcg-game-logs>
 
 </div>
