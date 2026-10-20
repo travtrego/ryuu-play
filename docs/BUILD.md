@@ -66,7 +66,9 @@ Use the scoped command above unless you specifically need the Android client.
 
 Run the packages **in dependency order**. Each package's `main` points at its
 compiled `dist/`, so a package must be compiled before anything that depends on
-it can be tested:
+it can be tested. Skipping this is not a subtle failure — with no
+`packages/common/dist`, the sets suite dies immediately with
+`TS2307: Cannot find module '@ptcg/common'`:
 
 ```
 common  ->  sets  ->  simple-bot  ->  server
@@ -90,7 +92,7 @@ Clean checkout, Node 18.20.8, 2026-10-20.
 
 | Step                   | Result            | Time    |
 | ---------------------- | ----------------- | ------- |
-| install (scoped `npm ci`) | ok             | ~2m35s  |
+| install (scoped `npm ci`) | ok             | ~2m35s cold cache / ~25s warm |
 | common — lint          | ok                | ~3s     |
 | common — test          | **243 specs, 0 failures** | ~8s  |
 | common — compile       | ok                | ~10s    |
@@ -104,10 +106,16 @@ Clean checkout, Node 18.20.8, 2026-10-20.
 | server — test          | **35 specs, 0 failures** | ~6s   |
 | server — compile       | ok                | ~12s    |
 | play — lint            | ok                | ~7s     |
-| play — build (`ng build`) | ok, 8.70 MB initial bundle | ~49s |
+| play — build (`ng build`) | ok, 8.70 MB initial bundle | ~21-49s |
 
-**Total: 838 specs, 0 failures.** Full pipeline from a clean checkout is about
-6 minutes, of which the install is ~2.5.
+**Total: 838 specs, 0 failures.** Lint + test + compile across all five
+packages is ~2m30s. On top of that the install is ~2m35s on a cold npm cache
+or ~25s on a warm one, so a full clean run is ~3-5 minutes depending on cache
+state. CI uses `actions/setup-node` with `cache: npm`, so it sees the warm
+number after the first run.
+
+These numbers were reproduced on a second clean-room run from an empty
+`node_modules`; every step exited 0 both times.
 
 ## Known failing tests
 
