@@ -11,7 +11,9 @@ export function playerStateReducer(store: StoreLike, state: State, action: Actio
 
   if (action instanceof ReorderBenchAction) {
     const player = state.players.find(p => p.id === action.id);
-    if (player === undefined || player.bench[action.from] === undefined) {
+    if (player === undefined
+      || player.bench[action.from] === undefined
+      || player.bench[action.to] === undefined) {
       throw new GameError(GameMessage.ILLEGAL_ACTION);
     }
 
