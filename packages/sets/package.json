@@ -19,7 +19,8 @@
     "compile": "tsc -p tsconfig.cjs.json && tsc -p tsconfig.esm.json",
     "build": "npm run lint && npm run test && npm run compile",
     "test": "nyc -e \".ts\" -x \"tests/**/*.ts\" jasmine-ts \"tests/**/*.spec.ts\"",
-    "coverage": "npm test && nyc report -r html"
+    "coverage": "npm test && nyc report -r html",
+    "audit:sets": "node scripts/audit-sets.js"
   },
   "author": "",
   "license": "MIT",
