@@ -12,7 +12,7 @@ the code *dispatches on* the attack/power, not that the effect is correct.
 
 | Cards | Implemented | Vanilla | Complete | Partial | Needs logic | With spec |
 | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| 861 | 800 | 59 | 859 (99.7%) | 1 | 1 | 120 (13.9%) |
+| 861 | 802 | 59 | 861 (100%) | 0 | 0 | 124 (14.4%) |
 
 - **Implemented** — needs logic, and every attack/power that needs logic is
   referenced from the class (`attacks[i]` / `powers[i]`); Trainers and Special
@@ -36,7 +36,7 @@ prints of the same name (e.g. `Charmander RG-2`) count separately.
 
 | Set (export) | Codes | Present | Official | Impl. | Vanilla | Partial | Needs logic | Specs | Formats |
 | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | --- |
-| `set-base` (`setBase`) | BS | 102 | 102 — 100% | 84 | 17 | 0 | 1 | 0 | Base Sets |
+| `set-base` (`setBase`) | BS | 102 | 102 — 100% | 85 | 17 | 0 | 0 | 1 | Base Sets |
 | `set-fossil` (`setFossil`) | FO | 46 | 62 — 74.1% | 46 | 0 | 0 | 0 | 0 | Base Sets |
 | `set-jungle` (`setJungle`) | JU | 48 | 64 — 75% | 46 | 2 | 0 | 0 | 2 | Base Sets |
 | `set-team-rocket` (`setTeamRocket`) | TR | 66 | 83 (82 + secret Dark Raichu) — 79.5% | 62 | 4 | 0 | 0 | 0 | Base Sets |
@@ -54,20 +54,17 @@ prints of the same name (e.g. `Charmander RG-2`) count separately.
 | Set (export) | Codes | Present | Official | Impl. | Vanilla | Partial | Needs logic | Specs | Formats |
 | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | --- |
 | `set-black-and-white` (`setBlackAndWhite`) | BW | 45 |  | 44 | 1 | 0 | 0 | 2 | Standard |
-| `set-black-and-white-2` (`setBlackAndWhite2`) | BW2 | 81 |  | 78 | 3 | 0 | 0 | 0 | Standard |
+| `set-black-and-white-2` (`setBlackAndWhite2`) | BW2 | 81 |  | 78 | 3 | 0 | 0 | 2 | Standard |
 | `set-black-and-white-3` (`setBlackAndWhite3`) | BW3 | 53 |  | 53 | 0 | 0 | 0 | 0 | Standard |
 | `set-black-and-white-4` (`setBlackAndWhite4`) | BW4 | 18 |  | 17 | 1 | 0 | 0 | 0 | Standard |
 | `set-diamond-and-pearl` (`setDiamondAndPearl`) | DP | 28 |  | 17 | 11 | 0 | 0 | 0 | Standard |
 | `set-hgss` (`setHgss`) | HGSS | 23 |  | 22 | 1 | 0 | 0 | 0 | Standard |
-| `set-op9` (`setOp9`) | OP9 | 15 |  | 14 | 0 | 1 | 0 | 0 | Standard |
+| `set-op9` (`setOp9`) | OP9 | 15 |  | 15 | 0 | 0 | 0 | 1 | Standard |
 | `set-sword-and-shield` (`setSwordAndShield`) | SSH | 11 |  | 10 | 1 | 0 | 0 | 0 | Standard |
 
 ## Suspected stubs / incomplete cards
 
-| Set | Card | Status | Unhandled | Review note | File |
-| --- | --- | --- | --- | --- | --- |
-| set-base | Potion BS | needs-logic | trainer text | Bug: logic lives in a method named `potion()`, not `reduceEffect()`, so the card does nothing when played. | `packages/sets/src/base-sets/set-base/potion.ts` |
-| set-op9 | Rotom OP9 | partial | attack[0] "Poltergeist"; references this.attacks[1], which does not exist | Bug: handler checks `this.attacks[1]` but Poltergeist is `attacks[0]`; the +10 per Trainer never applies. | `packages/sets/src/standard/set-op9/rotom.ts` |
+None flagged.
 
 ## Text/code keyword mismatches (advisory)
 
@@ -79,9 +76,6 @@ or a shared `common*` helper). Some are legitimate (the condition is only
 | Set | Card | Text mentions | Review note | File |
 | --- | --- | --- | --- | --- |
 | set-base | Devolution Spray BS | special condition | False positive: conditions are cleared by `pokemonSlot.clearEffects()`. | `packages/sets/src/base-sets/set-base/devolution-spray.ts` |
-| set-firered-and-leafgreen | PokeDex HANDY909 RG | shuffle | Likely bug: text says shuffle first; code reorders the top 6 without shuffling. | `packages/sets/src/ex-sets/set-firered-and-leafgreen/pokedex-handy909.ts` |
-| set-black-and-white-2 | Evosoda XY | shuffle | Minor: deck is never shuffled after the search. | `packages/sets/src/standard/set-black-and-white-2/evosoda.ts` |
-| set-black-and-white-2 | Oddish UND | coin flip | Bug: Find a Friend searches the deck without flipping a coin. | `packages/sets/src/standard/set-black-and-white-2/oddish.ts` |
 | set-black-and-white-2 | Virbank City Gym PLS | special condition | False positive: Poisoned is only referenced (`poisonDamage += 20`). | `packages/sets/src/standard/set-black-and-white-2/virbank-city-gym.ts` |
 | set-diamond-and-pearl | Sableye SF | shuffle | Minor: Impersonate searches the deck but never shuffles it. | `packages/sets/src/standard/set-diamond-and-pearl/sableye.ts` |
 
