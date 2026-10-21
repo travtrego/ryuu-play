@@ -47,6 +47,7 @@ npm ci --include-workspace-root \
   -w packages/common \
   -w packages/sets \
   -w packages/simple-bot \
+  -w packages/bot-bench \
   -w packages/server \
   -w packages/play
 ```
@@ -71,7 +72,8 @@ it can be tested. Skipping this is not a subtle failure — with no
 `TS2307: Cannot find module '@ptcg/common'`:
 
 ```
-common  ->  sets  ->  simple-bot  ->  server
+common  ->  sets  ->  simple-bot  ->  bot-bench
+                  \->  server
                   \->  play
 ```
 
@@ -82,6 +84,11 @@ npm run lint    -w packages/<name>
 npm run test    -w packages/<name>
 npm run compile -w packages/<name>
 ```
+
+`packages/bot-bench` (added 2026-10-21) also has
+`npm run bench:smoke -w packages/bot-bench` (21 seeded bot-vs-bot games, run in
+CI) and `npm run bench -w packages/bot-bench -- --games 200 --seed 1`. See
+[BOT_BENCHMARK.md](./BOT_BENCHMARK.md).
 
 `npm run build -w packages/<name>` is just `lint && test && compile` in one go;
 the three steps are listed separately so a failure is easier to place.
@@ -154,6 +161,7 @@ breakage.
 version from `.nvmrc`:
 
 - **backend** — scoped `npm ci`, then lint/test/compile for common, sets,
-  simple-bot and server in dependency order.
+  simple-bot, bot-bench and server in dependency order, then the bot-bench
+  smoke benchmark.
 - **play** — scoped `npm ci`, compile common, then lint and `ng build` for the
   Angular app.
