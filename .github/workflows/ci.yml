@@ -34,6 +34,7 @@ jobs:
           -w packages/common
           -w packages/sets
           -w packages/simple-bot
+          -w packages/bot-bench
           -w packages/server
           -w packages/play
 
@@ -60,12 +61,29 @@ jobs:
       - name: simple-bot - compile
         run: npm run compile -w packages/simple-bot
 
+      # bot-bench depends on common, sets and simple-bot (all compiled above).
+      - name: bot-bench - lint
+        run: npm run lint -w packages/bot-bench
+      - name: bot-bench - test
+        run: npm run test -w packages/bot-bench
+      - name: bot-bench - compile
+        run: npm run compile -w packages/bot-bench
+
       - name: server - lint
         run: npm run lint -w packages/server
       - name: server - test
         run: npm run test -w packages/server
       - name: server - compile
         run: npm run compile -w packages/server
+
+      # 21 seeded SimpleBot-vs-SimpleBot games (one full round robin of the
+      # benchmark decks, ~30s). Deterministic, so a failure here reproduces
+      # locally with the same command. Fails if any game throws an unexpected
+      # error, hits the loop guard, stalls, or is aborted for illegal moves.
+      # See docs/BOT_BENCHMARK.md.
+      - name: bot-bench - smoke benchmark
+        timeout-minutes: 5
+        run: npm run bench:smoke -w packages/bot-bench
 
   play:
     name: lint / build (play)
@@ -85,6 +103,7 @@ jobs:
           -w packages/common
           -w packages/sets
           -w packages/simple-bot
+          -w packages/bot-bench
           -w packages/server
           -w packages/play
 
