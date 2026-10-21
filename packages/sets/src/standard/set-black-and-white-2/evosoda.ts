@@ -7,9 +7,11 @@ import {
   Effect,
   GameError,
   GameMessage,
+  Player,
   PlayerType,
   PokemonCard,
   PokemonSlot,
+  ShuffleDeckPrompt,
   SlotType,
   Stage,
   State,
@@ -78,7 +80,7 @@ function* playCard(next: Function, store: StoreLike, state: State, effect: Train
 
   // Canceled by user, he didn't found the card in the deck
   if (cards.length === 0) {
-    return state;
+    return shuffleDeck(store, state, player);
   }
 
   const evolution = cards[0] as PokemonCard;
@@ -107,11 +109,11 @@ function* playCard(next: Function, store: StoreLike, state: State, effect: Train
   );
 
   if (targets.length === 0) {
-    return state; // canceled by user
+    return shuffleDeck(store, state, player); // canceled by user
   }
   const pokemonCard = targets[0].getPokemonCard();
   if (pokemonCard === undefined) {
-    return state; // invalid target?
+    return shuffleDeck(store, state, player); // invalid target?
   }
 
   // Evolve Pokemon
@@ -119,7 +121,13 @@ function* playCard(next: Function, store: StoreLike, state: State, effect: Train
   targets[0].clearEffects();
   targets[0].pokemonPlayedTurn = state.turn;
 
-  return state;
+  return shuffleDeck(store, state, player);
+}
+
+function shuffleDeck(store: StoreLike, state: State, player: Player): State {
+  return store.prompt(state, new ShuffleDeckPrompt(player.id), order => {
+    player.deck.applyOrder(order);
+  });
 }
 
 export class Evosoda extends TrainerCard {
