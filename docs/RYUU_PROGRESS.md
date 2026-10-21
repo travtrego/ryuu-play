@@ -4,6 +4,50 @@ Running log of automated work on this fork. Newest entry first.
 
 ---
 
+## 2026-10-21 — Reducer tests, bot benchmark, set audit, card fixes
+
+**Goal:** the three top roadmap items (reducer coverage, bot benchmark, set
+audit), then act on what the audit found.
+
+### Delivered (PRs)
+
+- **#4 common turn-flow reducer tests.** Line coverage: player-turn 11% → 100%,
+  setup 15% → 99%, play-card 19% → 100%, abort-game 18% → 100%,
+  player-state 18% → 96%; common overall 49.8% → 82.4%. common specs 243 → 333.
+  Fixed `ReorderBenchAction` accepting an out-of-range `to` index (bench grew to
+  8 slots with `undefined` holes).
+- **#5 card/set coverage audit.** `npm run audit:sets -w packages/sets`
+  regenerates [SET_COVERAGE.md](./SET_COVERAGE.md). 861 cards: 800 implemented,
+  59 vanilla, 1 partial, 1 needs logic; only 120 (13.9%) have specs.
+- **#6 bot-vs-bot benchmark** (`packages/bot-bench`, see
+  [BOT_BENCHMARK.md](./BOT_BENCHMARK.md)). Seeded, deterministic, loop-guarded;
+  CI runs a 21-game smoke. Baseline over 588 games: no errors, stalls or guard
+  hits; avg ~26 turns; first player wins ~55%; BW decks win 80–90% vs Base Set
+  decks; ~half of games end by bench-out.
+- **#7 card bug fixes:** Potion BS (did nothing), Rotom OP9 (bonus never
+  applied), Oddish UND (missing coin flip), PokeDex HANDY909 RG and Evosoda XY
+  (missing shuffle). sets specs 516 → 525 (before #5's +10).
+- This doc update (BUILD.md now includes bot-bench).
+
+### Engine issues noted, not changed
+
+- play-card lets `TOP_PLAYER`/`ANY` targets resolve to the opponent for every
+  card type (own energy/basics onto the opponent's side).
+- `play-pokemon-effect.ts`: `isEvolved = stage === STAGE_1 || Stage.STAGE_2` is
+  always true (harmless today; the stage comparison still blocks bad evolutions).
+- abort-game: if the culprit is ahead on prizes the result is DRAW. Pinned by
+  specs as current behaviour; intent unverified.
+- Sableye SF Impersonate does not shuffle after searching (needs restructuring).
+
+### Process note
+
+The scheduled run could push and open PRs, but self-merging and the Gmail report
+were refused by the session's permission classifier ("Merge Without Review",
+"External System Writes"). Unless the scheduled task is set to auto-approve,
+future runs will leave green PRs for the owner to merge.
+
+---
+
 ## 2026-10-20 — Install / build / test baseline + CI
 
 **Goal:** get a clean, repeatable install → build → test baseline so daily
@@ -68,59 +112,37 @@ checkout ≈ 6 min (install ≈ 2.5 min).
 
 Rough priority order. Each item is meant to be a self-contained day's work.
 
+### Next up
+
+1. **Missing cards in partial sets** (from SET_COVERAGE.md): Fossil 16 missing
+   (Ditto FO is written but commented out over passive-Ability copying),
+   Jungle 16, Team Rocket 17. Card text must match the real card.
+2. **Specs for unspecced sets**: Base, Ruby & Sapphire, Sandstorm have zero
+   specs; FireRed & LeafGreen is the only fully specced set.
+3. **Engine issues listed in the 2026-10-21 entry** (opponent-side targeting in
+   play-card, `isEvolved` expression, abort-draw rule, Sableye shuffle).
+4. **Bot quality** now that the benchmark exists: a balanced deck pool first
+   (BW decks dominate), then prize-trade / bench-management heuristics measured
+   against the baseline.
+
 ### Tooling and infrastructure
 
 - **Make root `npm ci` work.** Replace the plain-HTTP
-  `cordova-plugin-statusbar-patched` tarball with a registry-hosted
-  equivalent, or vendor it. Needs an Android build to verify, so it is not a
-  blind swap.
-- **Wire up `packages/play` tests.** `ng test` runs Karma + Chrome; it needs a
-  headless config and a CI job. Currently the web UI has no test signal at all.
-- **Address the dependency backlog.** 139 `npm audit` findings (8 critical).
-  Angular 16, eslint 8 and protractor are all EOL. Sensible order: drop
-  protractor (dead, unused), then eslint 9, then Angular 17 → 18 → 19.
-- **Replace `jasmine-ts`.** Unmaintained at 0.4.0 and the reason test runs need
-  `ts-node`. Moving to `ts-node/esm` + plain jasmine, or to vitest, would
-  speed up the suite and unblock a TypeScript 5 upgrade.
-- **Add coverage reporting to CI.** `nyc` already runs; nothing collects the
-  output. A coverage floor would stop silent regressions.
-
-### Cards and sets
-
-- **Coverage audit.** Enumerate which real-world sets are implemented in
-  `packages/sets` and which are stubs, and publish the list. Without it there
-  is no way to size the gap.
-- **Fill in missing cards** set by set, each with specs in the existing
-  `tests/**/*.spec.ts` style. This is the most parallelisable work in the repo
-  and the best fit for daily automated runs.
-- **Card-text conformance tests** — a harness that checks implemented effects
-  against printed card text, to catch silent rule drift.
+  `cordova-plugin-statusbar-patched` tarball (needs an Android build to verify).
+- **Wire up `packages/play` tests** (Karma headless + CI job).
+- **Dependency backlog**: 139 `npm audit` findings; drop protractor, then
+  eslint 9, then Angular 17 → 18 → 19.
+- **Replace `jasmine-ts`** (unmaintained; blocks TypeScript 5).
+- **Coverage reporting / floor in CI** (common is now 82% lines).
+- Optionally gate CI on `npm run audit:sets -- --check`.
 
 ### Engine rules
 
-- **Raise `packages/common` coverage.** The reducers are the weak spot:
-  `player-turn-reducer` ~11%, `setup-reducer` ~14%, `play-card-reducer` ~19%,
-  `abort-game-reducer` ~18%. These are the core turn-flow rules and are
-  effectively untested.
-- **Prompt coverage.** Several prompts sit near 12-20%
-  (`attach-energy-prompt`, `choose-attack-prompt`, `put-damage-prompt`,
-  `move-energy-prompt`, `order-cards-prompt`).
+- **Prompt coverage**: attach-energy, choose-attack, put-damage, move-energy,
+  order-cards prompts still ~12–20%.
 - **Edge-case rules**: special conditions stacking, Pokémon-ex/V rules,
   ability lock interactions, deck-out and sudden-death.
 
-### AI bot
-
-- **Benchmark `simple-bot`.** 44 specs today and no measure of how well it
-  actually plays. A bot-vs-bot harness producing win rates and average game
-  length would turn AI work into something measurable.
-- **Improve play quality** once that baseline exists — currently the bot does
-  not model prize trade, energy attachment planning or bench management.
-- **Game-length / determinism guards** so AI changes cannot silently cause
-  infinite loops in CI.
-
 ### Web UI (`packages/play`)
 
-- Get Karma tests running (see tooling).
-- **Bundle size**: 8.70 MB initial, 6.68 MB of it vendor. Lazy-loaded routes
-  and dropping `core-js` 2 would cut this substantially.
-- Angular upgrade path, tracked with the dependency backlog above.
+- Karma tests (see tooling); bundle size (8.70 MB initial); Angular upgrade.
