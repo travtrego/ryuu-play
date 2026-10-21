@@ -75,9 +75,19 @@ describe('audit-sets classifier', () => {
   });
 
   it('Should report coin-flip text with no coin-flip code as an advisory warning', () => {
-    const result = classify(new Oddish(), 'standard/set-black-and-white-2/oddish.ts');
+    // Oddish UND used to skip its coin flip; simulate that source by removing the prompt.
+    const card = new Oddish();
+    const source = fs.readFileSync(path.join(SRC, 'standard/set-black-and-white-2/oddish.ts'), 'utf8')
+      .replace(/CoinFlipPrompt/g, 'RemovedPrompt');
+    const result = audit.classifyCard(card, source, true);
     expect(result.status).toBe('implemented');
     expect(result.warnings).toEqual(['coin flip']);
+  });
+
+  it('Should not warn once the coin flip is implemented', () => {
+    const result = classify(new Oddish(), 'standard/set-black-and-white-2/oddish.ts');
+    expect(result.status).toBe('implemented');
+    expect(result.warnings).toEqual([]);
   });
 
 });
