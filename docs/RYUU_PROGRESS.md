@@ -4,6 +4,21 @@ Running log of automated work on this fork. Newest entry first.
 
 ---
 
+
+## 2026-10-22 (interactive) — Known card bugs
+
+- **Engine:** when a Pokémon uses a power, every other card now reacts to the `PowerEffect` before the
+  power's own card (store.ts `propagateEffect`). Before, cards reacted in alphabetical order, so a power
+  could act before a blocker checked it (Dragonite's Step In switched before Muk's Toxic Gas looked at
+  Muk's Special Conditions). Ditto RG's "blocked" spec now reports `BLOCKED_BY_ABILITY`, the accurate reason.
+- **Muk FO:** an Asleep/Confused/Paralyzed Active Muk no longer stops Dragonite's Step In (follows from the engine fix).
+- **Haunter FO:** Transparency now also protects a Benched Haunter (coin flip; tails applies the effect).
+- **Sableye SF:** Impersonate shuffles the deck before using the Supporter's effect.
+- **Pidgeotto BS Mirror Move:** left as-is. Printed text says "final result of that attack"; the shared
+  implementation copies damage only and cites an errata. Needs an official ruling; spec stays pending.
+- `isEvolved` in play-pokemon-effect was already fixed on master.
+- Still open: abort-game scores a DRAW when the player who quit is ahead on prizes.
+
 ## 2026-10-21 — Reducer tests, bot benchmark, set audit, card fixes
 
 **Goal:** the three top roadmap items (reducer coverage, bot benchmark, set

@@ -126,8 +126,9 @@ describe('Pidgeotto BS', () => {
     expect(opponent.active.damage).toEqual(0);
   });
 
-  // BUG: Mirror Move only copies damage; the printed card does the "final result" of the attack, including
-  // Special Conditions such as Poison.
+  // OPEN RULES QUESTION (not a confirmed bug): the printed text says "do the final result of that attack", which
+  // would include Special Conditions, but common/attacks/mirror-move.ts deliberately copies damage only, citing an
+  // errata. Kept pending until an official ruling is found; do not change the card on a guess.
   xit('Should use Mirror Move and also copy the Special Condition from the attack', () => {
     const { player, opponent } = TestUtils.getAll(sim);
     TestUtils.setDefending(sim, [new AttackerPokemon()]);

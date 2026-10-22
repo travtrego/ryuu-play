@@ -100,8 +100,7 @@ describe('Haunter FO', () => {
     expect(opponent.active.damage).toEqual(30);
   });
 
-  // BUG: Transparency only triggers when Haunter is the Defending Pokémon; attacks hitting a Benched Haunter ignore it
-  xit('Should protect a Benched Haunter with Transparency on heads', () => {
+  it('Should protect a Benched Haunter with Transparency on heads', () => {
     const { opponent, prompts } = TestUtils.getAll(sim);
     TestUtils.setActive(sim, [new Hitmonlee()], [CardType.FIGHTING, CardType.FIGHTING]);
     opponent.bench[0] = TestUtils.pokemonSlot([new Haunter()]);

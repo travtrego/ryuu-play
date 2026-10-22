@@ -108,7 +108,8 @@ describe('Ditto RG', () => {
     }
 
     expect(TestUtils.isPlayerTurn(sim, player)).toBeTrue();
-    expect(message).toEqual(GameMessage.CANNOT_USE_POWER);
+    // The power blocker resolves before Ditto itself, so the reason reported is the block
+    expect(message).toEqual(GameMessage.BLOCKED_BY_ABILITY);
   });
 
   it('Should use Form Variation ability - no valid pokemon in discard', () => {
