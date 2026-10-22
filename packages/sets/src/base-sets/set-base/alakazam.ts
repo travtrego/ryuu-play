@@ -99,6 +99,11 @@ export class Alakazam extends PokemonCard {
           for (const transfer of transfers) {
             const source = StateUtils.getTarget(state, player, transfer.from);
             const target = StateUtils.getTarget(state, player, transfer.to);
+            // "...as long as you don't Knock Out that Pokemon"
+            const max = maxAllowedDamage.find(m => StateUtils.getTarget(state, player, m.target) === target);
+            if (max === undefined || target.damage + 10 > max.damage) {
+              continue;
+            }
             if (source.damage >= 10) {
               source.damage -= 10;
               target.damage += 10;

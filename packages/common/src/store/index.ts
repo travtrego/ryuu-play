@@ -24,6 +24,8 @@ export * from './effects/game-effects';
 export * from './effects/game-phase-effects';
 export * from './effects/play-card-effects';
 
+export { checkState } from './effect-reducers/check-effect';
+
 export * from './prompts/alert-prompt';
 export * from './prompts/attach-energy-prompt';
 export * from './prompts/choose-attack-prompt';

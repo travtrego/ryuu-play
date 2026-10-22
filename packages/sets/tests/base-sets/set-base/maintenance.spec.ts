@@ -45,7 +45,7 @@ describe('Maintenance BS', () => {
   });
 
   // BUG: implementation draws before shuffling the 2 cards in and refuses to play with an empty deck
-  xit('Should shuffle the 2 cards in first, so it can be played with an empty deck', () => {
+  it('Should shuffle the 2 cards in first, so it can be played with an empty deck', () => {
     const { player, prompts } = TestUtils.getAll(sim);
     const [x, y] = TestUtils.makeEnergies([CardType.FIRE, CardType.WATER]);
     player.hand.cards = [trainerCard, x, y];
