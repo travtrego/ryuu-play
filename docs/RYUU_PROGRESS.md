@@ -18,6 +18,13 @@ Running log of automated work on this fork. Newest entry first.
   implementation copies damage only and cites an errata. Needs an official ruling; spec stays pending.
 - `isEvolved` in play-pokemon-effect was already fixed on master.
 - Still open: abort-game scores a DRAW when the player who quit is ahead on prizes.
+  This is upstream's deliberate policy (aborts also cover timeouts and arbiter bans); left for the owner to decide.
+- **Learn mode v1 — "How to play" page** (`packages/play/src/app/rules`, route `/rules`, sidebar link). Plain-language
+  rules reference covering winning, setup and mulligans, turn order, Energy, evolving, retreating, damage/Weakness/
+  Resistance, Special Conditions, Trainer types and beginner tips. Every rule stated was checked against what the
+  engine enforces (e.g. first player draws on turn 1, Burn = flip/tails 20, Confusion = tails 30 to itself).
+  Verified with `ng lint`, `ng build` and headless screenshots at desktop and phone widths.
+- Noticed: the sidebar stays open on phone widths and takes half the screen (pre-existing, whole app).
 
 ## 2026-10-21 — Reducer tests, bot benchmark, set audit, card fixes
 
