@@ -4,6 +4,53 @@ Running log of automated work on this fork. Newest entry first.
 
 ---
 
+## 2026-10-22 — Engine targeting fix, 1,000+ card specs, card bug fixes
+
+**Goal:** close the engine issues noted on 2026-10-21, then give the base-era
+sets behavioural evidence (only 1 Base Set card and 0 Fossil cards had specs).
+
+### Delivered (PRs)
+
+- **#9** (from 2026-10-21) audit spec fix — master was red; merged by the owner.
+- **#10** play-card: Energy, Pokémon and Tools can no longer be played onto the
+  opponent's side (`TOP_PLAYER`/`ANY` targets threw nothing before). Fixed the
+  always-true `isEvolved` expression. common 333 → 337.
+- **#11** specs for every Base Set and Fossil card (+583). **Audit fix:** Jungle,
+  Fossil and Team Rocket print every holo twice; the "16/16/17 missing cards"
+  roadmap item was that double count. Jungle and Team Rocket are complete;
+  Fossil lacks only Ditto.
+- **#12** six card fixes found by those specs: Maintenance BS, Blastoise BS Rain
+  Dance (+ `AttachEnergyPrompt.validate` now enforces `blockedTo`), Alakazam BS
+  Damage Swap, Electrode BS Buzzap (KO/Prize now processed; `checkState`
+  exported), Gastly FO, Slowpoke FO.
+- **Jungle + Team Rocket specs** (this PR): Jungle all 43 non-vanilla cards
+  (+221); Team Rocket 46 files (+269) — the TR batch was cut short by an API
+  spend limit and its 18 pending specs are suspected bugs not yet reviewed.
+
+Cards with a spec: 124 → 344 of 861.
+
+### Known card bugs (pending `xit` specs, not yet fixed)
+
+- Haunter FO Transparency ignored on the Bench; Muk FO Toxic Gas vs Dragonite
+  Step In (Asleep Muk still blocks); Pidgeotto BS / Spearow JU Mirror Move copy
+  damage only (ruling uncertain).
+- Venomoth JU Shift: no once-per-turn marker; changes the Active instead of
+  Venomoth when benched. Vileplume JU Heal: once-per-turn marker shared by all
+  Vileplume. Text typos in Victreebel JU Acid / Persian JU Pounce ("your next
+  turn" should be "your opponent's next turn"; behaviour is right).
+- Team Rocket: 18 pending specs (Digger, Challenge!, Dark Gyarados Final Beam,
+  Dark Dugtrio, Dark Persian, Dark Rapidash, Dark Primeape, Dark Golbat,
+  Dark Dragonair, Dark Machoke, Dark Machamp) — verify each against the printed
+  card before fixing.
+- Sableye SF Impersonate still does not shuffle.
+
+### Process note
+
+Self-merging via the API is still refused by the session permission classifier
+("Merge Without Review"); the owner merged #9–#11 during the run.
+
+---
+
 ## 2026-10-21 — Reducer tests, bot benchmark, set audit, card fixes
 
 **Goal:** the three top roadmap items (reducer coverage, bot benchmark, set
@@ -114,13 +161,12 @@ Rough priority order. Each item is meant to be a self-contained day's work.
 
 ### Next up
 
-1. **Missing cards in partial sets** (from SET_COVERAGE.md): Fossil 16 missing
-   (Ditto FO is written but commented out over passive-Ability copying),
-   Jungle 16, Team Rocket 17. Card text must match the real card.
-2. **Specs for unspecced sets**: Base, Ruby & Sapphire, Sandstorm have zero
-   specs; FireRed & LeafGreen is the only fully specced set.
-3. **Engine issues listed in the 2026-10-21 entry** (opponent-side targeting in
-   play-card, `isEvolved` expression, abort-draw rule, Sableye shuffle).
+1. **Fix the pending `xit` card bugs** listed in the 2026-10-22 entry (review
+   the Team Rocket ones against the printed cards first).
+2. **Specs for unspecced sets**: Ruby & Sapphire and Sandstorm (0 specs), then
+   the Standard folders. Base, Jungle, Fossil, FRLG are fully specced; Team
+   Rocket mostly.
+3. **Ditto FO** (only missing base-era card); abort-draw rule; Sableye shuffle.
 4. **Bot quality** now that the benchmark exists: a balanced deck pool first
    (BW decks dominate), then prize-trade / bench-management heuristics measured
    against the baseline.
