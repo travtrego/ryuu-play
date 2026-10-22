@@ -12,7 +12,7 @@ the code *dispatches on* the attack/power, not that the effect is correct.
 
 | Cards | Implemented | Vanilla | Complete | Partial | Needs logic | With spec |
 | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| 861 | 802 | 59 | 861 (100%) | 0 | 0 | 124 (14.4%) |
+| 861 | 802 | 59 | 861 (100%) | 0 | 0 | 255 (29.6%) |
 
 - **Implemented** — needs logic, and every attack/power that needs logic is
   referenced from the class (`attacks[i]` / `powers[i]`); Trainers and Special
@@ -39,8 +39,8 @@ reprints are implemented once.
 
 | Set (export) | Codes | Present | Official | Impl. | Vanilla | Partial | Needs logic | Specs | Formats |
 | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | --- |
-| `set-base` (`setBase`) | BS | 102 | 102 — 100% | 85 | 17 | 0 | 0 | 1 | Base Sets |
-| `set-fossil` (`setFossil`) | FO | 46 | 62 (15 holos also printed non-holo, 47 distinct) — 97.8% | 46 | 0 | 0 | 0 | 0 | Base Sets |
+| `set-base` (`setBase`) | BS | 102 | 102 — 100% | 85 | 17 | 0 | 0 | 86 | Base Sets |
+| `set-fossil` (`setFossil`) | FO | 46 | 62 (15 holos also printed non-holo, 47 distinct) — 97.8% | 46 | 0 | 0 | 0 | 46 | Base Sets |
 | `set-jungle` (`setJungle`) | JU | 48 | 64 (16 holos also printed non-holo, 48 distinct) — 100% | 46 | 2 | 0 | 0 | 2 | Base Sets |
 | `set-team-rocket` (`setTeamRocket`) | TR | 66 | 83 (82 + secret Dark Raichu; 17 holos also printed non-holo, 66 distinct) — 100% | 62 | 4 | 0 | 0 | 0 | Base Sets |
 
