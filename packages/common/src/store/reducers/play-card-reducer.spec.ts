@@ -24,6 +24,9 @@ describe('playCardReducer', () => {
   const active: CardTarget = { player: PlayerType.BOTTOM_PLAYER, slot: SlotType.ACTIVE, index: 0 };
   const bench0: CardTarget = { player: PlayerType.BOTTOM_PLAYER, slot: SlotType.BENCH, index: 0 };
   const board: CardTarget = { player: PlayerType.BOTTOM_PLAYER, slot: SlotType.BOARD, index: 0 };
+  const oppActive: CardTarget = { player: PlayerType.TOP_PLAYER, slot: SlotType.ACTIVE, index: 0 };
+  const oppBench0: CardTarget = { player: PlayerType.TOP_PLAYER, slot: SlotType.BENCH, index: 0 };
+  const anyActive: CardTarget = { player: PlayerType.ANY, slot: SlotType.ACTIVE, index: 0 };
 
   function current(): Player {
     return store.state.players[0];
@@ -80,6 +83,15 @@ describe('playCardReducer', () => {
       expect(current().energyPlayedTurn).toBe(0);
     });
 
+    it('Should not attach energy to the opponent\'s Pokemon', () => {
+      player.hand.cards = [new TestEnergy()];
+      expect(dispatchError(store, new PlayCardAction(1, 0, oppActive))).toBe(GameMessage.INVALID_TARGET);
+      expect(dispatchError(store, new PlayCardAction(1, 0, anyActive))).toBe(GameMessage.INVALID_TARGET);
+      expect(store.state.players[1].active.energies.cards).toEqual([]);
+      expect(current().hand.cards.length).toBe(1);
+      expect(current().energyPlayedTurn).toBe(0);
+    });
+
     it('Should resolve targets from the active player point of view', () => {
       // Player 2 is active, BOTTOM_PLAYER refers to players[1]
       state.activePlayer = 1;
@@ -104,6 +116,22 @@ describe('playCardReducer', () => {
     it('Should throw INVALID_TARGET for a board target', () => {
       player.hand.cards = [new TestBasic()];
       expect(dispatchError(store, new PlayCardAction(1, 0, board))).toBe(GameMessage.INVALID_TARGET);
+    });
+
+    it('Should not play basic pokemon onto the opponent\'s bench', () => {
+      player.hand.cards = [new TestBasic('Bench Basic')];
+      expect(dispatchError(store, new PlayCardAction(1, 0, oppBench0))).toBe(GameMessage.INVALID_TARGET);
+      expect(dispatchError(store, new PlayCardAction(1, 0, { ...oppBench0, player: PlayerType.ANY })))
+        .toBe(GameMessage.INVALID_TARGET);
+      expect(store.state.players[1].bench[0].pokemons.cards).toEqual([]);
+      expect(current().hand.cards.length).toBe(1);
+    });
+
+    it('Should not evolve the opponent\'s Pokemon', () => {
+      player.hand.cards = [new TestStage1()];
+      store.state.players[1].active.pokemonPlayedTurn = 1;
+      expect(dispatchError(store, new PlayCardAction(1, 0, oppActive))).toBe(GameMessage.INVALID_TARGET);
+      expect(store.state.players[1].active.pokemons.cards.length).toBe(1);
     });
 
     it('Should not play basic pokemon onto an occupied slot', () => {
@@ -222,6 +250,14 @@ describe('playCardReducer', () => {
       player.hand.cards = [new TestTrainer('Tool', TrainerType.TOOL)];
       expect(dispatchError(store, new PlayCardAction(1, 0, board))).toBe(GameMessage.INVALID_TARGET);
       expect(dispatchError(store, new PlayCardAction(1, 0, bench0))).toBe(GameMessage.INVALID_TARGET);
+    });
+
+    it('Should not attach a tool to the opponent\'s Pokemon', () => {
+      player.hand.cards = [new TestTrainer('Tool', TrainerType.TOOL)];
+      expect(dispatchError(store, new PlayCardAction(1, 0, oppActive))).toBe(GameMessage.INVALID_TARGET);
+      expect(dispatchError(store, new PlayCardAction(1, 0, anyActive))).toBe(GameMessage.INVALID_TARGET);
+      expect(store.state.players[1].active.trainers.cards).toEqual([]);
+      expect(current().hand.cards.length).toBe(1);
     });
 
     it('Should not attach a second tool', () => {

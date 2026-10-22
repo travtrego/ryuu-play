@@ -19,12 +19,28 @@ function findPokemonSlot(state: State, target: CardTarget): PokemonSlot | undefi
     ? state.players[state.activePlayer]
     : state.players[state.activePlayer ? 0 : 1];
 
+  if (player === undefined) {
+    return undefined;
+  }
+
   switch (target.slot) {
     case SlotType.ACTIVE:
       return player.active;
     case SlotType.BENCH:
       return player.bench[target.index];
   }
+}
+
+/**
+ * Energy, Pokemon and Pokemon Tools can only be played onto the active
+ * player's own Pokemon. TOP_PLAYER (and ANY, which findPokemonSlot treats
+ * the same way) points at the opponent's side, so it is rejected here.
+ */
+function findOwnPokemonSlot(state: State, target: CardTarget): PokemonSlot | undefined {
+  if (target.player !== PlayerType.BOTTOM_PLAYER) {
+    return undefined;
+  }
+  return findPokemonSlot(state, target);
 }
 
 export function playCardReducer(store: StoreLike, state: State, action: Action): State {
@@ -44,7 +60,7 @@ export function playCardReducer(store: StoreLike, state: State, action: Action):
       }
 
       if (handCard instanceof EnergyCard) {
-        const target = findPokemonSlot(state, action.target);
+        const target = findOwnPokemonSlot(state, action.target);
         if (!(target instanceof PokemonSlot) || target.pokemons.cards.length === 0) {
           throw new GameError(GameMessage.INVALID_TARGET);
         }
@@ -58,7 +74,7 @@ export function playCardReducer(store: StoreLike, state: State, action: Action):
       }
 
       if (handCard instanceof PokemonCard) {
-        const target = findPokemonSlot(state, action.target);
+        const target = findOwnPokemonSlot(state, action.target);
         if (!(target instanceof PokemonSlot)) {
           throw new GameError(GameMessage.INVALID_TARGET);
         }
@@ -93,7 +109,7 @@ export function playCardReducer(store: StoreLike, state: State, action: Action):
             break;
           }
           case TrainerType.TOOL:
-            if (!(target instanceof PokemonSlot)) {
+            if (!(target instanceof PokemonSlot) || action.target.player !== PlayerType.BOTTOM_PLAYER) {
               throw new GameError(GameMessage.INVALID_TARGET);
             }
             effect = new AttachPokemonToolEffect(player, handCard, target);
