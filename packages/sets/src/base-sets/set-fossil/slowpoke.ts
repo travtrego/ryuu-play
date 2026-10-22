@@ -8,6 +8,7 @@ import {
   CoinFlipPrompt,
   DiscardCardsEffect,
   Effect,
+  GameError,
   GameMessage,
   HealTargetEffect,
   PokemonCard,
@@ -120,8 +121,9 @@ export class Slowpoke extends PokemonCard {
     if (effect instanceof AttackEffect && effect.attack === this.attacks[0]) {
       const player = effect.player;
 
+      // "This attack can't be used if Slowpoke has no damage counters on it."
       if (player.active.damage === 0) {
-        return state;
+        throw new GameError(GameMessage.CANNOT_PLAY_THIS_CARD);
       }
 
       return store.prompt(state, new CoinFlipPrompt(player.id, GameMessage.COIN_FLIP), result => {

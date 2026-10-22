@@ -4,6 +4,7 @@ import {
   CardTarget,
   CardType,
   CheckHpEffect,
+  checkState,
   CheckProvidedEnergyEffect,
   CoinFlipPrompt,
   DealDamageEffect,
@@ -112,8 +113,20 @@ function* useBuzzap(next: Function, store: StoreLike, state: State, self: Electr
   store.reduceEffect(state, checkHpEffect);
   pokemonSlot.damage = Math.max(checkHpEffect.hp, pokemonSlot.damage);
 
-  // Wait for Knock Out
-  yield store.waitPrompt(state, () => next());
+  // Process the Knock Out now (the opponent takes a Prize card, a new Active
+  // Pokemon is chosen) before Electrode becomes an Energy card.
+  let koDone = false;
+  let koSync = true;
+  checkState(store, state, () => {
+    koDone = true;
+    if (!koSync) {
+      next();
+    }
+  });
+  koSync = false;
+  if (!koDone) {
+    yield state;
+  }
 
   // First let's check where the Electrode is not (Rescue Energy, etc)
   const cardList = StateUtils.findCardList(state, self);

@@ -107,7 +107,7 @@ describe('Alakazam BS', () => {
   });
 
   // BUG: Damage Swap applies any transfer it receives; moving a counter that Knocks Out the target is not rejected
-  xit('Should not use Damage Swap to Knock Out a Pokémon', () => {
+  it('Should not use Damage Swap to Knock Out a Pokémon', () => {
     const { player } = TestUtils.getAll(sim);
     player.active.damage = 30;
     // Abra has 30 HP, 2 damage counters

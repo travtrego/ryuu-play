@@ -51,7 +51,7 @@ describe('Slowpoke FO', () => {
   });
 
   // BUG: Spacing Out can be used (ending the turn) when Slowpoke has no damage counters; the card says it can't be
-  xit('Should not use Spacing Out when Slowpoke has no damage counters', () => {
+  it('Should not use Spacing Out when Slowpoke has no damage counters', () => {
     let message = '';
     try {
       sim.dispatch(new AttackAction(1, 'Spacing Out'));
