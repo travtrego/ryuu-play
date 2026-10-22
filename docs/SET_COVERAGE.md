@@ -12,7 +12,7 @@ the code *dispatches on* the attack/power, not that the effect is correct.
 
 | Cards | Implemented | Vanilla | Complete | Partial | Needs logic | With spec |
 | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| 861 | 802 | 59 | 861 (100%) | 0 | 0 | 124 (14.4%) |
+| 861 | 802 | 59 | 861 (100%) | 0 | 0 | 255 (29.6%) |
 
 - **Implemented** — needs logic, and every attack/power that needs logic is
   referenced from the class (`attacks[i]` / `powers[i]`); Trainers and Special
@@ -30,16 +30,19 @@ the code *dispatches on* the attack/power, not that the effect is correct.
 Official sizes are listed only where certain. "Standard" folders are curated
 collections drawn from many printed sets (card set codes shown), so they have no
 official size. "Present" counts entries in the exported set array; alternate
-prints of the same name (e.g. `Charmander RG-2`) count separately.
+prints of the same name (e.g. `Charmander RG-2`) count separately. The percentage
+is measured against the number of *distinct* cards: Jungle, Fossil and Team Rocket
+print every holo rare a second time as a non-holo with identical text, and those
+reprints are implemented once.
 
 ### Base sets
 
 | Set (export) | Codes | Present | Official | Impl. | Vanilla | Partial | Needs logic | Specs | Formats |
 | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | --- |
-| `set-base` (`setBase`) | BS | 102 | 102 — 100% | 85 | 17 | 0 | 0 | 1 | Base Sets |
-| `set-fossil` (`setFossil`) | FO | 46 | 62 — 74.1% | 46 | 0 | 0 | 0 | 0 | Base Sets |
-| `set-jungle` (`setJungle`) | JU | 48 | 64 — 75% | 46 | 2 | 0 | 0 | 2 | Base Sets |
-| `set-team-rocket` (`setTeamRocket`) | TR | 66 | 83 (82 + secret Dark Raichu) — 79.5% | 62 | 4 | 0 | 0 | 0 | Base Sets |
+| `set-base` (`setBase`) | BS | 102 | 102 — 100% | 85 | 17 | 0 | 0 | 86 | Base Sets |
+| `set-fossil` (`setFossil`) | FO | 46 | 62 (15 holos also printed non-holo, 47 distinct) — 97.8% | 46 | 0 | 0 | 0 | 46 | Base Sets |
+| `set-jungle` (`setJungle`) | JU | 48 | 64 (16 holos also printed non-holo, 48 distinct) — 100% | 46 | 2 | 0 | 0 | 2 | Base Sets |
+| `set-team-rocket` (`setTeamRocket`) | TR | 66 | 83 (82 + secret Dark Raichu; 17 holos also printed non-holo, 66 distinct) — 100% | 62 | 4 | 0 | 0 | 0 | Base Sets |
 
 ### EX sets
 
@@ -109,7 +112,7 @@ commented out in `index.ts`), so they are not playable and not counted above.
 - Card text is taken from the class itself. A card whose printed text was left
   out of the class would look vanilla; the audit cannot detect that without an
   external card database.
-- Missing cards in a set are counted against the official size but not named,
+- Missing cards in a set are counted against the distinct-card count but not named,
   for the same reason.
 - Engine-level rules (Pokémon-ex prize count, Stadium/Supporter play limits) are
   not card text and are not audited.
