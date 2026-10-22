@@ -106,9 +106,7 @@ describe('Muk FO', () => {
     expect(message).toEqual(GameMessage.BLOCKED_BY_ABILITY);
   });
 
-  // BUG: Dragonite's Step In switches first (clearing the Active Muk's Special Conditions), then Toxic Gas checks
-  // Muk's status and blocks it, so an Asleep Active Muk still stops Step In
-  xit('Should allow Dragonite\'s Step In while the Active Muk is Asleep', () => {
+  it('Should allow Dragonite\'s Step In while the Active Muk is Asleep', () => {
     const { player } = TestUtils.getAll(sim);
     player.active.specialConditions.push(SpecialCondition.ASLEEP);
     player.bench[0] = TestUtils.pokemonSlot([new Dragonite()]);
