@@ -51,11 +51,16 @@ const GROUPS = [
 // Official printed set sizes. Only listed where certain; the "standard"
 // folders are curated cross-set collections (cards carry their real set code
 // in fullName, e.g. "Bianca EPO"), so no official size applies to them.
+//
+// `distinct` is the number of different cards in the set. Jungle, Fossil and
+// Team Rocket print each holo rare twice (holo and non-holo, identical text);
+// this repo implements each card once, so coverage is measured against the
+// distinct count, not the printed card numbers.
 const OFFICIAL_SIZES = {
   setBase: { size: 102, note: '' },
-  setJungle: { size: 64, note: '' },
-  setFossil: { size: 62, note: '' },
-  setTeamRocket: { size: 83, note: '82 + secret Dark Raichu' },
+  setJungle: { size: 64, distinct: 48, note: '16 holos also printed non-holo' },
+  setFossil: { size: 62, distinct: 47, note: '15 holos also printed non-holo' },
+  setTeamRocket: { size: 83, distinct: 66, note: '82 + secret Dark Raichu; 17 holos also printed non-holo' },
   setRubyAndSapphire: { size: 109, note: '' },
   setSandstorm: { size: 100, note: '' },
   setFireredAndLeafgreen: { size: 116, note: '112 + 4 secret' },
@@ -422,6 +427,7 @@ function buildReport() {
         exportName: index.exportName,
         setCodes: Array.from(setCodes).sort(),
         official: official ? official.size : null,
+        officialDistinct: official ? (official.distinct || official.size) : null,
         officialNote: official ? official.note : '',
         formats: formats[index.exportName] || [],
         cards: cardReports,
@@ -515,7 +521,10 @@ function renderMarkdown(report) {
   out.push('Official sizes are listed only where certain. "Standard" folders are curated');
   out.push('collections drawn from many printed sets (card set codes shown), so they have no');
   out.push('official size. "Present" counts entries in the exported set array; alternate');
-  out.push('prints of the same name (e.g. `Charmander RG-2`) count separately.');
+  out.push('prints of the same name (e.g. `Charmander RG-2`) count separately. The percentage');
+  out.push('is measured against the number of *distinct* cards: Jungle, Fossil and Team Rocket');
+  out.push('print every holo rare a second time as a non-holo with identical text, and those');
+  out.push('reprints are implemented once.');
   out.push('');
   report.groups.forEach(group => {
     out.push('### ' + group.label);
@@ -526,8 +535,10 @@ function renderMarkdown(report) {
       const c = s.counts;
       let official = '';
       if (s.official !== null) {
-        official = s.official + (s.officialNote ? ' (' + s.officialNote + ')' : '') +
-          ' — ' + pct(s.cards.length, s.official);
+        const distinct = s.officialDistinct !== s.official ? ', ' + s.officialDistinct + ' distinct' : '';
+        official = s.official + ' (' + (s.officialNote ? s.officialNote : '') + distinct + ')';
+        official = official.replace(' ()', '').replace('(, ', '(') +
+          ' — ' + pct(s.cards.length, s.officialDistinct);
       }
       out.push('| ' + [
         '`' + s.dir + '` (`' + s.exportName + '`)',
@@ -639,7 +650,7 @@ function renderMarkdown(report) {
   out.push('- Card text is taken from the class itself. A card whose printed text was left');
   out.push('  out of the class would look vanilla; the audit cannot detect that without an');
   out.push('  external card database.');
-  out.push('- Missing cards in a set are counted against the official size but not named,');
+  out.push('- Missing cards in a set are counted against the distinct-card count but not named,');
   out.push('  for the same reason.');
   out.push('- Engine-level rules (Pokémon-ex prize count, Stadium/Supporter play limits) are');
   out.push('  not card text and are not audited.');
