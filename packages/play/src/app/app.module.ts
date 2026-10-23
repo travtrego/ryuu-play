@@ -17,6 +17,7 @@ import { MessagesModule } from './messages/messages.module';
 import { ProfileModule } from './profile/profile.module';
 import { RankingModule } from './ranking/ranking.module';
 import { ReplaysModule } from './replays/replays.module';
+import { RulesModule } from './rules/rules.module';
 import { SharedModule } from './shared/shared.module';
 import { TableModule } from './table/table.module';
 
@@ -35,6 +36,7 @@ import { TableModule } from './table/table.module';
     ProfileModule,
     RankingModule,
     ReplaysModule,
+    RulesModule,
     SharedModule,
     DndMultiBackendModule,
     DndModule.forRoot({ backend: MultiBackend, options: HTML5ToTouch }),

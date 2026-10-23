@@ -128,7 +128,7 @@ describe('Blastoise BS', () => {
   });
 
   // BUG: Rain Dance lets the Water Energy be attached to non-Water Pokémon (prompt has no blockedTo for them)
-  xit('Should not use Rain Dance to attach Water Energy to a non-Water Pokémon', () => {
+  it('Should not use Rain Dance to attach Water Energy to a non-Water Pokémon', () => {
     const { player } = TestUtils.getAll(sim);
     const water = new WaterEnergy();
     player.hand.cards = [water];

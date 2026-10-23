@@ -118,6 +118,43 @@ export class Haunter extends PokemonCard {
       return state;
     }
 
+    // Attacks that reach a Benched Haunter (the Active case is handled on UseAttackEffect above)
+    if (effect instanceof AbstractAttackEffect
+      && effect.target.getPokemonCard() === this
+      && !effect.target.marker.hasMarker(this.TRANSPARENCY_FAIL_MARKER, this)) {
+      const player = effect.player;
+      const opponent = StateUtils.getOpponent(state, player);
+      const pokemonSlot = effect.target;
+
+      if (pokemonSlot === opponent.active
+        || !opponent.bench.includes(pokemonSlot)
+        || pokemonSlot.specialConditions.includes(SpecialCondition.ASLEEP)
+        || pokemonSlot.specialConditions.includes(SpecialCondition.CONFUSED)
+        || pokemonSlot.specialConditions.includes(SpecialCondition.PARALYZED)) {
+        return state;
+      }
+
+      // Try to reduce PowerEffect, to check if something is blocking our ability
+      try {
+        const powerEffect = new PowerEffect(opponent, this.powers[0], this);
+        store.reduceEffect(state, powerEffect);
+      } catch {
+        return state;
+      }
+
+      // Hold the effect until the coin is flipped; on tails, apply it again
+      effect.preventDefault = true;
+      return store.prompt(state, new CoinFlipPrompt(opponent.id, GameMessage.COIN_FLIP), result => {
+        const markerName = result ? this.TRANSPARENCY_SUCCESS_MARKER : this.TRANSPARENCY_FAIL_MARKER;
+        pokemonSlot.marker.addMarker(markerName, this);
+        player.marker.addMarker(this.CLEAR_TRANSPARENCY_MARKER, this);
+        if (!result) {
+          effect.preventDefault = false;
+          store.reduceEffect(state, effect);
+        }
+      });
+    }
+
     if (effect instanceof AttackEffect && effect.attack === this.attacks[0]) {
       const specialConditionEffect = new AddSpecialConditionsEffect(effect, [SpecialCondition.ASLEEP]);
       store.reduceEffect(state, specialConditionEffect);

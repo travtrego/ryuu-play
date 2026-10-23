@@ -80,7 +80,7 @@ describe('Gastly FO', () => {
   });
 
   // BUG: Energy Conversion skips Gastly's 10 self-damage when the discard pile has no Energy cards
-  xit('Should use Energy Conversion with no Energy in the discard pile and still damage itself', () => {
+  it('Should use Energy Conversion with no Energy in the discard pile and still damage itself', () => {
     const { opponent, player } = TestUtils.getAll(sim);
     player.discard.cards = [new TestPokemon()];
 

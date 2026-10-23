@@ -80,8 +80,6 @@ const REVIEW_NOTES = {
     'Likely bug: text says shuffle first; code reorders the top 6 without shuffling.',
   'packages/sets/src/standard/set-black-and-white-2/evosoda.ts':
     'Minor: deck is never shuffled after the search.',
-  'packages/sets/src/standard/set-diamond-and-pearl/sableye.ts':
-    'Minor: Impersonate searches the deck but never shuffles it.',
   'packages/sets/src/base-sets/set-base/devolution-spray.ts':
     'False positive: conditions are cleared by `pokemonSlot.clearEffects()`.',
   'packages/sets/src/standard/set-black-and-white-2/virbank-city-gym.ts':

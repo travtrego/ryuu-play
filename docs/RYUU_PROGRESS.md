@@ -4,6 +4,29 @@ Running log of automated work on this fork. Newest entry first.
 
 ---
 
+## 2026-10-22 (interactive) — Known card bugs
+
+- **Engine:** when a Pokémon uses a power, every other card now reacts to the `PowerEffect` before the
+  power's own card (store.ts `propagateEffect`). Before, cards reacted in alphabetical order, so a power
+  could act before a blocker checked it (Dragonite's Step In switched before Muk's Toxic Gas looked at
+  Muk's Special Conditions). Ditto RG's "blocked" spec now reports `BLOCKED_BY_ABILITY`, the accurate reason.
+- **Muk FO:** an Asleep/Confused/Paralyzed Active Muk no longer stops Dragonite's Step In (follows from the engine fix).
+- **Haunter FO:** Transparency now also protects a Benched Haunter (coin flip; tails applies the effect).
+- **Sableye SF:** Impersonate shuffles the deck before using the Supporter's effect.
+- **Pidgeotto BS Mirror Move:** left as-is. Printed text says "final result of that attack"; the shared
+  implementation copies damage only and cites an errata. Needs an official ruling; spec stays pending.
+- `isEvolved` in play-pokemon-effect was already fixed on master.
+- Still open: abort-game scores a DRAW when the player who quit is ahead on prizes.
+  This is upstream's deliberate policy (aborts also cover timeouts and arbiter bans); left for the owner to decide.
+- **Learn mode v1 — "How to play" page** (`packages/play/src/app/rules`, route `/rules`, sidebar link). Plain-language
+  rules reference covering winning, setup and mulligans, turn order, Energy, evolving, retreating, damage/Weakness/
+  Resistance, Special Conditions, Trainer types and beginner tips. Every rule stated was checked against what the
+  engine enforces (e.g. first player draws on turn 1, Burn = flip/tails 20, Confusion = tails 30 to itself).
+  Verified with `ng lint`, `ng build` and headless screenshots at desktop and phone widths.
+- Noticed: the sidebar stays open on phone widths and takes half the screen (pre-existing, whole app).
+
+---
+
 ## 2026-10-22 — Engine targeting fix, 1,000+ card specs, card bug fixes
 
 **Goal:** close the engine issues noted on 2026-10-21, then give the base-era
@@ -31,9 +54,8 @@ Cards with a spec: 124 → 344 of 861.
 
 ### Known card bugs (pending `xit` specs, not yet fixed)
 
-- Haunter FO Transparency ignored on the Bench; Muk FO Toxic Gas vs Dragonite
-  Step In (Asleep Muk still blocks); Pidgeotto BS / Spearow JU Mirror Move copy
-  damage only (ruling uncertain).
+- Pidgeotto BS / Spearow JU Mirror Move copy damage only (ruling uncertain).
+  (Haunter FO, Muk FO and Sableye SF were fixed in #14.)
 - Venomoth JU Shift: no once-per-turn marker; changes the Active instead of
   Venomoth when benched. Vileplume JU Heal: once-per-turn marker shared by all
   Vileplume. Text typos in Victreebel JU Acid / Persian JU Pounce ("your next
@@ -42,7 +64,6 @@ Cards with a spec: 124 → 344 of 861.
   Dark Dugtrio, Dark Persian, Dark Rapidash, Dark Primeape, Dark Golbat,
   Dark Dragonair, Dark Machoke, Dark Machamp) — verify each against the printed
   card before fixing.
-- Sableye SF Impersonate still does not shuffle.
 
 ### Process note
 

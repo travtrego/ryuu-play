@@ -2,8 +2,10 @@ import {
   AttachEnergyEffect,
   AttachEnergyPrompt,
   AttackEffect,
+  CardTarget,
   CardType,
   CheckAttackCostEffect,
+  CheckPokemonTypeEffect,
   CheckProvidedEnergyEffect,
   Effect,
   EnergyCard,
@@ -86,6 +88,16 @@ export class Blastoise extends PokemonCard {
         throw new GameError(GameMessage.CANNOT_USE_POWER);
       }
 
+      // Rain Dance attaches only to Water Pokemon
+      const blockedTo: CardTarget[] = [];
+      player.forEachPokemon(PlayerType.BOTTOM_PLAYER, (slot, card, target) => {
+        const checkType = new CheckPokemonTypeEffect(slot);
+        store.reduceEffect(state, checkType);
+        if (!checkType.cardTypes.includes(CardType.WATER)) {
+          blockedTo.push(target);
+        }
+      });
+
       return store.prompt(
         state,
         new AttachEnergyPrompt(
@@ -99,7 +111,7 @@ export class Blastoise extends PokemonCard {
             energyType: EnergyType.BASIC,
             name: 'Water Energy',
           },
-          { allowCancel: true }
+          { allowCancel: true, blockedTo }
         ),
         transfers => {
           transfers = transfers || [];

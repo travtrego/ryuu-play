@@ -110,7 +110,7 @@ describe('Electrode BS', () => {
   });
 
   // BUG: Buzzap moves Electrode to the target before the Knock Out is processed, so the opponent takes no Prize
-  xit('Should use Buzzap - Electrode is Knocked Out and the opponent takes a Prize card', () => {
+  it('Should use Buzzap - Electrode is Knocked Out and the opponent takes a Prize card', () => {
     const { opponent } = TestUtils.getAll(sim);
 
     useBuzzapOnActive();
@@ -119,7 +119,40 @@ describe('Electrode BS', () => {
     expect(prize).toEqual(jasmine.objectContaining({ type: 'Choose prize', playerId: opponent.id }));
     sim.dispatch(new ResolvePromptAction(prize.id, opponent.prizes.slice(0, 1)));
 
+    const { player } = TestUtils.getAll(sim);
     expect(opponent.getPrizeLeft()).toEqual(5);
+    expect(player.bench[0].pokemons.cards).toEqual([]);
+    expect(player.bench[0].damage).toEqual(0);
+    expect(player.active.energies.cards.length).toEqual(1);
+    expect(player.discard.cards.some(c => c instanceof Electrode)).toBeFalse();
+  });
+
+  it('Should use Buzzap from the Active spot - a new Active Pokémon is chosen', () => {
+    const { opponent, player } = TestUtils.getAll(sim);
+    const electrode = player.active.getPokemonCard() as Electrode;
+    const benched = new TestPokemon();
+    player.bench[0] = TestUtils.pokemonSlot([benched]);
+
+    sim.dispatch(new UseAbilityAction(1, 'Buzzap', TestUtils.target(sim, player.active)));
+    const select = TestUtils.lastPrompt(sim) as SelectPrompt;
+    sim.dispatch(new ResolvePromptAction(select.id, WATER_OPTION));
+    const attach = TestUtils.lastPrompt(sim) as AttachEnergyPrompt;
+    sim.dispatch(new ResolvePromptAction(attach.id, [{ to: TestUtils.target(sim, player.bench[0]), card: electrode }]));
+
+    // Opponent takes a Prize, player promotes the benched Pokémon
+    const prize = TestUtils.lastPrompt(sim, opponent) as ChoosePrizePrompt;
+    sim.dispatch(new ResolvePromptAction(prize.id, opponent.prizes.slice(0, 1)));
+    const choose = TestUtils.lastPrompt(sim, player);
+    expect(choose).toEqual(jasmine.objectContaining({ type: 'Choose pokemon', playerId: player.id }));
+    sim.dispatch(new ResolvePromptAction(choose!.id, [TestUtils.getAll(sim).player.bench[0]]));
+
+    const after = TestUtils.getAll(sim);
+    expect(TestUtils.isPlayerTurn(sim, after.player)).toBeTrue();
+    expect(after.opponent.getPrizeLeft()).toEqual(5);
+    expect(after.player.active.getPokemonCard()).toBe(benched);
+    expect(after.player.active.energies.cards.map(c => c.fullName)).toEqual([electrode.fullName]);
+    // The 3 Lightning Energy attached to Electrode were discarded with it
+    expect(after.player.discard.cards.length).toEqual(3);
   });
 
   it('Should not use Buzzap without another Pokémon in play', () => {
