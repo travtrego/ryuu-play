@@ -6,11 +6,11 @@ import {
   CoinFlipPrompt,
   DealDamageEffect,
   Effect,
-  GameError,
   GameMessage,
   GamePhase,
   KnockOutEffect,
   PokemonCard,
+  PokemonSlot,
   PowerEffect,
   PowerType,
   SpecialCondition,
@@ -83,7 +83,8 @@ export class DarkGyarados extends PokemonCard {
         || active.specialConditions.includes(SpecialCondition.ASLEEP)
         || active.specialConditions.includes(SpecialCondition.CONFUSED)
         || active.specialConditions.includes(SpecialCondition.PARALYZED)) {
-        throw new GameError(GameMessage.CANNOT_USE_POWER);
+        // The power doesn't work, but Dark Gyarados is still Knocked Out.
+        return state;
       }
 
       // Try to reduce PowerEffect, to check if something is blocking our ability
@@ -94,7 +95,7 @@ export class DarkGyarados extends PokemonCard {
         return state;
       }
 
-      const checkProvidedEnergy = new CheckProvidedEnergyEffect(player);
+      const checkProvidedEnergy = new CheckProvidedEnergyEffect(player, active);
       state = store.reduceEffect(state, checkProvidedEnergy);
       const waterEnergy = checkProvidedEnergy.energyMap.reduce(
         (left, p) => left + (p.provides.includes(CardType.WATER) ? p.provideAmount : 0), 0);
@@ -103,6 +104,11 @@ export class DarkGyarados extends PokemonCard {
       if (damage === 0) {
         return state;
       }
+
+      // Dark Gyarados leaves play before the coin is flipped. Keep a copy of its
+      // slot so Weakness and Resistance are checked against Dark Gyarados' type.
+      const source = new PokemonSlot();
+      source.pokemons.cards = active.pokemons.cards.slice();
 
       return store.prompt(state, new CoinFlipPrompt(player.id, GameMessage.COIN_FLIP), result => {
         if (result === true) {
@@ -114,6 +120,7 @@ export class DarkGyarados extends PokemonCard {
           };
           const attackEffect = new AttackEffect(player, opponent, attack);
           const dealDamageEffect = new DealDamageEffect(attackEffect, damage);
+          dealDamageEffect.source = source;
           store.reduceEffect(state, dealDamageEffect);
         }
       });

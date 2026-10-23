@@ -16,7 +16,8 @@ export enum GameEffects {
   ATTACK_EFFECT = 'ATTACK_EFFECT',
   KNOCK_OUT_EFFECT = 'KNOCK_OUT_EFFECT',
   HEAL_EFFECT = 'HEAL_EFFECT',
-  EVOLVE_EFFECT = 'EVOLVE_EFFECT'
+  EVOLVE_EFFECT = 'EVOLVE_EFFECT',
+  CONFUSION_DAMAGE_EFFECT = 'CONFUSION_DAMAGE_EFFECT'
 }
 
 export class RetreatEffect implements Effect {
@@ -156,5 +157,24 @@ export class EvolveEffect implements Effect {
     this.player = player;
     this.target = target;
     this.pokemonCard = pokemonCard;
+  }
+}
+
+/**
+ * A Confused Pokémon flipped tails when trying to attack and hurts itself.
+ * Cards may change `damage` (e.g. Dark Primeape's Frenzy) or prevent it.
+ * The damage is placed as damage counters (no Weakness/Resistance).
+ */
+export class ConfusionDamageEffect implements Effect {
+  readonly type: string = GameEffects.CONFUSION_DAMAGE_EFFECT;
+  public preventDefault = false;
+  public player: Player;
+  public target: PokemonSlot;
+  public damage: number;
+
+  constructor(player: Player, target: PokemonSlot, damage: number) {
+    this.player = player;
+    this.target = target;
+    this.damage = damage;
   }
 }

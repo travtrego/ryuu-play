@@ -129,6 +129,9 @@ describe('Pidgeotto BS', () => {
   // OPEN RULES QUESTION (not a confirmed bug): the printed text says "do the final result of that attack", which
   // would include Special Conditions, but common/attacks/mirror-move.ts deliberately copies damage only, citing an
   // errata. Kept pending until an official ruling is found; do not change the card on a guess.
+  // 2026-10-23: WotC chat answers from 2000-2002, quoted secondhand (pkmncards comments, TCG ONE forum), say Mirror
+  // Move also copies a Special Condition the attack actually applied. Not found in a primary rulings compendium, so
+  // this stays pending for the owner to decide.
   xit('Should use Mirror Move and also copy the Special Condition from the attack', () => {
     const { player, opponent } = TestUtils.getAll(sim);
     TestUtils.setDefending(sim, [new AttackerPokemon()]);

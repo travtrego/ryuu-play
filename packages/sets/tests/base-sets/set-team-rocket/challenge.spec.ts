@@ -33,8 +33,7 @@ describe('Challenge! TR', () => {
     expect(prompts[0]).toEqual(jasmine.objectContaining({ type: 'Confirm', playerId: opponent.id }));
   });
 
-  // BUG: after the opponent declines and the player draws 2 cards, both players are still asked to search their decks
-  xit('Should draw 2 cards when the opponent declines, without any search', () => {
+  it('Should draw 2 cards when the opponent declines, without any search', () => {
     const { player, opponent, prompts } = TestUtils.getAll(sim);
     player.deck.cards = [new Charmander(), ...TestUtils.makeTestCards(5)];
 
@@ -100,9 +99,7 @@ describe('Challenge! TR', () => {
     expect(prompts.some(p => p.type === 'Shuffle deck' && p.playerId === opponent.id)).toBeTrue();
   });
 
-  // BUG: the opponent's selection is truncated to the number of empty slots on the player's Bench (slots instead of
-  // slotsOpponent)
-  xit('Should let the opponent fill his or her own empty Bench slots when the player has fewer free', () => {
+  it('Should let the opponent fill his or her own empty Bench slots when the player has fewer free', () => {
     const { player, opponent, prompts } = TestUtils.getAll(sim);
     for (let i = 0; i < 4; i++) {
       player.bench[i] = TestUtils.pokemonSlot([new TestPokemon()]);

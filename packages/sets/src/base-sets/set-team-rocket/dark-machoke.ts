@@ -3,6 +3,7 @@ import {
   CardType,
   ChoosePokemonPrompt,
   Effect,
+  GameError,
   GameMessage,
   PlayerType,
   PokemonCard,
@@ -63,8 +64,9 @@ export class DarkMachoke extends PokemonCard {
       const opponent = StateUtils.getOpponent(state, player);
       const hasBench = opponent.bench.some(b => b.pokemons.cards.length > 0);
 
+      // This attack can't be used if your opponent has no Benched Pokémon.
       if (!hasBench) {
-        return state;
+        throw new GameError(GameMessage.CANNOT_USE_ATTACK);
       }
 
       return store.prompt(

@@ -105,9 +105,7 @@ describe('Vileplume JU', () => {
     expect(useHealError()).toEqual('');
   });
 
-  // BUG: the "once per turn" marker is shared by all Vileplume (checked without a source), so a second Vileplume
-  // can't use its own Heal
-  xit('Should let each Vileplume use Heal once per turn', () => {
+  it('Should let each Vileplume use Heal once per turn', () => {
     const { player } = TestUtils.getAll(sim);
     player.active.damage = 30;
     player.bench[0] = TestUtils.pokemonSlot([new Vileplume()]);

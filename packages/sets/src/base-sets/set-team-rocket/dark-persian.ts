@@ -4,6 +4,7 @@ import {
   ChoosePokemonPrompt,
   CoinFlipPrompt,
   Effect,
+  GameError,
   GameMessage,
   PlayerType,
   PokemonCard,
@@ -21,8 +22,9 @@ function* useFascinate(next: Function, store: StoreLike, state: State, effect: A
   const opponent = StateUtils.getOpponent(state, player);
   const hasBench = opponent.bench.some(b => b.pokemons.cards.length > 0);
 
+  // This attack can't be used if your opponent has no Benched Pokémon.
   if (hasBench === false) {
-    return state;
+    throw new GameError(GameMessage.CANNOT_USE_ATTACK);
   }
 
   let flipResult = false;

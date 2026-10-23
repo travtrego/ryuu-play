@@ -40,9 +40,7 @@ describe('Dark Dugtrio TR', () => {
     return { retreating };
   }
 
-  // BUG: the 20 damage is put on player.active after the coin flip resolves, which is the new Active Pokémon
-  // instead of the Pokémon that retreated
-  xit('Should do 20 damage to the retreating Pokémon - tails', () => {
+  it('Should do 20 damage to the retreating Pokémon - tails', () => {
     const { player, prompts } = TestUtils.getAll(sim);
     const { retreating } = setupRetreat();
     TestUtils.setFlipResults(sim, [false]);

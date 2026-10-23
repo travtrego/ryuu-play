@@ -52,8 +52,7 @@ describe('Dark Machoke TR', () => {
     expect(opponent.bench[1].damage).toEqual(0);
   });
 
-  // BUG: Drag Off can be used (doing 20 damage without switching) when the opponent has no Benched Pokémon
-  xit('Should not be able to use Drag Off when the opponent has no Benched Pokémon', () => {
+  it('Should not be able to use Drag Off when the opponent has no Benched Pokémon', () => {
     let message = '';
     try {
       sim.dispatch(new AttackAction(1, 'Drag Off'));

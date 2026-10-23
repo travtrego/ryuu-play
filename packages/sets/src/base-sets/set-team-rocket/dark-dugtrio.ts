@@ -95,9 +95,15 @@ export class DarkDugtrio extends PokemonCard {
       // Q. Is Dark Dugtrio's Sinkhole Pokémon Power cumulative in any way?
       // A. They are cumulative. You would flip for each Dugtrio's effect (May 4, 2000 WotC Chat, Q20)
 
+      // The coin is flipped after the retreat, so remember which Pokémon retreated.
+      const retreatingCard = player.active.getPokemonCard();
+
       return store.prompt(state, new CoinFlipPrompt(player.id, GameMessage.COIN_FLIP), result => {
-        if (result === false) {
-          player.active.damage += 20;
+        if (result === false && retreatingCard !== undefined) {
+          const retreatedSlot = StateUtils.findPokemonSlot(state, retreatingCard);
+          if (retreatedSlot !== undefined) {
+            retreatedSlot.damage += 20;
+          }
         }
       });
     }

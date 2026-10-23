@@ -49,7 +49,7 @@ function* useHeal(next: Function, store: StoreLike, state: State, self: Vileplum
     throw new GameError(GameMessage.CANNOT_USE_POWER);
   }
 
-  if (player.marker.hasMarker(self.HEAL_MARKER)) {
+  if (player.marker.hasMarker(self.HEAL_MARKER, self)) {
     throw new GameError(GameMessage.POWER_ALREADY_USED);
   }
 

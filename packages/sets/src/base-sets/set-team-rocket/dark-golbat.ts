@@ -103,6 +103,8 @@ export class DarkGolbat extends PokemonCard {
           const attackEffect = new AttackEffect(player, opponent, attack);
           const dealDamageEffect = new DealDamageEffect(attackEffect, 10);
           dealDamageEffect.target = selected[0];
+          // Dark Golbat may be evolving on the Bench; Weakness checks its own type.
+          dealDamageEffect.source = effect.target;
           store.reduceEffect(state, dealDamageEffect);
         }
       );
