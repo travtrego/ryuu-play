@@ -54,7 +54,7 @@ export class Linoone extends PokemonCard {
     if (effect instanceof AttackEffect && effect.attack === this.attacks[0]) {
       const player = effect.player;
 
-      if (player.deck.cards.length === 0) {
+      if (player.discard.cards.length === 0) {
         return state;
       }
 

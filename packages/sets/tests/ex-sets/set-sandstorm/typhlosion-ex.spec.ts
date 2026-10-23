@@ -71,9 +71,7 @@ describe('Typhlosion ex SS', () => {
     expect(player.discard.cards).toEqual([discarded]);
   });
 
-  // BUG: the text says "Discard 1 Energy card", but the prompt only accepts a R Energy (cost [FIRE]), so a non-Fire
-  // Energy card can't be chosen.
-  xit('Should use Split Blast and allow discarding any Energy card', () => {
+  it('Should use Split Blast and allow discarding any Energy card', () => {
     const { prompts } = TestUtils.getAll(sim);
 
     sim.dispatch(new AttackAction(1, 'Split Blast'));

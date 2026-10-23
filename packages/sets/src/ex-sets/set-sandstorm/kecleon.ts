@@ -79,7 +79,10 @@ export class Kecleon extends PokemonCard {
           }
         }
       }
-      effect.cardTypes = energyTypes;
+      // Without basic Energy attached, Kecleon keeps its printed type
+      if (energyTypes.length > 0) {
+        effect.cardTypes = energyTypes;
+      }
       return state;
     }
 

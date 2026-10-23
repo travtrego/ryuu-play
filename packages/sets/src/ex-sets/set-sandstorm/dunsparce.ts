@@ -31,39 +31,38 @@ function* useStrikeAndRun(
   const slots: PokemonSlot[] = player.bench.filter(b => b.pokemons.cards.length === 0);
   const max = Math.min(slots.length, 3);
 
-  if (player.deck.cards.length === 0) {
-    return state;
-  }
+  // The search is skipped with an empty deck, but the optional switch doesn't depend on it
+  if (player.deck.cards.length > 0) {
+    let cards: Card[] = [];
+    yield store.prompt(
+      state,
+      new ChooseCardsPrompt(
+        player.id,
+        GameMessage.CHOOSE_CARD_TO_PUT_ONTO_BENCH,
+        player.deck,
+        { superType: SuperType.POKEMON, stage: Stage.BASIC },
+        { min: 0, max, allowCancel: true }
+      ),
+      selected => {
+        cards = selected || [];
+        next();
+      }
+    );
 
-  let cards: Card[] = [];
-  yield store.prompt(
-    state,
-    new ChooseCardsPrompt(
-      player.id,
-      GameMessage.CHOOSE_CARD_TO_PUT_ONTO_BENCH,
-      player.deck,
-      { superType: SuperType.POKEMON, stage: Stage.BASIC },
-      { min: 0, max, allowCancel: true }
-    ),
-    selected => {
-      cards = selected || [];
-      next();
+    if (cards.length > slots.length) {
+      cards.length = slots.length;
     }
-  );
 
-  if (cards.length > slots.length) {
-    cards.length = slots.length;
+    cards.forEach((card, index) => {
+      player.deck.moveCardTo(card, slots[index].pokemons);
+      slots[index].pokemonPlayedTurn = state.turn;
+    });
+
+    yield store.prompt(state, new ShuffleDeckPrompt(player.id), order => {
+      player.deck.applyOrder(order);
+      next();
+    });
   }
-
-  cards.forEach((card, index) => {
-    player.deck.moveCardTo(card, slots[index].pokemons);
-    slots[index].pokemonPlayedTurn = state.turn;
-  });
-
-  yield store.prompt(state, new ShuffleDeckPrompt(player.id), order => {
-    player.deck.applyOrder(order);
-    next();
-  });
 
   const hasBenched = player.bench.some(b => b.pokemons.cards.length > 0);
   if (!hasBenched) {

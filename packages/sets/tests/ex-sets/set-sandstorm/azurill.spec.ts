@@ -146,9 +146,7 @@ describe('Azurill SS', () => {
     expect(player.deck.cards).toEqual([item]);
   });
 
-  // BUG: with an empty deck Jump Catch throws CANNOT_PLAY_THIS_CARD and the attack is aborted; an attack that
-  // searches an empty deck should still be usable and simply find nothing.
-  xit('Should use Jump Catch with an empty deck (attack still happens and does nothing)', () => {
+  it('Should use Jump Catch with an empty deck (attack still happens and does nothing)', () => {
     const { player, opponent } = TestUtils.getAll(sim);
     player.deck.cards = [];
 

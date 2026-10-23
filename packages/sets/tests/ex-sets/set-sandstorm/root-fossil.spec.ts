@@ -142,9 +142,7 @@ describe('Root Fossil SS', () => {
   });
 
   // Spongy Stone - At any time between turns, remove 1 damage counter from Root Fossil.
-  // BUG: Spongy Stone reacts to BetweenTurnsEffect, which is dispatched once per player, so 2 damage counters are
-  // removed between turns instead of 1.
-  xit('Should remove 1 damage counter between turns', () => {
+  it('Should remove 1 damage counter between turns', () => {
     const { player, opponent } = TestUtils.getAll(sim);
     player.bench[0] = TestUtils.pokemonSlot([fossil], [], [], 30);
 

@@ -81,7 +81,7 @@ export class TyphlosionEx extends PokemonCard {
           player.id,
           GameMessage.CHOOSE_ENERGIES_TO_DISCARD,
           checkProvidedEnergy.energyMap,
-          [CardType.FIRE],
+          [CardType.COLORLESS],
           { allowCancel: false }
         ),
         energy => {

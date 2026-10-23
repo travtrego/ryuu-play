@@ -45,9 +45,7 @@ describe('Shroomish SS', () => {
     expect(opponent.active.damage).toEqual(0);
   });
 
-  // BUG: Growth Spurt checks the discard pile for a G Energy instead of the hand, so with a G Energy only in hand
-  // nothing happens.
-  xit('Should use Growth Spurt with a Grass Energy only in hand', () => {
+  it('Should use Growth Spurt with a Grass Energy only in hand', () => {
     const { player, prompts } = TestUtils.getAll(sim);
     const [grass] = TestUtils.makeEnergies([CardType.GRASS]);
     player.hand.cards = [grass];
@@ -62,9 +60,7 @@ describe('Shroomish SS', () => {
     expect(player.active.energies.cards).toContain(grass);
   });
 
-  // BUG: with a G Energy in the discard pile but none in hand, Growth Spurt opens a mandatory (min 1) attach prompt
-  // over a hand that has no valid card; the attack should just do nothing.
-  xit('Should use Growth Spurt without a Grass Energy in hand', () => {
+  it('Should use Growth Spurt without a Grass Energy in hand', () => {
     const { player, opponent, prompts } = TestUtils.getAll(sim);
     player.hand.cards = TestUtils.makeEnergies([CardType.WATER]);
     player.discard.cards = TestUtils.makeEnergies([CardType.GRASS]);

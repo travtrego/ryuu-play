@@ -109,9 +109,7 @@ describe('Rare Candy SS', () => {
     expect(player.hand.cards).toEqual([trainerCard]);
   });
 
-  // BUG: this Rare Candy's text allows a Stage 1 card ("Stage 1 or Stage 2 card that evolves from that Pokémon"), but
-  // the implementation reuses the Stage 2-only common Rare Candy and refuses to be played with only a Stage 1.
-  xit('Should evolve a Basic Pokémon into a Stage 1', () => {
+  it('Should evolve a Basic Pokémon into a Stage 1', () => {
     const { player, prompts } = TestUtils.getAll(sim);
     const lairon = new Lairon();
     player.hand.cards = [trainerCard, lairon];

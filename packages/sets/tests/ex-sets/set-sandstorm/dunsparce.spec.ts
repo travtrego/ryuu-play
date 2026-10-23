@@ -78,9 +78,7 @@ describe('Dunsparce SS', () => {
     expect(player.bench[0].getPokemonCard()).toBe(basic);
   });
 
-  // BUG: with an empty deck Strike and Run returns early, skipping the optional switch, which doesn't depend on the
-  // search.
-  xit('Should still allow the switch when the deck is empty', () => {
+  it('Should still allow the switch when the deck is empty', () => {
     const { player, opponent, prompts } = TestUtils.getAll(sim);
     const benched = new TestPokemon();
     player.bench[0] = TestUtils.pokemonSlot([benched]);

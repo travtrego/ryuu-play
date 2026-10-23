@@ -67,9 +67,7 @@ describe('Wally\'s Training SS', () => {
     expect(player.deck.cards).toEqual([lairon]);
   });
 
-  // BUG: "This counts as evolving that Pokémon", so a Pokémon put into play this turn can't be evolved, but Wally's
-  // Training doesn't check pokemonPlayedTurn and evolves it anyway.
-  xit('Should not evolve an Active Pokémon that was put into play this turn', () => {
+  it('Should not evolve an Active Pokémon that was put into play this turn', () => {
     const { player, prompts } = TestUtils.getAll(sim);
     const lairon = new Lairon();
     player.deck.cards = [lairon];
