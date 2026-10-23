@@ -68,8 +68,7 @@ describe('Beautifly RS', () => {
   });
 
   // Stun Spore (20) - Flip a coin. If heads, the Defending Pokémon is now Paralyzed.
-  // BUG: Withering Dust's generic AttackEffect branch returns early, so Stun Spore's coin flip never happens.
-  xit('Should use Stun Spore - heads', () => {
+  it('Should use Stun Spore - heads', () => {
     const { opponent } = TestUtils.getAll(sim);
     TestUtils.setFlipResults(sim, [true]);
 
@@ -92,8 +91,7 @@ describe('Beautifly RS', () => {
   });
 
   // Parallel Gain (50) - Remove 1 damage counter from each of your Pokémon, including Beautifly.
-  // BUG: Withering Dust's generic AttackEffect branch returns early, so Parallel Gain never heals.
-  xit('Should use Parallel Gain', () => {
+  it('Should use Parallel Gain', () => {
     const { player, opponent } = TestUtils.getAll(sim);
     player.active.damage = 30;
     player.bench[0] = TestUtils.pokemonSlot([new TestPokemon()], [], [], 20);

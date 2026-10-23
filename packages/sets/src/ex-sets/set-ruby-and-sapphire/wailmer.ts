@@ -1,4 +1,5 @@
 import {
+  AddSpecialConditionsEffect,
   AttackEffect,
   CardType,
   CheckAttackCostEffect,
@@ -7,6 +8,7 @@ import {
   HealTargetEffect,
   PokemonCard,
   RemoveSpecialConditionsEffect,
+  SpecialCondition,
   Stage,
   State,
   StateUtils,
@@ -61,6 +63,10 @@ export class Wailmer extends PokemonCard {
       const healEffect = new HealTargetEffect(effect, 40);
       healEffect.target = player.active;
       store.reduceEffect(state, healEffect);
+
+      const asleepEffect = new AddSpecialConditionsEffect(effect, [SpecialCondition.ASLEEP]);
+      asleepEffect.target = player.active;
+      store.reduceEffect(state, asleepEffect);
 
       return state;
     }

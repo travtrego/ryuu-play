@@ -76,6 +76,9 @@ export class Swellow extends PokemonCard {
       if (!pokemonSlot || pokemonSlot.specialConditions.length > 0) {
         throw new GameError(GameMessage.CANNOT_USE_POWER);
       }
+      if (player.active !== pokemonSlot) {
+        throw new GameError(GameMessage.CANNOT_USE_POWER);
+      }
       const hasBench = opponent.bench.some(b => b.pokemons.cards.length > 0);
       if (hasBench === false) {
         throw new GameError(GameMessage.CANNOT_USE_POWER);

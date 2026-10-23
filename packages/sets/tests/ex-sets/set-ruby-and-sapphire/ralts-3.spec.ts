@@ -38,9 +38,7 @@ describe('Ralts RS 3', () => {
     expect(opponent.active.damage).toEqual(40);
   });
 
-  // BUG: the opponent's Energy count is computed from Ralts' own energy map, so the amounts always match and the
-  // attack always does 40.
-  xit('Should use Link Blast - different amount of Energy', () => {
+  it('Should use Link Blast - different amount of Energy', () => {
     const { opponent } = TestUtils.getAll(sim);
     TestUtils.setDefending(sim, [new TestPokemon()], [CardType.FIRE]);
 

@@ -65,6 +65,11 @@ export class Slaking extends PokemonCard {
       const slakingCardList = StateUtils.findCardList(state, this);
       const slakingPlayer = StateUtils.findOwner(state, slakingCardList);
 
+      // Lazy only affects the opponent's Pokemon
+      if (player === slakingPlayer) {
+        return state;
+      }
+
       // Not active Pokemon
       if (slakingPlayer.active.pokemons !== slakingCardList) {
         return state;
@@ -77,7 +82,7 @@ export class Slaking extends PokemonCard {
 
       // Try to reduce PowerEffect, to check if something is blocking our ability
       try {
-        const powerEffect = new PowerEffect(player, this.powers[0], this);
+        const powerEffect = new PowerEffect(slakingPlayer, this.powers[0], this);
         store.reduceEffect(state, powerEffect);
       } catch {
         return state;

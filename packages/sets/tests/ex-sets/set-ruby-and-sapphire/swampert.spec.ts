@@ -46,8 +46,7 @@ describe('Swampert RS', () => {
 
   // Water Call - Once during your turn (before your attack), you may attach a W Energy card from your hand to your
   // Active Pokémon. This power can't be used if Swampert is affected by a Special Condition.
-  // BUG: the Attach Energy prompt is built from the discard pile instead of the hand.
-  xit('Should use Water Call - prompt shows Water Energy from hand', () => {
+  it('Should use Water Call - prompt shows Water Energy from hand', () => {
     const { player } = TestUtils.getAll(sim);
     player.hand.cards = [new WaterEnergy()];
 
