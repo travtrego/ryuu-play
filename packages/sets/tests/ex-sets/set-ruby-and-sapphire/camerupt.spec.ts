@@ -88,7 +88,7 @@ describe('Camerupt RS', () => {
     expect(player.active.energies.cards.length).toEqual(2);
   });
 
-  // BUG: with fewer than 2 basic Energy attached the code throws NOT_ENOUGH_ENERGY (attack unusable) instead of
+  // OPEN RULES QUESTION: with fewer than 2 basic Energy attached the code throws NOT_ENOUGH_ENERGY (attack unusable) instead of
   // letting the attack resolve and do nothing.
   xit('Should use Fire Spin - fewer than 2 basic Energy, attack does nothing', () => {
     const { player, opponent } = TestUtils.getAll(sim);

@@ -120,7 +120,7 @@ describe('Slaking RS', () => {
     expect(prompt.type).toEqual('Choose cards');
   });
 
-  // BUG: with no basic Energy attached the code throws NOT_ENOUGH_ENERGY (attack unusable) instead of letting the
+  // OPEN RULES QUESTION: with no basic Energy attached the code throws NOT_ENOUGH_ENERGY (attack unusable) instead of letting the
   // attack resolve and do nothing.
   xit('Should use Critical Move - no basic Energy, attack does nothing', () => {
     const { player, opponent } = TestUtils.getAll(sim);
