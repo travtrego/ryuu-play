@@ -31,8 +31,7 @@ describe('Digger TR', () => {
     expect(player.active.damage + TestUtils.getAll(sim).opponent.active.damage).toEqual(10);
   });
 
-  // BUG: the "current player" is toggled after every flip including the tails, so the damage goes to the wrong side
-  xit('Should do 10 damage to your Active Pokémon when you flip tails first', () => {
+  it('Should do 10 damage to your Active Pokémon when you flip tails first', () => {
     const { player, opponent } = TestUtils.getAll(sim);
     TestUtils.setFlipResults(sim, [false]);
 
@@ -42,8 +41,7 @@ describe('Digger TR', () => {
     expect(opponent.active.damage).toEqual(0);
   });
 
-  // BUG: the "current player" is toggled after every flip including the tails, so the damage goes to the wrong side
-  xit('Should do 10 damage to the opponent\'s Active Pokémon on heads, then opponent\'s tails', () => {
+  it('Should do 10 damage to the opponent\'s Active Pokémon on heads, then opponent\'s tails', () => {
     const { player, opponent } = TestUtils.getAll(sim);
     TestUtils.setFlipResults(sim, [true, false]);
 
@@ -53,8 +51,7 @@ describe('Digger TR', () => {
     expect(opponent.active.damage).toEqual(10);
   });
 
-  // BUG: the "current player" is toggled after every flip including the tails, so the damage goes to the wrong side
-  xit('Should keep flipping until tails - heads, heads, tails damages your Active Pokémon', () => {
+  it('Should keep flipping until tails - heads, heads, tails damages your Active Pokémon', () => {
     const { player, opponent } = TestUtils.getAll(sim);
     TestUtils.setFlipResults(sim, [true, true, false]);
 

@@ -123,7 +123,7 @@ export class Slowpoke extends PokemonCard {
 
       // "This attack can't be used if Slowpoke has no damage counters on it."
       if (player.active.damage === 0) {
-        throw new GameError(GameMessage.CANNOT_PLAY_THIS_CARD);
+        throw new GameError(GameMessage.CANNOT_USE_ATTACK);
       }
 
       return store.prompt(state, new CoinFlipPrompt(player.id, GameMessage.COIN_FLIP), result => {

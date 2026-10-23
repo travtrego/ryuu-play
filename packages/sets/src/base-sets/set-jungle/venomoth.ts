@@ -36,7 +36,7 @@ function* useShift(next: Function, store: StoreLike, state: State, self: Venomot
     throw new GameError(GameMessage.CANNOT_USE_POWER);
   }
 
-  if (player.marker.hasMarker(self.SHIFT_MARKER)) {
+  if (player.marker.hasMarker(self.SHIFT_MARKER, self)) {
     throw new GameError(GameMessage.POWER_ALREADY_USED);
   }
 
@@ -78,8 +78,10 @@ function* useShift(next: Function, store: StoreLike, state: State, self: Venomot
       const value = promptOptions[choice].value;
       const message = promptOptions[choice].message;
       store.log(state, GameLog.LOG_PLAYER_CHANGES_TYPE_TO, { name: player.name, message });
-      changeType.removeMarkersByName(self.TYPE_CHANGE_MARKER, player.active);
-      player.active.marker.addMarker(self.TYPE_CHANGE_MARKER + value, self);
+      // Once during your turn; it changes Venomoth's type wherever it is.
+      player.marker.addMarker(self.SHIFT_MARKER, self);
+      changeType.removeMarkersByName(self.TYPE_CHANGE_MARKER, pokemonSlot);
+      pokemonSlot.marker.addMarker(self.TYPE_CHANGE_MARKER + value, self);
     }
   );
 }

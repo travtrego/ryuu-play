@@ -25,6 +25,7 @@ function* useFlamePillar(next: Function, store: StoreLike, state: State, effect:
   const checkProvidedEnergy = new CheckProvidedEnergyEffect(player);
   state = store.reduceEffect(state, checkProvidedEnergy);
 
+  // "You may discard 1 R Energy card attached to Dark Rapidash..."
   let cards: Card[] = [];
   yield store.prompt(
     state,
@@ -33,14 +34,19 @@ function* useFlamePillar(next: Function, store: StoreLike, state: State, effect:
       GameMessage.CHOOSE_ENERGIES_TO_DISCARD,
       checkProvidedEnergy.energyMap,
       [CardType.FIRE],
-      { allowCancel: false }
+      { allowCancel: true }
     ),
     energy => {
       cards = (energy || []).map(e => e.card);
       next();
     }
   );
-  
+
+  // "...If you do and if your opponent has any Benched Pokémon..."
+  if (cards.length === 0) {
+    return state;
+  }
+
   const discardEnergy = new DiscardCardsEffect(effect, cards);
   discardEnergy.target = player.active;
   store.reduceEffect(state, discardEnergy);

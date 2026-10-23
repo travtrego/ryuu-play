@@ -97,9 +97,7 @@ describe('Dark Gyarados TR', () => {
     expect(player.active.damage).toEqual(20);
   });
 
-  // BUG: Final Beam's damage is resolved after Dark Gyarados has left the Active Spot, so Weakness/Resistance are
-  // checked against the wrong (new Active) Pokémon's type and never apply
-  xit('Should use Final Beam and apply Weakness', () => {
+  it('Should use Final Beam and apply Weakness', () => {
     const { player } = TestUtils.getAll(sim);
     const attacker = knockOutGyarados();
     attacker.weakness = [{ type: CardType.WATER }];
@@ -111,9 +109,7 @@ describe('Dark Gyarados TR', () => {
     expect(player.active.damage).toEqual(120);
   });
 
-  // BUG: Final Beam's damage is resolved after Dark Gyarados has left the Active Spot, so Weakness/Resistance are
-  // checked against the wrong (new Active) Pokémon's type and never apply
-  xit('Should use Final Beam and apply Resistance', () => {
+  it('Should use Final Beam and apply Resistance', () => {
     const { player } = TestUtils.getAll(sim);
     const attacker = knockOutGyarados();
     attacker.resistance = [{ type: CardType.WATER, value: -30 }];
@@ -139,9 +135,7 @@ describe('Dark Gyarados TR', () => {
   });
 
   [SpecialCondition.CONFUSED, SpecialCondition.PARALYZED, SpecialCondition.ASLEEP].forEach(condition => {
-    // BUG: Final Beam throws CANNOT_USE_POWER from the Knock Out effect when Dark Gyarados is Asleep, Confused or
-    // Paralyzed, which aborts the whole attack instead of just not using the power
-    xit(`Should still be Knocked Out without Final Beam while ${SpecialCondition[condition]}`, () => {
+    it(`Should still be Knocked Out without Final Beam while ${SpecialCondition[condition]}`, () => {
       const { opponent } = TestUtils.getAll(sim);
       knockOutGyarados();
       opponent.active.addSpecialCondition(condition);

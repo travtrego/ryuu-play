@@ -49,19 +49,32 @@ describe('Dark Primeape TR', () => {
     expect(player.active.specialConditions).toEqual([SpecialCondition.CONFUSED]);
   });
 
-  // BUG: when Dark Primeape hurts itself in confusion, the engine puts damage counters directly and Frenzy does
-  // not add 30 more damage (the code comment acknowledges this)
-  xit('Should use Frenzy - 30 more damage to itself when it hurts itself in confusion', () => {
-    const { player, opponent } = TestUtils.getAll(sim);
+  it('Should use Frenzy - 30 more damage to itself when it hurts itself in confusion', () => {
+    const { player, opponent, prompts } = TestUtils.getAll(sim);
+    player.bench[0] = TestUtils.pokemonSlot([new Mankey()]);
+    player.active.damage = 10;
     player.active.addSpecialCondition(SpecialCondition.CONFUSED);
     TestUtils.setFlipResults(sim, [false]);
 
     sim.dispatch(new AttackAction(1, 'Frenzied Attack'));
 
-    expect(TestUtils.isPlayerTurn(sim, opponent)).toBeTrue();
+    // 10 + the engine's confusion self-damage (30) + Frenzy's 30 = 70 > 60 HP
     expect(opponent.active.damage).toEqual(0);
-    // The engine's confusion self-damage (30) plus Frenzy's 30
-    expect(player.active.damage).toEqual(60);
+    expect(player.discard.cards.some(c => c instanceof DarkPrimeape)).toBeTrue();
+    expect(prompts.some(p => p.type === 'Choose prize' && p.playerId === opponent.id)).toBeTrue();
+  });
+
+  it('Should not add Frenzy damage to itself when Pokémon Powers are blocked', () => {
+    const { player, opponent } = TestUtils.getAll(sim);
+    player.active.damage = 10;
+    player.active.addSpecialCondition(SpecialCondition.CONFUSED);
+    opponent.bench[0] = TestUtils.pokemonSlot([new TestPokemonBlockPowers()]);
+    TestUtils.setFlipResults(sim, [false]);
+
+    sim.dispatch(new AttackAction(1, 'Frenzied Attack'));
+
+    expect(TestUtils.isPlayerTurn(sim, opponent)).toBeTrue();
+    expect(player.active.damage).toEqual(40);
   });
 
   it('Should not use Frenzy when Pokémon Powers are blocked', () => {

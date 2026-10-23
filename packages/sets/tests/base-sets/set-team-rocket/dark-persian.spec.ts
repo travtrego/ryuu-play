@@ -59,8 +59,7 @@ describe('Dark Persian TR', () => {
     expect(opponent.active.getPokemonCard()).toBe(defending);
   });
 
-  // BUG: Fascinate can be used (doing nothing and ending the turn) when the opponent has no Benched Pokémon
-  xit('Should not be able to use Fascinate when the opponent has no Benched Pokémon', () => {
+  it('Should not be able to use Fascinate when the opponent has no Benched Pokémon', () => {
     let message = '';
     try {
       sim.dispatch(new AttackAction(1, 'Fascinate'));

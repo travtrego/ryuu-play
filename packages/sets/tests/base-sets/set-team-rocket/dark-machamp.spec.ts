@@ -60,8 +60,7 @@ describe('Dark Machamp TR', () => {
     expect(TestUtils.getAll(sim).player.getPrizeLeft()).toEqual(6);
   });
 
-  // BUG: Fling can be used (doing nothing and ending the turn) when the opponent has no Benched Pokémon
-  xit('Should not be able to use Fling when the opponent has no Benched Pokémon', () => {
+  it('Should not be able to use Fling when the opponent has no Benched Pokémon', () => {
     let message = '';
     try {
       sim.dispatch(new AttackAction(1, 'Fling'));

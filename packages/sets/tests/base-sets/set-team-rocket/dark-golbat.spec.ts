@@ -70,8 +70,7 @@ describe('Dark Golbat TR', () => {
     expect(opponent.active.damage).toEqual(0);
   });
 
-  // BUG: Weakness is checked against the type of the Active Pokémon instead of Dark Golbat's G type
-  xit('Should apply Weakness to Dark Golbat\'s type when it evolves on the Bench', () => {
+  it('Should apply Weakness to Dark Golbat\'s type when it evolves on the Bench', () => {
     const { player, opponent, prompts } = TestUtils.getAll(sim);
     const waterActive = new TestPokemon();
     waterActive.cardTypes = [CardType.WATER];

@@ -82,9 +82,7 @@ describe('Dark Rapidash TR', () => {
     expect(player.discard.cards).toEqual([f1]);
   });
 
-  // BUG: the R Energy discard is mandatory (allowCancel: false), and without a discard the bench damage still
-  // happens
-  xit('Should use Flame Pillar without discarding - no bench damage', () => {
+  it('Should use Flame Pillar without discarding - no bench damage', () => {
     const { player, opponent, prompts } = TestUtils.getAll(sim);
     opponent.bench[0] = TestUtils.pokemonSlot([new TestPokemon()]);
 

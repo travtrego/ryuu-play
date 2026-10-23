@@ -110,6 +110,9 @@ describe('Spearow JU', () => {
 
   // BUG: Mirror Move only copies damage; the printed card does the "final result" of the attack, including
   // Special Conditions such as Poison.
+  // 2026-10-23: WotC chat answers from 2000-2002, quoted secondhand (pkmncards comments, TCG ONE forum), say Mirror
+  // Move also copies a Special Condition the attack actually applied. Not found in a primary rulings compendium, so
+  // this stays pending for the owner to decide.
   xit('Should use Mirror Move and also copy the Special Condition from the attack', () => {
     const { player, opponent } = TestUtils.getAll(sim);
 

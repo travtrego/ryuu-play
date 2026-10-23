@@ -107,8 +107,7 @@ describe('Venomoth JU', () => {
     expect(message).toEqual(GameMessage.CANNOT_USE_POWER);
   });
 
-  // BUG: Shift never records that it was used (SHIFT_MARKER is checked but never added), so it can be used repeatedly
-  xit('Should use Shift only once per turn', () => {
+  it('Should use Shift only once per turn', () => {
     chooseType(useShift(), GameMessage.TYPE_FIRE);
 
     let message = '';
@@ -121,8 +120,7 @@ describe('Venomoth JU', () => {
     expect(message).toEqual(GameMessage.POWER_ALREADY_USED);
   });
 
-  // BUG: Shift puts the type-change marker on the Active Pokémon instead of on Venomoth
-  xit('Should use Shift from the Bench - the Benched Venomoth changes type, not the Active Pokémon', () => {
+  it('Should use Shift from the Bench - the Benched Venomoth changes type, not the Active Pokémon', () => {
     const { player } = TestUtils.getAll(sim);
     const venomoth = player.active.getPokemonCard() as PokemonCard;
     const active = new TestPokemon();

@@ -87,8 +87,7 @@ describe('Dark Dragonair TR', () => {
     expect(player.hand.cards).toEqual([charmeleon]);
   });
 
-  // BUG: the power-use-once marker is checked but never set, so Evolutionary Light can be used any number of times
-  xit('Should use Evolutionary Light only once per turn', () => {
+  it('Should use Evolutionary Light only once per turn', () => {
     const { player, prompts } = TestUtils.getAll(sim);
     const charmeleon = new Charmeleon();
     player.deck.cards = [charmeleon, new Charmeleon()];
