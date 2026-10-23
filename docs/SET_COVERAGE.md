@@ -12,7 +12,7 @@ the code *dispatches on* the attack/power, not that the effect is correct.
 
 | Cards | Implemented | Vanilla | Complete | Partial | Needs logic | With spec |
 | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| 861 | 802 | 59 | 861 (100%) | 0 | 0 | 345 (40%) |
+| 861 | 802 | 59 | 861 (100%) | 0 | 0 | 541 (62.8%) |
 
 - **Implemented** — needs logic, and every attack/power that needs logic is
   referenced from the class (`attacks[i]` / `powers[i]`); Trainers and Special
@@ -49,8 +49,8 @@ reprints are implemented once.
 | Set (export) | Codes | Present | Official | Impl. | Vanilla | Partial | Needs logic | Specs | Formats |
 | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | --- |
 | `set-firered-and-leafgreen` (`setFireredAndLeafgreen`) | RG | 116 | 116 (112 + 4 secret) — 100% | 113 | 3 | 0 | 0 | 116 | EX Sets |
-| `set-ruby-and-sapphire` (`setRubyAndSapphire`) | RS | 109 | 109 — 100% | 96 | 13 | 0 | 0 | 0 | EX Sets |
-| `set-sandstorm` (`setSandstorm`) | SS | 100 | 100 — 100% | 98 | 2 | 0 | 0 | 0 | EX Sets |
+| `set-ruby-and-sapphire` (`setRubyAndSapphire`) | RS | 109 | 109 — 100% | 96 | 13 | 0 | 0 | 96 | EX Sets |
+| `set-sandstorm` (`setSandstorm`) | SS | 100 | 100 — 100% | 98 | 2 | 0 | 0 | 100 | EX Sets |
 
 ### Standard (curated)
 
