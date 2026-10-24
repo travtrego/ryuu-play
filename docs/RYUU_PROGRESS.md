@@ -4,6 +4,36 @@ Running log of automated work on this fork. Newest entry first.
 
 ---
 
+## 2026-10-23 — 43 card bugs fixed, Ruby & Sapphire / Sandstorm specced
+
+### Delivered (PRs)
+
+- **#13** (from 2026-10-22) Jungle + Team Rocket specs: merged master in, regenerated SET_COVERAGE, merged.
+- **#16** fixed 21 of the 23 pending specs from #13, after checking each printed card.
+  - **Engine:** new `ConfusionDamageEffect`, so cards can change or prevent confusion self-damage.
+  - **Engine:** `DealDamageEffect.source` now reaches `ApplyWeaknessEffect`, so damage from a non-Active Pokémon checks Weakness against the right Pokémon.
+  - **Engine:** new `GameMessage.CANNOT_USE_ATTACK`.
+  - **Cards:** Digger, Challenge!, Dark Gyarados, Dugtrio, Persian, Rapidash, Primeape, Golbat, Dragonair, Machoke, Machamp (TR); Venomoth and Vileplume (JU).
+  - common 350 specs.
+- **#17** specs for Ruby & Sapphire (96 cards) and Sandstorm (100 cards), +886 specs. Cards with a spec: 345 → 541 of 861.
+- **#18** fixed 30 card bugs those specs found.
+  - **Ruby & Sapphire:** Beautifly, Cascoon, Silcoon, Gardevoir, Pelipper, Ralts, Skitty, Slaking, Swampert, Swellow, Wailmer.
+  - **Sandstorm:** Azurill, Baltoy, Cradily, Dunsparce, Kecleon, Linoone, Shroomish, Typhlosion ex, Rare Candy, Wally's Training.
+  - **Rain Dish double heal:** Lotad, Lombre, Ludicolo, Root Fossil.
+- **Tests:** common 350, sets 2499 (7 pending), simple-bot 44, bot-bench 30, server 35, all passing. Bench smoke: 0 rejected actions.
+
+### Open rules questions (pending specs, owner to decide)
+
+- **Mirror Move (Pidgeotto BS, Spearow JU):** WotC chat answers (2000–2002, quoted secondhand) say it also copies a Special Condition the attack actually applied.
+- **Camerupt RS Fire Spin / Slaking RS Critical Move:** without enough basic Energy, is the attack unusable (current behaviour) or does it "do nothing"?
+- **Illumise / Lunatone / Solrock SS:** "if X is in play": should the opponent's X count?
+
+### Process note
+
+This run stopped early: it hit the org's monthly API spend limit while BW / BW2 / BW3 spec agents were starting. Nothing from those agents was kept.
+
+---
+
 ## 2026-10-22 (interactive) — Known card bugs
 
 - **Engine:** when a Pokémon uses a power, every other card now reacts to the `PowerEffect` before the
@@ -182,11 +212,9 @@ Rough priority order. Each item is meant to be a self-contained day's work.
 
 ### Next up
 
-1. **Fix the pending `xit` card bugs** listed in the 2026-10-22 entry (review
-   the Team Rocket ones against the printed cards first).
-2. **Specs for unspecced sets**: Ruby & Sapphire and Sandstorm (0 specs), then
-   the Standard folders. Base, Jungle, Fossil, FRLG are fully specced; Team
-   Rocket mostly.
+1. **Specs for the Standard folders**: BW (45), BW2 (81), BW3 (53) and the
+   rest have ~0 specs; past rounds found a bug in roughly 1 card in 6.
+2. **Owner rulings** on the open rules questions in the 2026-10-23 entry.
 3. **Ditto FO** (only missing base-era card); abort-draw rule; Sableye shuffle.
 4. **Bot quality** now that the benchmark exists: a balanced deck pool first
    (BW decks dominate), then prize-trade / bench-management heuristics measured
