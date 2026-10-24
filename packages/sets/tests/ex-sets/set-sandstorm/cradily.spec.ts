@@ -110,9 +110,7 @@ describe('Cradily SS', () => {
     expect(opponent.active.specialConditions).toEqual([SpecialCondition.POISONED]);
   });
 
-  // BUG: when the opponent has no Benched Pokémon the attack returns early and the Defending Pokémon is not
-  // Poisoned, but the poison part of the text does not depend on the optional switch.
-  xit('Should use Lure Poison when the opponent has no Benched Pokémon', () => {
+  it('Should use Lure Poison when the opponent has no Benched Pokémon', () => {
     const { opponent } = TestUtils.getAll(sim);
 
     sim.dispatch(new AttackAction(1, 'Lure Poison'));

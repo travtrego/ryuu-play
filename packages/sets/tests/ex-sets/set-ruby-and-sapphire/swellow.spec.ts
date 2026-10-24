@@ -96,8 +96,7 @@ describe('Swellow RS', () => {
     expect(useDriveOff()).toEqual(GameMessage.BLOCKED_BY_ABILITY);
   });
 
-  // BUG: Drive Off does not check that Swellow is the Active Pokémon, so it can be used from the Bench.
-  xit('Should use Drive Off - can\'t be used from the Bench', () => {
+  it('Should use Drive Off - can\'t be used from the Bench', () => {
     const { player, opponent } = TestUtils.getAll(sim);
     opponent.bench[0] = TestUtils.pokemonSlot([new TestPokemon()]);
     player.bench[0] = player.active;

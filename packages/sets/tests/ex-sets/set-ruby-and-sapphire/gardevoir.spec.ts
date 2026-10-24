@@ -61,9 +61,7 @@ describe('Gardevoir RS', () => {
     }));
   });
 
-  // BUG: the chosen Energy is moved from the discard pile instead of the deck, so it stays in the deck and only the
-  // 2 damage counters are placed.
-  xit('Should use Psy Shadow - attach Psychic Energy from deck and put 2 damage counters', () => {
+  it('Should use Psy Shadow - attach Psychic Energy from deck and put 2 damage counters', () => {
     const { player } = TestUtils.getAll(sim);
     const psychic = new PsychicEnergy();
     player.deck.cards.push(psychic);

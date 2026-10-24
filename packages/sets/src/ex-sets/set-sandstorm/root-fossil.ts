@@ -75,20 +75,13 @@ export class RootFossil extends TrainerCard implements PokemonCard {
   public reduceEffect(store: StoreLike, state: State, effect: Effect): State {
 
     if (effect instanceof BetweenTurnsEffect) {
+      // BetweenTurnsEffect is dispatched once for each player; only react to the owner's one,
+      // so the damage counter is removed once per between-turns.
       const player = effect.player;
-      const opponent = StateUtils.getOpponent(state, player);
-      let targetPlayer = player;
       let target: PokemonSlot | undefined;
 
       player.forEachPokemon(PlayerType.BOTTOM_PLAYER, (slot, pokemonCard) => {
         if (pokemonCard === this && slot.damage >= 10) {
-          targetPlayer = player;
-          target = slot;
-        }
-      });
-      opponent.forEachPokemon(PlayerType.TOP_PLAYER, (slot, pokemonCard) => {
-        if (pokemonCard === this && slot.damage >= 10) {
-          targetPlayer = opponent;
           target = slot;
         }
       });
@@ -105,7 +98,7 @@ export class RootFossil extends TrainerCard implements PokemonCard {
         return state;
       }
 
-      const healEffect = new HealEffect(targetPlayer, target, 10);
+      const healEffect = new HealEffect(player, target, 10);
       store.reduceEffect(state, healEffect);
       return state;
     }

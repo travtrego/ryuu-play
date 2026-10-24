@@ -57,8 +57,7 @@ describe('Pelipper RS', () => {
     expect(opponent.active.damage).toEqual(30);
   });
 
-  // BUG: Stockpile sets Pelipper's damage to 0, healing it, which the card text does not say.
-  xit('Should use Stockpile - does not remove damage counters from Pelipper', () => {
+  it('Should use Stockpile - does not remove damage counters from Pelipper', () => {
     const { player } = TestUtils.getAll(sim);
     player.active.damage = 30;
 

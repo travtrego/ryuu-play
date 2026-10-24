@@ -51,8 +51,7 @@ describe('Skitty RS 2', () => {
     expect(player.hand.cards).not.toContain(fire);
   });
 
-  // BUG: the prompt only allows the Active Pokémon, but the text says "1 of your Pokémon" (Bench included).
-  xit('Should use Plus Energy - attach to a Benched Pokemon', () => {
+  it('Should use Plus Energy - attach to a Benched Pokemon', () => {
     const { player } = TestUtils.getAll(sim);
     const fire = new FireEnergy();
     player.hand.cards = [fire];

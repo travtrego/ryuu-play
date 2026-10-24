@@ -43,9 +43,7 @@ describe('Linoone SS', () => {
     expect(opponent.active.damage).toEqual(0);
   });
 
-  // BUG: Sniff Out checks the deck instead of the discard pile, so with an empty deck it does nothing even though
-  // there are cards in the discard pile.
-  xit('Should use Sniff Out with an empty deck', () => {
+  it('Should use Sniff Out with an empty deck', () => {
     const { player, prompts } = TestUtils.getAll(sim);
     const card = new TestCard();
     player.deck.cards = [];
@@ -60,9 +58,7 @@ describe('Linoone SS', () => {
     expect(player.discard.cards).toEqual([]);
   });
 
-  // BUG: with an empty discard pile Sniff Out still opens a mandatory (min 1) prompt over an empty discard pile;
-  // the attack should just do nothing.
-  xit('Should use Sniff Out with an empty discard pile', () => {
+  it('Should use Sniff Out with an empty discard pile', () => {
     const { player, opponent, prompts } = TestUtils.getAll(sim);
     player.discard.cards = [];
 

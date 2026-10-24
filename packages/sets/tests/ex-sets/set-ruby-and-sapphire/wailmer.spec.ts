@@ -43,8 +43,7 @@ describe('Wailmer RS', () => {
     expect(player.active.damage).toEqual(0);
   });
 
-  // BUG: Rest never makes Wailmer Asleep.
-  xit('Should use Rest - Wailmer is now Asleep', () => {
+  it('Should use Rest - Wailmer is now Asleep', () => {
     const { player } = TestUtils.getAll(sim);
     // Asleep flip between turns: tails, stays Asleep
     TestUtils.setFlipResults(sim, [false]);

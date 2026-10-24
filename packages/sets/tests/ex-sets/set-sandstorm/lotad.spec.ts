@@ -19,9 +19,7 @@ describe('Lotad SS', () => {
   });
 
   // Rain Dish - At any time between turns, remove 1 damage counter from Lotad.
-  // BUG: Rain Dish reacts to BetweenTurnsEffect, which is dispatched once per player, so 2 damage counters are
-  // removed between turns instead of 1.
-  xit('Should remove 1 damage counter between turns', () => {
+  it('Should remove 1 damage counter between turns', () => {
     const { player, opponent } = TestUtils.getAll(sim);
     player.active.damage = 30;
 
@@ -31,8 +29,7 @@ describe('Lotad SS', () => {
     expect(player.active.damage).toEqual(20);
   });
 
-  // BUG: same double heal as above (BetweenTurnsEffect fires once per player).
-  xit('Should remove 1 damage counter from the opponent\'s Lotad between turns', () => {
+  it('Should remove 1 damage counter from the opponent\'s Lotad between turns', () => {
     const { opponent } = TestUtils.getAll(sim);
     TestUtils.setDefending(sim, [new Lotad()]);
     opponent.active.damage = 30;

@@ -66,7 +66,6 @@ export class Pelipper extends PokemonCard {
       const player = effect.player;
       player.active.marker.addMarker(this.STOCKPILE_1_MARKER, this);
       player.active.marker.addMarker(this.STOCKPILE_2_MARKER, this);
-      player.active.damage = 0;
       return state;
     }
 

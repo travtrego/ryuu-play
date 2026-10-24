@@ -60,7 +60,7 @@ export class Shroomish extends PokemonCard {
     if (effect instanceof AttackEffect && effect.attack === this.attacks[0]) {
       const player = effect.player;
 
-      const hasEnergyInHand = player.discard.cards.some(c => {
+      const hasEnergyInHand = player.hand.cards.some(c => {
         return c instanceof EnergyCard && c.energyType === EnergyType.BASIC && c.provides.includes(CardType.GRASS);
       });
       if (!hasEnergyInHand) {

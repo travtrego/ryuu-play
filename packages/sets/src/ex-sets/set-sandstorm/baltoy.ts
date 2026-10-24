@@ -2,6 +2,7 @@ import {
   AttackEffect,
   CardType,
   ChoosePokemonPrompt,
+  DealDamageEffect,
   Effect,
   GameMessage,
   PlayerType,
@@ -18,6 +19,14 @@ function* useRapidSpin(next: Function, store: StoreLike, state: State, effect: A
   const opponent = StateUtils.getOpponent(state, player);
   const hasPlayerBench = player.bench.some(b => b.pokemons.cards.length > 0);
   const hasOpponentBench = opponent.bench.some(b => b.pokemons.cards.length > 0);
+
+  // Damage is done before the switches, so it goes to the original Defending Pokemon
+  if ((hasOpponentBench || hasPlayerBench) && effect.damage > 0) {
+    const dealDamage = new DealDamageEffect(effect, effect.damage);
+    dealDamage.target = opponent.active;
+    store.reduceEffect(state, dealDamage);
+    effect.damage = 0;
+  }
 
   if (hasOpponentBench) {
     yield store.prompt(

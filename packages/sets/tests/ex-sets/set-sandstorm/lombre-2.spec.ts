@@ -19,9 +19,7 @@ describe('Lombre SS-2', () => {
   });
 
   // Rain Dish - At any time between turns, remove 1 damage counter from Lombre.
-  // BUG: Rain Dish reacts to BetweenTurnsEffect, which is dispatched once per player, so 2 damage counters are
-  // removed between turns instead of 1.
-  xit('Should remove 1 damage counter between turns', () => {
+  it('Should remove 1 damage counter between turns', () => {
     const { player, opponent } = TestUtils.getAll(sim);
     player.active.damage = 30;
 
@@ -31,8 +29,7 @@ describe('Lombre SS-2', () => {
     expect(player.active.damage).toEqual(20);
   });
 
-  // BUG: same double heal as above (BetweenTurnsEffect fires once per player).
-  xit('Should remove 1 damage counter from a Benched Lombre between turns', () => {
+  it('Should remove 1 damage counter from a Benched Lombre between turns', () => {
     const { player } = TestUtils.getAll(sim);
     player.bench[0] = TestUtils.pokemonSlot([new Lombre2()], [], [], 30);
 

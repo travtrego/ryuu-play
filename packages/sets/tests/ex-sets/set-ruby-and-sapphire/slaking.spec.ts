@@ -64,8 +64,7 @@ describe('Slaking RS', () => {
     expect(useEnergyDraw(2, 1)).toEqual('');
   });
 
-  // BUG: Lazy blocks Poké-Powers of Slaking's owner as well; the text only restricts the opponent's Pokémon.
-  xit('Should use Lazy - own Pokemon can use Poke-Powers', () => {
+  it('Should use Lazy - own Pokemon can use Poke-Powers', () => {
     const { player } = TestUtils.getAll(sim);
     player.bench[0] = TestUtils.pokemonSlot([new Delcatty()]);
     player.hand.cards = [new TestEnergy(CardType.WATER)];
@@ -121,7 +120,7 @@ describe('Slaking RS', () => {
     expect(prompt.type).toEqual('Choose cards');
   });
 
-  // BUG: with no basic Energy attached the code throws NOT_ENOUGH_ENERGY (attack unusable) instead of letting the
+  // OPEN RULES QUESTION: with no basic Energy attached the code throws NOT_ENOUGH_ENERGY (attack unusable) instead of letting the
   // attack resolve and do nothing.
   xit('Should use Critical Move - no basic Energy, attack does nothing', () => {
     const { player, opponent } = TestUtils.getAll(sim);

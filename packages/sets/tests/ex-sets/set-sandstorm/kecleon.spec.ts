@@ -46,9 +46,7 @@ describe('Kecleon SS', () => {
     expect(getTypes()).toEqual([CardType.COLORLESS]);
   });
 
-  // BUG: with no basic Energy attached, Energy Variation sets Kecleon's type to an empty list instead of leaving it
-  // as its printed Colorless type.
-  xit('Should stay Colorless without basic Energy attached', () => {
+  it('Should stay Colorless without basic Energy attached', () => {
     const { player } = TestUtils.getAll(sim);
     player.active.energies.cards = [];
 

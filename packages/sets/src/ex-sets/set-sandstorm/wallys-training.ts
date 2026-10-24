@@ -1,5 +1,6 @@
 import {
   Card,
+  CheckPokemonPlayedTurnEffect,
   ChooseCardsPrompt,
   Effect,
   GameError,
@@ -19,6 +20,13 @@ function* playCard(next: Function, store: StoreLike, state: State, effect: Train
   let cards: Card[] = [];
 
   if (player.deck.cards.length === 0 || !pokemonCard) {
+    throw new GameError(GameMessage.CANNOT_PLAY_THIS_CARD);
+  }
+
+  // This counts as evolving, so a Pokemon put into play this turn can't be evolved
+  const playedTurnEffect = new CheckPokemonPlayedTurnEffect(player, player.active);
+  store.reduceEffect(state, playedTurnEffect);
+  if (playedTurnEffect.pokemonPlayedTurn >= state.turn) {
     throw new GameError(GameMessage.CANNOT_PLAY_THIS_CARD);
   }
 

@@ -59,9 +59,7 @@ describe('Baltoy SS', () => {
     expect(player.bench[0].getPokemonCard()).toBe(baltoy);
   });
 
-  // BUG: damage is dealt after the switch, so the new Defending Pokémon takes the 10 damage. Damage is done before
-  // the attack's other effects, so the original Defending Pokémon (now Benched) should have it.
-  xit('Should use Rapid Spin - damage goes to the original Defending Pokémon', () => {
+  it('Should use Rapid Spin - damage goes to the original Defending Pokémon', () => {
     const { player, opponent, prompts } = TestUtils.getAll(sim);
     opponent.bench[0] = TestUtils.pokemonSlot([new TestPokemon()]);
     player.bench[0] = TestUtils.pokemonSlot([new TestPokemon()]);

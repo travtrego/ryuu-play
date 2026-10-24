@@ -76,9 +76,7 @@ describe('Cascoon RS', () => {
     expect(player.active.damage).toEqual(50);
   });
 
-  // BUG: a heads on an attack that does no damage leaves the reduction marker on Cascoon (the end-of-turn cleanup
-  // clears the wrong player's Pokemon), so a later attack is reduced by 30 even when that flip is tails.
-  xit('Should use Hard Cocoon - heads on a non-damaging attack does not carry over', () => {
+  it('Should use Hard Cocoon - heads on a non-damaging attack does not carry over', () => {
     const { player } = TestUtils.getAll(sim);
 
     sim.dispatch(new PassTurnAction(1));

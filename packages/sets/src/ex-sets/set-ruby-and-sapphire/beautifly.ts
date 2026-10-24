@@ -6,6 +6,7 @@ import {
   Effect,
   GameMessage,
   HealTargetEffect,
+  Player,
   PlayerType,
   PokemonCard,
   PokemonSlot,
@@ -65,32 +66,33 @@ export class Beautifly extends PokemonCard {
       const player = effect.player;
       const opponent = StateUtils.getOpponent(state, player);
 
-      let isBeautiflyInPlay = false;
+      let owner: Player | undefined;
       player.forEachPokemon(PlayerType.BOTTOM_PLAYER, (pokemonSlot, card) => {
         if (card === this) {
-          isBeautiflyInPlay = true;
+          owner = player;
         }
       });
       opponent.forEachPokemon(PlayerType.TOP_PLAYER, (pokemonSlot, card) => {
         if (card === this) {
-          isBeautiflyInPlay = true;
+          owner = opponent;
         }
       });
 
-      if (!isBeautiflyInPlay) {
-        return state;
-      }
+      if (owner !== undefined) {
+        // Try to reduce PowerEffect, to check if something is blocking our ability
+        let canUsePower = true;
+        try {
+          const powerEffect = new PowerEffect(owner, this.powers[0], this);
+          store.reduceEffect(state, powerEffect);
+        } catch {
+          canUsePower = false;
+        }
 
-      // Try to reduce PowerEffect, to check if something is blocking our ability
-      try {
-        const powerEffect = new PowerEffect(player, this.powers[0], this);
-        store.reduceEffect(state, powerEffect);
-      } catch {
-        return state;
+        if (canUsePower) {
+          effect.ignoreResistance = true;
+        }
       }
-
-      effect.ignoreResistance = true;
-      return state;
+      // Do not return here: Beautifly's own attacks are handled below.
     }
 
     if (effect instanceof AttackEffect && effect.attack === this.attacks[0]) {
