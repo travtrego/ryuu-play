@@ -78,6 +78,15 @@ export class Solrock extends PokemonCard {
         throw new GameError(GameMessage.CANNOT_USE_POWER);
       }
 
+      // Only Solrock's own Lunatone counts. "if Lunatone is in play" reads as
+      // either side, but that wording is a translation error:
+      //   Q. Solrock's "Solar Eclipse" power says "If Lunatone is in play..."
+      //      Does this count for ANY Lunatone (yours or opponent's) or only
+      //      your own?
+      //   A. No. There was an error in translation that left it vague - a
+      //      player must have both of them in play on their side, to use
+      //      those Poke-Powers.
+      //   (Sep 26, 2003 PUI Rules Team)
       let hasLunatone = false;
       player.forEachPokemon(PlayerType.BOTTOM_PLAYER, (pokemonSlot, pokemonCard) => {
         if (pokemonCard.name === 'Lunatone') {

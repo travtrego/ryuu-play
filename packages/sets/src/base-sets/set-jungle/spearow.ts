@@ -54,7 +54,7 @@ export class Spearow extends PokemonCard {
     const mirrorMove = commonAttacks.mirrorMove(this, store, state, effect);
 
     if (effect instanceof AttackEffect && effect.attack === this.attacks[1]) {
-      return mirrorMove.use(effect);
+      return mirrorMove.use(effect, 'final result');
     }
 
     return state;

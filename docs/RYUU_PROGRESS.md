@@ -4,6 +4,95 @@ Running log of automated work on this fork. Newest entry first.
 
 ---
 
+## 2026-10-24 — Three rules questions settled from primary sources
+
+All three open rules questions from 2026-10-23 were resolved against the
+Pokemon Rulings Compendium rather than secondhand quotes, and the 7 pending
+specs are now active. Sets: 2492 running + 7 pending -> 2502 running, 0 pending.
+
+### 1. Mirror Move copies the Special Condition — card was wrong
+
+Confirmed, with primary sources:
+
+> Q. Can Spearow's Mirror Move poison the opponent if (let's say) the final result of the last attack was
+> 30 damage and poison? **A. Yup! It would do 30 damage and Poison.** (May 4, 2000 WotC Chat, Q28)
+
+> "If the attack also has a special condition, you would do that back as well (like poison)."
+> (Feb 7, 2002 WotC Chat, Q300 & Q302; Feb 14, 2002 WotC Chat, Q12, Q18, Q39)
+
+The "errata" the helper cited was not an errata. The text quoted in its comment
+is the printed wording of the **later Pidgeot reprint** (DP:Secret Wonders
+onwards), a different card, and the 2016 TPCi ruling about not copying effects
+attaches to that card. Neither reprint exists in this package, so only the WotC
+rulings ever applied here.
+
+`mirrorMove` now takes the printed wording — `'final result'` (Pidgeotto BS,
+Spearow JU) or `'damage only'` (the later reprints, unused so far) — so adding
+a reprint later will not change how the originals behave. The two wordings
+genuinely differ; that is the card, not an inconsistency.
+
+### 2. Mirror Move also ignored Bench damage — second bug, same ruling set
+
+> Q. If an opponent's attack damages my benched Pidgeotto, can Pidgeotto then do "Mirror Move" during my
+> next turn and attack for the amount of damage it received while on the bench? **A. Yes.**
+> (May 23, 2002 WotC Chat, Q273)
+
+The helper bailed out unless the damaged Pokemon was Active. Fixed, and the
+end-of-turn marker cleanup now covers the Bench too, so the markers it records
+there cannot leak into a later turn.
+
+Two behaviours checked and deliberately left alone, both already correct:
+Weakness/Resistance is baked into the recorded number (the pipeline is
+`DealDamage -> ApplyWeakness -> PutDamage -> AfterDamage`), and placed damage
+counters correctly do not register, because `PutCountersEffect` never
+dispatches `AfterDamageEffect`.
+
+### 3. Camerupt / Slaking "does nothing" — cards were wrong
+
+> Q. "If tails, that attack does nothing". Does this mean that the attack cannot be made or that the attack
+> can be made but neither damage nor effects can happen?
+> **A. The attack will be made, but damage and effects don't happen.** (Oct 19, 2000 WotC Chat, Q185)
+
+Both threw `NOT_ENOUGH_ENERGY`, making the attack unusable. They were the only
+2 of the 33 cards whose text says "this attack does nothing" to do that; the
+rest already followed the ruling. Now they resolve and do nothing.
+
+"Effects don't happen" covers the drawback, so Slaking is **not** locked out of
+attacking next turn when Critical Move does nothing. Covered by a spec.
+
+### 4. Illumise / Lunatone / Solrock "in play" — cards were already right
+
+> Q. Lunatone's "Lunar Eclipse" power says "If Solrock is in play..." Does this count for ANY Solrock
+> (yours or opponent's) or only your own? **A. No. There was an error in translation that left it vague -
+> a player must have both of them in play on their side, to use those Poke-Powers.**
+> (Sep 26, 2003 PUI Rules Team)
+
+Identical rulings exist for Solrock/Lunatone and Illumise/Volbeat. Own side
+only — the usual "in play means either side" reading does not apply, because
+the wording is an acknowledged translation error. **No behaviour change.** The
+three pending specs asserted the opposite, so they were inverted rather than
+enabled.
+
+One readability trap fixed while here: `Player.forEachPokemon(playerType, ...)`
+only ever iterates **that player's own** Pokemon — the `PlayerType` argument
+just labels the `CardTarget` it builds. Illumise called it on a variable named
+`opponent` that was actually its own controller, which read like a bug and
+would eventually have been "fixed" into one. Renamed, and all three cards now
+carry the ruling in a comment.
+
+### Tests
+
+common 350, sets 2502 (0 pending), simple-bot 44, server 35 — all passing.
+
+### Still open
+
+- The org monthly API spend limit still blocks the next unattended run. Needs
+  an admin to raise it; nothing in this repo can work around it.
+- BW / BW2 / BW3 specs (45 / 81 / 53 cards) remain the next body of work.
+  Worth splitting per set so a mid-run limit costs one set, not all three.
+
+---
+
 ## 2026-10-23 — 43 card bugs fixed, Ruby & Sapphire / Sandstorm specced
 
 ### Delivered (PRs)

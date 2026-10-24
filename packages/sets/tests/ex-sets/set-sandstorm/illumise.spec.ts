@@ -92,16 +92,19 @@ describe('Illumise SS', () => {
     expect(player.active.damage).toEqual(50);
   });
 
-  // OPEN RULES QUESTION: "As long as Volbeat is in play" does not say "your Volbeat"; the code only counts Volbeat
-  // on Illumise's own side. Should the opponent's Volbeat also enable Glowing Screen?
-  xit('Should reduce damage when only the opponent has Volbeat in play', () => {
+  // Only the owner's own Volbeat counts. "As long as Volbeat is in play" reads as either side, but that
+  // wording is a translation error:
+  //   Q. Illumise's "Glowing Screen" power says "As long as Volbeat is in play..." Does this count for ANY Volbeat
+  //      (yours or opponent's) or only your own?
+  //   A. No. There was an error in translation that left it vague - a player must have both of them in play on
+  //      their side, to use those Poke-Powers. (Sep 26, 2003 PUI Rules Team)
+  it('Should not reduce damage when only the opponent has Volbeat in play', () => {
     const { player, opponent } = TestUtils.getAll(sim);
     opponent.bench[0] = TestUtils.pokemonSlot([new Volbeat()]);
 
     opponentAttacks();
 
-    expect(player.active.damage).toEqual(20);
-    expect(opponent).toBeDefined();
+    expect(player.active.damage).toEqual(50);
   });
 
   // Chaotic Noise - Flip a coin. If heads, the Defending Pokémon is now Confused. If tails, the Defending Pokémon is

@@ -95,15 +95,19 @@ describe('Lunatone SS', () => {
     expect(getTypes()).toEqual([CardType.PSYCHIC]);
   });
 
-  // OPEN RULES QUESTION: "if Solrock is in play" does not say "your Solrock"; the code only looks at its owner's
-  // Pokémon. Should the opponent's Solrock also allow Lunar Eclipse?
-  xit('Should use Lunar Eclipse when only the opponent has Solrock in play', () => {
+  // Only the owner's own Solrock counts. "if Solrock is in play" reads as either side, but that
+  // wording is a translation error:
+  //   Q. Lunatone's "Lunar Eclipse" power says "If Solrock is in play..." Does this count for ANY Solrock
+  //      (yours or opponent's) or only your own?
+  //   A. No. There was an error in translation that left it vague - a player must have both of them in play on
+  //      their side, to use those Poke-Powers. (Sep 26, 2003 PUI Rules Team)
+  it('Should not use Lunar Eclipse when only the opponent has Solrock in play', () => {
     const { player, opponent } = TestUtils.getAll(sim);
     player.bench[0] = TestUtils.pokemonSlot([new TestPokemon()]);
     opponent.bench[0] = TestUtils.pokemonSlot([new Solrock()]);
 
-    expect(useLunarEclipse()).toEqual('');
-    expect(getTypes()).toEqual([CardType.DARK]);
+    expect(useLunarEclipse()).toEqual(GameMessage.CANNOT_USE_POWER);
+    expect(getTypes()).toEqual([CardType.PSYCHIC]);
   });
 
   // Cosmic Draw - If your opponent has any Evolved Pokémon in play, draw 3 cards.
