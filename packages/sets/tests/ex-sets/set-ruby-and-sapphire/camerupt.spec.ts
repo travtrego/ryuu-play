@@ -88,9 +88,11 @@ describe('Camerupt RS', () => {
     expect(player.active.energies.cards.length).toEqual(2);
   });
 
-  // OPEN RULES QUESTION: with fewer than 2 basic Energy attached the code throws NOT_ENOUGH_ENERGY (attack unusable) instead of
-  // letting the attack resolve and do nothing.
-  xit('Should use Fire Spin - fewer than 2 basic Energy, attack does nothing', () => {
+  // "or this attack does nothing" - the attack is still usable, it just does nothing:
+  //   Q. "If tails, that attack does nothing". Does this mean that the attack cannot be made or that the attack
+  //      can be made but neither damage nor effects can happen?
+  //   A. The attack will be made, but damage and effects don't happen. (Oct 19, 2000 WotC Chat, Q185)
+  it('Should use Fire Spin - fewer than 2 basic Energy, attack does nothing', () => {
     const { player, opponent } = TestUtils.getAll(sim);
     player.active.energies.cards = [
       ...TestUtils.makeEnergies([CardType.FIRE]),

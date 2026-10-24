@@ -120,9 +120,11 @@ describe('Slaking RS', () => {
     expect(prompt.type).toEqual('Choose cards');
   });
 
-  // OPEN RULES QUESTION: with no basic Energy attached the code throws NOT_ENOUGH_ENERGY (attack unusable) instead of letting the
-  // attack resolve and do nothing.
-  xit('Should use Critical Move - no basic Energy, attack does nothing', () => {
+  // "or this attack does nothing" - the attack is still usable, it just does nothing:
+  //   Q. "If tails, that attack does nothing". Does this mean that the attack cannot be made or that the attack
+  //      can be made but neither damage nor effects can happen?
+  //   A. The attack will be made, but damage and effects don't happen. (Oct 19, 2000 WotC Chat, Q185)
+  it('Should use Critical Move - no basic Energy, attack does nothing', () => {
     const { player, opponent } = TestUtils.getAll(sim);
     player.active.energies.cards = [new RainbowEnergy(), new RainbowEnergy(), new RainbowEnergy(), new RainbowEnergy()];
 
@@ -130,6 +132,25 @@ describe('Slaking RS', () => {
 
     expect(TestUtils.isPlayerTurn(sim, opponent)).toBeTrue();
     expect(opponent.active.damage).toEqual(0);
+    expect(player.active.energies.cards.length).toEqual(4);
   });
 
+  // "effects don't happen" covers the drawback too, so the attack-lock does not apply either
+  it('Should use Critical Move - no basic Energy, Slaking can still attack next turn', () => {
+    const { player, opponent } = TestUtils.getAll(sim);
+    player.active.energies.cards = [new RainbowEnergy(), new RainbowEnergy(), new RainbowEnergy(), new RainbowEnergy()];
+
+    sim.dispatch(new AttackAction(1, 'Critical Move'));
+    sim.dispatch(new PassTurnAction(2));
+
+    // Not locked out: a basic Energy is attached, so this one resolves normally
+    player.active.energies.cards = TestUtils.makeEnergies([
+      CardType.COLORLESS, CardType.COLORLESS, CardType.COLORLESS, CardType.COLORLESS,
+    ]);
+    sim.dispatch(new AttackAction(1, 'Critical Move'));
+
+    const prompt = TestUtils.lastPrompt(sim) as ChooseCardsPrompt;
+    expect(prompt.type).toEqual('Choose cards');
+    expect(opponent).toBeDefined();
+  });
 });

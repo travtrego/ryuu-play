@@ -66,7 +66,7 @@ export class Pidgeotto extends PokemonCard {
 
     // Mirror Move
     if (effect instanceof AttackEffect && effect.attack === this.attacks[1]) {
-      return mirrorMove.use(effect);
+      return mirrorMove.use(effect, 'final result');
     }
 
     return state;

@@ -107,9 +107,20 @@ export class Slaking extends PokemonCard {
     if (effect instanceof AttackEffect && effect.attack === this.attacks[0]) {
       const player = effect.player;
 
-      // No basic energy card attached
+      // "or this attack does nothing" - the attack can still be used, it just
+      // does nothing:
+      //   Q. "If tails, that attack does nothing". Does this mean that the
+      //      attack cannot be made or that the attack can be made but neither
+      //      damage nor effects can happen?
+      //   A. The attack will be made, but damage and effects don't happen.
+      //   (Oct 19, 2000 WotC Chat, Q185)
+      //
+      // "effects don't happen" covers the drawback too, so Slaking is not
+      // locked out of attacking next turn. The markers below are only added
+      // once an Energy has actually been discarded.
       if (!player.active.energies.cards.some(c => c.energyType === EnergyType.BASIC)) {
-        throw new GameError(GameMessage.NOT_ENOUGH_ENERGY);
+        effect.damage = 0;
+        return state;
       }
 
       return store.prompt(

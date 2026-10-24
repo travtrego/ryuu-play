@@ -108,12 +108,11 @@ describe('Spearow JU', () => {
     expect(opponent.active.damage).toEqual(0);
   });
 
-  // BUG: Mirror Move only copies damage; the printed card does the "final result" of the attack, including
-  // Special Conditions such as Poison.
-  // 2026-10-23: WotC chat answers from 2000-2002, quoted secondhand (pkmncards comments, TCG ONE forum), say Mirror
-  // Move also copies a Special Condition the attack actually applied. Not found in a primary rulings compendium, so
-  // this stays pending for the owner to decide.
-  xit('Should use Mirror Move and also copy the Special Condition from the attack', () => {
+  // "do the final result of that attack" copies the Special Condition too:
+  //   Q. Can Spearow's Mirror Move poison the opponent if (let's say) the final result of the last attack was
+  //      30 damage and poison?
+  //   A. Yup! It would do 30 damage and Poison. (May 4, 2000 WotC Chat, Q28)
+  it('Should use Mirror Move and also copy the Special Condition from the attack', () => {
     const { player, opponent } = TestUtils.getAll(sim);
 
     sim.dispatch(new PassTurnAction(1));
@@ -122,6 +121,8 @@ describe('Spearow JU', () => {
 
     sim.dispatch(new AttackAction(1, 'Mirror Move'));
 
+    // 10 mirrored damage + 10 Poison damage between turns
+    expect(opponent.active.damage).toEqual(20);
     expect(opponent.active.specialConditions).toEqual([SpecialCondition.POISONED]);
   });
 });
