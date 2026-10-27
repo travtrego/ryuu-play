@@ -4,6 +4,80 @@ Running log of automated work on this fork. Newest entry first.
 
 ---
 
+## 2026-10-27 (later) — play tests in CI, first recorded bot baseline
+
+### play test suite wired into CI
+
+`packages/play` already had 105 spec files and a headless Karma launcher
+(`ChromeDocker` in `karma.conf.js`); nothing had ever run them. The suite
+passes as-is: **134 specs, ~2s**. One CI step was all that was missing (#23).
+
+The browser has to be named explicitly — the default list in `karma.conf.js`
+is `['Chrome', 'ChromeDocker']` and tries to launch both, and the desktop
+Chrome has no display on a runner:
+
+```bash
+npm run test -w packages/play -- --watch=false --browsers=ChromeDocker
+```
+
+GitHub Actions' preinstalled Chrome is found automatically; no `CHROME_BIN`
+needed there. Locally in a container, point it at a Chromium binary.
+
+**Caveat worth repeating:** 92 of the 105 spec files are Angular CLI
+scaffolding (`expect(component).toBeTruthy()`). This is a smoke net for broken
+DI, templates and module imports, not behaviour coverage.
+`card-text.component.spec.ts` is the exception and the shape the rest should
+grow into.
+
+### First recorded bot benchmark baseline
+
+`packages/bot-bench` was already complete and already in CI (lint, test,
+compile, plus a 21-game seeded smoke run). Earlier entries in this log
+understated it. What was missing was simply a **recorded baseline** to compare
+future AI work against, so here is one.
+
+`node dist/cli.js --games 63 --seed 7`, default bot vs default bot, 168s:
+
+| | |
+| --- | --- |
+| Games completed | 63 / 63 |
+| Errors, stalls, guard aborts, illegal moves | **0** |
+| Rejected bot actions (GameError) | **0** |
+| A vs B (mirror) | 46.0% / 54.0% |
+| Went first | 50.8% |
+| Turns | avg 29.5 (min 1, max 70) |
+| Bot actions | avg 104.8 (min 6, max 198) |
+
+Per deck:
+
+| Deck | Win rate | | Deck | Win rate |
+| --- | ---: | --- | --- | ---: |
+| bw-zekrom | **94.4%** | | bs-water | 50.0% |
+| bw-emboar | 66.7% | | bs-fire | 44.4% |
+| bs-lightning | 55.6% | | bs-fighting | 22.2% |
+| | | | bs-psychic | **16.7%** |
+
+**The engine is solid under this load** — 63 full games, zero failures of any
+kind, and the mirror match at 46/54 is within noise for 63 games.
+
+**The deck pool is not balanced**, and that limits what the harness can
+currently tell us. A spread of 16.7% to 94.4% means a bot-vs-bot result is
+dominated by which deck each side drew, not by decision quality. Until the
+pool is levelled, a change to `simple-bot` would have to be large to show up
+above that noise. Levelling the benchmark decks is the prerequisite for using
+win rate as an AI metric.
+
+One oddity checked and cleared: the 1-turn game (index 10, seed 3020631464) is
+not a bug. A was down to a single Basic, B knocked it out on the first turn,
+A had no Bench to promote from. Correct rules behaviour, just unlucky.
+
+### Tests
+
+common 350, sets 2673, simple-bot 44, server 35, **play 134**, bot-bench
+smoke 21 games — all passing. Lint and compile clean.
+
+---
+
 ## 2026-10-27 — Black & White specced (45 of 45 cards)
 
 First slice of the per-set split agreed on 2026-10-24. BW is the smallest of
