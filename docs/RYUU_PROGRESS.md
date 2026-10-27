@@ -142,7 +142,7 @@ This run stopped early: it hit the org's monthly API spend limit while BW / BW2 
   Resistance, Special Conditions, Trainer types and beginner tips. Every rule stated was checked against what the
   engine enforces (e.g. first player draws on turn 1, Burn = flip/tails 20, Confusion = tails 30 to itself).
   Verified with `ng lint`, `ng build` and headless screenshots at desktop and phone widths.
-- Noticed: the sidebar stays open on phone widths and takes half the screen (pre-existing, whole app).
+- ~~Noticed: the sidebar stays open on phone widths and takes half the screen.~~ Fixed 2026-10-26: below 768 px the sidebar is an overlay menu (closed by default, opened from the RyuuPlay button, closes after choosing a link). Desktop unchanged.
 
 ---
 

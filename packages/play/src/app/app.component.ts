@@ -22,6 +22,8 @@ import { environment } from '../environments/environment';
 export class AppComponent implements OnInit {
 
   public isLoggedIn = false;
+  /** Narrow screens (phones): the sidenav overlays the page instead of taking a column. */
+  public isMobile = AppComponent.isNarrow();
   public loggedUser: UserInfo | undefined;
   private authToken$: Observable<string>;
   private destroyRef = inject(DestroyRef);
@@ -86,8 +88,22 @@ export class AppComponent implements OnInit {
     });
   }
 
+  private static isNarrow(): boolean {
+    return typeof window !== 'undefined' && window.innerWidth < AppComponent.MOBILE_BREAKPOINT;
+  }
+
+  private static readonly MOBILE_BREAKPOINT = 768;
+
+  /** On phones, close the overlay menu after a link is chosen. */
+  public onSidenavClick(sidenav: { close: () => unknown }): void {
+    if (this.isMobile) {
+      sidenav.close();
+    }
+  }
+
   @HostListener('window:resize', ['$event'])
   onResize() {
+    this.isMobile = AppComponent.isNarrow();
     const element = this.elementRef.nativeElement;
     const toolbarHeight = 64;
     const contentHeight = element.offsetHeight - toolbarHeight;
