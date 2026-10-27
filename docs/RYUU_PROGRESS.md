@@ -4,6 +4,57 @@ Running log of automated work on this fork. Newest entry first.
 
 ---
 
+## 2026-10-27 — Black & White specced (45 of 45 cards)
+
+First slice of the per-set split agreed on 2026-10-24. BW is the smallest of
+the three Standard sets, so it went first.
+
+### Delivered
+
+Specs for all 43 BW cards that had none, joining the 2 that already did:
+
+- **Pokemon (14):** Tepig, Piplup, Tynamo NV, Tynamo DEX, Durant, Prinplup,
+  Reshiram, Rayquaza DRV, Rayquaza EX, Terrakion, Pignite, Emboar, Emolga,
+  Empoleon, Shuckle.
+- **Special Energy (3):** Prism, Rainbow, Rescue.
+- **Trainers (25):** Bianca, Cheren, Colress, Computer Search, Crushing
+  Hammer, Dowsing Machine, Energy Retrieval, Enhanced Hammer, Exp Share,
+  Level Ball, Max Potion, PlusPower, Pokegear 3.0, Pokemon Catcher, Pokemon
+  Communication, Professor Juniper, Professor Oak's New Theory, Quick Ball,
+  Rare Candy, Revive, Skyarrow Bridge, Super Rod, Switch, Tool Scrapper,
+  Ultra Ball.
+
+**No card bugs found.** Every spec passes against the code as written, so
+unlike the Ruby & Sapphire / Sandstorm run there is no follow-up fix PR. That
+is a result worth recording, not an absence of work: these cards were already
+correct.
+
+### Tests
+
+sets 2502 -> **2673** (+171), 0 pending. common 350, simple-bot 44, server 35.
+All passing, lint and compile clean.
+
+Card coverage: BW 2/45 -> **45/45**. Repo-wide 541 -> **584 of 861** (62.8% ->
+67.8%).
+
+### Notes for the next run
+
+- **Per-set split works.** Each batch was committed and pushed as it went, so
+  a spend-limit cutoff would have cost one batch, not the set.
+- **BW2 is 81 cards**, close to Ruby & Sapphire (96) and Sandstorm (100),
+  which each took a full run and turned up 30 bugs between them. Expect BW2 to
+  need more than one run, or splitting again; BW3 (53) should fit in one.
+- Engine behaviours worth knowing when writing specs, all learned the hard way
+  here: played Supporters go to `player.supporter`, not the discard pile; a
+  Knock Out leaves both a promotion prompt and the opponent's prize prompt
+  pending; promoting a Benched Pokemon swaps the slot objects, so hold a
+  reference to the slot rather than indexing `bench[0]` afterwards;
+  `energyPlayedTurn` and `stadiumUsedTurn` both default to 0 and collide with
+  turn 0, so set them to -1 to test the card rather than the once-per-turn
+  guard.
+
+---
+
 ## 2026-10-24 — Three rules questions settled from primary sources
 
 All three open rules questions from 2026-10-23 were resolved against the

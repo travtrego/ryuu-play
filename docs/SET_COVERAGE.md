@@ -12,7 +12,7 @@ the code *dispatches on* the attack/power, not that the effect is correct.
 
 | Cards | Implemented | Vanilla | Complete | Partial | Needs logic | With spec |
 | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| 861 | 802 | 59 | 861 (100%) | 0 | 0 | 541 (62.8%) |
+| 861 | 802 | 59 | 861 (100%) | 0 | 0 | 584 (67.8%) |
 
 - **Implemented** — needs logic, and every attack/power that needs logic is
   referenced from the class (`attacks[i]` / `powers[i]`); Trainers and Special
@@ -56,7 +56,7 @@ reprints are implemented once.
 
 | Set (export) | Codes | Present | Official | Impl. | Vanilla | Partial | Needs logic | Specs | Formats |
 | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | --- |
-| `set-black-and-white` (`setBlackAndWhite`) | BW | 45 |  | 44 | 1 | 0 | 0 | 2 | Standard |
+| `set-black-and-white` (`setBlackAndWhite`) | BW | 45 |  | 44 | 1 | 0 | 0 | 45 | Standard |
 | `set-black-and-white-2` (`setBlackAndWhite2`) | BW2 | 81 |  | 78 | 3 | 0 | 0 | 2 | Standard |
 | `set-black-and-white-3` (`setBlackAndWhite3`) | BW3 | 53 |  | 53 | 0 | 0 | 0 | 0 | Standard |
 | `set-black-and-white-4` (`setBlackAndWhite4`) | BW4 | 18 |  | 17 | 1 | 0 | 0 | 0 | Standard |
