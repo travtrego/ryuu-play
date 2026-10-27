@@ -86,7 +86,7 @@ jobs:
         run: npm run bench:smoke -w packages/bot-bench
 
   play:
-    name: lint / build (play)
+    name: lint / test / build (play)
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
@@ -113,5 +113,10 @@ jobs:
 
       - name: play - lint
         run: npm run lint -w packages/play
+      # ChromeDocker is the headless launcher in packages/play/karma.conf.js.
+      # The default browser list also includes a desktop Chrome, which has no
+      # display on a runner, so the browser is named explicitly here.
+      - name: play - test
+        run: npm run test -w packages/play -- --watch=false --browsers=ChromeDocker
       - name: play - build
         run: npm run build -w packages/play
