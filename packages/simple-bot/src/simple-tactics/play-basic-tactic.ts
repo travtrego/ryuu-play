@@ -19,4 +19,17 @@ export class PlayBasicTactic extends SimpleTactic {
     }
   }
 
+  public explain(state: State, player: Player, action: Action): string {
+    if (!(action instanceof PlayCardAction)) {
+      return super.explain(state, player, action);
+    }
+    const card = player.hand.cards[action.handIndex];
+    const name = card ? card.name : 'a Basic Pokémon';
+    const benched = player.bench.filter(b => b.pokemons.cards.length > 0).length;
+    const why = benched === 0
+      ? ' With an empty Bench, a Knock Out on the Active Pokémon would lose the game.'
+      : ' Benched Pokémon can evolve later or be sent out when the Active Pokémon is Knocked Out.';
+    return `Put ${name} on the Bench. The bot plays a Basic Pokémon whenever there is room on its Bench.${why}`;
+  }
+
 }

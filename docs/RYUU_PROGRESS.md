@@ -4,6 +4,85 @@ Running log of automated work on this fork. Newest entry first.
 
 ---
 
+## 2026-10-28 — Learn mode, part 1: the bot explains its moves (bot side)
+
+First step of the "learn against the bot" work. `simple-bot` now produces a
+short plain-language reason for every turn action it takes. Nothing reaches
+the web client yet; that is the next run.
+
+### How it works
+
+- `SimpleTactic.explain(state, player, action)` returns the reason for an
+  action the tactic just chose, from the same state it looked at. The
+  default (used by trainers, supporters, stadiums, tools and abilities, which
+  all pick "whatever scores best in a simulation") names the action and lists
+  what the bot's own simulation predicts will change: cards drawn or
+  searched, damage, Knock Outs, Prize cards, healing, Energy attached or
+  removed, switching, Special Conditions, new Bench Pokémon.
+- Tactics with a specific rule override it so the reason matches that rule:
+  **attach Energy** (which attack it unlocks this turn / later, or how much
+  more Energy the attack still needs, or retreat), **evolve** (HP and damage
+  gain; the bot always evolves when it can), **play Basic** (the bot always
+  fills empty Bench spots), **retreat** (Special Condition, the new Active can
+  attack and the old one can't, heavy damage, Energy discarded) and **attack**
+  (simulated damage / Knock Out / Prizes; flags attacks that depend on coin
+  flips, because the bot's simulator assumes heads).
+- Passing the turn is explained too (Paralyzed, Asleep, no attacks, not
+  enough Energy, or no attack scored better than passing).
+- `SimpleTacticsAi.getLastDecision()` returns `{ action, tactic, reason }`;
+  `explainLastAction()` returns just the text and is declared as an optional
+  method on `BotAi` in `@ptcg/common`, so the server can read it from any bot.
+- Explaining never changes what the bot does and never throws (errors give an
+  empty reason). The 21-game bot-bench smoke run is **identical** to master
+  (same seeds, same results, same action counts); the extra simulation per
+  action did not measurably change the run time (~55 s either way).
+
+Sample reasons from real bot-vs-bot games (bs-fire, bw-zekrom, bw-emboar,
+bs-psychic):
+
+- Attached Lightning Energy to Zekrom so it can use Bolt Strike this turn.
+- Attached Fire Energy to Ponyta to get closer to Smash Kick (it still needs
+  1 more Energy).
+- Evolved Tepig into Pignite (HP goes from 60 to 100 and its strongest attack
+  goes from 20 to 50 damage).
+- Played Professor Juniper: it gets 7 cards from its deck.
+- Played Pokemon Catcher: it brings Kadabra out as the opponent's Active
+  Pokémon.
+- Used Eelektrik's Dynamotor: it attaches 1 Energy to Zekrom.
+- Retreated Gastly for Drowzee: Drowzee has the Energy to use Confuse Ray, and
+  Gastly cannot attack yet.
+- Attacked with Zekrom's Outrage: it Knocks Out Charmander and takes 1 Prize
+  card.
+- Ended the turn without attacking: Reshiram does not have enough Energy for
+  any attack yet.
+
+### Not covered yet
+
+- Prompt answers (which Pokémon to target, which cards to search for, which
+  Energy to discard) have no reason yet. They are decided by the prompt
+  resolvers, which would need the same treatment.
+- Some reasons are generic when the simulation shows no visible change
+  ("the result scored better than not doing it").
+- Text is English only; the web client uses translation keys for log
+  messages, so the UI step must decide whether reasons are shown as plain
+  text or translated.
+
+### Next run (UI)
+
+Server: in `BotGameHandler.onStateChange`, after `decodeNextAction`, read
+`ai.explainLastAction?.()` and deliver it to the human player (a new game log
+type or a side channel). Play: show it as a "Why?" note next to the bot's log
+entries or in a small panel at the table; verify with ng lint, ng build and a
+headless browser check.
+
+### Tests
+
+simple-bot **62 specs** (+18: reasons for each tactic and for passing, plus the
+change-description helpers), common 350, server 35, bot-bench 30 + smoke 21
+games — all passing. Lint and compile clean.
+
+---
+
 ## 2026-10-27 (later) — play tests in CI, first recorded bot baseline
 
 ### play test suite wired into CI
