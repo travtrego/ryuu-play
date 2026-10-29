@@ -1,6 +1,14 @@
 <div class="ptcg-game-logs-header">
   <h4 class="ptcg-game-logs-header-text" translate>TABLE_LOGS</h4>
   <span class="ptcg-u-spacer"></span>
+  <mat-icon *ngIf="hasReasons"
+    class="ptcg-game-logs-reasons-toggle"
+    [class.ptcg-game-logs-reasons-off]="!showReasons"
+    (click)="toggleReasons()"
+    [matTooltip]="(showReasons ? 'GAME_LOGS_HIDE_REASONS' : 'GAME_LOGS_SHOW_REASONS') | translate"
+    matTooltipShowDelay="500">
+    lightbulb_outline
+  </mat-icon>
   <mat-icon (click)="clearLogs()"
     matTooltip="Clear logs"
     matTooltipShowDelay="1000">
@@ -9,10 +17,19 @@
 </div>
 
 <div class="ptcg-game-logs-content">
-  <ul>
-    <li *ngFor="let log of logs; trackBy: trackByFn">
-      <span [class]="log.className">{{log.name}}</span>
-      {{ 'GAME_LOGS.' + log.message | translate: log.params }}
+  <ul [class.ptcg-game-logs-hide-reasons]="!showReasons">
+    <li *ngFor="let log of logs; trackBy: trackByFn"
+      [class.ptcg-game-logs-reason]="log.isReason">
+      <ng-container *ngIf="log.isReason; else plainLog">
+        <span class="ptcg-game-logs-reason-label" [ngClass]="log.className">
+          <mat-icon class="ptcg-game-logs-reason-icon">lightbulb_outline</mat-icon>{{ 'GAME_LOGS_WHY' | translate }}
+        </span>
+        {{ 'GAME_LOGS.' + log.message | translate: log.params }}
+      </ng-container>
+      <ng-template #plainLog>
+        <span [class]="log.className">{{log.name}}</span>
+        {{ 'GAME_LOGS.' + log.message | translate: log.params }}
+      </ng-template>
     </li>
   </ul>
 </div>

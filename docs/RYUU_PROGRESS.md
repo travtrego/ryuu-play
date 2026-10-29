@@ -4,6 +4,54 @@ Running log of automated work on this fork. Newest entry first.
 
 ---
 
+## 2026-10-29 — Learn mode, part 2: "Why?" notes at the table
+
+The bot's reasons from part 1 now reach the human player. After every bot
+move that has a reason, the game log shows an indented, italic note with a
+lightbulb and **Why?**, directly under the log line for that move, e.g.
+
+> Bot attaches Fire Energy to Charmander.
+> 💡 Why? Attached Fire Energy to Charmander so it can use Ember this turn.
+
+### How it works
+
+- `@ptcg/common`: new game log type `LOG_BOT_REASON` (`{ text }`).
+- `server`: `BotGameHandler` reads `ai.explainLastAction?.()` right after
+  `decodeNextAction`, dispatches the action, and only if the game accepted it
+  appends a `LOG_BOT_REASON` entry from the bot's client id. Empty reasons,
+  bots without the hook, and errors while explaining are all ignored, so the
+  bot plays exactly as before. Prompt answers still have no reason (as in
+  part 1), so no note is logged for them.
+- `play`: `GameLogsComponent` renders `LOG_BOT_REASON` entries as "Why?"
+  notes. A lightbulb toggle appears in the Messages header once a reason has
+  been logged; it hides/shows the notes and the choice is remembered in the
+  browser (localStorage, guarded). The log keeps 100 entries instead of 50
+  because the notes add about one entry per bot move.
+- Reasons are part of the game state's log, so they also appear in saved
+  replays. Text is English (it comes from the bot); only the "Why?" label and
+  tooltips are translation keys.
+
+### Tests
+
+- server: 35 → **40 specs** (new `bot-game-handler.spec.ts`: reason logged
+  after the action with the bot's id; blank reason, throwing explainer, bot
+  without the hook, rejected action → no note).
+- play: 134 → **137 specs** (note rendering, toggle, no toggle without
+  reasons); `ng lint` clean; `ng build` ok (8.76 MB initial).
+- common 350, sets 2673, simple-bot 62, bot-bench 30 — unchanged, all green.
+
+### Not verified
+
+- No live end-to-end game: the server needs MySQL, which this environment
+  does not run. The UI was checked in headless Chrome through the Karma
+  component specs, not in a full game against the bot.
+
+### Next
+
+- Prompt answers (targets, searched cards, discards) still have no reason.
+- Learn-mode polish: guided first game with fixed beginner decks and tips;
+  links from game situations to /rules.
+
 ## 2026-10-28 — Learn mode, part 1: the bot explains its moves (bot side)
 
 First step of the "learn against the bot" work. `simple-bot` now produces a

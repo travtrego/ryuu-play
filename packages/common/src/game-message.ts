@@ -119,6 +119,7 @@ export enum GameCardMessage {
 
 export enum GameLog {
   LOG_BANNED_BY_ARBITER = 'LOG_BANNED_BY_ARBITER', // { name }
+  LOG_BOT_REASON = 'LOG_BOT_REASON', // { text } learn mode: why the bot made its last move
   LOG_FLIP_ASLEEP = 'LOG_FLIP_ASLEEP', // { name }
   LOG_FLIP_CONFUSION = 'LOG_FLIP_CONFUSION', // { name }
   LOG_GAME_FINISHED = 'LOG_GAME_FINISHED',
