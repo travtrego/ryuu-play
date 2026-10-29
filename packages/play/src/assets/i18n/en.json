@@ -258,6 +258,9 @@
   "TABLE_ERROR_LOADING": "Error while loading the content.",
   "TABLE_HAND_COUNT": "Hand: {{count}}",
   "TABLE_LOGS": "Messages",
+  "GAME_LOGS_WHY": "Why?",
+  "GAME_LOGS_SHOW_REASONS": "Show why the bot made each move",
+  "GAME_LOGS_HIDE_REASONS": "Hide the bot's explanations",
   "TABLE_MORE_ENERGY": "{{count}} more energy",
   "TABLE_NO_PLAYER": "No player",
   "TABLE_PLAY": "Play",
@@ -398,6 +401,7 @@
   },
   "GAME_LOGS": {
     "LOG_BANNED_BY_ARBITER": "{{name}} made an invalid move multiple times and was banned by the arbiter.",
+    "LOG_BOT_REASON": "{{text}}",
     "LOG_FLIP_ASLEEP": "{{name}} flips for the asleep.",
     "LOG_FLIP_CONFUSION": "{{name}} flips for the confusion.",
     "LOG_GAME_FINISHED": "Game finished.",
