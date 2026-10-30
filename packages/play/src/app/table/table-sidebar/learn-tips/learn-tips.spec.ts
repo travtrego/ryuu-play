@@ -164,6 +164,25 @@ describe('getLearnTips (learn mode)', () => {
     expect(ids()).toEqual(['opponent-turn']);
   });
 
+  it('does not claim it is the opponent\'s turn while the player is attacking', () => {
+    // ATTACK and BETWEEN_TURNS are still the player's turn, and an attack can be
+    // prompting them to choose a target.
+    state.phase = GamePhase.ATTACK;
+    expect(ids()).not.toContain('opponent-turn');
+
+    state.phase = GamePhase.BETWEEN_TURNS;
+    expect(ids()).not.toContain('opponent-turn');
+
+    // Conditions are still worth showing there
+    me.active.specialConditions = [SpecialCondition.POISONED];
+    expect(ids()).toEqual(['conditions']);
+
+    // It is the opponent's turn only when they are the active player
+    state.activePlayer = 1;
+    state.phase = GamePhase.PLAYER_TURN;
+    expect(ids()).toContain('opponent-turn');
+  });
+
   it('links every tip to a section that exists on the rules page', () => {
     const sections = RULES_SECTIONS.map(s => s.id);
     me.bench = [];

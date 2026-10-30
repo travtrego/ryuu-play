@@ -187,14 +187,17 @@ export function getLearnTips(state: State | undefined, clientId: number): LearnT
       attackLastTip()
     ];
   } else {
-    tips = [
-      ...conditionTips(player),
-      {
+    // Still the player's turn during ATTACK and BETWEEN_TURNS, when an attack can
+    // be prompting them to choose a target or discard. Saying it is the opponent's
+    // turn there would be wrong exactly when they are being asked to act.
+    tips = [...conditionTips(player)];
+    if (!myTurn) {
+      tips.push({
         id: 'opponent-turn',
         text: 'It\'s your opponent\'s turn. Follow it in the game log below.',
         section: 'turn'
-      }
-    ];
+      });
+    }
   }
   return tips.slice(0, MAX_LEARN_TIPS);
 }
