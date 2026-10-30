@@ -9,19 +9,71 @@ Running log of automated work on this fork. Newest entry first.
 Rewrite this block each run. It is what a self-directing run should read first;
 the entries below are the record of what happened, not what to do.
 
-1. **UI behaviour specs for learn mode.** #25 and #26 shipped the bot's "Why?"
-   notes to the table, and `packages/play`'s 105 spec files are 92 Angular CLI
-   scaffolds that assert nothing beyond "the component constructs". The newest
-   user-facing surface has the least coverage. Scope it to the learn-mode
-   rendering and plumbing, not a crusade across every component.
-2. **Cards: BW2 (79 left) and BW3 (53 left).** Good fallback work, lower value
-   than it was: BW found 0 bugs across 45 cards, where Ruby & Sapphire and
-   Sandstorm found 30 across 196. This is confirming correctness now, not
-   discovering bugs. Worth doing, not worth displacing the item above.
-3. Nothing is blocked on a person right now.
+1. **Guided first game.** Fixed beginner decks (one per side, simple Basic +
+   Stage 1 lines, no complex Trainers) and a "Start a guided game" entry point
+   that creates the bot game with them. The table tips (2026-10-30, later) are
+   the in-game half of this; the missing half is choosing the decks for the
+   player. Check first how bot games are created (server bot manager, play
+   `games` page) and whether the client can supply the decks.
+2. **Prompt answers still have no "Why?"** (targets, searched cards, discards).
+3. **Cards: BW2 (79 left) and BW3 (53 left).** Fallback work; confirming
+   correctness more than finding bugs now.
+4. Hosting (docs/HOSTING.md) waits on an owner decision; nothing else is
+   blocked on a person.
 
-Done and no longer blocking: benchmark win rates are now measurable per era
-(2026-10-30, below).
+Done and no longer blocking: learn-mode UI now has behaviour specs (game log
+notes, tips panel, rules deep links).
+
+---
+
+## 2026-10-30 (later) — Learn mode: situation tips at the table, linked to /rules
+
+A **Tips** panel now sits above the game log while you play. It shows at most
+two short tips about your situation, each with a **Learn more** link that opens
+the matching section of the "How to play" page in a new tab (the game stays on
+screen). Examples:
+
+> Your Charmander is Poisoned: it takes 10 damage between turns. Retreating or
+> evolving it cures it. *Learn more*
+>
+> You haven't attached an Energy this turn. You can attach one Energy card from
+> your hand, like Fire Energy, to one of your Pokémon. *Learn more*
+
+### How it works
+
+- `play/.../table-sidebar/learn-tips/learn-tips.ts`: `getLearnTips(state, clientId)`,
+  a pure function over what the player can already see (own hand and board).
+  Most relevant first: Special Conditions on your Active → empty Bench with a
+  Basic in hand → an evolution in hand → Energy not yet attached this turn →
+  Trainers in hand → "attack last". The setup phase gets the setup tip; the
+  opponent's turn gets "follow it in the log". Spectators, replays, deleted and
+  finished games get none.
+- Tips restate rules the engine enforces rather than recommend plays: the
+  evolve tip uses the engine's own check (`pokemonPlayedTurn < turn`) and says
+  "not this turn" otherwise; the Energy tip uses `energyPlayedTurn`; the
+  condition tip does not suggest retreating an Asleep/Paralyzed Pokémon. Text
+  is English, like the bot's notes; only the labels are translation keys.
+- `LearnTipsComponent` renders them; a collapse toggle is remembered in
+  localStorage (guarded).
+- Rules page: `RULES_SECTIONS` exported; `/rules#<section>` now scrolls to
+  that section on load (unknown fragments are ignored).
+
+### Tests
+
+- play: 137 → **158 specs** (14 for `getLearnTips`, including one asserting
+  every tip links to a section that exists on the rules page; 4 component
+  specs: rendering, `/rules#setup` link with `target=_blank`, no tips in
+  replays/deleted games, toggle; 3 rules-page specs: every anchor exists,
+  fragment scrolls, unknown fragment ignored).
+- `ng lint` clean; `ng build` ok (8.78 MB initial).
+- Headless Chromium against the built app: `/rules#conditions` lands on the
+  Special Conditions section with no page errors.
+- Other packages untouched.
+
+### Not verified
+
+- The panel inside a live game: the server needs MySQL, which this environment
+  does not run. Covered by the Karma component specs in headless Chrome only.
 
 ---
 
