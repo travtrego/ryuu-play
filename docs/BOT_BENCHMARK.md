@@ -146,6 +146,37 @@ The BW decks use Base Set basic energy. The `Standard` format in `init.js` has
 no basic energy cards, so these two decks are only legal under unlimited
 rules, which the harness uses.
 
+### Eras: use `--era` when measuring the bot
+
+Each deck carries an `era` (`bs` or `bw`), and `--era bs` / `--era bw`
+restricts the pool to one of them.
+
+**Win rates are only meaningful within an era.** Twelve years of power creep
+separate the two pools: a BW list has Professor Juniper (draw 7), Pokémon
+Catcher and a 120-damage attacker, against a Base Set list whose best draw
+card is Bill (draw 2). The BW deck wins on card power whichever bot is driving
+it, so a cross-era table measures the decks, not the player.
+
+Measured over 60 games per pool, default bot on both sides:
+
+| pool | spread | detail |
+| --- | --- | --- |
+| `--era bs` (5 decks) | **12.5 points** | 41.7% – 54.2% |
+| `--era bw` (2 decks) | **13.4 points** | 43.3% – 56.7% |
+| all 7 decks (cross-era) | **77.7 points** | 16.7% – 94.4% |
+
+Both eras are individually well balanced. Every bit of the cross-era spread
+comes from mixing them. `bs-psychic` reads 16.7% in the mixed pool and 41.7%
+among its own era; `bs-fighting` reads 22.2% and 54.2%.
+
+So:
+
+- **Measuring bot strength, or comparing two bot variants: pass `--era`.**
+  A change in decision quality cannot be seen through a 78-point deck spread.
+- **Looking for crashes, stalls and illegal moves: leave the pool alone.** The
+  default cross-era pool exercises more card interactions per game, which is
+  what the CI smoke run wants. It just should not be read as a win rate.
+
 ## Scheduling
 
 With P unordered deck pairs (21 for 7 decks):

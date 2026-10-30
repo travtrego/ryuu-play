@@ -12,8 +12,16 @@
 export interface BenchDeck {
   name: string;
   description: string;
+  /**
+   * Which card pool the deck is built from. Decks only give a meaningful win
+   * rate against decks of the same era: a Black & White list beats a Base Set
+   * list on card power alone, whichever bot is driving it. See `decksForEra`.
+   */
+  era: BenchEra;
   cards: string[];
 }
+
+export type BenchEra = 'bs' | 'bw';
 
 type DeckList = Array<[string, number]>;
 
@@ -27,13 +35,13 @@ function expand(list: DeckList): string[] {
   return cards;
 }
 
-function deck(name: string, description: string, list: DeckList): BenchDeck {
-  return { name, description, cards: expand(list) };
+function deck(name: string, description: string, era: BenchEra, list: DeckList): BenchDeck {
+  return { name, description, era, cards: expand(list) };
 }
 
 export const benchDecks: BenchDeck[] = [
 
-  deck('bs-fire', 'Base Set: Charizard / Arcanine / Ninetales', [
+  deck('bs-fire', 'Base Set: Charizard / Arcanine / Ninetales', 'bs', [
     ['Charmander BS', 4],
     ['Charmeleon BS', 2],
     ['Charizard BS', 1],
@@ -55,7 +63,7 @@ export const benchDecks: BenchDeck[] = [
     ['Double Colorless Energy BS', 2]
   ]),
 
-  deck('bs-water', 'Base Set: Blastoise / Poliwrath / Starmie / Dewgong', [
+  deck('bs-water', 'Base Set: Blastoise / Poliwrath / Starmie / Dewgong', 'bs', [
     ['Squirtle BS', 4],
     ['Wartortle BS', 2],
     ['Blastoise BS', 1],
@@ -77,7 +85,7 @@ export const benchDecks: BenchDeck[] = [
     ['Double Colorless Energy BS', 2]
   ]),
 
-  deck('bs-lightning', 'Base Set: Raichu / Magneton / Electrode / Zapdos', [
+  deck('bs-lightning', 'Base Set: Raichu / Magneton / Electrode / Zapdos', 'bs', [
     ['Pikachu BS', 4],
     ['Raichu BS', 2],
     ['Magnemite BS', 3],
@@ -97,7 +105,7 @@ export const benchDecks: BenchDeck[] = [
     ['Double Colorless Energy BS', 2]
   ]),
 
-  deck('bs-fighting', 'Base Set: Machamp / Dugtrio / Onix / Hitmonchan', [
+  deck('bs-fighting', 'Base Set: Machamp / Dugtrio / Onix / Hitmonchan', 'bs', [
     ['Machop BS', 4],
     ['Machoke BS', 3],
     ['Machamp BS', 1],
@@ -116,7 +124,7 @@ export const benchDecks: BenchDeck[] = [
     ['Fighting Energy BS', 25]
   ]),
 
-  deck('bs-psychic', 'Base Set: Alakazam / Haunter / Mewtwo / Jynx', [
+  deck('bs-psychic', 'Base Set: Alakazam / Haunter / Mewtwo / Jynx', 'bs', [
     ['Abra BS', 4],
     ['Kadabra BS', 3],
     ['Alakazam BS', 2],
@@ -137,7 +145,7 @@ export const benchDecks: BenchDeck[] = [
     ['Double Colorless Energy BS', 2]
   ]),
 
-  deck('bw-emboar', 'Black & White era: Emboar / Reshiram (BS energy)', [
+  deck('bw-emboar', 'Black & White era: Emboar / Reshiram (BS energy)', 'bw', [
     ['Tepig BW', 4],
     ['Pignite BW', 3],
     ['Emboar LTR', 3],
@@ -155,7 +163,7 @@ export const benchDecks: BenchDeck[] = [
     ['Fire Energy BS', 26]
   ]),
 
-  deck('bw-zekrom', 'Black & White era: Eelektrik / Zekrom (BS energy)', [
+  deck('bw-zekrom', 'Black & White era: Eelektrik / Zekrom (BS energy)', 'bw', [
     ['Tynamo NV', 4],
     ['Eelektrik NV', 3],
     ['Zekrom BW', 3],
@@ -175,6 +183,17 @@ export const benchDecks: BenchDeck[] = [
   ])
 
 ];
+
+/**
+ * The decks of one era. A round robin restricted to a single era is what makes
+ * the win-rate table a measure of the bot rather than of power creep: within
+ * an era the decks sit inside a ~13 point spread, across eras they span ~78.
+ */
+export function decksForEra(era: BenchEra): BenchDeck[] {
+  return benchDecks.filter(d => d.era === era);
+}
+
+export const benchEras: BenchEra[] = ['bs', 'bw'];
 
 export function findDeck(name: string): BenchDeck {
   const found = benchDecks.find(d => d.name === name);

@@ -1,6 +1,6 @@
 import { writeFileSync } from 'fs';
 import { BenchmarkSummary, runBenchmark } from './benchmark';
-import { benchDecks, findDeck } from './decks';
+import { BenchEra, benchDecks, benchEras, decksForEra, findDeck } from './decks';
 import { botVariants, findBotVariant } from './bot-variants';
 import { formatSummary } from './report';
 import { GameLimits } from './headless-game';
@@ -11,6 +11,9 @@ const usage = `Usage: node dist/cli.js [options]
   --seed S                  run seed; game i uses a seed derived from (S, i) (default 1)
   --bot-a NAME, --bot-b NAME  bot variants (default "default"); known: ${botVariants.map(v => v.name).join(', ')}
   --decks a,b,...           deck pool (default: all); known: ${benchDecks.map(d => d.name).join(', ')}
+  --era NAME                deck pool = one era; known: ${benchEras.join(', ')}.
+                            Use this when measuring bot strength: win rates are
+                            only comparable within an era (see docs/BOT_BENCHMARK.md).
   --only i,j,...            replay only these game indexes of the run
   --max-turns N             loop guard (default 200)
   --max-actions N           loop guard (default 5000)
@@ -29,6 +32,7 @@ interface CliOptions {
   botA: string;
   botB: string;
   decks?: string[];
+  era?: BenchEra;
   only?: number[];
   limits: Partial<GameLimits>;
   json?: string | true;
@@ -56,6 +60,7 @@ export function parseArgs(argv: string[]): CliOptions {
       case '--bot-a': o.botA = next(); break;
       case '--bot-b': o.botB = next(); break;
       case '--decks': o.decks = next().split(',').filter(s => s); break;
+      case '--era': o.era = next() as BenchEra; break;
       case '--only': o.only = next().split(',').map(s => int(arg, s)); break;
       case '--max-turns': o.limits.maxTurns = int(arg, next()); break;
       case '--max-actions': o.limits.maxActions = int(arg, next()); break;
@@ -106,7 +111,18 @@ function main(): number {
     return 2;
   }
 
-  const decks = options.decks ? options.decks.map(findDeck) : benchDecks;
+  if (options.decks !== undefined && options.era !== undefined) {
+    process.stderr.write('--decks and --era cannot be combined\n\n' + usage);
+    return 2;
+  }
+  if (options.era !== undefined && !benchEras.includes(options.era)) {
+    process.stderr.write(`Unknown era "${options.era}". Known eras: ${benchEras.join(', ')}\n\n${usage}`);
+    return 2;
+  }
+
+  const decks = options.decks
+    ? options.decks.map(findDeck)
+    : (options.era !== undefined ? decksForEra(options.era) : benchDecks);
   const { summary, games } = runBenchmark({
     games: options.games,
     seed: options.seed,
