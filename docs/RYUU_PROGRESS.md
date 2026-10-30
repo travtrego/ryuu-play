@@ -4,6 +4,80 @@ Running log of automated work on this fork. Newest entry first.
 
 ---
 
+## Next up / Blocked on
+
+Rewrite this block each run. It is what a self-directing run should read first;
+the entries below are the record of what happened, not what to do.
+
+1. **UI behaviour specs for learn mode.** #25 and #26 shipped the bot's "Why?"
+   notes to the table, and `packages/play`'s 105 spec files are 92 Angular CLI
+   scaffolds that assert nothing beyond "the component constructs". The newest
+   user-facing surface has the least coverage. Scope it to the learn-mode
+   rendering and plumbing, not a crusade across every component.
+2. **Cards: BW2 (79 left) and BW3 (53 left).** Good fallback work, lower value
+   than it was: BW found 0 bugs across 45 cards, where Ruby & Sapphire and
+   Sandstorm found 30 across 196. This is confirming correctness now, not
+   discovering bugs. Worth doing, not worth displacing the item above.
+3. Nothing is blocked on a person right now.
+
+Done and no longer blocking: benchmark win rates are now measurable per era
+(2026-10-30, below).
+
+---
+
+## 2026-10-30 — Benchmark win rates made measurable (`--era`)
+
+The 2026-10-27 baseline recorded deck win rates from 16.7% to 94.4% and called
+levelling the pool a prerequisite for using win rate as an AI metric. That
+turned out to be the wrong diagnosis, in a useful way.
+
+### The decks were never unbalanced
+
+Measured within each pool, 60 games, default bot on both sides:
+
+| pool | spread | detail |
+| --- | --- | --- |
+| Base Set only (5 decks) | **12.5 points** | 41.7% - 54.2% |
+| BW era only (2 decks) | **13.4 points** | 43.3% - 56.7% |
+| all 7 decks (cross-era) | **77.7 points** | 16.7% - 94.4% |
+
+Both eras are individually well balanced. The entire spread came from **mixing
+them in one round robin**. `bs-psychic` reads 16.7% against the mixed pool and
+41.7% among its own era; `bs-fighting` reads 22.2% and 54.2%.
+
+Twelve years of power creep separate the pools: a BW list has Professor
+Juniper (draw 7), Pokemon Catcher and a 120-damage attacker, against a Base
+Set list whose best draw card is Bill (draw 2). The BW deck wins on card power
+whichever bot is driving it.
+
+So no deck needed rebuilding. The harness needed to stop pairing across eras
+when the question is "how good is the bot".
+
+### Change
+
+- `BenchDeck` carries an `era` (`bs` | `bw`); `decksForEra(era)` and
+  `benchEras` exported from `src/decks.ts`.
+- `--era bs` / `--era bw` on the CLI. Rejects an unknown era, and refuses to
+  be combined with `--decks`.
+- Default pool unchanged (all 7, cross-era), so the CI smoke run and its
+  21-game round robin are untouched. That is deliberate: for crash coverage
+  the cross-era pool exercises *more* card interactions per game. It just must
+  not be read as a win rate.
+- `docs/BOT_BENCHMARK.md` has an "Eras" section with the measurements and the
+  rule: `--era` when measuring the bot, default pool when hunting crashes.
+
+bot-bench 30 -> **32 specs**.
+
+### Why this matters now
+
+Learn mode (#25, #26) changed what the bot is for. It used to be an opponent;
+it now explains its reasoning at the table. A bot that plays badly and explains
+confidently teaches wrong play, so bot quality acquired a user-facing cost in
+the last two runs. Being able to measure a change to `simple-bot` is the thing
+that makes improving it possible at all.
+
+---
+
 ## 2026-10-29 — Learn mode, part 2: "Why?" notes at the table
 
 The bot's reasons from part 1 now reach the human player. After every bot

@@ -1,6 +1,6 @@
 import { BotFlipMode } from '@ptcg/common';
 import { BenchGame, BenchmarkSummary, runBenchmark, scheduleGame, summarize } from './benchmark';
-import { benchDecks, findDeck } from './decks';
+import { benchDecks, benchEras, decksForEra, findDeck } from './decks';
 import { botVariants, findBotVariant, simpleBotVariant } from './bot-variants';
 import { checkThresholds, parseArgs } from './cli';
 import { registerCardSets } from './card-setup';
@@ -40,6 +40,22 @@ describe('decks and variants', () => {
     expect(() => findDeck('nope')).toThrowError(/Unknown deck/);
     expect(() => findBotVariant('nope')).toThrowError(/Unknown bot variant/);
     expect(botVariants.map(v => v.name)).toContain('default');
+  });
+
+  it('groups decks by era, and every deck belongs to exactly one', () => {
+    const grouped = benchEras.flatMap(era => decksForEra(era));
+
+    expect(grouped.length).toBe(benchDecks.length);
+    expect(grouped.map(d => d.name).sort()).toEqual(benchDecks.map(d => d.name).sort());
+    for (const era of benchEras) {
+      const decks = decksForEra(era);
+      expect(decks.length).withContext(era).toBeGreaterThan(1);
+      decks.forEach(d => expect(d.era).withContext(d.name).toBe(era));
+    }
+  });
+
+  it('returns no decks for an era that does not exist', () => {
+    expect(decksForEra('nope' as never)).toEqual([]);
   });
 
   it('rejects SimpleBot options whose look-ahead uses Math.random', () => {
