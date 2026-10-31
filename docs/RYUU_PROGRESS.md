@@ -10,21 +10,84 @@ Rewrite this block each run. It is what a self-directing run should read first;
 the entries below are the record of what happened, not what to do.
 
 1. **Guided game, in-game half.** The guided game (2026-10-31) gives fixed
-   decks but the table does not yet know it is a guided game: the Tips panel
-   shows the same situation tips as any game. Next: mark the game as guided
-   (e.g. a flag the client can read from the state or game info) and show a
-   short step-by-step script for turns 1-3 ("put Charmander active", "attach
-   Fire Energy", "attack with Scratch"), falling back to the normal tips.
+   decks but the table does not know it is a guided game: the Tips panel shows
+   the same situation tips as any game. Next: mark the game as guided (a flag
+   the client can read from the state or game info) and show a short
+   step-by-step script for turns 1-3 ("put Charmander active", "attach Fire
+   Energy", "attack with Scratch"), falling back to the normal tips.
 2. **Prompt answers still have no "Why?"** (targets, searched cards, discards).
 3. **Cards: BW2 (79 left) and BW3 (53 left).** Fallback work; confirming
    correctness more than finding bugs now.
-4. Hosting (docs/HOSTING.md) waits on an owner decision; nothing else is
-   blocked on a person.
-5. Housekeeping: a branch `claude/ryuu-access-check` (identical to master at
-   the time) was left by the 2026-10-31 run's push check; the run was not
-   allowed to delete it. Safe to delete.
+4. **Hosting: waiting on the owner, and now has a doc.** `docs/HOSTING.md`
+   (2026-10-31) compares the options with exact steps. The owner picks; do not
+   deploy anything or create accounts. The earlier version of this block said
+   "Hosting (docs/HOSTING.md) waits on an owner decision" before that file
+   existed, which read as a pointer to a document that was not in the repo.
+   Only cite a path once it is committed.
+5. Housekeeping: branch `claude/ryuu-access-check` is left over from a push
+   check and is safe to delete.
 
 ---
+
+## 2026-10-31 (later) — Hosting options written up (docs/HOSTING.md)
+
+Priority 3 of the daily run has been "hosting waits on an owner decision
+(free/local vs. a small paid host); you may write docs/HOSTING.md comparing
+options". That doc now exists. Nothing was deployed and no account or service
+was created.
+
+### The finding that shapes the answer: SQLite works
+
+`config.storage` defaults to MySQL, but `Storage.connect()` spreads that config
+straight into TypeORM with `synchronize: true`, and **`sqlite3` is already a
+production dependency of `packages/server`**. So the switch is config, not code.
+
+Verified on Node 18.20.8: the server started with
+`config.storage = { type: 'sqlite', database: ... }`, created `ptcg.sq3`,
+synchronized all seven tables (`avatar`, `conversation`, `deck`, `match`,
+`message`, `replay`, `user`) and answered HTTP on its port.
+
+Not verified: a full game through the UI on SQLite, concurrent websocket load,
+or the long-running scheduler tasks.
+
+This matters because it removes the database server from the free option: no
+MySQL to install, run, back up or secure. For one player and a bot, running on
+your own machine is genuinely the whole answer.
+
+### What the doc says
+
+- **What the app needs**, measured from the repo: Node 18.20.8, one long-lived
+  process serving API + websockets + UI on one port, a persistent disk, and CPU
+  for the in-process bot.
+- **Static and serverless hosts cannot run the server** (no long-lived process,
+  no websockets, no disk). They could serve `packages/play` alone, but the
+  Docker image already serves both halves.
+- **The build is much heavier than the run**, so on a small host build the image
+  elsewhere and ship it.
+- **Option A, your own machine, free**: A1 Docker (`docker compose up --build`,
+  overriding `REPO`/`TAG` because `docker/Dockerfile` defaults to upstream
+  `keeshii/ryuu-play`), A2 straight from the checkout, A3 a tunnel if you want
+  it reachable.
+- **Option B, a small paid host**: what to look for in priority order
+  (persistent volume, websockets, no forced sleep, 1 vCPU / 1 GB floor), the
+  shape of each class of host, and the deployment steps including that
+  `EXTERNAL_URL` is baked into the Angular bundle at build time.
+- **Recommendation: start with A1 locally.** Costs nothing, reversible, fastest
+  route to actually playing the bot, which is the point of the learn-mode work.
+- A pre-public checklist: change `config.backend.secret` from `'!secret!'`,
+  decide `registrationEnabled`/`serverPassword`, and note that
+  `synchronize: true` alters the schema on boot.
+
+### Known risk recorded, not hit here
+
+`docker/Dockerfile` runs a plain `npm install` at the repo root, which pulls
+`packages/cordova` and its `cordova-plugin-statusbar-patched` plain-HTTP tarball
+(see `docs/BUILD.md`). On a network that blocks plain HTTP, or if that host is
+down, the image build fails. The doc points at the no-Docker path as the way
+round it.
+
+---
+
 
 ## 2026-10-31 — Learn mode: a guided first game
 
