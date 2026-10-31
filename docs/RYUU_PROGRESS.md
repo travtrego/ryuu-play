@@ -9,20 +9,81 @@ Running log of automated work on this fork. Newest entry first.
 Rewrite this block each run. It is what a self-directing run should read first;
 the entries below are the record of what happened, not what to do.
 
-1. **Guided first game.** Fixed beginner decks (one per side, simple Basic +
-   Stage 1 lines, no complex Trainers) and a "Start a guided game" entry point
-   that creates the bot game with them. The table tips (2026-10-30, later) are
-   the in-game half of this; the missing half is choosing the decks for the
-   player. Check first how bot games are created (server bot manager, play
-   `games` page) and whether the client can supply the decks.
+1. **Guided game, in-game half.** The guided game (2026-10-31) gives fixed
+   decks but the table does not yet know it is a guided game: the Tips panel
+   shows the same situation tips as any game. Next: mark the game as guided
+   (e.g. a flag the client can read from the state or game info) and show a
+   short step-by-step script for turns 1-3 ("put Charmander active", "attach
+   Fire Energy", "attack with Scratch"), falling back to the normal tips.
 2. **Prompt answers still have no "Why?"** (targets, searched cards, discards).
 3. **Cards: BW2 (79 left) and BW3 (53 left).** Fallback work; confirming
    correctness more than finding bugs now.
 4. Hosting (docs/HOSTING.md) waits on an owner decision; nothing else is
    blocked on a person.
+5. Housekeeping: a branch `claude/ryuu-access-check` (identical to master at
+   the time) was left by the 2026-10-31 run's push check; the run was not
+   allowed to delete it. Safe to delete.
 
-Done and no longer blocking: learn-mode UI now has behaviour specs (game log
-notes, tips panel, rules deep links).
+---
+
+## 2026-10-31 — Learn mode: a guided first game
+
+The Games page has a new **Guided first game** button next to *Create game*.
+One click starts a game against the bot with two ready-made beginner decks;
+the player does not need a deck of their own (before, a brand-new player hit
+"you need a deck" first). The game opens like any other bot game, with the
+bot's "Why?" notes and the Tips panel.
+
+### The decks
+
+`packages/common/src/game/beginner-decks.ts`, Base Set cards only:
+
+| | Pokémon (Basic → Stage 1) | Trainers | Energy |
+| --- | --- | --- | --- |
+| Player: **Beginner Fire** | Charmander 4 → Charmeleon 3, Growlithe 4 → Arcanine 2, Ponyta 4, Magmar 3 | Bill 4, Potion 4, Switch 2, PlusPower 2 | Fire 28 |
+| Bot: **Beginner Lightning** | Pikachu 4 → Raichu 3, Rattata 4 → Raticate 3, Electabuzz 3, Voltorb 3 | same | Lightning 28 |
+
+No Stage 2, no Pokémon Powers, four easy Trainers, and neither side is weak to
+the other (Fire is weak to Water, Lightning/Colorless to Fighting), so the
+first game is decided by play, not by Weakness. Bot vs bot on this matchup,
+20 seeded games: 8-12, ~26 turns, 0 errors.
+
+### How it works
+
+- `server`: new socket call `core:createGuidedGame` →
+  `createGuidedGame(core, client)` (`game/bots/guided-game.ts`) finds the
+  first connected bot, and creates the game with the player's beginner deck,
+  default settings and the bot invited. Fails with `ERROR_BOT_NOT_FOUND` when
+  no bot is online.
+- `Core.createGame` takes an optional `invitedDeck`, stored as
+  `game.invitedDeck`; `BotClient` plays it instead of picking one of its
+  saved decks. Normal games pass nothing and behave as before.
+- `play`: `MainService.createGuidedGame()` and the button (with a tooltip);
+  "no bot online" gets its own toast.
+
+### Tests
+
+- sets 2673 → **2684** (beginner decks: cards exist, legal 60, Basic/Stage 1
+  only, no Powers, every Stage 1 has its Basic, easy Trainers + basic Energy,
+  no Weakness to the other deck; the Weakness check was mutation-tested by
+  swapping in Squirtle).
+- bot-bench 32 → **38** (6 seeded full games of the guided matchup finish
+  without errors).
+- server 40 → **45** (guided game invites the bot with both decks, passes
+  copies, errors without a bot; bot plays the preset deck and skips its saved
+  decks; normal games still load a saved deck).
+- play → **163 specs** (4 new GamesComponent specs: button renders, starts a
+  guided game without the deck popup, the two error toasts). `ng lint` clean,
+  `ng build` ok (8.78 MB).
+- common 350, simple-bot 62 unchanged; bench smoke: 0 errors.
+
+### Not verified
+
+- A live guided game end to end (the server needs MySQL, not available here).
+  The pieces are covered separately: server wiring by spec, the matchup by
+  headless bot-vs-bot games, the button by Karma.
+- The Games toolbar at phone width with two buttons was not checked in a
+  browser.
 
 ---
 

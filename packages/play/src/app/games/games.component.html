@@ -37,6 +37,14 @@
 
         <span class="ptcg-u-spacer"></span>
 
+        <button mat-stroked-button color="primary"
+          class="ptcg-guided-game-button"
+          [disabled]="loading"
+          [matTooltip]="'GAMES_GUIDED_GAME_HINT' | translate"
+          (click)="createGuidedGame()">
+          {{ 'GAMES_GUIDED_GAME_BUTTON' | translate }}
+        </button>
+
         <button mat-raised-button color="primary"
           [disabled]="loading"
           (click)="createGame()">
