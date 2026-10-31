@@ -18,6 +18,11 @@ export class Game implements StoreHandler {
   public id: number;
   public clients: Client[] = [];
   public playerStats: PlayerStats[] = [];
+  /**
+   * Learn mode: the deck an invited bot plays in this game instead of one of
+   * its saved decks (the guided first game). Ignored by human players.
+   */
+  public invitedDeck: string[] | undefined;
   private arbiter = new Arbiter();
   private store: Store;
   private matchRecorder: MatchRecorder;

@@ -51,7 +51,8 @@ export class Core {
     client: Client,
     deck: string[],
     gameSettings: GameSettings = new GameSettings(),
-    invited?: Client
+    invited?: Client,
+    invitedDeck?: string[]
   ): Game {
     if (this.clients.indexOf(client) === -1) {
       throw new GameError(GameMessage.ERROR_CLIENT_NOT_CONNECTED);
@@ -60,6 +61,7 @@ export class Core {
       throw new GameError(GameMessage.ERROR_CLIENT_NOT_CONNECTED);
     }
     const game = new Game(this, generateId(this.games), gameSettings);
+    game.invitedDeck = invitedDeck;
     game.dispatch(client, new AddPlayerAction(client.id, client.name, deck));
     if (invited) {
       game.dispatch(client, new InvitePlayerAction(invited.id, invited.name));
