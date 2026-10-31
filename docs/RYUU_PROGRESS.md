@@ -19,13 +19,27 @@ the entries below are the record of what happened, not what to do.
 3. **Cards: BW2 (79 left) and BW3 (53 left).** Fallback work; confirming
    correctness more than finding bugs now.
 4. **Hosting: waiting on the owner, and now has a doc.** `docs/HOSTING.md`
-   (2026-10-31) compares the options with exact steps. The owner picks; do not
-   deploy anything or create accounts. The earlier version of this block said
-   "Hosting (docs/HOSTING.md) waits on an owner decision" before that file
-   existed, which read as a pointer to a document that was not in the repo.
-   Only cite a path once it is committed.
-5. Housekeeping: branch `claude/ryuu-access-check` is left over from a push
-   check and is safe to delete.
+   (2026-10-31) compares the options with exact steps, and records that SQLite
+   works so the free option needs no database server. The owner picks; do not
+   deploy anything or create accounts.
+5. **Housekeeping needing the owner, not a run:** 28 merged `claude/ryuu-*`
+   branches are still on the remote, one per run. Deleting them is blocked for
+   an automated session (the permission classifier refuses both a scripted loop
+   and an explicit `git push --delete`), so do not spend a run trying. The
+   owner can clear them from GitHub's branch list, or with
+   `git push origin --delete <branch>`, or by turning on automatic branch
+   deletion on merge in the repository settings, which stops the backlog
+   growing.
+
+   Two corrections while checking this: `claude/ryuu-access-check` is already
+   gone (an earlier version of this block said it needed deleting, and that was
+   relayed to the owner twice before anyone verified it), and
+   `git merge-base --is-ancestor` is the **wrong** test for whether these
+   branches are merged. Every PR here is squash-merged, which creates a new
+   commit, so the branch tip is never an ancestor of master and all 29 branches
+   read as unmerged. Check `merged_at` on the branch's PR instead. Exactly one
+   `claude/*` branch is genuinely unmerged with no PR:
+   `claude/pokemon-tcg-ai-trainer-3m3qqe` (2026-09-29). Leave it alone.
 
 ---
 
