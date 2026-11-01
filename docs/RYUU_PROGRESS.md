@@ -9,37 +9,45 @@ Running log of automated work on this fork. Newest entry first.
 Rewrite this block each run. It is what a self-directing run should read first;
 the entries below are the record of what happened, not what to do.
 
-1. **Guided game, in-game half.** The guided game (2026-10-31) gives fixed
-   decks but the table does not know it is a guided game: the Tips panel shows
-   the same situation tips as any game. Next: mark the game as guided (a flag
-   the client can read from the state or game info) and show a short
-   step-by-step script for turns 1-3 ("put Charmander active", "attach Fire
-   Energy", "attack with Scratch"), falling back to the normal tips.
-2. **Prompt answers still have no "Why?"** (targets, searched cards, discards).
-3. **Cards: BW2 (79 left) and BW3 (53 left).** Fallback work; confirming
-   correctness more than finding bugs now.
-4. **Hosting: waiting on the owner, and now has a doc.** `docs/HOSTING.md`
-   (2026-10-31) compares the options with exact steps, and records that SQLite
-   works so the free option needs no database server. The owner picks; do not
-   deploy anything or create accounts.
-5. **Housekeeping needing the owner, not a run:** 28 merged `claude/ryuu-*`
+**Hold learn-mode UI work for one run.** The owner is playing a guided game
+against the bot for the first time (planned 2026-11-01). Five runs of learn-mode
+features — the bot's "Why?" notes, the Tips panel, rules deep links, the guided
+first game — are covered by specs (play is at 159) but have never been seen
+working together in a live game by a person; PR #28 said so in its own "Not
+verified" section, because the server was thought to need MySQL. It does not
+(see `docs/HOSTING.md`: SQLite works), so that gap is now the owner's to close
+and a run cannot close it. Adding another layer to that surface before it is
+looked at risks building on something unvalidated, and the one bug found there
+so far (the Tips panel claiming "It's your opponent's turn" during the player's
+own attack, #28) passed every spec. So:
+
+1. **Cards: BW2 (79 left), then BW3 (53 left).** Self-contained, does not touch
+   the UI under evaluation, and genuinely useful. Expect to be confirming
+   correctness rather than finding bugs — Black & White turned up 0 bugs across
+   45 cards, where Ruby & Sapphire and Sandstorm found 30 across 196. Commit and
+   push per batch so a budget cutoff costs one batch, not the set.
+2. **Then wait for the owner's notes from playing**, and let those set the
+   learn-mode priority instead of this list. The queued item was: mark a game as
+   guided so the Tips panel can show a turn-by-turn script for turns 1-3
+   ("put Charmander active", "attach Fire Energy", "attack with Scratch"),
+   falling back to the normal tips. Keep it, but after the play session.
+3. **Prompt answers still have no "Why?"** (targets, searched cards, discards).
+4. **Hosting: waiting on the owner, and has a doc.** `docs/HOSTING.md` compares
+   the options and records that SQLite works, so the free local path needs no
+   database server. The owner picks; do not deploy anything or create accounts.
+5. **Housekeeping needing the owner, not a run:** 30 merged `claude/ryuu-*`
    branches are still on the remote, one per run. Deleting them is blocked for
    an automated session (the permission classifier refuses both a scripted loop
-   and an explicit `git push --delete`), so do not spend a run trying. The
-   owner can clear them from GitHub's branch list, or with
-   `git push origin --delete <branch>`, or by turning on automatic branch
-   deletion on merge in the repository settings, which stops the backlog
-   growing.
+   and an explicit `git push --delete`), so do not spend a run trying. The owner
+   can turn on automatic branch deletion on merge in the repository settings,
+   which stops the backlog growing.
 
-   Two corrections while checking this: `claude/ryuu-access-check` is already
-   gone (an earlier version of this block said it needed deleting, and that was
-   relayed to the owner twice before anyone verified it), and
-   `git merge-base --is-ancestor` is the **wrong** test for whether these
-   branches are merged. Every PR here is squash-merged, which creates a new
-   commit, so the branch tip is never an ancestor of master and all 29 branches
-   read as unmerged. Check `merged_at` on the branch's PR instead. Exactly one
-   `claude/*` branch is genuinely unmerged with no PR:
-   `claude/pokemon-tcg-ai-trainer-3m3qqe` (2026-09-29). Leave it alone.
+   `git merge-base --is-ancestor` is the **wrong** test for whether those
+   branches are merged: every PR here is squash-merged, so the branch tip is
+   never an ancestor of master and they all read as unmerged. Check `merged_at`
+   on the branch's PR instead. Exactly one `claude/*` branch is genuinely
+   unmerged with no PR: `claude/pokemon-tcg-ai-trainer-3m3qqe` (2026-09-29).
+   Leave it alone.
 
 ---
 
