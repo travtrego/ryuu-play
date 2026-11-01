@@ -24,8 +24,9 @@ export class SimpleTacticsAi implements BotAi {
   }
 
   /**
-   * Reason for the most recent turn action returned by decodeNextAction().
-   * Undefined when that call returned nothing or answered a prompt.
+   * Reason for the most recent action returned by decodeNextAction().
+   * Undefined when that call returned nothing, or answered a prompt whose
+   * resolver gave no reason (see PromptResolver.explain).
    */
   public getLastDecision(): BotDecision | undefined {
     return this.lastDecision;
@@ -136,8 +137,13 @@ export class SimpleTacticsAi implements BotAi {
     }
 
     for (let i = 0; i < this.resolvers.length; i++) {
-      const action = this.resolvers[i].resolvePrompt(state, player, prompt);
+      const resolver = this.resolvers[i];
+      const action = resolver.resolvePrompt(state, player, prompt);
       if (action !== undefined) {
+        const reason = this.safeExplain(() => resolver.explain(state, player, prompt, action));
+        if (reason !== '') {
+          this.lastDecision = { action, tactic: resolver.constructor.name, reason };
+        }
         return action;
       }
     }

@@ -9,45 +9,113 @@ Running log of automated work on this fork. Newest entry first.
 Rewrite this block each run. It is what a self-directing run should read first;
 the entries below are the record of what happened, not what to do.
 
-**Hold learn-mode UI work for one run.** The owner is playing a guided game
-against the bot for the first time (planned 2026-11-01). Five runs of learn-mode
-features — the bot's "Why?" notes, the Tips panel, rules deep links, the guided
-first game — are covered by specs (play is at 159) but have never been seen
-working together in a live game by a person; PR #28 said so in its own "Not
-verified" section, because the server was thought to need MySQL. It does not
-(see `docs/HOSTING.md`: SQLite works), so that gap is now the owner's to close
-and a run cannot close it. Adding another layer to that surface before it is
-looked at risks building on something unvalidated, and the one bug found there
-so far (the Tips panel claiming "It's your opponent's turn" during the player's
-own attack, #28) passed every spec. So:
+**Still holding new learn-mode UI until the owner has played a guided game.**
+The owner was due to play one against the bot on 2026-11-01. Five runs of
+learn-mode features (the "Why?" notes, the Tips panel, rules deep links, the
+guided first game) are covered by specs but have not been seen working together
+in a live game by a person, and the one bug found there so far passed every
+spec (#28). Bot-side work that reuses the existing "Why?" note is fine; new
+screens and panels wait. So:
 
-1. **Cards: BW2 (79 left), then BW3 (53 left).** Self-contained, does not touch
-   the UI under evaluation, and genuinely useful. Expect to be confirming
-   correctness rather than finding bugs — Black & White turned up 0 bugs across
-   45 cards, where Ruby & Sapphire and Sandstorm found 30 across 196. Commit and
-   push per batch so a budget cutoff costs one batch, not the set.
-2. **Then wait for the owner's notes from playing**, and let those set the
-   learn-mode priority instead of this list. The queued item was: mark a game as
-   guided so the Tips panel can show a turn-by-turn script for turns 1-3
-   ("put Charmander active", "attach Fire Energy", "attack with Scratch"),
-   falling back to the normal tips. Keep it, but after the play session.
-3. **Prompt answers still have no "Why?"** (targets, searched cards, discards).
-4. **Hosting: waiting on the owner, and has a doc.** `docs/HOSTING.md` compares
-   the options and records that SQLite works, so the free local path needs no
-   database server. The owner picks; do not deploy anything or create accounts.
-5. **Housekeeping needing the owner, not a run:** 30 merged `claude/ryuu-*`
-   branches are still on the remote, one per run. Deleting them is blocked for
-   an automated session (the permission classifier refuses both a scripted loop
-   and an explicit `git push --delete`), so do not spend a run trying. The owner
-   can turn on automatic branch deletion on merge in the repository settings,
-   which stops the backlog growing.
+1. **Wait for the owner's notes from playing**, and let those set the
+   learn-mode priority. Queued after that: mark a game as guided so the Tips
+   panel can show a turn-by-turn script for turns 1-3, falling back to the
+   normal tips.
+2. **More prompt answers could get a "Why?"** (2026-11-01 covered Pokémon
+   choices and discards from the hand). Still silent: `ChooseEnergyPrompt`
+   (which Energy to discard for an attack or retreat), `MoveDamagePrompt`,
+   `PutDamagePrompt`, `MoveEnergyPrompt`, `AttachEnergyPrompt`. Deck searches
+   and the starting Pokémon stay silent **on purpose**: naming those cards
+   would show the human hidden information.
+3. **Bot quality behind the reasons.** The new notes make a weak heuristic
+   visible: the bot promotes or switches in by HP, attack damage, Abilities
+   and Retreat Cost, **ignoring attached Energy**, so it can promote an
+   unpowered Pokémon over one that can attack. The note says so honestly, but
+   a learner may copy it. A fix belongs in `ChoosePokemonPromptResolver`,
+   measured with `bot-bench --era bs` / `--era bw` before and after.
+4. **Cards: BW2 (79 left), then BW3 (53 left)** — only as a fallback, and only
+   per-card review of code being changed. The daily-run prompt rules out mass
+   spec-writing for whole sets.
+5. **Hosting: waiting on the owner, and has a doc.** `docs/HOSTING.md` compares
+   the options and records that SQLite works. Do not deploy anything or create
+   accounts.
+6. **Housekeeping needing the owner, not a run:** merged `claude/ryuu-*`
+   branches pile up on the remote, one per run. Deleting them is blocked for an
+   automated session, so do not spend a run trying. The owner can turn on
+   automatic branch deletion on merge in the repository settings.
+   `git merge-base --is-ancestor` is the **wrong** test for whether they are
+   merged (every PR is squash-merged); check `merged_at` on the branch's PR.
+   Exactly one `claude/*` branch is genuinely unmerged with no PR:
+   `claude/pokemon-tcg-ai-trainer-3m3qqe` (2026-09-29). Leave it alone.
 
-   `git merge-base --is-ancestor` is the **wrong** test for whether those
-   branches are merged: every PR here is squash-merged, so the branch tip is
-   never an ancestor of master and they all read as unmerged. Check `merged_at`
-   on the branch's PR instead. Exactly one `claude/*` branch is genuinely
-   unmerged with no PR: `claude/pokemon-tcg-ai-trainer-3m3qqe` (2026-09-29).
-   Leave it alone.
+---
+
+## 2026-11-01 — Learn mode: "Why?" notes for the bot's choices in prompts
+
+Until now the bot explained its turn actions (attach, evolve, play a Trainer,
+retreat, attack, pass) but not the choices it makes when a card or the rules
+ask it to pick something. Those are often the interesting ones for a learner:
+which Pokémon it promotes after a Knock Out, which of your Pokémon it drags
+out with Gust of Wind, which Pokémon it puts damage on. They now get a note.
+
+Examples, from headless bot-vs-bot games on the bench decks:
+
+- Chose Raichu as its new Active Pokémon: it is its own strongest Pokémon by
+  the bot's measure (comparing HP, attack damage, Abilities and Retreat Cost).
+- Chose the opponent's Squirtle to switch into the Active Spot: it is the
+  opponent's weakest Pokémon by the bot's measure (...).
+- Chose the opponent's Alakazam to discard cards from: it is the opponent's
+  strongest Pokémon by the bot's measure (...).
+- Chose Pikachu as its new Active Pokémon: it was the only choice.
+
+### Why this and not the BW2 cards the last entry pointed at
+
+The daily-run prompt puts learn features first and rules out mass
+spec-writing for whole sets. This change is bot-side only: it reuses the
+existing `LOG_BOT_REASON` note (the server already logs a reason for *any*
+bot action, prompt answers included, as soon as the bot provides one), so it
+adds no new screen to the UI the owner is about to evaluate.
+
+### How it works
+
+- `PromptResolver.explain(state, player, prompt, action)`: new, returns `''`
+  by default. `SimpleTacticsAi.resolvePrompt` calls it (guarded, like the
+  tactics) and, when it is non-empty, records a `BotDecision` with the
+  resolver's name as `tactic`. No reason → no decision → no note, as before.
+- `ChoosePokemonPromptResolver.explain` describes the ranking the resolver
+  really uses: the Pokémon score (HP, attack damage, Abilities, Retreat
+  Cost), highest first for helpful effects on its own Pokémon and harmful
+  effects on the opponent's, lowest first otherwise. It says "only choice",
+  "strongest"/"weakest" on that side, "all rank equally ... took the first
+  one", lists several picks, or explains choosing none.
+- `ChooseCardsPromptResolver.explain` only covers **discards from the bot's
+  own hand** (the cards become public): the least useful cards to keep by its
+  hand evaluation. Deck searches, starting Pokémon and other card choices get
+  no reason, because naming them would reveal hidden cards to the human.
+
+### Tests
+
+- simple-bot 62 → **73 specs** (7 for the Pokémon reasons: own strongest,
+  opponent's strongest as damage target, forced weakest, cancel, only choice,
+  several picks, other prompt; 2 for cards: hand discard named, deck search
+  silent; 2 in `SimpleTacticsAi`: a prompt answer records the resolver and
+  its reason, a hidden-card answer records none). Lint clean.
+- bot-bench smoke (21 seeded games) **identical** to master apart from wall
+  time: explaining does not change what the bot does. bot-bench 38, server 45
+  specs pass; common, sets and play are unchanged.
+
+### Not verified
+
+- No hand discard came up in the 21 bench games, so that sentence is covered
+  by spec only.
+- Not seen in a live game in the browser; the note rendering is the existing,
+  spec-covered `LOG_BOT_REASON` path.
+
+### Noticed, not changed
+
+The bot picks its new Active without looking at attached Energy (see Next up,
+item 3). The note reports the real reason, which is the point, but it is a
+weak play to learn from.
 
 ---
 
