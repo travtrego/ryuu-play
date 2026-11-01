@@ -1,6 +1,7 @@
 import { State, Player, PokemonSlot, PokemonCard, EnergyCard, CardType, Stage,
   CardList, GamePhase, PlayCardAction, AttackAction, PassTurnAction, RetreatAction,
-  SpecialCondition, Card } from '@ptcg/common';
+  SpecialCondition, Card, ChoosePokemonPrompt, ChooseCardsPrompt, GameMessage, PlayerType,
+  SlotType, ResolvePromptAction } from '@ptcg/common';
 import { SimpleTacticsAi } from './simple-tactics-ai';
 import { SimpleBotOptions } from './simple-bot-options';
 import {
@@ -228,6 +229,32 @@ describe('SimpleTacticsAi learn-mode reasons', () => {
     expect(decision).toBeDefined();
     expect(decision && decision.action).toBe(action as any);
     expect(decision && decision.tactic).toBe('AttachEnergyTactic');
+  });
+
+  it('explains which Pokemon it chose when answering a prompt', () => {
+    bot.bench[0] = slotOf(new TestPokemon('Magikarp', 30, []));
+    bot.bench[1] = slotOf(charmander());
+    bot.active = new PokemonSlot();
+    state.prompts.push(new ChoosePokemonPrompt(bot.id, GameMessage.CHOOSE_NEW_ACTIVE_POKEMON,
+      PlayerType.BOTTOM_PLAYER, [ SlotType.BENCH ], { min: 1, allowCancel: false }));
+    const ai = new SimpleTacticsAi(bot.id, options, null);
+
+    const action = ai.decodeNextAction(state);
+    const decision = ai.getLastDecision();
+
+    expect(action instanceof ResolvePromptAction).toBe(true);
+    expect(decision && decision.tactic).toBe('ChoosePokemonPromptResolver');
+    expect(decision && decision.reason).toContain('Chose Charmander as its new Active Pokémon: '
+      + 'it is its own strongest Pokémon');
+  });
+
+  it('gives no reason for a prompt answer that would reveal hidden cards', () => {
+    state.prompts.push(new ChooseCardsPrompt(bot.id, GameMessage.CHOOSE_CARD_TO_HAND,
+      bot.deck, {}, { min: 1, max: 1 }));
+    const ai = new SimpleTacticsAi(bot.id, options, null);
+
+    expect(ai.decodeNextAction(state) instanceof ResolvePromptAction).toBe(true);
+    expect(ai.explainLastAction()).toBeUndefined();
   });
 
   it('has no reason when it is not the bot\'s turn', () => {

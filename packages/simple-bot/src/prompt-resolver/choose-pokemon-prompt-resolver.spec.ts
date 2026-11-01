@@ -185,4 +185,88 @@ describe('ChoosePokemonPromptResolver', () => {
   });
 
 
+  describe('explain (learn mode)', () => {
+
+    function setName(cardList: PokemonSlot, name: string): void {
+      (cardList.pokemons.cards[0] as PokemonCard).name = name;
+    }
+
+    function answerAndExplain(): string {
+      const action = resolver.resolvePrompt(state, player, prompt) as ResolvePromptAction;
+      return resolver.explain(state, player, prompt, action);
+    }
+
+    it('names its own strongest Pokemon for a helpful effect', () => {
+      setHp(player.bench[2], 150);
+      setName(player.bench[2], 'Charizard');
+      prompt.options.min = 1;
+      prompt.options.max = 1;
+
+      expect(answerAndExplain()).toBe('Chose Charizard to attach cards to: it is its own strongest '
+        + 'Pokémon by the bot\'s measure (comparing HP, attack damage, Abilities and Retreat Cost).');
+    });
+
+    it('names the opponent\'s strongest Pokemon as the damage target', () => {
+      setHp(player.bench[2], 200);
+      setHp(opponent.bench[2], 150);
+      setName(opponent.bench[2], 'Raichu');
+      prompt.playerType = PlayerType.ANY;
+      prompt.options.min = 1;
+      prompt.options.max = 1;
+      prompt.message = GameMessage.CHOOSE_POKEMON_TO_DAMAGE;
+
+      const reason = answerAndExplain();
+      expect(reason).toContain('Chose the opponent\'s Raichu to take the damage');
+      expect(reason).toContain('it is the opponent\'s strongest Pokémon');
+    });
+
+    it('calls a forced choice of its own Pokemon to damage its weakest', () => {
+      setHp(player.bench[2], 50);
+      setName(player.bench[2], 'Magikarp');
+      prompt.options.min = 1;
+      prompt.options.max = 1;
+      prompt.options.allowCancel = false;
+      prompt.message = GameMessage.CHOOSE_POKEMON_TO_DAMAGE;
+
+      expect(answerAndExplain()).toContain('Chose Magikarp to take the damage: it is its own weakest Pokémon');
+    });
+
+    it('explains choosing nothing when it cancels', () => {
+      prompt.options.min = 1;
+      prompt.options.max = 1;
+      prompt.message = GameMessage.CHOOSE_POKEMON_TO_DAMAGE;
+
+      expect(answerAndExplain()).toContain('Chose no Pokémon to take the damage');
+    });
+
+    it('says when there was only one Pokemon to choose', () => {
+      player.bench = [ player.bench[0] ];
+      setName(player.bench[0], 'Pikachu');
+      prompt.message = GameMessage.CHOOSE_NEW_ACTIVE_POKEMON;
+      prompt.slots = [ SlotType.BENCH ];
+      prompt.options.min = 1;
+      prompt.options.allowCancel = false;
+
+      expect(answerAndExplain()).toBe('Chose Pikachu as its new Active Pokémon: it was the only choice.');
+    });
+
+    it('lists several chosen Pokemon', () => {
+      setHp(player.bench[0], 250);
+      setHp(player.bench[1], 200);
+      setName(player.bench[0], 'Snorlax');
+      setName(player.bench[1], 'Lapras');
+      prompt.options.min = 1;
+      prompt.options.max = 2;
+
+      expect(answerAndExplain()).toContain('Chose Snorlax and Lapras to attach cards to: they rank highest');
+    });
+
+    it('has no reason for other prompts', () => {
+      const other: any = { };
+      const action = new ResolvePromptAction(1, null);
+      expect(resolver.explain(state, player, other, action)).toBe('');
+    });
+
+  });
+
 });
