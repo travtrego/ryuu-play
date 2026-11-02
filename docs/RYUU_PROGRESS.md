@@ -10,29 +10,28 @@ Rewrite this block each run. It is what a self-directing run should read first;
 the entries below are the record of what happened, not what to do.
 
 **Still holding new learn-mode UI until the owner has played a guided game.**
-The owner was due to play one against the bot on 2026-11-01. Five runs of
-learn-mode features (the "Why?" notes, the Tips panel, rules deep links, the
-guided first game) are covered by specs but have not been seen working together
-in a live game by a person, and the one bug found there so far passed every
-spec (#28). Bot-side work that reuses the existing "Why?" note is fine; new
-screens and panels wait. So:
+No notes from the owner had arrived by 2026-11-02 (no new issues or
+comments). Five runs of learn-mode features (the "Why?" notes, the Tips panel,
+rules deep links, the guided first game) are covered by specs but have not been
+seen working together in a live game by a person, and the one bug found there
+so far passed every spec (#28). Bot-side work that reuses the existing "Why?"
+note is fine; new screens and panels wait. So:
 
 1. **Wait for the owner's notes from playing**, and let those set the
    learn-mode priority. Queued after that: mark a game as guided so the Tips
    panel can show a turn-by-turn script for turns 1-3, falling back to the
    normal tips.
-2. **More prompt answers could get a "Why?"** (2026-11-01 covered Pokémon
-   choices and discards from the hand). Still silent: `ChooseEnergyPrompt`
-   (which Energy to discard for an attack or retreat), `MoveDamagePrompt`,
-   `PutDamagePrompt`, `MoveEnergyPrompt`, `AttachEnergyPrompt`. Deck searches
-   and the starting Pokémon stay silent **on purpose**: naming those cards
-   would show the human hidden information.
-3. **Bot quality behind the reasons.** The new notes make a weak heuristic
-   visible: the bot promotes or switches in by HP, attack damage, Abilities
-   and Retreat Cost, **ignoring attached Energy**, so it can promote an
-   unpowered Pokémon over one that can attack. The note says so honestly, but
-   a learner may copy it. A fix belongs in `ChoosePokemonPromptResolver`,
-   measured with `bot-bench --era bs` / `--era bw` before and after.
+2. **More prompt answers could get a "Why?"**. Still silent:
+   `ChooseEnergyPrompt` (which Energy to discard for an attack or retreat),
+   `MoveDamagePrompt`, `PutDamagePrompt`, `MoveEnergyPrompt`,
+   `AttachEnergyPrompt`. Deck searches and the starting Pokémon stay silent
+   **on purpose**: naming those cards would show the human hidden information.
+   This is the next bot-side unit.
+3. **Bot quality behind the reasons.** Done 2026-11-02 for the new Active /
+   switch-in choice (it now counts attached Energy). Still energy-blind: the
+   `RetreatTactic` itself (whether to retreat) and Pokémon choices for other
+   effects. Measure any change with `bot-bench --era bs` / `--era bw` against
+   a variant that keeps the old behaviour, as done for `energy-blind-active`.
 4. **Cards: BW2 (79 left), then BW3 (53 left)** — only as a fallback, and only
    per-card review of code being changed. The daily-run prompt rules out mass
    spec-writing for whole sets.
@@ -47,6 +46,61 @@ screens and panels wait. So:
    merged (every PR is squash-merged); check `merged_at` on the branch's PR.
    Exactly one `claude/*` branch is genuinely unmerged with no PR:
    `claude/pokemon-tcg-ai-trainer-3m3qqe` (2026-09-29). Leave it alone.
+
+---
+
+## 2026-11-02 — Bot: put up a Pokémon that can attack
+
+The 2026-11-01 notes made a weak habit visible: when the bot chose its new
+Active Pokémon after a Knock Out, or which Pokémon to switch in, it ranked them
+by HP, attack damage, Abilities and Retreat Cost and **ignored attached
+Energy**. It could promote a big Pokémon with no Energy over a smaller one
+ready to attack, and the "Why?" note would honestly explain that, which is
+the wrong lesson for a learner. "Promote something that can attack" is one of
+the first rules of thumb a new player is taught.
+
+### What changed
+
+- `ChoosePokemonPromptResolver`: for `CHOOSE_NEW_ACTIVE_POKEMON` and
+  `CHOOSE_POKEMON_TO_SWITCH`, a Pokémon whose attached Energy already pays for
+  one of its attacks gets `scores.activeChoice.canAttack` (default 60) added to
+  its Pokémon score. That is enough to beat a typical HP or damage gap, so
+  being able to attack decides first and the old factors break ties. The
+  ranking is the same function for both sides, so on the opponent's side
+  (Gust of Wind style switches) the bot now prefers to drag up a Pokémon that
+  **cannot** attack yet.
+- Energy is read as printed (`provides` x `provideAmount`, matched with
+  `StateUtils.checkEnoughEnergy`), the same reading the bot's `EnergyScore`
+  uses. Effects that change what Energy provides are not simulated here.
+- The "Why?" note follows the real ranking. For these prompts the measure
+  reads "first whether the attached Energy already pays for an attack, then
+  HP, attack damage, Abilities and Retreat Cost", and when Energy decided it,
+  one more sentence: "Its attached Energy already pays for an attack, so it
+  can attack right away." (or, for the opponent's Pokémon, "It does not have
+  the Energy for any of its attacks yet, so it cannot attack right away.").
+- New bot-bench variant `energy-blind-active` (`canAttack: 0`) keeps the old
+  behaviour for comparison. Setting the score to 0 also restores the old
+  note wording.
+
+### Tests
+
+- simple-bot 73 → **80 specs**: promotes the ready Pokémon over a bigger one
+  (with the full note), Colorless vs wrong-type Energy, all ready → falls back
+  to HP, switch-in prompt, opponent's unready Pokémon dragged up (with note),
+  other prompts ignore Energy, `canAttack: 0` restores the old choice and
+  wording. Lint clean.
+- bot-bench 38, server 45 specs pass; smoke (21 seeded games) passes with 0
+  errors/guard/stalled/illegal moves. common, sets and play are unchanged.
+- Strength, 200 games per era, seed 5, default vs `energy-blind-active`:
+  BS 49.0% / 51.0%, BW 53.5% / 46.5%. Both within noise. This is a change for
+  what the learner sees the bot do, not a measured strength gain; it is not a
+  measured loss either.
+
+### Not verified
+
+- Not seen in a live game in the browser; the note rendering is the existing,
+  spec-covered `LOG_BOT_REASON` path.
+- How often the new rule changes the choice in real games was not counted.
 
 ---
 

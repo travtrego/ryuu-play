@@ -73,7 +73,7 @@ All options (`node packages/bot-bench/dist/cli.js --help`):
 | --- | --- | --- |
 | `--games N` | 100 | games to play |
 | `--seed S` | 1 | run seed. Game *i* uses `deriveSeed(S, i)` |
-| `--bot-a`, `--bot-b` | `default` | bot variants: `default`, `no-retreat`, `no-trainers` |
+| `--bot-a`, `--bot-b` | `default` | bot variants: `default`, `no-retreat`, `no-trainers`, `energy-blind-active` |
 | `--decks a,b,...` | all 7 | deck pool |
 | `--only i,j` | | play only these game indexes of the run |
 | `--max-turns N` | 200 | loop guard: abort once `state.turn > N` |
@@ -281,6 +281,17 @@ unexpected errors: 0
 | --- | --- | --- | --- | --- | --- |
 | default | no-retreat | 2 | 58.3% (49) | 41.7% (35) | 0 errors/guard/stalled |
 | default | no-trainers | 3 | 65.5% (55) | 34.5% (29) | 0 errors/guard/stalled; games shorter (23.3 turns, 72 actions avg) |
+
+2026-11-02, per era (`--era`, 200 games each, seed 5), after the new Active
+choice started counting attached Energy:
+
+| A | B | era | A win rate | B win rate | notes |
+| --- | --- | --- | --- | --- | --- |
+| default | energy-blind-active | bs | 49.0% (98) | 51.0% (102) | 0 errors/guard/stalled/illegal |
+| default | energy-blind-active | bw | 53.5% (107) | 46.5% (93) | 0 errors/guard/stalled/illegal |
+
+Both are within one standard deviation (about 3.5 points at 200 games): no
+measurable change in strength either way.
 
 Both variants lose to the default bot. The harness picks up changes in bot
 strength at this sample size. The no-trainers gap is clear. The no-retreat gap
