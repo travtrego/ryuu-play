@@ -1,5 +1,5 @@
 import { BotAiFactory, BotFlipMode, BotShuffleMode } from '@ptcg/common';
-import { SimpleBot, SimpleBotOptions, allSimpleTactics } from '@ptcg/simple-bot';
+import { SimpleBot, SimpleBotOptions, allSimpleTactics, defaultStateScores } from '@ptcg/simple-bot';
 
 export interface BotVariant {
   name: string;
@@ -51,6 +51,8 @@ export const botVariants: BotVariant[] = [
   simpleBotVariant('no-retreat', 'SimpleBot without RetreatTactic', withoutTactics('RetreatTactic')),
   simpleBotVariant('no-trainers', 'SimpleBot without PlayTrainerTactic and PlaySupporterTactic',
     withoutTactics('PlayTrainerTactic', 'PlaySupporterTactic')),
+  simpleBotVariant('energy-blind-active', 'SimpleBot choosing its Active without counting attached Energy '
+    + '(the behaviour before 2026-11-02)', { scores: { ...defaultStateScores, activeChoice: { canAttack: 0 } } }),
 ];
 
 export function findBotVariant(name: string): BotVariant {

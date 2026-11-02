@@ -93,6 +93,9 @@ export const defaultStateScores = {
     passTurn: -1000,
     attackBonus: 100,
     supporterBonus: 25
+  },
+  activeChoice: {
+    canAttack: 60
   }
 };
 
