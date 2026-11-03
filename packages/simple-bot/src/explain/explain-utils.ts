@@ -78,6 +78,51 @@ export function missingEnergyCount(slot: PokemonSlot, cost: CardType[]): number 
   return Math.max(1, cost.length - provided);
 }
 
+export const TYPE_NAMES: { [key: number]: string } = {
+  [CardType.COLORLESS]: 'Colorless',
+  [CardType.GRASS]: 'Grass',
+  [CardType.FIGHTING]: 'Fighting',
+  [CardType.PSYCHIC]: 'Psychic',
+  [CardType.WATER]: 'Water',
+  [CardType.LIGHTNING]: 'Lightning',
+  [CardType.METAL]: 'Metal',
+  [CardType.DARK]: 'Darkness',
+  [CardType.FIRE]: 'Fire',
+  [CardType.DRAGON]: 'Dragon',
+  [CardType.FAIRY]: 'Fairy'
+};
+
+/** An Energy cost in words, e.g. [R, C, C] -> "1 Fire and 2 Colorless". */
+export function describeCost(cost: CardType[]): string {
+  const order: CardType[] = [];
+  const counts = new Map<CardType, number>();
+  cost.forEach(t => {
+    if (!counts.has(t)) {
+      order.push(t);
+    }
+    counts.set(t, (counts.get(t) || 0) + 1);
+  });
+  // Colorless is written last, as on the cards.
+  order.sort((a, b) => (a === CardType.COLORLESS ? 1 : 0) - (b === CardType.COLORLESS ? 1 : 0));
+  return joinList(order.map(t => `${counts.get(t)} ${TYPE_NAMES[t] || 'Energy'}`));
+}
+
+/** Card names with repeats counted, e.g. "2 Fire Energy and Rainbow Energy". */
+export function countedNames(names: string[]): string {
+  const order: string[] = [];
+  const counts = new Map<string, number>();
+  names.forEach(n => {
+    if (!counts.has(n)) {
+      order.push(n);
+    }
+    counts.set(n, (counts.get(n) || 0) + 1);
+  });
+  return joinList(order.map(n => {
+    const count = counts.get(n) || 1;
+    return count === 1 ? n : plural(count, n);
+  }));
+}
+
 export const CONDITION_NAMES: { [key: number]: string } = {
   [SpecialCondition.PARALYZED]: 'Paralyzed',
   [SpecialCondition.CONFUSED]: 'Confused',

@@ -10,7 +10,7 @@ Rewrite this block each run. It is what a self-directing run should read first;
 the entries below are the record of what happened, not what to do.
 
 **Still holding new learn-mode UI until the owner has played a guided game.**
-No notes from the owner had arrived by 2026-11-02 (no new issues or
+No notes from the owner had arrived by 2026-11-03 (no new issues or
 comments). Five runs of learn-mode features (the "Why?" notes, the Tips panel,
 rules deep links, the guided first game) are covered by specs but have not been
 seen working together in a live game by a person, and the one bug found there
@@ -21,10 +21,9 @@ note is fine; new screens and panels wait. So:
    learn-mode priority. Queued after that: mark a game as guided so the Tips
    panel can show a turn-by-turn script for turns 1-3, falling back to the
    normal tips.
-2. **More prompt answers could get a "Why?"**. Still silent:
-   `ChooseEnergyPrompt` (which Energy to discard for an attack or retreat),
-   `MoveDamagePrompt`, `PutDamagePrompt`, `MoveEnergyPrompt`,
-   `AttachEnergyPrompt`. Deck searches and the starting Pokémon stay silent
+2. **More prompt answers could get a "Why?"**. `ChooseEnergyPrompt` done
+   2026-11-03. Still silent: `MoveDamagePrompt`, `PutDamagePrompt`,
+   `MoveEnergyPrompt`, `AttachEnergyPrompt`. Deck searches and the starting Pokémon stay silent
    **on purpose**: naming those cards would show the human hidden information.
    This is the next bot-side unit.
 3. **Bot quality behind the reasons.** Done 2026-11-02 for the new Active /
@@ -46,6 +45,58 @@ note is fine; new screens and panels wait. So:
    merged (every PR is squash-merged); check `merged_at` on the branch's PR.
    Exactly one `claude/*` branch is genuinely unmerged with no PR:
    `claude/pokemon-tcg-ai-trainer-3m3qqe` (2026-09-29). Leave it alone.
+
+---
+
+## 2026-11-03 — "Why?" note for which Energy the bot discards
+
+When the bot retreats, or uses an attack that discards Energy (Ninetales'
+Fire Blast, Charizard's Fire Spin and about 30 others), it now says which
+Energy it gave up and, when there was a real choice, why it kept the rest.
+That is a small but real lesson for a new player: pay with plain Energy and
+keep the flexible ones (Rainbow, Double Colorless) for later.
+
+Examples, from 40 headless bot-vs-bot games on the bench decks:
+
+- Discarded Fire Energy for the effect, which asks for 1 Fire Energy. It kept
+  Double Colorless Energy and Fire Energy: the bot pays each typed Energy with
+  the Energy that can provide the fewest types and uses no more Energy than
+  needed.
+- Discarded Water Energy to pay the Retreat Cost (1 Colorless). It kept 2 Water
+  Energy.
+- Discarded Lightning Energy to pay the Retreat Cost (1 Colorless). That was all
+  the Energy it could choose from.
+
+### How it works
+
+- `ChooseEnergyPromptResolver.explain` restates the resolver's real order:
+  typed costs first, each with the Energy that can provide the fewest types;
+  then the Colorless part with the Energy that provides the least (its
+  existing `getEnergyCardScore`); then Energy that is not needed is dropped.
+  Only the rules that applied to this cost are named.
+- No rule is quoted when the only Energy left is more of the same card (there
+  was no real choice), or when it used everything. When the Energy cannot pay,
+  it says so ("Did not retreat: ...").
+- Attached Energy is public, so nothing hidden is revealed.
+- New helpers in `explain-utils`: `describeCost` ("1 Fire and 2 Colorless",
+  Colorless last as on the cards) and `countedNames` ("2 Fire Energy and
+  Rainbow Energy").
+- Bot behaviour is unchanged; this only adds the note. It reuses the existing
+  `LOG_BOT_REASON` path, so no UI change.
+
+### Tests
+
+- simple-bot 80 → **89 specs** (7 for the energy note: retreat, typed discard
+  keeping Rainbow, mixed cost listing all three rules, all Energy used, only
+  same cards left, cannot pay, other prompts silent; 2 for the helpers). Lint
+  clean.
+- bot-bench 38, server 45 specs pass; smoke (21 seeded games) passes with 0
+  errors/guard/stalled/illegal moves.
+
+### Not verified
+
+- Not seen in a live game in the browser; the note rendering is the existing,
+  spec-covered `LOG_BOT_REASON` path.
 
 ---
 

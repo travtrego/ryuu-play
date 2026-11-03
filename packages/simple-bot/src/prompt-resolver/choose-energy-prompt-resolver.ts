@@ -1,6 +1,7 @@
-import { Player, State, Action, ResolvePromptAction, Prompt, StateUtils, CardType } from '@ptcg/common';
+import { Player, State, Action, ResolvePromptAction, Prompt, StateUtils, CardType, GameMessage } from '@ptcg/common';
 import { PromptResolver } from './prompt-resolver';
 import { ChooseEnergyPrompt, EnergyMap } from '@ptcg/common';
+import { countedNames, describeCost } from '../explain/explain-utils';
 
 
 export class ChooseEnergyPromptResolver extends PromptResolver {
@@ -81,6 +82,66 @@ export class ChooseEnergyPromptResolver extends PromptResolver {
 
       return new ResolvePromptAction(prompt.id, result);
     }
+  }
+
+  /**
+   * Learn mode. Attached Energy is public, so the choice can always be named.
+   * The reason restates the order resolvePrompt() really uses: typed costs
+   * first, each with the Energy that can provide the fewest types; then the
+   * Colorless part with the Energy that provides the least
+   * (getEnergyCardScore); then any Energy that is not needed is dropped.
+   */
+  public explain(state: State, player: Player, prompt: Prompt<any>, action: Action): string {
+    if (!(prompt instanceof ChooseEnergyPrompt) || !(action instanceof ResolvePromptAction)) {
+      return '';
+    }
+    const retreat = prompt.message === GameMessage.CHOOSE_POKEMON_TO_SWITCH;
+    const discard = retreat || prompt.message === GameMessage.CHOOSE_ENERGIES_TO_DISCARD;
+    const cost = describeCost(prompt.cost);
+    const what = retreat
+      ? `to pay the Retreat Cost (${cost})`
+      : `for the effect, which asks for ${cost} Energy`;
+    const chosen: EnergyMap[] | null = action.result;
+
+    if (chosen === null) {
+      return retreat
+        ? `Did not retreat: its Energy cannot pay the Retreat Cost (${cost}).`
+        : `Chose no Energy: its Energy cannot cover the ${cost} Energy the effect asks for.`;
+    }
+    if (chosen.length === 0) {
+      return '';
+    }
+
+    const verb = discard ? 'Discarded' : 'Chose';
+    const names = countedNames(chosen.map(e => e.card.name));
+    const head = `${verb} ${names} ${what}.`;
+
+    const kept = prompt.energy.filter(e => !chosen.includes(e));
+    if (kept.length === 0) {
+      return `${head} That was all the Energy it could choose from.`;
+    }
+    const keptNames = countedNames(kept.map(e => e.card.name));
+    const chosenNames = chosen.map(e => e.card.name);
+    if (kept.every(e => chosenNames.includes(e.card.name))) {
+      // Only more of the same cards were left, so there was no real choice.
+      return `${head} It kept ${keptNames}.`;
+    }
+
+    const typed = prompt.cost.some(c => c !== CardType.COLORLESS);
+    const colorless = prompt.cost.some(c => c === CardType.COLORLESS);
+    const rules: string[] = [];
+    if (typed) {
+      rules.push('pays each typed Energy with the Energy that can provide the fewest types');
+    }
+    if (colorless) {
+      rules.push(`pays ${typed ? 'the' : 'a'} Colorless cost with the Energy that provides the least`);
+    }
+    rules.push('uses no more Energy than needed');
+    const rule = rules.length === 3
+      ? `${rules[0]}, ${rules[1]} and ${rules[2]}`
+      : rules.join(' and ');
+
+    return `${head} It kept ${keptNames}: the bot ${rule}.`;
   }
 
   private getEnergyCardScore(provides: CardType[], provideAmount: number): number {
