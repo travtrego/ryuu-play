@@ -1,6 +1,6 @@
 import { State, Player, PokemonSlot, PokemonCard, CardList, SpecialCondition,
   EnergyCard, CardType, Card, deepClone } from '@ptcg/common';
-import { describeChanges, joinList, plural } from './explain-utils';
+import { countedNames, describeChanges, describeCost, joinList, plural } from './explain-utils';
 
 class TestPokemon extends PokemonCard {
   name = 'pokemon';
@@ -71,6 +71,18 @@ describe('explain-utils', () => {
     expect(plural(1, 'card')).toBe('1 card');
     expect(plural(3, 'card')).toBe('3 cards');
     expect(plural(2, 'Energy')).toBe('2 Energy');
+  });
+
+  it('describes an Energy cost with Colorless last', () => {
+    expect(describeCost([ CardType.COLORLESS, CardType.FIRE, CardType.COLORLESS ]))
+      .toBe('1 Fire and 2 Colorless');
+    expect(describeCost([ CardType.DARK ])).toBe('1 Darkness');
+  });
+
+  it('counts repeated card names', () => {
+    expect(countedNames([ 'Fire Energy', 'Rainbow Energy', 'Fire Energy' ]))
+      .toBe('2 Fire Energy and Rainbow Energy');
+    expect(countedNames([ 'Potion', 'Potion' ])).toBe('2 Potions');
   });
 
   it('reports nothing when nothing changed', () => {
