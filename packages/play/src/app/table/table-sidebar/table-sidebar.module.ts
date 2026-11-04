@@ -12,6 +12,7 @@ import { ChooseAvatarPopupComponent } from './choose-avatar-popup/choose-avatar-
 import { PlayerAvatarComponent } from './player-avatar/player-avatar.component';
 import { PlayerTimeComponent } from './player-time/player-time.component';
 import { LearnTipsComponent } from './learn-tips/learn-tips.component';
+import { TutorialCoachComponent } from './tutorial-coach/tutorial-coach.component';
 
 @NgModule({
     imports: [
@@ -28,7 +29,8 @@ import { LearnTipsComponent } from './learn-tips/learn-tips.component';
         PlayerBarComponent,
         ReplayControlsComponent,
         TableSidebarComponent,
-        PlayerTimeComponent
+        PlayerTimeComponent,
+        TutorialCoachComponent
     ],
     exports: [
         TableSidebarComponent

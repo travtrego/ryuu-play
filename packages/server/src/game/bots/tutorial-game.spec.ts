@@ -40,6 +40,7 @@ describe('Tutorial game', () => {
     expect(client).toBe(human);
     expect(deck).toEqual(tutorialPlayerDeck.cards);
     expect(settings instanceof GameSettings).toBe(true);
+    expect(settings.rules.tutorial).toBeTrue();
     expect(invited).toBe(bot);
     expect(invitedDeck).toEqual(tutorialBotDeck.cards);
     expect(arbiter instanceof ScriptedArbiter).toBeTrue();
@@ -70,6 +71,13 @@ describe('Tutorial game', () => {
     createGuidedGame(core, human);
     const arbiter = createGame.calls.mostRecent().args[5];
     expect(arbiter).toBeUndefined();
+  });
+
+  it('marks only the tutorial game as a tutorial', () => {
+    createGuidedGame(core, human);
+    const guidedSettings = createGame.calls.mostRecent().args[2] as GameSettings | undefined;
+    expect(guidedSettings === undefined || !guidedSettings.rules.tutorial).toBeTrue();
+    expect(new GameSettings().rules.tutorial).toBeFalse();
   });
 
   it('gives a Game with no arbiter argument the random Arbiter', () => {

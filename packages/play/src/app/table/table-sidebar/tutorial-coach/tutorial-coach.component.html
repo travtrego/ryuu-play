@@ -1,0 +1,39 @@
+<ng-container *ngIf="view && (view.lesson || view.why || view.finished)">
+  <div class="ptcg-tutorial-coach-header">
+    <mat-icon class="ptcg-tutorial-coach-icon">school</mat-icon>
+    <h4 translate>TUTORIAL_COACH_TITLE</h4>
+    <span class="ptcg-u-spacer"></span>
+    <span class="ptcg-tutorial-coach-progress">
+      {{ 'TUTORIAL_COACH_PROGRESS' | translate: { done: view.done, total: view.total } }}
+    </span>
+  </div>
+
+  <div class="ptcg-tutorial-coach-why" *ngIf="view.why" [attr.data-lesson]="view.why.id">
+    <strong translate>TUTORIAL_COACH_WHY</strong>
+    {{ view.why.text }}
+    <a class="ptcg-tutorial-coach-link"
+      routerLink="/rules"
+      [fragment]="view.why.section"
+      target="_blank"
+      rel="noopener">{{ 'LEARN_TIPS_MORE' | translate }}</a>
+  </div>
+
+  <div class="ptcg-tutorial-coach-lesson" *ngIf="view.lesson" [attr.data-lesson]="view.lesson.id">
+    <strong *ngIf="view.lesson.kind === 'do'" translate>TUTORIAL_COACH_DO</strong>
+    {{ view.lesson.text }}
+    <a class="ptcg-tutorial-coach-link"
+      routerLink="/rules"
+      [fragment]="view.lesson.section"
+      target="_blank"
+      rel="noopener">{{ 'LEARN_TIPS_MORE' | translate }}</a>
+    <div class="ptcg-tutorial-coach-actions" *ngIf="view.lesson.kind === 'read'">
+      <button mat-stroked-button color="primary" (click)="acknowledge(view.lesson.id)">
+        {{ 'TUTORIAL_COACH_GOT_IT' | translate }}
+      </button>
+    </div>
+  </div>
+
+  <div class="ptcg-tutorial-coach-lesson" *ngIf="!view.lesson && view.finished" data-lesson="finished">
+    {{ 'TUTORIAL_COACH_FINISHED' | translate }}
+  </div>
+</ng-container>

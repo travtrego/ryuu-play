@@ -21,7 +21,7 @@ describe('GamesComponent', () => {
   let deckService: jasmine.SpyObj<DeckService>;
 
   beforeEach(waitForAsync(() => {
-    mainService = jasmine.createSpyObj('MainService', ['createGame', 'createGuidedGame']);
+    mainService = jasmine.createSpyObj('MainService', ['createGame', 'createGuidedGame', 'createTutorialGame']);
     alertService = jasmine.createSpyObj('AlertService', ['toast', 'alert']);
     deckService = jasmine.createSpyObj('DeckService', ['getList', 'getDeck']);
     const sessionService = {
@@ -83,5 +83,33 @@ describe('GamesComponent', () => {
     guidedButton().click();
 
     expect(alertService.toast).toHaveBeenCalledWith('ERROR_UNKNOWN');
+  });
+
+  function tutorialButton(): HTMLButtonElement {
+    return fixture.nativeElement.querySelector('.ptcg-tutorial-game-button');
+  }
+
+  it('should show a tutorial button', () => {
+    expect(tutorialButton()).not.toBeNull();
+    expect(tutorialButton().textContent).toContain('GAMES_TUTORIAL_BUTTON');
+  });
+
+  it('should start a tutorial game without asking for a deck', () => {
+    mainService.createTutorialGame.and.returnValue(of({}));
+    tutorialButton().click();
+
+    expect(mainService.createTutorialGame).toHaveBeenCalledTimes(1);
+    expect(mainService.createGuidedGame).not.toHaveBeenCalled();
+    expect(deckService.getList).not.toHaveBeenCalled();
+    expect(component.loading).toBe(false);
+  });
+
+  it('should explain when no bot is online for the tutorial', () => {
+    mainService.createTutorialGame.and.returnValue(
+      throwError(() => new ApiError(ApiErrorEnum.SOCKET_ERROR, 'ERROR_BOT_NOT_FOUND')));
+    tutorialButton().click();
+
+    expect(alertService.toast).toHaveBeenCalledWith('GAMES_GUIDED_NO_BOT');
+    expect(component.loading).toBe(false);
   });
 });

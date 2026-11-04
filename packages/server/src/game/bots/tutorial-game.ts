@@ -1,4 +1,4 @@
-import { GameError, GameMessage, GameSettings, tutorialBotDeck, tutorialPlayerDeck } from '@ptcg/common';
+import { GameError, GameMessage, GameSettings, Rules, tutorialBotDeck, tutorialPlayerDeck } from '@ptcg/common';
 import { BotClient } from './bot-client';
 import { Client } from '../client/client.interface';
 import { Core } from '../core/core';
@@ -23,6 +23,9 @@ export function createTutorialGame(core: Core, client: Client, flips: boolean[] 
     throw new GameError(GameMessage.ERROR_BOT_NOT_FOUND);
   }
   const gameSettings = new GameSettings();
+  // Copied into state.rules by the Game constructor, before the first dispatch,
+  // so even the first state the client sees is marked as a tutorial.
+  gameSettings.rules = new Rules({ tutorial: true });
   return core.createGame(
     client,
     tutorialPlayerDeck.cards.slice(),

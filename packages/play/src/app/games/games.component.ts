@@ -77,9 +77,17 @@ export class GamesComponent implements OnInit {
     return dialog.afterClosed().toPromise();
   }
 
+  public createTutorialGame() {
+    this.startLearnGame(this.mainSevice.createTutorialGame());
+  }
+
   public createGuidedGame() {
+    this.startLearnGame(this.mainSevice.createGuidedGame());
+  }
+
+  private startLearnGame(request: Observable<unknown>) {
     this.loading = true;
-    this.mainSevice.createGuidedGame()
+    request
       .pipe(
         finalize(() => { this.loading = false; }),
         takeUntilDestroyed(this.destroyRef)
