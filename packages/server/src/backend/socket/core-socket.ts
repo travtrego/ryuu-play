@@ -10,6 +10,7 @@ import { SocketWrapper, Response } from './socket-wrapper';
 import { deepCompare } from '@ptcg/common';
 import { Base64 } from '@ptcg/common';
 import { createGuidedGame } from '../../game/bots/guided-game';
+import { createTutorialGame } from '../../game/bots/tutorial-game';
 
 export class CoreSocket {
 
@@ -28,6 +29,7 @@ export class CoreSocket {
     this.socket.addListener('core:getInfo', this.getCoreInfo.bind(this));
     this.socket.addListener('core:createGame', this.createGame.bind(this));
     this.socket.addListener('core:createGuidedGame', this.createGuidedGame.bind(this));
+    this.socket.addListener('core:createTutorialGame', this.createTutorialGame.bind(this));
   }
 
   public onConnect(client: Client): void {
@@ -104,6 +106,11 @@ export class CoreSocket {
 
   private createGuidedGame(data: void, response: Response<GameState>): void {
     const game = createGuidedGame(this.core, this.client);
+    response('ok', CoreSocket.buildGameState(game));
+  }
+
+  private createTutorialGame(data: void, response: Response<GameState>): void {
+    const game = createTutorialGame(this.core, this.client);
     response('ok', CoreSocket.buildGameState(game));
   }
 

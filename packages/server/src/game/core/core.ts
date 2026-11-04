@@ -3,6 +3,7 @@ import { CleanerTask } from '../tasks/cleaner-task';
 import { Client } from '../client/client.interface';
 import { GameError } from '@ptcg/common';
 import { GameMessage } from '@ptcg/common';
+import { Arbiter } from './arbiter';
 import { Game } from './game';
 import { GameSettings } from '@ptcg/common';
 import { InvitePlayerAction } from '@ptcg/common';
@@ -52,7 +53,8 @@ export class Core {
     deck: string[],
     gameSettings: GameSettings = new GameSettings(),
     invited?: Client,
-    invitedDeck?: string[]
+    invitedDeck?: string[],
+    arbiter?: Arbiter
   ): Game {
     if (this.clients.indexOf(client) === -1) {
       throw new GameError(GameMessage.ERROR_CLIENT_NOT_CONNECTED);
@@ -60,7 +62,9 @@ export class Core {
     if (invited && this.clients.indexOf(invited) === -1) {
       throw new GameError(GameMessage.ERROR_CLIENT_NOT_CONNECTED);
     }
-    const game = new Game(this, generateId(this.games), gameSettings);
+    // The arbiter has to be in place before the first dispatch: setup shuffles
+    // as soon as both players have joined, which happens below.
+    const game = new Game(this, generateId(this.games), gameSettings, arbiter);
     game.invitedDeck = invitedDeck;
     game.dispatch(client, new AddPlayerAction(client.id, client.name, deck));
     if (invited) {
