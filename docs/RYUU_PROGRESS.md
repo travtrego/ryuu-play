@@ -12,8 +12,9 @@ the entries below are the record of what happened, not what to do.
 **The hold on new learn-mode UI is over.** It existed only until the owner gave
 direction, and on 2026-11-04 he did: build a **slow, scripted tutorial game**
 that teaches a first game step by step. That is now the top priority, ahead of
-everything else in this list. The owner has still not played a live game, so
-the live-verification gap from #28 remains real — check a tutorial game in a
+everything else in this list. The owner has still not played a live game. A
+headless browser has now driven a tutorial game from setup to evolving (see
+2026-11-04), but no person has played one — check a tutorial game in a
 headless browser where practical, and keep saying in each PR what was not seen
 running.
 
@@ -25,37 +26,42 @@ waits for them to do it, then explains why.** Different from the guided game
 
 Build in this order; each piece is usable when it lands:
 
-1. **Fixed card order and scripted coin flips, for tutorial games only.** Every
-   lesson has to happen on cue (you draw Charmeleon on turn 3; the bot Knocks
-   Out on turn 5). Today `packages/server/src/game/core/arbiter.ts` shuffles on
-   `ShuffleDeckPrompt` and flips randomly. `bot-bench`'s `SeededArbiter`
-   (`packages/bot-bench/src/seeded-arbiter.ts`) is a working model. Gate it to
-   tutorial games; never change normal games.
-2. **The lesson script and coach UI.** One concept at a time, ~6-8 turns: setup
-   and Prizes -> attach Energy -> Bench a Pokémon -> evolve -> play a Trainer ->
-   attack and damage -> Weakness -> retreat -> Knock Out and taking Prizes ->
-   how the game is won. Each step highlights its target, gives an instruction
-   ("Drag Fire Energy onto Charmander"), waits for the player to do it, then
-   explains why it mattered. Off-script moves get a gentle redirect, not an
-   error.
-3. **Bot pauses until the player clicks Continue.** Show the bot's existing
-   "Why?" note, then wait. The bot already delays its actions with `setTimeout`
-   in `packages/server/src/game/bots/bot-game-handler.ts`, so a tutorial-only
-   "wait for continue" gate belongs there.
+1. ~~Fixed card order and scripted coin flips~~ — **done** (#37,
+   `ScriptedArbiter`, `tutorial-decks.ts`).
+2. ~~The lesson script and coach UI~~ — **done 2026-11-04**: a "Tutorial"
+   button on the Games page and a coach panel at the table. See the entry
+   below. Two things from the original plan were **not** built: the coach does
+   not *highlight* its target on the board (it names it), and it does not
+   block off-script moves (decided: guide, don't block).
+3. **Next: the bot pauses until the player clicks Continue.** Seen in the
+   headless run on 2026-11-04: the bot's whole turn (attach, attack, end turn)
+   lands in under 8 seconds, before the coach's "it's the bot's turn" lesson is
+   ever on screen, so that lesson currently only shows if the player looks at
+   the table during the bot's turn. Show the bot's "Why?" note, then wait. The
+   bot delays its actions with `setTimeout` in
+   `packages/server/src/game/bots/bot-game-handler.ts`, so a tutorial-only
+   "wait for continue" gate belongs there, gated on `state.rules.tutorial`
+   (or on the game's `ScriptedArbiter`). The coach's `bot-turn` lesson
+   (`tutorial-coach.ts`) is the natural place for the Continue button.
 4. **Deck primers and an after-game recap.** A primer per deck (game plan, key
    Pokémon and evolution lines, what to hold, matchups), and a recap built from
    the real game log ("the bot took 2 Prizes because your Bench was empty").
+5. Smaller follow-ups: the games page does not open the new table by itself
+   (true of the guided game too: the player clicks "#1 bot" under Tables);
+   highlight the coach's target card on the board; the coach is in the
+   sidebar, which is an overlay on phones (#21), so a phone player must open it.
 
-Reuse rather than rebuild: `getLearnTips` (a pure function) in
-`packages/play/src/app/table/table-sidebar/learn-tips/learn-tips.ts`,
-`RULES_SECTIONS` in `packages/play/src/app/rules/`, `SimpleTactic.explain` and
-`PromptResolver.explain` in `packages/simple-bot/src`, the guided-game path
-`core:createGuidedGame` -> `packages/server/src/game/bots/guided-game.ts`, and
-the beginner decks in `packages/common/src/game/beginner-decks.ts`.
+Reuse rather than rebuild: `TutorialCoach` / `TUTORIAL_LESSONS` in
+`packages/play/src/app/table/table-sidebar/tutorial-coach/`, `getLearnTips` in
+`.../learn-tips/learn-tips.ts`, `RULES_SECTIONS` in
+`packages/play/src/app/rules/`, `SimpleTactic.explain` and
+`PromptResolver.explain` in `packages/simple-bot/src`.
 
-Still open in the design, decide as you go and record the choice: how rigidly
-scripted step 2 should be, and whether the tutorial ends with a recap or rolls
-on as a normal game with tips on.
+Design choices made (2026-11-04): the coach **guides, it does not block** —
+every legal move stays legal, and an off-script move just moves the coach on
+(a lesson already done counts as done; one that can't happen yet waits without
+holding up the rest). After the last lesson the game **rolls on as a normal
+game** with the Tips panel; a recap is piece 4.
 
 ### 2. Everything else, now lower priority
 
@@ -88,6 +94,67 @@ on as a normal game with tips on.
   squash-merged); check `merged_at` on the branch's PR. Exactly one `claude/*`
   branch is genuinely unmerged with no PR:
   `claude/pokemon-tcg-ai-trainer-3m3qqe` (2026-09-29). Leave it alone.
+
+---
+
+## 2026-11-04 — Tutorial game, piece 2: the lesson script and coach
+
+There is now a **Tutorial** button on the Games page, next to "Guided first
+game". It starts a game against the bot with the fixed-order tutorial decks
+from #37, and the table shows a **Tutorial** panel in the sidebar, above Tips.
+The panel tells the player what to do ("Your move: Drag Fire Energy from your
+hand onto Charmander."), waits until the board shows they did it, then says
+why it mattered ("Why: Attacks cost Energy ... You can attach only one Energy
+card per turn, so attach one every turn."). Each step has a "Learn more" link
+to the matching section of /rules, and a "1 of 12" progress count.
+
+The 12 lessons, in order: setup and Prizes, attach Energy, Bench a Pokémon,
+play a Trainer (Bill), attack and damage, the bot's turn, evolve, Weakness,
+retreating, taking a Prize, losing a Prize, how the game is won. "Do" lessons
+finish when the game state shows the move; "read" lessons finish on a "Got it"
+button. After the last one the panel says the tutorial is complete and the game
+carries on normally.
+
+### How it works
+
+- `state.rules.tutorial` (new, default false) marks the game. It is set only by
+  `createTutorialGame`, before the first dispatch; the engine never reads it.
+  A spec asserts the guided game and default settings are not marked.
+- `tutorial-coach.ts` (play) holds the lesson list and `TutorialCoach`, which
+  works the current lesson out from the state on every change and remembers
+  only which lessons are finished. Every instruction and "why" is built from
+  the cards actually on the board or in the player's own hand (names, attack
+  costs, HP, damage, Weakness, Retreat Cost), so the text can't drift from the
+  game, and nothing hidden is shown.
+- Guides, does not block (see the design note above). Lessons the player did
+  out of order are counted; lessons done before the coach first saw the game
+  (a page reload) finish quietly rather than explaining an old move.
+- The Trainer lesson only uses a "Draw ..." Trainer, so it can't send the
+  player to play a card that would fail for want of a target.
+
+### Tests
+
+- play 163 → **182 specs** (12 for the lesson script, 4 for the coach panel,
+  3 for the Tutorial button). `ng lint` clean, `ng build` ok.
+- server 59 → **60 specs** (the tutorial flag). common 350, sets 2698,
+  simple-bot 89, bot-bench 38: all pass; smoke benchmark 0 errors / 0 rejected
+  bot actions.
+- **Headless browser run** (Playwright against a local server with SQLite):
+  Tutorial button → table → setup lesson; chose Charmander; then, by dragging
+  cards as a player would, attached Fire Energy, Benched Growlithe, played Bill
+  and attacked with Scratch. After each move the panel showed the right "why"
+  and the next lesson, ending on "Charmeleon evolves from Charmander. Drag
+  Charmeleon from your hand onto Charmander to evolve it." on turn 3. The bot's
+  own "Why?" notes appeared in the log as before. Card images were blank (no
+  scans downloaded in the sandbox).
+
+### Not verified
+
+- Lessons after evolving (Weakness, retreat, Prizes, the end) were checked only
+  in specs, not in the browser.
+- The bot's turn is too fast for the "bot's turn" lesson to be seen in time;
+  that is piece 3.
+- Not played by a person.
 
 ---
 
