@@ -23,13 +23,21 @@ export class Game implements StoreHandler {
    * its saved decks (the guided first game). Ignored by human players.
    */
   public invitedDeck: string[] | undefined;
-  private arbiter = new Arbiter();
+  /**
+   * Answers the shuffle and coin-flip prompts. A tutorial game is given a
+   * ScriptedArbiter instead (see createTutorialGame), so its deck order and
+   * flips are fixed. Normal and guided games keep the random Arbiter.
+   */
+  private arbiter: Arbiter = new Arbiter();
   private store: Store;
   private matchRecorder: MatchRecorder;
   private timeoutRef: NodeJS.Timeout | undefined;
 
-  constructor(private core: Core, id: number, public gameSettings: GameSettings) {
+  constructor(private core: Core, id: number, public gameSettings: GameSettings, arbiter?: Arbiter) {
     this.id = id;
+    if (arbiter !== undefined) {
+      this.arbiter = arbiter;
+    }
     this.store = new Store(this);
     this.store.state.rules = gameSettings.rules;
     this.matchRecorder = new MatchRecorder(core);
