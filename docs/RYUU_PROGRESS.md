@@ -9,42 +9,85 @@ Running log of automated work on this fork. Newest entry first.
 Rewrite this block each run. It is what a self-directing run should read first;
 the entries below are the record of what happened, not what to do.
 
-**Still holding new learn-mode UI until the owner has played a guided game.**
-No notes from the owner had arrived by 2026-11-03 (no new issues or
-comments). Five runs of learn-mode features (the "Why?" notes, the Tips panel,
-rules deep links, the guided first game) are covered by specs but have not been
-seen working together in a live game by a person, and the one bug found there
-so far passed every spec (#28). Bot-side work that reuses the existing "Why?"
-note is fine; new screens and panels wait. So:
+**The hold on new learn-mode UI is over.** It existed only until the owner gave
+direction, and on 2026-11-04 he did: build a **slow, scripted tutorial game**
+that teaches a first game step by step. That is now the top priority, ahead of
+everything else in this list. The owner has still not played a live game, so
+the live-verification gap from #28 remains real — check a tutorial game in a
+headless browser where practical, and keep saying in each PR what was not seen
+running.
 
-1. **Wait for the owner's notes from playing**, and let those set the
-   learn-mode priority. Queued after that: mark a game as guided so the Tips
-   panel can show a turn-by-turn script for turns 1-3, falling back to the
-   normal tips.
-2. **More prompt answers could get a "Why?"**. `ChooseEnergyPrompt` done
-   2026-11-03. Still silent: `MoveDamagePrompt`, `PutDamagePrompt`,
-   `MoveEnergyPrompt`, `AttachEnergyPrompt`. Deck searches and the starting Pokémon stay silent
-   **on purpose**: naming those cards would show the human hidden information.
-   This is the next bot-side unit.
-3. **Bot quality behind the reasons.** Done 2026-11-02 for the new Active /
-   switch-in choice (it now counts attached Energy). Still energy-blind: the
-   `RetreatTactic` itself (whether to retreat) and Pokémon choices for other
-   effects. Measure any change with `bot-bench --era bs` / `--era bw` against
-   a variant that keeps the old behaviour, as done for `energy-blind-active`.
-4. **Cards: BW2 (79 left), then BW3 (53 left)** — only as a fallback, and only
-   per-card review of code being changed. The daily-run prompt rules out mass
-   spec-writing for whole sets.
-5. **Hosting: waiting on the owner, and has a doc.** `docs/HOSTING.md` compares
-   the options and records that SQLite works. Do not deploy anything or create
-   accounts.
-6. **Housekeeping needing the owner, not a run:** merged `claude/ryuu-*`
-   branches pile up on the remote, one per run. Deleting them is blocked for an
-   automated session, so do not spend a run trying. The owner can turn on
-   automatic branch deletion on merge in the repository settings.
-   `git merge-base --is-ancestor` is the **wrong** test for whether they are
-   merged (every PR is squash-merged); check `merged_at` on the branch's PR.
-   Exactly one `claude/*` branch is genuinely unmerged with no PR:
-   `claude/pokemon-tcg-ai-trainer-3m3qqe` (2026-09-29). Leave it alone.
+### 1. Tutorial game (top priority, about 3-5 runs)
+
+A slow first game that **sets each moment up, tells the player what to do,
+waits for them to do it, then explains why.** Different from the guided game
+(#29), which is a normal-speed game with situational tips.
+
+Build in this order; each piece is usable when it lands:
+
+1. **Fixed card order and scripted coin flips, for tutorial games only.** Every
+   lesson has to happen on cue (you draw Charmeleon on turn 3; the bot Knocks
+   Out on turn 5). Today `packages/server/src/game/core/arbiter.ts` shuffles on
+   `ShuffleDeckPrompt` and flips randomly. `bot-bench`'s `SeededArbiter`
+   (`packages/bot-bench/src/seeded-arbiter.ts`) is a working model. Gate it to
+   tutorial games; never change normal games.
+2. **The lesson script and coach UI.** One concept at a time, ~6-8 turns: setup
+   and Prizes -> attach Energy -> Bench a Pokémon -> evolve -> play a Trainer ->
+   attack and damage -> Weakness -> retreat -> Knock Out and taking Prizes ->
+   how the game is won. Each step highlights its target, gives an instruction
+   ("Drag Fire Energy onto Charmander"), waits for the player to do it, then
+   explains why it mattered. Off-script moves get a gentle redirect, not an
+   error.
+3. **Bot pauses until the player clicks Continue.** Show the bot's existing
+   "Why?" note, then wait. The bot already delays its actions with `setTimeout`
+   in `packages/server/src/game/bots/bot-game-handler.ts`, so a tutorial-only
+   "wait for continue" gate belongs there.
+4. **Deck primers and an after-game recap.** A primer per deck (game plan, key
+   Pokémon and evolution lines, what to hold, matchups), and a recap built from
+   the real game log ("the bot took 2 Prizes because your Bench was empty").
+
+Reuse rather than rebuild: `getLearnTips` (a pure function) in
+`packages/play/src/app/table/table-sidebar/learn-tips/learn-tips.ts`,
+`RULES_SECTIONS` in `packages/play/src/app/rules/`, `SimpleTactic.explain` and
+`PromptResolver.explain` in `packages/simple-bot/src`, the guided-game path
+`core:createGuidedGame` -> `packages/server/src/game/bots/guided-game.ts`, and
+the beginner decks in `packages/common/src/game/beginner-decks.ts`.
+
+Still open in the design, decide as you go and record the choice: how rigidly
+scripted step 2 should be, and whether the tutorial ends with a recap or rolls
+on as a normal game with tips on.
+
+### 2. Everything else, now lower priority
+
+- **More prompt answers could get a "Why?"**: `MoveDamagePrompt`,
+  `PutDamagePrompt`, `MoveEnergyPrompt`, `AttachEnergyPrompt`.
+  `ChooseEnergyPrompt` was done 2026-11-03. Deck searches, the starting Pokémon
+  and hand contents stay silent **on purpose**: naming those cards would show
+  the human hidden information.
+- **Bot quality behind the reasons.** The new Active / switch-in choice counts
+  attached Energy as of 2026-11-02. Still energy-blind: `RetreatTactic` itself
+  (whether to retreat) and Pokémon choices for other effects. Measure any
+  change with `bot-bench --era bs` / `--era bw` against a variant keeping the
+  old behaviour, as done for `energy-blind-active`. Win rates are only
+  comparable **within** an era (#27).
+- **Cards: BW2 (79 left), then BW3 (53 left)** — fallback only, and only
+  per-card review of code being changed. The daily-run prompt rules out mass
+  spec-writing for whole sets. Black & White found 0 bugs in 45 cards, so this
+  is confirming correctness rather than finding bugs.
+
+### 3. Waiting on the owner, not on a run
+
+- **Play a live game.** Nothing in learn mode has been seen working together in
+  a browser by a person. `docs/HOSTING.md`, "Option A - your own machine":
+  Docker locally, SQLite, no database server.
+- **Hosting stays on hold.** Do not deploy anything or create accounts.
+- **Merged `claude/ryuu-*` branches pile up**, one per run. Deleting them is
+  blocked for an automated session, so do not spend a run trying. The owner can
+  turn on automatic branch deletion on merge in the repository settings.
+  `git merge-base --is-ancestor` is the **wrong** merged-test here (every PR is
+  squash-merged); check `merged_at` on the branch's PR. Exactly one `claude/*`
+  branch is genuinely unmerged with no PR:
+  `claude/pokemon-tcg-ai-trainer-3m3qqe` (2026-09-29). Leave it alone.
 
 ---
 
