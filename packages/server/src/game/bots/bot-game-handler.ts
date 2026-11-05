@@ -1,4 +1,4 @@
-import { Action, AppendLogAction, BotAi, BotAiFactory, GameLog } from '@ptcg/common';
+import { Action, AppendLogAction, BotAi, BotAiFactory, GameLog, GamePhase } from '@ptcg/common';
 import { State } from '@ptcg/common';
 import { Client } from '../client/client.interface';
 import { Game } from '../core/game';
@@ -28,9 +28,22 @@ export class BotGameHandler {
     this.state = undefined;
     this.changeInProgress = true;
 
+    const pacer = this.game.botPacer;
+    const paced = pacer !== undefined && this.isMyTurn(state);
+    if (pacer !== undefined && !paced) {
+      // The bot's turn is over: a Continue press no move used is dropped,
+      // so it can't skip the first pause of the bot's next turn.
+      pacer.clear();
+    }
+
     const action = this.ai.decodeNextAction(state);
     if (action) {
       const reason = this.explainLastAction();
+      if (paced && pacer !== undefined) {
+        // Tutorial game: wait until the player presses Continue, so they can
+        // read the bot's last move and its "Why?" note first.
+        await pacer.wait();
+      }
       await this.waitAndDispatch(action, reason);
     }
 
@@ -55,6 +68,15 @@ export class BotGameHandler {
     if (this.state) {
       this.onStateChange(this.state);
     }
+  }
+
+  /** Is it the bot's own turn (not setup, not the player's turn)? */
+  private isMyTurn(state: State): boolean {
+    if (state.phase !== GamePhase.PLAYER_TURN) {
+      return false;
+    }
+    const player = state.players[state.activePlayer];
+    return player !== undefined && player.id === this.client.id;
   }
 
   /**

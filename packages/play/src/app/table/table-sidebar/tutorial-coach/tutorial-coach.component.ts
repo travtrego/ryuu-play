@@ -1,5 +1,6 @@
 import { Component, Input, OnChanges } from '@angular/core';
 
+import { GameService } from '../../../api/services/game.service';
 import { LocalGameState } from '../../../shared/session/session.interface';
 import { TutorialCoach, TutorialView } from './tutorial-coach';
 
@@ -8,6 +9,11 @@ import { TutorialCoach, TutorialView } from './tutorial-coach';
  * (what to do, or something to read with a "Got it" button) and why the last
  * lesson mattered, each with a "Learn more" link to the "How to play" page.
  * Shown only in tutorial games (`state.rules.tutorial`), only to the player.
+ *
+ * On the bot's turn it also shows a Continue button: in a tutorial game the
+ * bot waits for it before each move (the server's BotPacer). When the last
+ * lesson is done it tells the server to stop waiting, so the rest of the game
+ * plays at normal speed.
  */
 @Component({
   selector: 'ptcg-tutorial-coach',
@@ -23,6 +29,9 @@ export class TutorialCoachComponent implements OnChanges {
 
   private coach: TutorialCoach | undefined;
   private coachGameId: number | undefined;
+  private releasedGameId: number | undefined;
+
+  constructor(private gameService: GameService) { }
 
   ngOnChanges(): void {
     this.refresh();
@@ -32,6 +41,13 @@ export class TutorialCoachComponent implements OnChanges {
     if (this.coach !== undefined) {
       this.coach.acknowledge(id);
       this.refresh();
+    }
+  }
+
+  /** Let the waiting bot make its next move. */
+  public continueBot(): void {
+    if (this.gameState) {
+      this.gameService.botContinueAction(this.gameState.gameId);
     }
   }
 
@@ -48,6 +64,10 @@ export class TutorialCoachComponent implements OnChanges {
       this.coachGameId = gameState.localId;
     }
     this.view = this.coach.update(gameState.state, this.clientId);
+    if (this.view.finished && this.releasedGameId !== gameState.localId) {
+      this.releasedGameId = gameState.localId;
+      this.gameService.botContinueAction(gameState.gameId, true);
+    }
   }
 
 }

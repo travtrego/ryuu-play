@@ -268,7 +268,8 @@ export const TUTORIAL_LESSONS: TutorialLesson[] = [
     section: 'turn',
     ready: ctx => !ctx.myTurn && ctx.state.phase === GamePhase.PLAYER_TURN && ctx.state.turn >= 2,
     text: () => 'Now it is the bot\'s turn. It follows the same rules you do. Each of its moves shows up in the '
-      + 'game log below, with a "Why?" note that explains it.'
+      + 'game log below, with a "Why?" note that explains it. In this tutorial the bot waits for you: '
+      + 'press Continue to see its next move.'
   },
   {
     id: 'evolve',
@@ -340,6 +341,12 @@ export interface TutorialView {
   why?: { id: string, text: string, section: string };
   /** Every lesson is done. */
   finished: boolean;
+  /**
+   * It is the bot's turn and it is not waiting on the player for anything, so
+   * in a tutorial game it is waiting for the player's Continue (the server's
+   * BotPacer). False once the tutorial is finished: the bot plays on by itself.
+   */
+  botWaiting: boolean;
   done: number;
   total: number;
 }
@@ -367,7 +374,9 @@ export class TutorialCoach {
 
   public update(state: State | undefined, clientId: number): TutorialView {
     const total = this.lessons.length;
-    const empty: TutorialView = { finished: this.finished.size >= total, done: this.finished.size, total };
+    const empty: TutorialView = {
+      finished: this.finished.size >= total, done: this.finished.size, total, botWaiting: false
+    };
     if (state === undefined || !state.rules.tutorial || state.phase === GamePhase.FINISHED) {
       return empty;
     }
@@ -395,11 +404,14 @@ export class TutorialCoach {
     }
 
     const current = this.lessons.find(l => !this.finished.has(l.id) && l.ready(ctx));
+    const finishedAll = this.finished.size >= total;
+    const myPrompt = state.prompts.some(p => p.playerId === me.id && p.result === undefined);
     const view: TutorialView = {
-      finished: this.finished.size >= total,
+      finished: finishedAll,
       done: this.finished.size,
       total,
-      why: this.lastWhy
+      why: this.lastWhy,
+      botWaiting: !finishedAll && !ctx.myTurn && state.phase === GamePhase.PLAYER_TURN && !myPrompt
     };
     if (current !== undefined) {
       view.lesson = { id: current.id, kind: current.kind, text: current.text(ctx), section: current.section };

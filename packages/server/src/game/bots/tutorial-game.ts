@@ -4,6 +4,7 @@ import { Client } from '../client/client.interface';
 import { Core } from '../core/core';
 import { Game } from '../core/game';
 import { ScriptedArbiter } from '../core/scripted-arbiter';
+import { BotPacer } from '../core/bot-pacer';
 
 /**
  * Learn mode: a tutorial game.
@@ -26,7 +27,10 @@ export function createTutorialGame(core: Core, client: Client, flips: boolean[] 
   // Copied into state.rules by the Game constructor, before the first dispatch,
   // so even the first state the client sees is marked as a tutorial.
   gameSettings.rules = new Rules({ tutorial: true });
-  return core.createGame(
+  // No clock: a tutorial is read slowly, and the bot spends its turns waiting
+  // for the player's Continue, which would otherwise run its time out.
+  gameSettings.timeLimit = 0;
+  const game = core.createGame(
     client,
     tutorialPlayerDeck.cards.slice(),
     gameSettings,
@@ -34,4 +38,9 @@ export function createTutorialGame(core: Core, client: Client, flips: boolean[] 
     tutorialBotDeck.cards.slice(),
     new ScriptedArbiter(flips)
   );
+  // The bot waits for the player's Continue before each move on its turn.
+  // Set right after creation: the bot only acts once its deck promise has
+  // resolved, and setup moves are never paced anyway.
+  game.botPacer = new BotPacer();
+  return game;
 }

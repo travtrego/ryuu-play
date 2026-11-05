@@ -48,6 +48,7 @@ export class GameSocket {
     this.socket.addListener('game:action:passTurn', this.passTurn.bind(this));
     this.socket.addListener('game:action:appendLog', this.appendLog.bind(this));
     this.socket.addListener('game:action:changeAvatar', this.changeAvatar.bind(this));
+    this.socket.addListener('game:action:botContinue', this.botContinue.bind(this));
   }
 
   public onGameJoin(game: Game, client: Client): void {
@@ -112,6 +113,33 @@ export class GameSocket {
       game.dispatch(this.client, action);
     } catch (error: any) {
       response('error', error.message);
+    }
+    response('ok');
+  }
+
+  /**
+   * Learn mode: the player of a tutorial game lets the waiting bot make its
+   * next move (`release` turns the waiting off for the rest of the game).
+   * A no-op in games without a pacer.
+   */
+  private botContinue(params: {gameId: number, release?: boolean}, response: Response<void>) {
+    const game = this.core.games.find(g => g.id === params.gameId);
+    if (game === undefined) {
+      response('error', ApiErrorEnum.GAME_INVALID_ID);
+      return;
+    }
+    const isPlayer = game.state.players.some(p => p.id === this.client.id);
+    if (!isPlayer) {
+      response('error', ApiErrorEnum.GAME_INVALID_ID);
+      return;
+    }
+    const pacer = game.botPacer;
+    if (pacer !== undefined) {
+      if (params.release === true) {
+        pacer.release();
+      } else {
+        pacer.step();
+      }
     }
     response('ok');
   }

@@ -1,4 +1,4 @@
-<ng-container *ngIf="view && (view.lesson || view.why || view.finished)">
+<ng-container *ngIf="view && (view.lesson || view.why || view.finished || view.botWaiting)">
   <div class="ptcg-tutorial-coach-header">
     <mat-icon class="ptcg-tutorial-coach-icon">school</mat-icon>
     <h4 translate>TUTORIAL_COACH_TITLE</h4>
@@ -29,6 +29,15 @@
     <div class="ptcg-tutorial-coach-actions" *ngIf="view.lesson.kind === 'read'">
       <button mat-stroked-button color="primary" (click)="acknowledge(view.lesson.id)">
         {{ 'TUTORIAL_COACH_GOT_IT' | translate }}
+      </button>
+    </div>
+  </div>
+
+  <div class="ptcg-tutorial-coach-bot" *ngIf="view.botWaiting">
+    {{ 'TUTORIAL_COACH_BOT_WAITING' | translate }}
+    <div class="ptcg-tutorial-coach-actions">
+      <button mat-flat-button color="primary" (click)="continueBot()">
+        {{ 'TUTORIAL_COACH_CONTINUE' | translate }}
       </button>
     </div>
   </div>
