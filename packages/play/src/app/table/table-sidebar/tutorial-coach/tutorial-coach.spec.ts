@@ -1,4 +1,4 @@
-import { CardList, CardType, EnergyCard, GamePhase, Player, PokemonCard, PokemonSlot, Rules, Stage, State,
+import { CardList, CardType, ConfirmPrompt, EnergyCard, GameMessage, GamePhase, Player, PokemonCard, PokemonSlot, Rules, Stage, State,
   TrainerCard, TrainerType } from '@ptcg/common';
 
 import { TUTORIAL_LESSONS, TutorialCoach, payableAttacks } from './tutorial-coach';
@@ -317,6 +317,39 @@ describe('TutorialCoach (learn mode)', () => {
     expect(view.done).toBe(TUTORIAL_LESSONS.length);
     expect(view.finished).toBeTrue();
     expect(view.lesson).toBeUndefined();
+  });
+
+  it('says the bot is waiting for Continue only on its turn, and not while it waits on the player', () => {
+    me.active = slotWith(charmander(), 1);
+    bot.active = slotWith(pikachu(), 1);
+    dealPrizes(me);
+    dealPrizes(bot);
+    expect(coach.update(state, myId).botWaiting).toBeFalse(); // setup
+
+    startTurn(2, true);
+    expect(coach.update(state, myId).botWaiting).toBeFalse();
+
+    startTurn(2, false);
+    expect(coach.update(state, myId).botWaiting).toBeTrue();
+
+    // The bot Knocked Out the player's Active: the player must choose first.
+    const prompt = new ConfirmPrompt(myId, GameMessage.CHOOSE_STARTING_POKEMONS);
+    state.prompts = [prompt];
+    expect(coach.update(state, myId).botWaiting).toBeFalse();
+    prompt.result = true;
+    expect(coach.update(state, myId).botWaiting).toBeTrue();
+
+    // The bot's own prompts don't hold it back from waiting for Continue.
+    state.prompts = [new ConfirmPrompt(botId, GameMessage.CHOOSE_STARTING_POKEMONS)];
+    expect(coach.update(state, myId).botWaiting).toBeTrue();
+  });
+
+  it('stops saying the bot waits once the tutorial is finished', () => {
+    const empty = new TutorialCoach([]);
+    startTurn(2, false);
+    const view = empty.update(state, myId);
+    expect(view.finished).toBeTrue();
+    expect(view.botWaiting).toBeFalse();
   });
 
   it('ignores "Got it" for a lesson that must be done on the board', () => {

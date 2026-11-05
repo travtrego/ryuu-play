@@ -4,6 +4,8 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { GamePhase, Player, Rules, State } from '@ptcg/common';
 
+import { GameService } from '../../../api/services/game.service';
+import { TutorialCoach } from './tutorial-coach';
 import { TutorialCoachComponent } from './tutorial-coach.component';
 import { LocalGameState } from '../../../shared/session/session.interface';
 
@@ -11,14 +13,17 @@ describe('TutorialCoachComponent', () => {
   let component: TutorialCoachComponent;
   let fixture: ComponentFixture<TutorialCoachComponent>;
   const myId = 1;
+  let gameService: jasmine.SpyObj<GameService>;
 
   beforeEach(waitForAsync(() => {
+    gameService = jasmine.createSpyObj<GameService>('GameService', ['botContinueAction']);
     TestBed.configureTestingModule({
       imports: [
         RouterTestingModule,
         TranslateModule.forRoot()
       ],
       declarations: [ TutorialCoachComponent ],
+      providers: [ { provide: GameService, useValue: gameService } ],
       schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
     })
     .compileComponents();
@@ -30,7 +35,7 @@ describe('TutorialCoachComponent', () => {
     fixture.detectChanges();
   });
 
-  function setState(tutorial: boolean, phase: GamePhase, extra: Partial<LocalGameState> = {}) {
+  function setState(tutorial: boolean, phase: GamePhase, extra: Partial<LocalGameState> = {}, activePlayer = 1) {
     const state = new State();
     state.rules = new Rules({ tutorial });
     const me = new Player();
@@ -40,7 +45,7 @@ describe('TutorialCoachComponent', () => {
     state.players = [me, bot];
     state.phase = phase;
     state.turn = 2;
-    state.activePlayer = 1;
+    state.activePlayer = activePlayer;
     component.clientId = myId;
     component.gameState = { localId: 1, gameId: 1, state, logs: [], deleted: false, ...extra } as unknown as LocalGameState;
     component.ngOnChanges();
@@ -76,5 +81,34 @@ describe('TutorialCoachComponent', () => {
     button.click();
     fixture.detectChanges();
     expect(lessonEl()).toBeNull();
+  });
+
+  function continueButton(): HTMLButtonElement | null {
+    return fixture.nativeElement.querySelector('.ptcg-tutorial-coach-bot button');
+  }
+
+  it('shows Continue on the bot\'s turn and lets the bot make one move', () => {
+    setState(true, GamePhase.PLAYER_TURN);
+    const button = continueButton() as HTMLButtonElement;
+    expect(button).not.toBeNull();
+    button.click();
+    expect(gameService.botContinueAction).toHaveBeenCalledOnceWith(1);
+  });
+
+  it('shows no Continue on the player\'s own turn', () => {
+    setState(true, GamePhase.PLAYER_TURN, {}, 0);
+    expect(continueButton()).toBeNull();
+    expect(gameService.botContinueAction).not.toHaveBeenCalled();
+  });
+
+  it('tells the server once to stop pacing the bot when the tutorial is finished', () => {
+    setState(true, GamePhase.PLAYER_TURN);
+    // A coach with no lessons left is a finished tutorial.
+    (component as unknown as { coach: TutorialCoach }).coach = new TutorialCoach([]);
+    component.ngOnChanges();
+    component.ngOnChanges();
+    fixture.detectChanges();
+    expect(gameService.botContinueAction).toHaveBeenCalledOnceWith(1, true);
+    expect(continueButton()).toBeNull();
   });
 });

@@ -1,5 +1,6 @@
 import { Action } from '@ptcg/common';
 import { Arbiter } from './arbiter';
+import { BotPacer } from './bot-pacer';
 import { Client } from '../client/client.interface';
 import { Core } from './core';
 import { GameSettings } from '@ptcg/common';
@@ -23,6 +24,11 @@ export class Game implements StoreHandler {
    * its saved decks (the guided first game). Ignored by human players.
    */
   public invitedDeck: string[] | undefined;
+  /**
+   * Learn mode: in a tutorial game the bot waits for the player's Continue
+   * before each move on its turn (see BotPacer). Undefined in other games.
+   */
+  public botPacer: BotPacer | undefined;
   /**
    * Answers the shuffle and coin-flip prompts. A tutorial game is given a
    * ScriptedArbiter instead (see createTutorialGame), so its deck order and

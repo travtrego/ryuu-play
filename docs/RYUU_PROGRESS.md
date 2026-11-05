@@ -33,23 +33,18 @@ Build in this order; each piece is usable when it lands:
    below. Two things from the original plan were **not** built: the coach does
    not *highlight* its target on the board (it names it), and it does not
    block off-script moves (decided: guide, don't block).
-3. **Next: the bot pauses until the player clicks Continue.** Seen in the
-   headless run on 2026-11-04: the bot's whole turn (attach, attack, end turn)
-   lands in under 8 seconds, before the coach's "it's the bot's turn" lesson is
-   ever on screen, so that lesson currently only shows if the player looks at
-   the table during the bot's turn. Show the bot's "Why?" note, then wait. The
-   bot delays its actions with `setTimeout` in
-   `packages/server/src/game/bots/bot-game-handler.ts`, so a tutorial-only
-   "wait for continue" gate belongs there, gated on `state.rules.tutorial`
-   (or on the game's `ScriptedArbiter`). The coach's `bot-turn` lesson
-   (`tutorial-coach.ts`) is the natural place for the Continue button.
-4. **Deck primers and an after-game recap.** A primer per deck (game plan, key
+3. ~~The bot pauses until the player clicks Continue~~ — **done 2026-11-05**
+   (`BotPacer`, a Continue button in the coach panel). See the entry below.
+4. **Next: deck primers and an after-game recap.** A primer per deck (game plan, key
    Pokémon and evolution lines, what to hold, matchups), and a recap built from
    the real game log ("the bot took 2 Prizes because your Bench was empty").
 5. Smaller follow-ups: the games page does not open the new table by itself
    (true of the guided game too: the player clicks "#1 bot" under Tables);
    highlight the coach's target card on the board; the coach is in the
-   sidebar, which is an overlay on phones (#21), so a phone player must open it.
+   sidebar, which is an overlay on phones (#21), so a phone player must open it
+   (and press Continue there); the "Why?" of an attack lands in the log
+   after "Turn 3 / draws a card", because the attack itself ends the turn
+   before the reason is appended (seen 2026-11-05).
 
 Reuse rather than rebuild: `TutorialCoach` / `TUTORIAL_LESSONS` in
 `packages/play/src/app/table/table-sidebar/tutorial-coach/`, `getLearnTips` in
@@ -94,6 +89,59 @@ game** with the Tips panel; a recap is piece 4.
   squash-merged); check `merged_at` on the branch's PR. Exactly one `claude/*`
   branch is genuinely unmerged with no PR:
   `claude/pokemon-tcg-ai-trainer-3m3qqe` (2026-09-29). Leave it alone.
+
+---
+
+## 2026-11-05 — Tutorial game, piece 3: the bot waits for Continue
+
+In a tutorial game the bot no longer plays its whole turn in a blur. On its
+turn the Tutorial panel shows "The bot waits for you. Read its last move and
+the "Why?" note in the game log, then press Continue for its next move." and a
+**Continue** button. Each press lets the bot make exactly one move (attach,
+attack, end turn, answer its own prompt), and that move's "Why?" note lands in
+the log before the next pause. The bot-turn lesson now mentions the button.
+Once all 12 lessons are done the panel tells the server to stop pausing, and
+the rest of the game plays at normal bot speed. Tutorial games also have **no
+clock** now: the bot spends its turns waiting for the player, and a slow first
+game could otherwise run either player's 30 minutes out.
+
+### How it works
+
+- `BotPacer` (server, `game/core/bot-pacer.ts`): `wait()` / `step()` /
+  `release()` / `clear()`. One press = one move; presses don't add up; a
+  press left over when the bot's turn ends is dropped so it can't skip the
+  first pause of the next turn. `release()` lets everything through.
+- `Game.botPacer` is set only by `createTutorialGame` (with
+  `timeLimit = 0`). Normal and guided games have none and are untouched
+  (spec'd).
+- `BotGameHandler` waits on the pacer only when it is the bot's own turn in
+  `PLAYER_TURN`; setup and answers on the player's turn are never paced. It
+  decides the move first, then waits, then dispatches and logs the reason, as
+  before.
+- New socket message `game:action:botContinue {gameId, release?}`; only a
+  player in the game may send it, and it is a no-op without a pacer.
+- Client: `TutorialView.botWaiting` is true on the bot's turn when the player
+  has no prompt of their own to answer (e.g. choosing a new Active after a
+  Knock Out), and false once the tutorial is finished.
+  `GameService.botContinueAction`.
+
+### Tests
+
+- server 60 → **72 specs** (5 pacer, 5 handler pacing, 2 tutorial game).
+  A first version of one handler spec let a released move land in the next
+  spec under some random seeds; fixed by awaiting it, then checked with 8
+  seeds.
+- play 182 → **187 specs** (2 coach, 3 coach panel). `ng lint` clean,
+  `ng build` ok (8.83 MB initial).
+- **Headless browser run** (Playwright, local server on SQLite, built UI):
+  Tutorial → table → chose Charmander → End your turn. On the bot's turn the
+  Continue box showed and the log did not change for 11 seconds. Continue #1:
+  "bot attaches a Lightning Energy to the Pikachu" + "Why? Attached Lightning
+  Energy to Pikachu so it can use Gnaw this turn." Continue #2: Gnaw, end of
+  turn, and its "Why?". Then it was the player's turn and the button was gone.
+- Not seen running: the release after the last lesson (spec only), a phone
+  layout (the coach is in the sidebar overlay, as before), and a person
+  playing.
 
 ---
 

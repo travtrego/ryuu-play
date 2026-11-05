@@ -272,6 +272,8 @@
   "TUTORIAL_COACH_WHY": "Why:",
   "TUTORIAL_COACH_DO": "Your move:",
   "TUTORIAL_COACH_GOT_IT": "Got it",
+  "TUTORIAL_COACH_BOT_WAITING": "The bot waits for you. Read its last move and the \"Why?\" note in the game log, then press Continue for its next move.",
+  "TUTORIAL_COACH_CONTINUE": "Continue",
   "TUTORIAL_COACH_FINISHED": "Tutorial complete. Play the rest of this game your way; the Tips panel below keeps helping.",
   "LEARN_TIPS_MORE": "Learn more",
   "LEARN_TIPS_SHOW": "Show tips",

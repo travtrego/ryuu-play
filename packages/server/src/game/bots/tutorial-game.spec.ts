@@ -6,6 +6,7 @@ import { Core } from '../core/core';
 import { Game } from '../core/game';
 import { Arbiter } from '../core/arbiter';
 import { ScriptedArbiter } from '../core/scripted-arbiter';
+import { BotPacer } from '../core/bot-pacer';
 import { createTutorialGame } from './tutorial-game';
 import { createGuidedGame } from './guided-game';
 
@@ -58,6 +59,18 @@ describe('Tutorial game', () => {
     const [, deck, , , invitedDeck] = createGame.calls.mostRecent().args;
     expect(deck).not.toBe(tutorialPlayerDeck.cards);
     expect(invitedDeck).not.toBe(tutorialBotDeck.cards);
+  });
+
+  it('gives the tutorial game a bot pacer and no clock', () => {
+    const game = createTutorialGame(core, human);
+    expect(game.botPacer instanceof BotPacer).toBeTrue();
+    const settings = createGame.calls.mostRecent().args[2] as GameSettings;
+    expect(settings.timeLimit).toBe(0);
+  });
+
+  it('leaves the guided game unpaced', () => {
+    const game = createGuidedGame(core, human);
+    expect(game.botPacer).toBeUndefined();
   });
 
   it('fails with ERROR_BOT_NOT_FOUND when no bot is connected', () => {
