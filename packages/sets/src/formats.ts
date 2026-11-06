@@ -38,6 +38,7 @@ export const modernStandardSets: Card[][] = [
   standard.setTwilightMasquerade,
   standard.setShroudedFable,
   standard.setStellarCrown,
+  standard.setSurgingSparks,
   standard.setJourneyTogether,
   standard.setPrismaticEvolutions,
   standard.setDestinedRivals,
@@ -46,6 +47,8 @@ export const modernStandardSets: Card[][] = [
   standard.setChaosRising,
   standard.setAscendedHeroes,
   standard.setPerfectOrder,
+  standard.setBlackBolt,
+  standard.setWhiteFlare,
 ];
 
 export function modernStandardRules(): Rules {

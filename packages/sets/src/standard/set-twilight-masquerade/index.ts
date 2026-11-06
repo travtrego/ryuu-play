@@ -1,4 +1,5 @@
 import { Card } from '@ptcg/common';
+import { HandheldFan } from './handheld-fan';
 import { ChiYu } from './chi-yu';
 import { BugCatchingSet } from './bug-catching-set';
 import { DragapultEx } from './dragapult-ex';
@@ -9,6 +10,7 @@ import { Munkidori } from './munkidori';
 import { UnfairStamp } from './unfair-stamp';
 
 export const setTwilightMasquerade: Card[] = [
+  new HandheldFan(),
   new ChiYu(),
   new BugCatchingSet(),
   new DragapultEx(),

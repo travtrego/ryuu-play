@@ -316,6 +316,39 @@ export const modernBenchDecks: BenchDeck[] = [
     ['Fire Energy EVO', 3],
     ['Psychic Energy EVO', 3],
     ['Darkness Energy EVO', 2]
+  ]),
+
+  // Fall 2026 Regionals (data/meta-decks/regional-2026-alakazam-dudunsparce.json)
+  deck('sv-alakazam', 'Standard (Scarlet & Violet): Alakazam / Dudunsparce', 'sv', [
+    ['Abra MEG', 4],
+    ['Kadabra MEG', 4],
+    ['Alakazam MEG', 3],
+    ['Dunsparce JTG', 3],
+    ['Dudunsparce TEF', 2],
+    ['Flutter Mane TEF', 1],
+    ['Elgyem BLK', 1],
+    ['Genesect SFA', 1],
+    ['Fezandipiti ex ASC', 1],
+    ['Lillie\'s Clefairy ex JTG', 1],
+    ['Dawn PFL', 4],
+    ['Hilda WHT', 3],
+    ['Boss\'s Orders MEG', 2],
+    ['Eri TEF', 1],
+    ['Buddy-Buddy Poffin TEF', 4],
+    ['Poké Pad POR', 4],
+    ['Rare Candy MEG', 2],
+    ['Wondrous Patch PFL', 2],
+    ['Night Stretcher ASC', 1],
+    ['Sacred Ash DRI', 1],
+    ['Special Red Card CRI', 1],
+    ['Lillie\'s Pearl JTG', 2],
+    ['Handheld Fan TWM', 1],
+    ['Nighttime Mine ASC', 2],
+    ['Battle Cage PFL', 1],
+    ['Telepathic Psychic Energy POR', 4],
+    ['Psychic Energy EVO', 2],
+    ['Mist Energy TEF', 1],
+    ['Enriching Energy SSP', 1]
   ])
 
 ];

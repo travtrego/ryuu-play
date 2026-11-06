@@ -11,6 +11,7 @@ import {
   StateUtils,
   StoreLike,
 } from '@ptcg/common';
+import { BattleCage } from '../set-phantasmal-flames/battle-cage';
 
 /**
  * Cursed Blast (Dusclops / Dusknoir PRE): once during your turn, put N damage
@@ -40,7 +41,10 @@ export function useCursedBlast(
     if (!targets || targets.length === 0) {
       return;
     }
-    targets[0].damage += 10 * counters;
+    // Battle Cage stops the counters on a Benched Pokémon; the Knock Out still happens.
+    if (BattleCage.allowsCounters(state, player, targets[0])) {
+      targets[0].damage += 10 * counters;
+    }
 
     // "If you use this Ability, this Pokémon is Knocked Out."
     const checkHp = new CheckHpEffect(player, slot);
