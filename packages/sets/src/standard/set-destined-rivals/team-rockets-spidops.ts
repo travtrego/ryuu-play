@@ -36,10 +36,10 @@ export class TeamRocketsSpidops extends PokemonCard {
 
   public powers = [
     {
-      name: 'Charge Up',
+      name: 'Charging Up',
       useWhenInPlay: true,
       powerType: PowerType.ABILITY,
-      text: 'Once during your turn, you may attach a Basic Energy from your discard pile to this Pokémon.',
+      text: 'Once during your turn, you may attach a Basic Energy card from your discard pile to this Pokémon.',
     },
   ];
 
@@ -84,7 +84,7 @@ export class TeamRocketsSpidops extends PokemonCard {
         state,
         new ChooseCardsPrompt(
           player.id,
-          GameMessage.CHOOSE_CARD_TO_HAND,
+          GameMessage.CHOOSE_CARD_TO_ATTACH,
           player.discard,
           { superType: SuperType.ENERGY, energyType: EnergyType.BASIC },
           { min: 0, max: 1, allowCancel: true }

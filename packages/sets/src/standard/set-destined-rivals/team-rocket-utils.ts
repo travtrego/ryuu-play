@@ -1,4 +1,4 @@
-import { PokemonCard, TrainerCard, TrainerType } from '@ptcg/common';
+import { Card, EnergyCard, PokemonCard, TrainerCard, TrainerType } from '@ptcg/common';
 
 const TEAM_ROCKET_PREFIX = 'Team Rocket\'s ';
 
@@ -10,4 +10,8 @@ export function isTeamRocketSupporter(card: TrainerCard | undefined): boolean {
   return card !== undefined
     && card.trainerType === TrainerType.SUPPORTER
     && card.name.includes('Team Rocket');
+}
+
+export function isTeamRocketsEnergy(card: Card): boolean {
+  return card instanceof EnergyCard && card.name === 'Team Rocket\'s Energy';
 }

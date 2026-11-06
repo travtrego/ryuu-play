@@ -9,6 +9,7 @@ import {
   GameError,
   GameMessage,
   PokemonCard,
+  PowerEffect,
   PowerType,
   Stage,
   State,
@@ -68,6 +69,12 @@ export class TeamRocketsMewtwoEx extends PokemonCard {
         .length;
 
       if (teamRocketCount < 4) {
+        // Power Saver is an Ability: if something blocks it, Mewtwo may attack.
+        try {
+          store.reduceEffect(state, new PowerEffect(effect.player, this.powers[0], this));
+        } catch {
+          return state;
+        }
         throw new GameError(GameMessage.BLOCKED_BY_ABILITY);
       }
     }
