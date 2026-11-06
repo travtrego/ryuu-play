@@ -1,5 +1,7 @@
 import { CardManager } from '@ptcg/common';
-import { baseSets, exSets, standardSets } from '@ptcg/sets';
+import {
+  MODERN_STANDARD_NAME, baseSets, exSets, modernStandardRules, modernStandardSets, standardSets
+} from '@ptcg/sets';
 
 /**
  * Registers the card sets with the CardManager singleton, mirroring the
@@ -8,6 +10,10 @@ import { baseSets, exSets, standardSets } from '@ptcg/sets';
 export function registerCardSets(): CardManager {
   const cardManager = CardManager.getInstance();
   const defined = cardManager.getAllFormats().map(f => f.name);
+
+  if (!defined.includes(MODERN_STANDARD_NAME)) {
+    cardManager.defineFormat(MODERN_STANDARD_NAME, modernStandardSets, modernStandardRules());
+  }
 
   if (!defined.includes('Standard')) {
     cardManager.defineFormat('Standard', [

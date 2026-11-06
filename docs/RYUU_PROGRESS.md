@@ -9,16 +9,44 @@ Running log of automated work on this fork. Newest entry first.
 Rewrite this block each run. It is what a self-directing run should read first;
 the entries below are the record of what happened, not what to do.
 
-**The hold on new learn-mode UI is over.** It existed only until the owner gave
-direction, and on 2026-11-04 he did: build a **slow, scripted tutorial game**
-that teaches a first game step by step. That is now the top priority, ahead of
-everything else in this list. The owner has still not played a live game. A
-headless browser has now driven a tutorial game from setup to evolving (see
-2026-11-04), but no person has played one — check a tutorial game in a
-headless browser where practical, and keep saying in each PR what was not seen
-running.
+**Top priority since 2026-11-06 (owner decision): modern decks, one deck
+end-to-end at a time**, worked in **PR #1** (`gpt/meta-ai-trainer`), which the
+owner handed from the GPT lane to Claude. Issue #2's lane split is retired.
 
-### 1. Tutorial game (top priority, about 3-5 runs)
+### 0. Modern decks (top priority)
+
+- **Where:** PR #1. Update it by *merging* `origin/master` in, never
+  rebase/force-push. Squash-merge it once deck 1 is end-to-end; later decks get
+  normal `claude/ryuu-` PRs.
+- **Deck 1, Team Rocket's Mewtwo ex — 22 of 23 cards in code** (see the
+  2026-11-06 entry). **Left for end-to-end:**
+  1. **Team Rocket's Mimikyu (DRI 87)** — the last card. Its attack
+     *Gemstone Mimicry* (P C: "Choose 1 of your opponent's Active Tera
+     Pokémon's attacks and use it as this attack") needs a **Tera** tag in the
+     engine, and its Retreat Cost was not found in any source read on
+     2026-11-06 (HP 60, Psychic, Weakness Darkness, Resistance Fighting -30).
+     Check the Retreat Cost on the official card database before writing it.
+  2. **Bot bench mirror** with the full list in the new format: bot-bench
+     needs a modern deck pool and must play it with `modernStandardRules()`
+     (`benchmark.ts` passes `new Rules()` today). Target 0 errors and 0
+     rejected bot actions; check the bot handles "can't attack on turn 1".
+  3. **Not yet verified by reading the live card page** (text checked from
+     knowledge only): Ultra Ball, Night Stretcher, Bug Catching Set, Energy
+     Switch. Fetch and compare them.
+  4. Then squash-merge PR #1 and start deck 2.
+- **Deck 2:** Dragapult ex (most-played Standard deck in Nov 2026,
+  thetoploader.com tier list 4 Nov 2026: Dragapult 9.6%, Dragapult Dusknoir
+  5.6%, Dragapult Blaziken 4.3%). Re-check the list is current before starting.
+- **Also on PR #1, not to be extended:** a superseded coach in
+  `packages/simple-bot/src/coach`.
+
+### Learn mode (now second)
+
+The hold on new learn-mode UI ended on 2026-11-04 with the tutorial game;
+pieces 1-3 are merged. The owner has still not played a live game. Piece 4
+(deck primers and recap) waits until modern-deck work is blocked.
+
+### 1. Tutorial game (second priority)
 
 A slow first game that **sets each moment up, tells the player what to do,
 waits for them to do it, then explains why.** Different from the guided game
@@ -89,6 +117,66 @@ game** with the Tips panel; a recap is piece 4.
   squash-merged); check `merged_at` on the branch's PR. Exactly one `claude/*`
   branch is genuinely unmerged with no PR:
   `claude/pokemon-tcg-ai-trainer-3m3qqe` (2026-09-29). Leave it alone.
+
+---
+
+## 2026-11-06 — Modern Standard format, first-turn attack rule, 4 more Team Rocket's Mewtwo ex cards
+
+Worked on PR #1 (`gpt/meta-ai-trainer`). Not merged: the deck still misses one
+card (Team Rocket's Mimikyu) and has not been bot-benched.
+
+### What changed
+
+- **A real modern format.** New format **"Standard (Scarlet & Violet)"**
+  (`packages/sets/src/formats.ts`, registered in `init.js` and in bot-bench's
+  `card-setup.ts`). It holds only the Scarlet & Violet / Mega Evolution sets
+  plus the 8 basic Energy types (reused from Diamond & Pearl; no Fairy). The
+  old **"Standard"** format is back to exactly what master has — PR #1 had
+  added the modern sets to it, which would have mixed eras. It is listed
+  first, so the create-game popup picks it when the player has a deck for it.
+- **Today's first-turn rules** in that format: the player going first draws,
+  can't play a Supporter (unless the card allows it, e.g. Team Rocket's Proton)
+  and **can't attack**. The last one is a new engine rule,
+  `Rules.firstTurnAttack` (default `true`, so older formats and old saved games
+  play as before; only an explicit `false` blocks). There is a matching
+  checkbox in the create-game popup.
+- **New cards** (text read from Limitless / Dittobase / pkmncards on
+  2026-11-06): Team Rocket's Articuno DRI 51, Team Rocket's Energy DRI 182,
+  Lucky Helmet TWM 158, Maximum Belt TEF 154 (ACE SPEC, new
+  `set-temporal-forces`).
+- **Fixes to cards already on PR #1:** Team Rocket's Spidops' Ability is
+  *Charging Up* (was "Charge Up"); Team Rocket's Mewtwo ex's Power Saver now
+  stops applying when Abilities are blocked.
+
+### Verified against the real card text
+
+Team Rocket's Mewtwo ex, Spidops, Tarountula, Articuno, Energy, Ariana,
+Giovanni, Proton, Petrel, Factory, Transceiver; Lillie's Clefairy ex, Lillie's
+Determination, Prism Tower, Lucky Helmet, Maximum Belt (fetched pages).
+Ultra Ball, Night Stretcher, Bug Catching Set, Energy Switch: checked from
+knowledge only.
+
+### Known limits
+
+- Repelling Veil (Articuno) blocks every attack effect that goes through the
+  engine's attack-effect classes (Special Conditions, discards, moves, damage
+  counters, markers...). An attack that changes the board directly without
+  those classes is not blocked.
+- Pokémon ex and old Pokémon-EX share one tag, so Maximum Belt would also hit
+  an old Pokémon-EX; only matters if eras are mixed (the "all cards" option).
+
+### Tests
+
+New specs: first-turn attack rule (common, 4), modern format (sets, 5:
+rules, basic Energy, no old sets, every implemented card of the Mewtwo list is
+in the format, ACE SPEC limit), Articuno (8), Team Rocket's Energy (5), Lucky
+Helmet (4), Maximum Belt (3), Mewtwo ex (4), Spidops (3).
+common 358, sets 2738, simple-bot 91, bot-bench 38, server 72 specs, all
+passing; play 187 Karma specs pass, lint and `ng build` ok; bench smoke 0
+rejected actions, 0 errors (older eras only — no modern deck in the pool yet).
+
+meta-audit, Team Rocket's Mewtwo ex: before 18 of 23 implemented, 5 missing;
+after 22 of 23, 1 missing (Team Rocket's Mimikyu).
 
 ---
 

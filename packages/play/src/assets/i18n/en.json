@@ -94,6 +94,7 @@
   "GAMES_ALL_CARDS_ALLOWED": "All cards allowed",
   "GAMES_CREATE_GAME_BUTTON": "Create game",
   "GAMES_CREATE_GAME_TITLE": "Create game",
+  "GAMES_ATTACK_FIRST_TURN": "First player may attack in the first turn",
   "GAMES_DRAW_CARD_FIRST_TURN": "First player draws a card",
   "GAMES_FORMAT_UNLIMITED": "Unlimited",
   "GAMES_GAME_RULES": "Game rules",

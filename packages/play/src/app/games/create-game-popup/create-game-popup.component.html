@@ -58,6 +58,12 @@
       </mat-checkbox>
     </section>
     <section class="ptcg-game-rule-checkbox">
+      <mat-checkbox color="primary" name="rule4"
+        [(ngModel)]="settings.rules.firstTurnAttack">
+        {{ 'GAMES_ATTACK_FIRST_TURN' | translate }}
+      </mat-checkbox>
+    </section>
+    <section class="ptcg-game-rule-checkbox">
       <mat-checkbox color="primary" name="rule2"
         [(ngModel)]="settings.rules.noPrizeForFossil">
         {{ 'GAMES_NO_PRIZE_FOR_FOSSIL' | translate }}

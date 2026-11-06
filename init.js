@@ -20,9 +20,14 @@ config.sets.scansDir = __dirname + '/scans';
 config.sets.scansDownloadUrl = 'https://ptcg.ryuu.eu/scans'; // Server to download missing scans
 
 // Define available sets
-const { baseSets, exSets, standardSets } = require('@ptcg/sets');
+const {
+  baseSets, exSets, standardSets,
+  MODERN_STANDARD_NAME: modernStandardName, modernStandardSets, modernStandardRules
+} = require('@ptcg/sets');
 
 const cardManager = CardManager.getInstance();
+
+cardManager.defineFormat(modernStandardName, modernStandardSets, modernStandardRules());
 
 cardManager.defineFormat('Standard', [
   standardSets.setDiamondAndPearl,

@@ -11,6 +11,28 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  # Informational: how many cards of the curated current-meta decklists in
+  # data/meta-decks/ are implemented. Never fails the build on low coverage.
+  meta-audit:
+    name: meta deck coverage
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+      - name: Meta coverage report
+        run: |
+          node tools/meta-audit.js | tee meta-audit.txt
+          {
+            echo '## Pokémon TCG meta coverage'
+            echo
+            echo '```text'
+            cat meta-audit.txt
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
   backend:
     name: lint / test / compile (common, sets, simple-bot, server)
     runs-on: ubuntu-latest

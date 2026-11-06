@@ -5,6 +5,12 @@ export class Rules {
   public firstTurnDrawCard = true;
 
   public firstTurnUseSupporter = true;
+
+  /**
+   * Whether the player who goes first may attack on their first turn.
+   * Older formats allow it; the Scarlet & Violet era Standard rules do not.
+   */
+  public firstTurnAttack = true;
   
   public noPrizeForFossil = true;
 

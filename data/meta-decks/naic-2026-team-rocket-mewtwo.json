@@ -1,0 +1,34 @@
+{
+  "id": "naic-2026-team-rocket-mewtwo",
+  "name": "Team Rocket's Mewtwo ex — 2026 NAIC Top 8",
+  "format": "standard",
+  "asOf": "2026-06-14",
+  "source": "Pokemon.com — 2026 North America International Championships Masters, Juho Kallama",
+  "cards": [
+    { "count": 2, "name": "Team Rocket's Mewtwo ex", "set": "DRI", "number": "81", "category": "pokemon" },
+    { "count": 4, "name": "Team Rocket's Spidops", "set": "DRI", "number": "20", "category": "pokemon" },
+    { "count": 4, "name": "Team Rocket's Tarountula", "set": "DRI", "number": "19", "category": "pokemon" },
+    { "count": 2, "name": "Team Rocket's Articuno", "set": "DRI", "number": "51", "category": "pokemon" },
+    { "count": 2, "name": "Team Rocket's Mimikyu", "set": "DRI", "number": "87", "category": "pokemon" },
+    { "count": 1, "name": "Lillie's Clefairy ex", "set": "JTG", "number": "56", "category": "pokemon" },
+
+    { "count": 4, "name": "Lillie's Determination", "set": "MEG", "number": "119", "category": "trainer" },
+    { "count": 4, "name": "Team Rocket's Ariana", "set": "DRI", "number": "171", "category": "trainer" },
+    { "count": 3, "name": "Team Rocket's Giovanni", "set": "DRI", "number": "174", "category": "trainer" },
+    { "count": 2, "name": "Team Rocket's Proton", "set": "DRI", "number": "177", "category": "trainer" },
+    { "count": 1, "name": "Team Rocket's Petrel", "set": "DRI", "number": "176", "category": "trainer" },
+    { "count": 2, "name": "Prism Tower", "set": "CRI", "number": "80", "category": "trainer" },
+    { "count": 1, "name": "Team Rocket's Factory", "set": "DRI", "number": "173", "category": "trainer" },
+    { "count": 4, "name": "Team Rocket's Transceiver", "set": "DRI", "number": "178", "category": "trainer" },
+    { "count": 4, "name": "Ultra Ball", "set": "MEG", "number": "131", "category": "trainer" },
+    { "count": 3, "name": "Night Stretcher", "set": "SFA", "number": "61", "category": "trainer" },
+    { "count": 2, "name": "Bug Catching Set", "set": "TWM", "number": "143", "category": "trainer" },
+    { "count": 2, "name": "Lucky Helmet", "set": "TWM", "number": "158", "category": "trainer" },
+    { "count": 1, "name": "Energy Switch", "set": "SVI", "number": "173", "category": "trainer" },
+    { "count": 1, "name": "Maximum Belt", "set": "TEF", "number": "154", "category": "trainer" },
+
+    { "count": 4, "name": "Team Rocket's Energy", "set": "DRI", "number": "182", "category": "energy" },
+    { "count": 6, "name": "Grass Energy", "set": "SVE", "number": "1", "category": "energy", "basic": true },
+    { "count": 1, "name": "Psychic Energy", "set": "SVE", "number": "5", "category": "energy", "basic": true }
+  ]
+}

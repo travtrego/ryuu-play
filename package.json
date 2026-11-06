@@ -4,7 +4,8 @@
   "description": "Pokemon TCG game simulator",
   "scripts": {
     "start": "node start.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "meta:audit": "node tools/meta-audit.js"
   },
   "private": true,
   "workspaces": [
