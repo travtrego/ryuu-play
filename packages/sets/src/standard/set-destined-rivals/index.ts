@@ -1,4 +1,6 @@
 import { Card } from '@ptcg/common';
+import { CombuskenDRI } from './combusken';
+import { TorchicDRI } from './torchic';
 import { TeamRocketsAriana } from './team-rockets-ariana';
 import { TeamRocketsArticuno } from './team-rockets-articuno';
 import { TeamRocketsEnergy } from './team-rockets-energy';
@@ -14,6 +16,8 @@ import { TeamRocketsTransceiver } from './team-rockets-transceiver';
 import { TeamRocketsWatchtower } from './team-rockets-watchtower';
 
 export const setDestinedRivals: Card[] = [
+  new CombuskenDRI(),
+  new TorchicDRI(),
   new TeamRocketsAriana(),
   new TeamRocketsArticuno(),
   new TeamRocketsEnergy(),

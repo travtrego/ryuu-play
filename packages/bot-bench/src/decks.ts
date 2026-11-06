@@ -287,6 +287,35 @@ export const modernBenchDecks: BenchDeck[] = [
     ['Fire Energy EVO', 3],
     ['Psychic Energy EVO', 3],
     ['Darkness Energy EVO', 2]
+  ]),
+
+  // Fall 2026 Regionals (data/meta-decks/regional-2026-dragapult-blaziken.json)
+  deck('sv-dragapult-blaziken', 'Standard (Scarlet & Violet): Dragapult ex / Blaziken ex', 'sv', [
+    ['Dreepy TWM', 4],
+    ['Drakloak TWM', 4],
+    ['Dragapult ex TWM', 2],
+    ['Torchic DRI', 2],
+    ['Combusken DRI', 1],
+    ['Blaziken ex JTG', 2],
+    ['Munkidori TWM', 2],
+    ['Budew ASC', 1],
+    ['Chi-Yu TWM', 1],
+    ['Fezandipiti ex ASC', 1],
+    ['Meowth ex POR', 1],
+    ['Lillie\'s Determination MEG', 4],
+    ['Boss\'s Orders MEG', 3],
+    ['Crispin SCR', 2],
+    ['Judge POR', 2],
+    ['Buddy-Buddy Poffin TEF', 4],
+    ['Poké Pad POR', 4],
+    ['Ultra Ball MEG', 4],
+    ['Rare Candy MEG', 3],
+    ['Night Stretcher ASC', 2],
+    ['Unfair Stamp TWM', 1],
+    ['Team Rocket\'s Watchtower DRI', 2],
+    ['Fire Energy EVO', 3],
+    ['Psychic Energy EVO', 3],
+    ['Darkness Energy EVO', 2]
   ])
 
 ];
