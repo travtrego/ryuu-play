@@ -26,11 +26,13 @@ owner handed from the GPT lane to Claude. Issue #2's lane split is retired.
   below): the Fall 2026 Regionals stock list, 24 of 24 cards.
 - **Deck 3, Dragapult ex / Dusknoir — done end-to-end** (2026-11-06, fourth
   entry below), 26 of 26 cards.
-- **Next: deck 4.** Re-check the tier list first (thetoploader.com/meta, data of
-  5 Nov 2026: 1 Dragapult 9.7%, 2 Dragapult Dusknoir 5.6%, 3 Alakazam
-  Dudunsparce 5.4%, 4 N's Zoroark 5.2%, 5 Slowking 5.1%, 6 Dragapult Blaziken
-  4.3%, 7 Mega Excadrill 3.7%). Dragapult Blaziken is the cheapest next
-  (the NAIC list misses 3 cards); Alakazam Dudunsparce is the next most played.
+- **Deck 4, Dragapult ex / Blaziken ex — done end-to-end** (2026-11-06,
+  fifth entry below), 25 of 25 cards.
+- **Next: deck 5.** Re-check the tier list first (thetoploader.com/meta, data of
+  5 Nov 2026: 3 Alakazam Dudunsparce 5.4%, 4 N's Zoroark 5.2%, 5 Slowking
+  5.1%, 7 Mega Excadrill 3.7%, 8 Festival Lead 3.6%). Alakazam Dudunsparce is
+  the next most played; Mega Evolution ex (3 Prizes) will be needed for Mega
+  Excadrill and is not in the engine yet.
 - **Bot weakness seen with Dragapult:** it uses Dudunsparce's Run Away Draw
   even when that leaves one fragile Pokémon in play, and loses to "no Active
   Pokémon" (7 of 20 mirror games). Worth a bot change measured with
@@ -120,6 +122,25 @@ game** with the Tips panel; a recap is piece 4.
   squash-merged); check `merged_at` on the branch's PR. Exactly one `claude/*`
   branch is genuinely unmerged with no PR:
   `claude/pokemon-tcg-ai-trainer-3m3qqe` (2026-09-29). Leave it alone.
+
+---
+
+## 2026-11-06 (5) — Dragapult ex / Blaziken ex end-to-end
+
+Branch `claude/ryuu-2026-11-06-dragapult-blaziken`.
+
+- **List:** Limitless 31089, Alp Ehliz, 14th Regional Gdańsk 31 Oct 2026
+  (`data/meta-decks/regional-2026-dragapult-blaziken.json`). #6 in Standard
+  with the best win rate of the Dragapult decks (thetoploader.com, 5 Nov 2026).
+- **New cards** (limitlesstcg.com, 2026-11-06): Torchic DRI 40, Combusken
+  DRI 41, Blaziken ex JTG 24, Chi-Yu TWM 39. Everything else was already in.
+- Smolder-sault's "can't attack during your next turn" uses the existing
+  `duringYourNextTurn` marker on the Active slot, so it follows Blaziken ex
+  if it retreats and comes back the same turn.
+- **Results:** 20 mirror games, 0 errors, 0 rejected bot actions (17 by
+  Prizes, 3 by no Active Pokémon). Four-deck round robin, 36 games, 0 errors.
+  meta-audit 25 of 25. bot-bench spec plays 3 seeded mirrors of every modern
+  deck.
 
 ---
 

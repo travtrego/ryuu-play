@@ -75,7 +75,8 @@ describe('Modern Standard format', () => {
     expect(missing).toEqual(NOT_YET_IMPLEMENTED);
   });
 
-  ['naic-2026-team-rocket-mewtwo.json', 'regional-2026-dragapult.json', 'regional-2026-dragapult-dusknoir.json'].forEach(file => {
+  ['naic-2026-team-rocket-mewtwo.json', 'regional-2026-dragapult.json', 'regional-2026-dragapult-dusknoir.json',
+    'regional-2026-dragapult-blaziken.json'].forEach(file => {
   it(`accepts the full 60-card list ${file} as a valid deck`, () => {
     const deck = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../../../data/meta-decks', file), 'utf8'));
     const names: string[] = [];
