@@ -28,11 +28,16 @@ owner handed from the GPT lane to Claude. Issue #2's lane split is retired.
   entry below), 26 of 26 cards.
 - **Deck 4, Dragapult ex / Blaziken ex — done end-to-end** (2026-11-06,
   fifth entry below), 25 of 25 cards.
-- **Next: deck 5.** Re-check the tier list first (thetoploader.com/meta, data of
-  5 Nov 2026: 3 Alakazam Dudunsparce 5.4%, 4 N's Zoroark 5.2%, 5 Slowking
-  5.1%, 7 Mega Excadrill 3.7%, 8 Festival Lead 3.6%). Alakazam Dudunsparce is
-  the next most played; Mega Evolution ex (3 Prizes) will be needed for Mega
-  Excadrill and is not in the engine yet.
+- **Deck 5, Alakazam / Dudunsparce — done end-to-end** (2026-11-06, sixth
+  entry below), 29 of 29 cards.
+- **Next: deck 6.** Re-check the tier list first (thetoploader.com/meta, data of
+  5 Nov 2026: 4 N's Zoroark 5.2%, 5 Slowking 5.1%, 7 Mega Excadrill 3.7%,
+  8 Festival Lead 3.6%, 9 Dhelmise Banette 2.9%, 10 Basic Box 2.8%).
+  **Mega Evolution ex** (a Mega ex gives up 3 Prize cards) is needed for Mega
+  Excadrill / Mega Lopunny and is not in the engine yet.
+- **Bot weakness with Alakazam:** it draws too much (Run Away Draw, Psychic
+  Draw, Enriching Energy) and loses by deck-out in about half the mirror
+  games (9 of 20).
 - **Bot weakness seen with Dragapult:** it uses Dudunsparce's Run Away Draw
   even when that leaves one fragile Pokémon in play, and loses to "no Active
   Pokémon" (7 of 20 mirror games). Worth a bot change measured with
@@ -122,6 +127,46 @@ game** with the Tips panel; a recap is piece 4.
   squash-merged); check `merged_at` on the branch's PR. Exactly one `claude/*`
   branch is genuinely unmerged with no PR:
   `claude/pokemon-tcg-ai-trainer-3m3qqe` (2026-09-29). Leave it alone.
+
+---
+
+## 2026-11-06 (6) — Alakazam / Dudunsparce end-to-end
+
+Branch `claude/ryuu-2026-11-06-alakazam`.
+
+- **List:** Limitless 31085, Cho Tsun Leung, 9th Regional Gdańsk 31 Oct 2026
+  (best-placed Alakazam there), `data/meta-decks/regional-2026-alakazam-dudunsparce.json`.
+  #3 in Standard (thetoploader.com, 5 Nov 2026).
+- **19 new cards** (limitlesstcg.com, 2026-11-06): Abra, Kadabra, Alakazam
+  MEG; Dunsparce JTG 120, Lillie's Pearl JTG; Flutter Mane, Eri, Mist Energy
+  TEF; Elgyem BLK (new `set-black-bolt`); Genesect SFA; Hilda WHT (new
+  `set-white-flare`); Wondrous Patch, Battle Cage PFL; Sacred Ash DRI;
+  Handheld Fan TWM; Nighttime Mine ASC; Telepathic Psychic Energy POR;
+  Enriching Energy SSP (new `set-surging-sparks`).
+
+### Choices and limits
+
+- Psychic Draw (Kadabra, Alakazam) triggers on any evolve from the hand,
+  Rare Candy included, and asks first.
+- Abra's Teleportation Attack deals its damage from Abra first, then
+  switches (so Weakness uses Abra's type).
+- Lillie's Pearl: the engine does not record what caused a Knock Out, so a
+  Knock Out during the opponent's attack counts, whether from damage or from
+  damage counters. On the card only damage counts.
+- Battle Cage stops attack damage counters (`PutCountersEffect`) and Cursed
+  Blast on the other player's Bench. It does **not** stop Munkidori's
+  Adrena-Brain (moving counters); I could not confirm a ruling for that.
+- Sacred Ash with fewer than 5 Pokémon in the discard pile shuffles them all.
+- Elgyem's Slight Shift is an attack (Limitless shows a P cost before it).
+
+### Results
+
+- 20 mirror games: 0 errors, 0 rejected bot actions; 11 by Prizes, 9 by
+  deck-out (see bot weakness in Next up). The bot uses Powerful Hand, Dawn,
+  Hilda, Eri, Sacred Ash, Special Red Card, Wondrous Patch, Hex Hurl.
+- Modern smoke now a five-deck round robin (10 games) plus two mirrors.
+- meta-audit 29 of 29. Specs: common 366, sets 2833, simple-bot 91, bot-bench
+  56, server 72; play build ok.
 
 ---
 

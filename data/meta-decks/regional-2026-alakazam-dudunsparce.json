@@ -1,0 +1,40 @@
+{
+  "id": "regional-2026-alakazam-dudunsparce",
+  "name": "Alakazam / Dudunsparce — Fall 2026 Regionals",
+  "format": "standard",
+  "asOf": "2026-11-06",
+  "source": "limitlesstcg.com/decks/list/31085 (checked 2026-11-06): Cho Tsun Leung, 9th Regional Gdańsk 31 Oct 2026, the best-placed Alakazam list there. Alakazam Dudunsparce is #3 in Standard (thetoploader.com, data of 5 Nov 2026: 5.4%).",
+  "cards": [
+    { "count": 4, "name": "Abra", "set": "MEG", "number": "54", "category": "pokemon" },
+    { "count": 4, "name": "Kadabra", "set": "MEG", "number": "55", "category": "pokemon" },
+    { "count": 3, "name": "Alakazam", "set": "MEG", "number": "56", "category": "pokemon" },
+    { "count": 3, "name": "Dunsparce", "set": "JTG", "number": "120", "category": "pokemon" },
+    { "count": 2, "name": "Dudunsparce", "set": "TEF", "number": "129", "category": "pokemon" },
+    { "count": 1, "name": "Flutter Mane", "set": "TEF", "number": "78", "category": "pokemon" },
+    { "count": 1, "name": "Elgyem", "set": "BLK", "number": "40", "category": "pokemon" },
+    { "count": 1, "name": "Genesect", "set": "SFA", "number": "40", "category": "pokemon" },
+    { "count": 1, "name": "Fezandipiti ex", "set": "ASC", "number": "142", "category": "pokemon" },
+    { "count": 1, "name": "Lillie's Clefairy ex", "set": "JTG", "number": "56", "category": "pokemon" },
+
+    { "count": 4, "name": "Dawn", "set": "PFL", "number": "87", "category": "trainer" },
+    { "count": 3, "name": "Hilda", "set": "WHT", "number": "84", "category": "trainer" },
+    { "count": 2, "name": "Boss's Orders", "set": "MEG", "number": "114", "category": "trainer" },
+    { "count": 1, "name": "Eri", "set": "TEF", "number": "146", "category": "trainer" },
+    { "count": 4, "name": "Buddy-Buddy Poffin", "set": "TEF", "number": "144", "category": "trainer" },
+    { "count": 4, "name": "Poké Pad", "set": "POR", "number": "81", "category": "trainer" },
+    { "count": 2, "name": "Rare Candy", "set": "MEG", "number": "125", "category": "trainer" },
+    { "count": 2, "name": "Wondrous Patch", "set": "PFL", "number": "94", "category": "trainer" },
+    { "count": 1, "name": "Night Stretcher", "set": "ASC", "number": "196", "category": "trainer" },
+    { "count": 1, "name": "Sacred Ash", "set": "DRI", "number": "168", "category": "trainer" },
+    { "count": 1, "name": "Special Red Card", "set": "CRI", "number": "82", "category": "trainer" },
+    { "count": 2, "name": "Lillie's Pearl", "set": "JTG", "number": "151", "category": "trainer" },
+    { "count": 1, "name": "Handheld Fan", "set": "TWM", "number": "150", "category": "trainer" },
+    { "count": 2, "name": "Nighttime Mine", "set": "ASC", "number": "197", "category": "trainer" },
+    { "count": 1, "name": "Battle Cage", "set": "PFL", "number": "85", "category": "trainer" },
+
+    { "count": 4, "name": "Telepathic Psychic Energy", "set": "POR", "number": "88", "category": "energy" },
+    { "count": 2, "name": "Psychic Energy", "set": "MEE", "number": "13", "category": "energy", "basic": true },
+    { "count": 1, "name": "Mist Energy", "set": "TEF", "number": "161", "category": "energy" },
+    { "count": 1, "name": "Enriching Energy", "set": "SSP", "number": "191", "category": "energy" }
+  ]
+}
