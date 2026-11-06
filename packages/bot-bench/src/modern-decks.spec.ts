@@ -65,9 +65,9 @@ describe('Modern Standard bench decks', () => {
     expect(rulesForDecks(tr, old).firstTurnAttack).toBeTrue();
   });
 
-  [1, 2, 3].forEach(seed => {
-    it(`plays a Team Rocket's Mewtwo ex mirror to a normal finish, with reasons (seed ${seed})`, () => {
-      const deck = findDeck('sv-tr-mewtwo');
+  ['sv-tr-mewtwo', 'sv-dragapult'].forEach(name => [1, 2, 3].forEach(seed => {
+    it(`plays a ${name} mirror to a normal finish, with reasons (seed ${seed})`, () => {
+      const deck = findDeck(name);
       const a = new ReasonRecorder('a');
       const b = new ReasonRecorder('b');
       const seats: [GameSeat, GameSeat] = [
@@ -80,5 +80,5 @@ describe('Modern Standard bench decks', () => {
       expect(result.invalidMoves).toEqual([0, 0]);
       expect(a.reasons.length + b.reasons.length).toBeGreaterThan(10);
     });
-  });
+  }));
 });

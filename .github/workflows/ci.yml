@@ -106,7 +106,7 @@ jobs:
       - name: bot-bench - smoke benchmark
         timeout-minutes: 5
         run: npm run bench:smoke -w packages/bot-bench
-      # 10 Team Rocket's Mewtwo ex mirror games under today's Standard rules.
+      # Modern Standard decks under today's rules: each mirror and the cross matchup.
       - name: bot-bench - modern Standard smoke
         timeout-minutes: 5
         run: npm run bench:smoke:modern -w packages/bot-bench

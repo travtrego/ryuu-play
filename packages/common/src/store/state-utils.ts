@@ -1,7 +1,7 @@
 import { Card } from './card/card';
 import { CardList } from './state/card-list';
 import { CardTarget, PlayerType, SlotType } from './actions/play-card-action';
-import { CardType } from './card/card-types';
+import { CardTag, CardType } from './card/card-types';
 import { GameError } from '../game-error';
 import { GameMessage } from '../game-message';
 import { State } from './state/state';
@@ -97,6 +97,25 @@ export class StateUtils {
       CardType.DRAGON,
       CardType.FAIRY
     ];
+  }
+
+  /**
+   * True when any of the player's Pokémon were Knocked Out during the
+   * opponent's last turn (the turn just before the current one).
+   */
+  public static wasKnockedOutLastTurn(state: State, player: Player): boolean {
+    return player.knockedOutTurn !== undefined
+      && player.knockedOutTurn >= 0
+      && player.knockedOutTurn === state.turn - 1;
+  }
+
+  /**
+   * Pokémon with a Rule Box (Pokémon ex, Pokémon-EX, GX, LV.X, ...). Tera is
+   * not a Rule Box by itself; a Tera Pokémon ex has one through its ex tag.
+   */
+  public static hasRuleBox(card: { tags: string[] }): boolean {
+    const ruleBoxTags: string[] = [CardTag.POKEMON_EX, CardTag.POKEMON_GX, CardTag.POKEMON_LV_X];
+    return card.tags.some(t => ruleBoxTags.includes(t));
   }
 
   public static getOpponent(state: State, player: Player): Player {

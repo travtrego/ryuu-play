@@ -75,8 +75,9 @@ describe('Modern Standard format', () => {
     expect(missing).toEqual(NOT_YET_IMPLEMENTED);
   });
 
-  it('accepts the full 60-card Team Rocket\'s Mewtwo ex list as a valid deck', () => {
-    const deck = JSON.parse(fs.readFileSync(DECK_FILE, 'utf8'));
+  ['naic-2026-team-rocket-mewtwo.json', 'regional-2026-dragapult.json'].forEach(file => {
+  it(`accepts the full 60-card list ${file} as a valid deck`, () => {
+    const deck = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../../../data/meta-decks', file), 'utf8'));
     const names: string[] = [];
     (deck.cards as DeckEntry[]).forEach(entry => {
       for (let i = 0; i < entry.count; i++) {
@@ -88,6 +89,7 @@ describe('Modern Standard format', () => {
     expect(analyser.isValid()).toBeTrue();
     const formats = analyser.getDeckFormats().map(f => f.name);
     expect(formats).toContain(MODERN_STANDARD_NAME);
+  });
   });
 
   it('a deck may hold only 1 ACE SPEC card', () => {
