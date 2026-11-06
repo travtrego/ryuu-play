@@ -12,6 +12,8 @@ export * from './set-mega-evolution';
 export * from './set-op9';
 export * from './set-paldea-evolved';
 export * from './set-perfect-order';
+export * from './set-phantasmal-flames';
+export * from './set-prismatic-evolutions';
 export * from './set-scarlet-and-violet';
 export * from './set-shrouded-fable';
 export * from './set-stellar-crown';

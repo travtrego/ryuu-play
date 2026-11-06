@@ -24,14 +24,22 @@ owner handed from the GPT lane to Claude. Issue #2's lane split is retired.
   "modern Standard smoke").
 - **Deck 2, Dragapult ex — done end-to-end** (2026-11-06, third entry
   below): the Fall 2026 Regionals stock list, 24 of 24 cards.
-- **Next: deck 3.** Re-check the tier list first (thetoploader.com/meta,
-  limitlesstcg.com/decks). Candidates seen 2026-11-06: Dragapult Dudunsparce
-  (most cards now exist), Alakazam Dudunsparce, N's Zoroark, Slowking, Mega
-  Excadrill, Lillie's Clefairy ex (`data/meta-decks/naic-2026-lillies-clefairy-ex.json`).
+- **Deck 3, Dragapult ex / Dusknoir — done end-to-end** (2026-11-06, fourth
+  entry below), 26 of 26 cards.
+- **Next: deck 4.** Re-check the tier list first (thetoploader.com/meta, data of
+  5 Nov 2026: 1 Dragapult 9.7%, 2 Dragapult Dusknoir 5.6%, 3 Alakazam
+  Dudunsparce 5.4%, 4 N's Zoroark 5.2%, 5 Slowking 5.1%, 6 Dragapult Blaziken
+  4.3%, 7 Mega Excadrill 3.7%). Dragapult Blaziken is the cheapest next
+  (the NAIC list misses 3 cards); Alakazam Dudunsparce is the next most played.
 - **Bot weakness seen with Dragapult:** it uses Dudunsparce's Run Away Draw
   even when that leaves one fragile Pokémon in play, and loses to "no Active
   Pokémon" (7 of 20 mirror games). Worth a bot change measured with
-  `--decks sv-dragapult`.
+  `--decks sv-dragapult`. Tried 2026-11-06 and **not shipped**: a -200 score
+  for having only one Pokémon in play. Against the old bot it went 55% with
+  Dragapult, 53% in the BW era but 45% in the Base Set era (60-80 games each,
+  within noise), and mirrors still ended with no Active Pokémon about as
+  often. Needs a sharper fix (look at the Run Away Draw / Tuck Tail choice
+  itself), measured the same way.
 - **Merged with PR #1, not to be extended:** a superseded coach in
   `packages/simple-bot/src/coach`.
 
@@ -112,6 +120,49 @@ game** with the Tips panel; a recap is piece 4.
   squash-merged); check `merged_at` on the branch's PR. Exactly one `claude/*`
   branch is genuinely unmerged with no PR:
   `claude/pokemon-tcg-ai-trainer-3m3qqe` (2026-09-29). Leave it alone.
+
+---
+
+## 2026-11-06 (4) — Dragapult ex / Dusknoir end-to-end
+
+Branch `claude/ryuu-2026-11-06-dragapult-dusknoir`.
+
+### The list
+
+Limitless decklist 30539, Aleksander Rutowicz, 10th at Regional Gdańsk on
+31 Oct 2026. Saved as `data/meta-decks/regional-2026-dragapult-dusknoir.json`.
+Dragapult Dusknoir is the #2 Standard deck (thetoploader.com, data of 5 Nov
+2026). It shares 17 cards with Dragapult; 7 were new.
+
+### New cards (limitlesstcg.com card pages, 2026-11-06)
+
+Duskull, Dusclops, Dusknoir PRE (new `set-prismatic-evolutions`), Dawn PFL
+(new `set-phantasmal-flames`), Rare Candy MEG (same code as Rare Candy SUM),
+Special Red Card CRI, Team Rocket's Watchtower DRI.
+
+### Choices and limits
+
+- Cursed Blast (Dusclops 5 counters, Dusknoir 13): the user is Knocked Out
+  through the normal Knock Out check, so the opponent takes its Prize card
+  and the Knock Out counts for Fezandipiti ex / Unfair Stamp next turn.
+- Special Red Card puts the opponent's hand under their deck without
+  shuffling it first (the engine has no shuffle for a hand; nobody can see
+  the order).
+- Team Rocket's Watchtower blocks every Ability of a C Pokémon in play
+  through the engine's PowerEffect check (Meowth ex, Dudunsparce here).
+- Dawn asks three times (Basic, then Stage 1, then Stage 2).
+
+### Results
+
+- 20 mirror games: 0 errors, 0 rejected bot actions (13 by Prizes, 7 by no
+  Active Pokémon). The bot uses Cursed Blast, Come and Get You, Flip the
+  Script and Adrena-Brain in these games.
+- Three-deck round robin, 30 games: Dragapult 17-3, Dragapult Dusknoir 8-12,
+  Team Rocket's Mewtwo 5-15, 0 errors. (Bot play, not a meta judgment.)
+- meta-audit: this list 26 of 26. The older NAIC Dragapult lists now miss
+  only 3 cards each.
+- Specs: common 366, sets 2794, simple-bot 91, bot-bench 50, server 72; play
+  build ok.
 
 ---
 

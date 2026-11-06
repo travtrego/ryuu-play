@@ -1,0 +1,37 @@
+{
+  "id": "regional-2026-dragapult-dusknoir",
+  "name": "Dragapult ex / Dusknoir — Fall 2026 Regionals",
+  "format": "standard",
+  "asOf": "2026-11-06",
+  "source": "limitlesstcg.com/decks/list/30539 (checked 2026-11-06): Aleksander Rutowicz, 10th Regional Gdańsk 31 Oct 2026 (also 33rd Regional Nice 17 Oct 2026). Dragapult Dusknoir is the #2 Standard deck (thetoploader.com, data of 5 Nov 2026: 5.6%).",
+  "cards": [
+    { "count": 4, "name": "Dreepy", "set": "TWM", "number": "128", "category": "pokemon" },
+    { "count": 4, "name": "Drakloak", "set": "TWM", "number": "129", "category": "pokemon" },
+    { "count": 3, "name": "Dragapult ex", "set": "TWM", "number": "130", "category": "pokemon" },
+    { "count": 2, "name": "Duskull", "set": "PRE", "number": "35", "category": "pokemon" },
+    { "count": 2, "name": "Dusclops", "set": "PRE", "number": "36", "category": "pokemon" },
+    { "count": 1, "name": "Dusknoir", "set": "PRE", "number": "37", "category": "pokemon" },
+    { "count": 1, "name": "Budew", "set": "ASC", "number": "16", "category": "pokemon" },
+    { "count": 1, "name": "Munkidori", "set": "TWM", "number": "95", "category": "pokemon" },
+    { "count": 1, "name": "Fezandipiti ex", "set": "ASC", "number": "142", "category": "pokemon" },
+    { "count": 1, "name": "Meowth ex", "set": "POR", "number": "62", "category": "pokemon" },
+
+    { "count": 4, "name": "Lillie's Determination", "set": "MEG", "number": "119", "category": "trainer" },
+    { "count": 3, "name": "Boss's Orders", "set": "MEG", "number": "114", "category": "trainer" },
+    { "count": 2, "name": "Dawn", "set": "PFL", "number": "87", "category": "trainer" },
+    { "count": 2, "name": "Crispin", "set": "SCR", "number": "133", "category": "trainer" },
+    { "count": 1, "name": "Rosa's Encouragement", "set": "POR", "number": "84", "category": "trainer" },
+    { "count": 4, "name": "Buddy-Buddy Poffin", "set": "TEF", "number": "144", "category": "trainer" },
+    { "count": 4, "name": "Poké Pad", "set": "POR", "number": "81", "category": "trainer" },
+    { "count": 4, "name": "Ultra Ball", "set": "MEG", "number": "131", "category": "trainer" },
+    { "count": 2, "name": "Rare Candy", "set": "MEG", "number": "125", "category": "trainer" },
+    { "count": 2, "name": "Night Stretcher", "set": "ASC", "number": "196", "category": "trainer" },
+    { "count": 1, "name": "Special Red Card", "set": "CRI", "number": "82", "category": "trainer" },
+    { "count": 1, "name": "Unfair Stamp", "set": "TWM", "number": "165", "category": "trainer" },
+    { "count": 2, "name": "Team Rocket's Watchtower", "set": "DRI", "number": "180", "category": "trainer" },
+
+    { "count": 3, "name": "Fire Energy", "set": "MEE", "number": "10", "category": "energy", "basic": true },
+    { "count": 3, "name": "Psychic Energy", "set": "MEE", "number": "13", "category": "energy", "basic": true },
+    { "count": 2, "name": "Darkness Energy", "set": "MEE", "number": "15", "category": "energy", "basic": true }
+  ]
+}

@@ -11,6 +11,7 @@ import { TeamRocketsProton } from './team-rockets-proton';
 import { TeamRocketsSpidops } from './team-rockets-spidops';
 import { TeamRocketsTarountula } from './team-rockets-tarountula';
 import { TeamRocketsTransceiver } from './team-rockets-transceiver';
+import { TeamRocketsWatchtower } from './team-rockets-watchtower';
 
 export const setDestinedRivals: Card[] = [
   new TeamRocketsAriana(),
@@ -25,4 +26,5 @@ export const setDestinedRivals: Card[] = [
   new TeamRocketsSpidops(),
   new TeamRocketsTarountula(),
   new TeamRocketsTransceiver(),
+  new TeamRocketsWatchtower(),
 ];
