@@ -34,6 +34,13 @@ export class Player {
 
   stadiumUsedTurn: number = 0;
 
+  /**
+   * The turn in which one of this player's Pokémon was last Knocked Out
+   * (-1: never). Modern cards ask "if any of your Pokémon were Knocked Out
+   * during your opponent's last turn", see `StateUtils.wasKnockedOutLastTurn`.
+   */
+  knockedOutTurn: number = -1;
+
   marker = new Marker();
 
   avatarName: string = '';

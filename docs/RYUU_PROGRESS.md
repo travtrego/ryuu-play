@@ -22,10 +22,17 @@ owner handed from the GPT lane to Claude. Issue #2's lane split is retired.
   entry below): 23 of 23 cards, the deck is valid in the modern format, and
   bot mirror games finish with 0 errors and 0 rejected actions (CI step
   "modern Standard smoke").
-- **Next: deck 2, Dragapult ex** (most-played Standard deck in Nov 2026,
-  thetoploader.com tier list 4 Nov 2026: Dragapult 9.6%, Dragapult Dusknoir
-  5.6%, Dragapult Blaziken 4.3%). Re-check the list is current before starting.
-- **Also on PR #1, not to be extended:** a superseded coach in
+- **Deck 2, Dragapult ex — done end-to-end** (2026-11-06, third entry
+  below): the Fall 2026 Regionals stock list, 24 of 24 cards.
+- **Next: deck 3.** Re-check the tier list first (thetoploader.com/meta,
+  limitlesstcg.com/decks). Candidates seen 2026-11-06: Dragapult Dudunsparce
+  (most cards now exist), Alakazam Dudunsparce, N's Zoroark, Slowking, Mega
+  Excadrill, Lillie's Clefairy ex (`data/meta-decks/naic-2026-lillies-clefairy-ex.json`).
+- **Bot weakness seen with Dragapult:** it uses Dudunsparce's Run Away Draw
+  even when that leaves one fragile Pokémon in play, and loses to "no Active
+  Pokémon" (7 of 20 mirror games). Worth a bot change measured with
+  `--decks sv-dragapult`.
+- **Merged with PR #1, not to be extended:** a superseded coach in
   `packages/simple-bot/src/coach`.
 
 ### Learn mode (now second)
@@ -105,6 +112,68 @@ game** with the Tips panel; a recap is piece 4.
   squash-merged); check `merged_at` on the branch's PR. Exactly one `claude/*`
   branch is genuinely unmerged with no PR:
   `claude/pokemon-tcg-ai-trainer-3m3qqe` (2026-09-29). Leave it alone.
+
+---
+
+## 2026-11-06 (3) — Dragapult ex end-to-end
+
+Branch `claude/ryuu-2026-11-06-dragapult`.
+
+### The list
+
+Re-checked on 2026-11-06: Dragapult ex is still the most-played Standard deck
+(thetoploader.com, Oct/Nov 2026). The list is Limitless decklist 29678, the
+most common Dragapult list at Regional Gdańsk on 31 Oct 2026 (3rd place and five
+more top-41 finishes). It is saved as `data/meta-decks/regional-2026-dragapult.json`
+with its source. The older NAIC Dusknoir/Blaziken lists are kept but not built.
+
+### Cards (all text read from limitlesstcg.com card pages on 2026-11-06)
+
+Dreepy, Drakloak, Dragapult ex (Tera), Munkidori, Unfair Stamp (ACE SPEC)
+TWM; Budew, Fezandipiti ex ASC; Dunsparce, Dudunsparce, Buddy-Buddy Poffin
+TEF; Meowth ex, Judge, Poké Pad, Crushing Hammer, Rosa's Encouragement POR
+(new `set-perfect-order`); Crispin SCR (new `set-stellar-crown`); Boss's
+Orders, Risky Ruins MEG. Reprints reuse older code: Crushing Hammer POR =
+Crushing Hammer EPO, Boss's Orders MEG = Boss's Orders (Ghetsis) PAL.
+
+### Engine
+
+- `Player.knockedOutTurn` and `StateUtils.wasKnockedOutLastTurn` for "if any
+  of your Pokémon were Knocked Out during your opponent's last turn"
+  (Fezandipiti ex, Unfair Stamp). Default -1; old saved games never match.
+- `StateUtils.hasRuleBox` (ex, GX, LV.X) for Poké Pad.
+
+### Choices and limits
+
+- Phantom Dive's 6 damage counters go through `PutCountersEffect`, so they
+  land on a Benched Tera Pokémon (counters are not damage) but are stopped
+  by effects that block attack effects.
+- Munkidori asks how many counters to move (3, 2 or 1; the bot takes the most).
+- Dudunsparce's Run Away Draw is refused when it is your only Pokémon in play
+  (doing it would lose the game on the spot). Not on the card; a guard.
+- Budew's Itchy Pollen also blocks Pokémon Tools (they are Item cards).
+- Risky Ruins: Pokémon already in play when the turn starts, or when Risky
+  Ruins comes into play, are not affected. One edge is not handled: the same
+  card put onto the Bench twice in one turn only gets counters the first time.
+- Meowth ex's Tuck Tail returns it to the hand at the end of the attack turn.
+
+### Results
+
+- 20 mirror games (`--decks sv-dragapult --seed 1`): 0 errors, 0 rejected
+  bot actions; 14 ended by Prizes, 7 by "no Active Pokémon" (see the bot
+  weakness in Next up). Dragapult vs Team Rocket's Mewtwo, 20 games: 14-6 for
+  Dragapult, 0 errors.
+- `bench:smoke:modern` now plays both mirrors and the cross matchup in CI.
+- meta-audit, Dragapult list: before 3 of 24 (Lillie's Determination, Ultra
+  Ball, Night Stretcher); after 24 of 24.
+- Specs: common 366, sets 2783, simple-bot 91, bot-bench 47, server 72; play
+  build ok.
+
+### Not verified
+
+- Nobody has played Dragapult by hand in the browser.
+- Card-page reads were done through a summarising fetch tool; numbers and
+  short texts were quoted back, but a typo in a long text could slip through.
 
 ---
 

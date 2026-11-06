@@ -229,6 +229,34 @@ export const modernBenchDecks: BenchDeck[] = [
     ['Team Rocket\'s Energy DRI', 4],
     ['Grass Energy EVO', 6],
     ['Psychic Energy EVO', 1]
+  ]),
+
+  // Fall 2026 Regionals stock list (data/meta-decks/regional-2026-dragapult.json)
+  deck('sv-dragapult', 'Standard (Scarlet & Violet): Dragapult ex', 'sv', [
+    ['Dreepy TWM', 4],
+    ['Drakloak TWM', 4],
+    ['Dragapult ex TWM', 3],
+    ['Munkidori TWM', 2],
+    ['Budew ASC', 2],
+    ['Dunsparce TEF', 1],
+    ['Dudunsparce TEF', 1],
+    ['Meowth ex POR', 1],
+    ['Fezandipiti ex ASC', 1],
+    ['Lillie\'s Determination MEG', 4],
+    ['Boss\'s Orders MEG', 3],
+    ['Crispin SCR', 2],
+    ['Rosa\'s Encouragement POR', 1],
+    ['Judge POR', 1],
+    ['Buddy-Buddy Poffin TEF', 4],
+    ['Poké Pad POR', 4],
+    ['Crushing Hammer POR', 4],
+    ['Ultra Ball MEG', 3],
+    ['Night Stretcher ASC', 3],
+    ['Unfair Stamp TWM', 1],
+    ['Risky Ruins MEG', 2],
+    ['Fire Energy EVO', 3],
+    ['Psychic Energy EVO', 3],
+    ['Darkness Energy EVO', 3]
   ])
 
 ];
