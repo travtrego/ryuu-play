@@ -18,23 +18,11 @@ owner handed from the GPT lane to Claude. Issue #2's lane split is retired.
 - **Where:** PR #1. Update it by *merging* `origin/master` in, never
   rebase/force-push. Squash-merge it once deck 1 is end-to-end; later decks get
   normal `claude/ryuu-` PRs.
-- **Deck 1, Team Rocket's Mewtwo ex — 22 of 23 cards in code** (see the
-  2026-11-06 entry). **Left for end-to-end:**
-  1. **Team Rocket's Mimikyu (DRI 87)** — the last card. Its attack
-     *Gemstone Mimicry* (P C: "Choose 1 of your opponent's Active Tera
-     Pokémon's attacks and use it as this attack") needs a **Tera** tag in the
-     engine, and its Retreat Cost was not found in any source read on
-     2026-11-06 (HP 60, Psychic, Weakness Darkness, Resistance Fighting -30).
-     Check the Retreat Cost on the official card database before writing it.
-  2. **Bot bench mirror** with the full list in the new format: bot-bench
-     needs a modern deck pool and must play it with `modernStandardRules()`
-     (`benchmark.ts` passes `new Rules()` today). Target 0 errors and 0
-     rejected bot actions; check the bot handles "can't attack on turn 1".
-  3. **Not yet verified by reading the live card page** (text checked from
-     knowledge only): Ultra Ball, Night Stretcher, Bug Catching Set, Energy
-     Switch. Fetch and compare them.
-  4. Then squash-merge PR #1 and start deck 2.
-- **Deck 2:** Dragapult ex (most-played Standard deck in Nov 2026,
+- **Deck 1, Team Rocket's Mewtwo ex — done end-to-end** (2026-11-06, second
+  entry below): 23 of 23 cards, the deck is valid in the modern format, and
+  bot mirror games finish with 0 errors and 0 rejected actions (CI step
+  "modern Standard smoke").
+- **Next: deck 2, Dragapult ex** (most-played Standard deck in Nov 2026,
   thetoploader.com tier list 4 Nov 2026: Dragapult 9.6%, Dragapult Dusknoir
   5.6%, Dragapult Blaziken 4.3%). Re-check the list is current before starting.
 - **Also on PR #1, not to be extended:** a superseded coach in
@@ -117,6 +105,49 @@ game** with the Tips panel; a recap is piece 4.
   squash-merged); check `merged_at` on the branch's PR. Exactly one `claude/*`
   branch is genuinely unmerged with no PR:
   `claude/pokemon-tcg-ai-trainer-3m3qqe` (2026-09-29). Leave it alone.
+
+---
+
+## 2026-11-06 (2) — Team Rocket's Mewtwo ex end-to-end: Mimikyu, Tera, bot mirror
+
+The owner approved merging PR #1 early and asked to keep going. PR #1 was
+squash-merged; this work is on `claude/ryuu-2026-11-06-tr-mewtwo-complete`.
+
+### What changed
+
+- **Team Rocket's Mimikyu DRI 87** (HP 60, P, Weakness D, Resistance F -30,
+  Retreat 0 — Limitless). *Gemstone Mimicry* (P C) copies an attack of the
+  opponent's **Active Tera Pokémon**, ignoring its cost; against anything else
+  it does nothing.
+- **Tera in the engine:** `CardTag.TERA`, and the Tera rule — a Benched Tera
+  Pokémon takes no damage from attacks (either player's). Applied where attack
+  damage is put on a Pokémon (`PutDamageEffect`), so it covers both normal and
+  Bench-sniping damage; damage counters (an effect, not damage) still land.
+  No Tera cards exist in the code yet.
+- **Bot bench, modern deck:** `modernBenchDecks` in `packages/bot-bench`
+  (`sv-tr-mewtwo`, the NAIC list) played with `modernStandardRules()` when both
+  decks are modern (`rulesForDecks`). Kept out of the default pool so the older
+  benchmarks and the smoke run are unchanged. New `npm run
+  bench:smoke:modern` (10 mirror games) runs in CI.
+- **Card text check finished:** Ultra Ball MEG, Night Stretcher SFA, Bug
+  Catching Set TWM and Energy Switch SVI now also read from card pages; all
+  match. Every card of the list has now been checked against a card page.
+
+### Results
+
+- `--decks sv-tr-mewtwo --games 20 --seed 1`: 20 wins (17 by Prizes, 3 by
+  deck-out), 0 errors, 0 rejected bot actions, 0 guard/stalled, avg 23 turns.
+- New bot-bench spec plays 3 seeded mirrors under the modern rules and checks
+  the bots give "Why?" reasons for their moves (more than 10 per game).
+- meta-audit, Team Rocket's Mewtwo ex: 23 of 23 implemented, 0 missing.
+- Specs: common 362, sets 2742, simple-bot 91, bot-bench 44, server 72; play
+  187 Karma specs; lint and `ng build` ok.
+
+### Not verified
+
+- Nobody has played this deck by hand in the browser yet.
+- The bot's play quality with it (e.g. whether it uses Erasure Ball's
+  discards well) was not judged, only that games finish cleanly.
 
 ---
 

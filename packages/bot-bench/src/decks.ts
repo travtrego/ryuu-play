@@ -21,7 +21,7 @@ export interface BenchDeck {
   cards: string[];
 }
 
-export type BenchEra = 'bs' | 'bw';
+export type BenchEra = 'bs' | 'bw' | 'sv';
 
 type DeckList = Array<[string, number]>;
 
@@ -195,10 +195,49 @@ export function decksForEra(era: BenchEra): BenchDeck[] {
 
 export const benchEras: BenchEra[] = ['bs', 'bw'];
 
+/**
+ * Today's Standard (Scarlet & Violet era) decks: real tournament lists, played
+ * under `modernStandardRules()` (see `rulesForDecks`). Kept out of the default
+ * pool and out of `benchEras` so the older-era benchmarks and the smoke run are
+ * unchanged; run them with `--decks <name>` (one name = mirror games).
+ * Basic Energy is the Diamond & Pearl print the modern format reuses.
+ */
+export const modernBenchDecks: BenchDeck[] = [
+
+  // 2026 NAIC Masters Top 8, Juho Kallama (data/meta-decks/naic-2026-team-rocket-mewtwo.json)
+  deck('sv-tr-mewtwo', 'Standard (Scarlet & Violet): Team Rocket\'s Mewtwo ex / Spidops', 'sv', [
+    ['Team Rocket\'s Mewtwo ex DRI', 2],
+    ['Team Rocket\'s Spidops DRI', 4],
+    ['Team Rocket\'s Tarountula DRI', 4],
+    ['Team Rocket\'s Articuno DRI', 2],
+    ['Team Rocket\'s Mimikyu DRI', 2],
+    ['Lillie\'s Clefairy ex JTG', 1],
+    ['Lillie\'s Determination MEG', 4],
+    ['Team Rocket\'s Ariana DRI', 4],
+    ['Team Rocket\'s Giovanni DRI', 3],
+    ['Team Rocket\'s Proton DRI', 2],
+    ['Team Rocket\'s Petrel DRI', 1],
+    ['Prism Tower CRI', 2],
+    ['Team Rocket\'s Factory DRI', 1],
+    ['Team Rocket\'s Transceiver DRI', 4],
+    ['Ultra Ball MEG', 4],
+    ['Night Stretcher SFA', 3],
+    ['Bug Catching Set TWM', 2],
+    ['Lucky Helmet TWM', 2],
+    ['Energy Switch SVI', 1],
+    ['Maximum Belt TEF', 1],
+    ['Team Rocket\'s Energy DRI', 4],
+    ['Grass Energy EVO', 6],
+    ['Psychic Energy EVO', 1]
+  ])
+
+];
+
 export function findDeck(name: string): BenchDeck {
-  const found = benchDecks.find(d => d.name === name);
+  const all = [...benchDecks, ...modernBenchDecks];
+  const found = all.find(d => d.name === name);
   if (found === undefined) {
-    throw new Error(`Unknown deck "${name}". Known decks: ${benchDecks.map(d => d.name).join(', ')}`);
+    throw new Error(`Unknown deck "${name}". Known decks: ${all.map(d => d.name).join(', ')}`);
   }
   return found;
 }

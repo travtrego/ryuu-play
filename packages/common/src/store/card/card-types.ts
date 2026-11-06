@@ -5,6 +5,7 @@ export enum CardTag {
   POKEMON_GX = 'GX',
   POKEMON_LV_X = 'LV_X',
   ACE_SPEC = 'ACE_SPEC',
+  TERA = 'TERA',
   FOSSIL = 'FOSSIL'
 }
 
