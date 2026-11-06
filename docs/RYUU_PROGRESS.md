@@ -9,16 +9,40 @@ Running log of automated work on this fork. Newest entry first.
 Rewrite this block each run. It is what a self-directing run should read first;
 the entries below are the record of what happened, not what to do.
 
-**The hold on new learn-mode UI is over.** It existed only until the owner gave
-direction, and on 2026-11-04 he did: build a **slow, scripted tutorial game**
-that teaches a first game step by step. That is now the top priority, ahead of
-everything else in this list. The owner has still not played a live game. A
-headless browser has now driven a tutorial game from setup to evolving (see
-2026-11-04), but no person has played one — check a tutorial game in a
-headless browser where practical, and keep saying in each PR what was not seen
-running.
+**Top priority since 2026-11-06 (owner decision): modern decks, one deck
+end-to-end at a time**, worked in **PR #1** (`gpt/meta-ai-trainer`), which the
+owner handed from the GPT lane to Claude. Issue #2's lane split is retired.
 
-### 1. Tutorial game (top priority, about 3-5 runs)
+### 0. Modern decks (top priority)
+
+- **Where:** PR #1. Update it by *merging* `origin/master` in (done
+  2026-11-06), never rebase/force-push. Squash-merge it once deck 1 is
+  end-to-end; later decks get normal `claude/ryuu-` PRs.
+- **What's on it (unverified until checked against the real cards):**
+  6 decklists in `data/meta-decks/`, partial Scarlet & Violet / Mega Evolution
+  card code in `packages/sets/src/standard/set-*`, `tools/meta-audit.js`
+  (CI job "meta deck coverage", informational), and a superseded coach in
+  `packages/simple-bot/src/coach` (not to be extended).
+- **Deck order:** (1) Team Rocket's Mewtwo ex (audit on 2026-11-06: 18 of 23
+  unique cards have code, 5 missing: TR Articuno, TR Mimikyu, Lucky Helmet,
+  Maximum Belt, TR Energy); (2) Dragapult ex, the most-played Standard deck in
+  Nov 2026 (thetoploader.com tier list, 4 Nov 2026: Dragapult 9.6%, Dragapult
+  Dusknoir 5.6%, Dragapult Blaziken 4.3%); then other current top decks
+  (Alakazam Dudunsparce, N's Zoroark, Slowking, Mega Excadrill ...).
+- **"End-to-end" means:** every card verified against real card text, with
+  specs; the modern rules those cards need (ex = 2 Prizes, ACE SPEC limit,
+  Tera, Mega Evolution ex, current first-turn rules) in the engine without
+  changing older formats; a modern Standard format defined so the deck editor
+  accepts the list; bot-bench mirror games with 0 errors / 0 rejected bot
+  actions; a dated entry here.
+
+### Learn mode (now second)
+
+The hold on new learn-mode UI ended on 2026-11-04 with the tutorial game;
+pieces 1-3 are merged. The owner has still not played a live game. Piece 4
+(deck primers and recap) waits until modern-deck work is blocked.
+
+### 1. Tutorial game (second priority)
 
 A slow first game that **sets each moment up, tells the player what to do,
 waits for them to do it, then explains why.** Different from the guided game
