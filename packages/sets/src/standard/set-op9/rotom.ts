@@ -79,7 +79,7 @@ export class Rotom extends PokemonCard {
       return state;
     }
 
-    if (effect instanceof AttackEffect && effect.attack === this.attacks[1]) {
+    if (effect instanceof AttackEffect && effect.attack === this.attacks[0]) {
       const player = effect.player;
       const opponent = StateUtils.getOpponent(state, player);
       if (opponent.hand.cards.length === 0) {

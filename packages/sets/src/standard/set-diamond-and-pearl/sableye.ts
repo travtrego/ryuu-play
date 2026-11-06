@@ -9,6 +9,7 @@ import {
   GameMessage,
   PokemonCard,
   PowerType,
+  ShuffleDeckPrompt,
   Stage,
   State,
   StateUtils,
@@ -109,16 +110,19 @@ export class Sableye extends PokemonCard {
             return;
           }
           const trainerCard = cards[0] as TrainerCard;
-          const deckIndex = player.deck.cards.indexOf(trainerCard);
           player.deck.moveCardTo(trainerCard, player.hand);
-          try {
-            const playTrainer = new TrainerEffect(player, trainerCard);
-            store.reduceEffect(state, playTrainer);
-          } catch (error) {
-            player.hand.cards.pop();
-            player.deck.cards.splice(deckIndex, 0, trainerCard);
-            throw error;
-          }
+
+          // Shuffle your deck afterward. Then, use the effect of that card.
+          store.prompt(state, new ShuffleDeckPrompt(player.id), order => {
+            player.deck.applyOrder(order);
+            try {
+              const playTrainer = new TrainerEffect(player, trainerCard);
+              store.reduceEffect(state, playTrainer);
+            } catch (error) {
+              player.hand.moveCardTo(trainerCard, player.deck);
+              throw error;
+            }
+          });
         }
       );
 

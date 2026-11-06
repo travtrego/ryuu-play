@@ -1,5 +1,6 @@
 import { Action, Player, State, PokemonCard, PlayerType, CardTarget, PlayCardAction } from '@ptcg/common';
 import { SimpleTactic } from './simple-tactics';
+import { describeEvolution, getOwnSlot } from '../explain/explain-utils';
 
 export class EvolveTactic extends SimpleTactic {
 
@@ -24,6 +25,22 @@ export class EvolveTactic extends SimpleTactic {
         );
       }
     }
+  }
+
+  public explain(state: State, player: Player, action: Action): string {
+    if (!(action instanceof PlayCardAction)) {
+      return super.explain(state, player, action);
+    }
+    const evolution = player.hand.cards[action.handIndex];
+    const slot = getOwnSlot(player, action.target);
+    const from = slot && slot.getPokemonCard();
+    if (!(evolution instanceof PokemonCard) || from === undefined) {
+      return super.explain(state, player, action);
+    }
+    const gain = describeEvolution(from, evolution);
+    return `Evolved ${from.name} into ${evolution.name}`
+      + (gain ? ` (${gain})` : '')
+      + '. The bot evolves whenever it can, because evolved Pokémon are usually stronger.';
   }
 
 }

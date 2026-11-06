@@ -107,4 +107,24 @@ export class MainService {
       .pipe(finalize(() => { this.loading = false; }));
   }
 
+  /**
+   * Learn mode: a guided first game against the bot. The server supplies
+   * both beginner decks, so no saved deck is needed.
+   */
+  public createGuidedGame() {
+    this.loading = true;
+    return this.socketService.emit('core:createGuidedGame')
+      .pipe(finalize(() => { this.loading = false; }));
+  }
+
+  /**
+   * Learn mode: the tutorial game. Like the guided game, but the decks come in
+   * a fixed order and the table shows the tutorial coach.
+   */
+  public createTutorialGame() {
+    this.loading = true;
+    return this.socketService.emit('core:createTutorialGame')
+      .pipe(finalize(() => { this.loading = false; }));
+  }
+
 }

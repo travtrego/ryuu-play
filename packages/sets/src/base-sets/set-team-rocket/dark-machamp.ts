@@ -2,6 +2,8 @@ import {
   AttackEffect,
   CardType,
   Effect,
+  GameError,
+  GameMessage,
   PokemonCard,
   ShuffleDeckPrompt,
   Stage,
@@ -54,8 +56,9 @@ export class DarkMachamp extends PokemonCard {
       const opponent = StateUtils.getOpponent(state, player);
       const hasBench = opponent.bench.some(b => b.pokemons.cards.length > 0);
 
+      // This attack can't be used if your opponent has no Benched Pokémon.
       if (!hasBench) {
-        return state;
+        throw new GameError(GameMessage.CANNOT_USE_ATTACK);
       }
 
       opponent.active.moveTo(opponent.deck);

@@ -94,7 +94,7 @@ export class Swampert extends PokemonCard {
         new AttachEnergyPrompt(
           player.id,
           GameMessage.ATTACH_ENERGY_CARDS,
-          player.discard,
+          player.hand,
           PlayerType.BOTTOM_PLAYER,
           [SlotType.ACTIVE],
           {

@@ -77,6 +77,32 @@ export class GamesComponent implements OnInit {
     return dialog.afterClosed().toPromise();
   }
 
+  public createTutorialGame() {
+    this.startLearnGame(this.mainSevice.createTutorialGame());
+  }
+
+  public createGuidedGame() {
+    this.startLearnGame(this.mainSevice.createGuidedGame());
+  }
+
+  private startLearnGame(request: Observable<unknown>) {
+    this.loading = true;
+    request
+      .pipe(
+        finalize(() => { this.loading = false; }),
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe({
+        next: () => {},
+        error: (error: ApiError) => {
+          const message = error && error.message === 'ERROR_BOT_NOT_FOUND'
+            ? 'GAMES_GUIDED_NO_BOT'
+            : 'ERROR_UNKNOWN';
+          this.alertService.toast(this.translate.instant(message));
+        }
+      });
+  }
+
   public createGame(invitedId?: number) {
     this.loading = true;
     this.deckService.getList()

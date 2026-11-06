@@ -1,9 +1,12 @@
 <!--The content below is only a placeholder and can be replaced.-->
 <ptcg-toolbar (logoClick)="sidenav.toggle()"></ptcg-toolbar>
 
-<mat-sidenav-container hasBackdrop="false">
-  <mat-sidenav #sidenav opened mode="side" class="ptcg-app-sidenav">
-    <ptcg-sidenav></ptcg-sidenav>
+<mat-sidenav-container [hasBackdrop]="isMobile">
+  <mat-sidenav #sidenav
+    [opened]="!isMobile"
+    [mode]="isMobile ? 'over' : 'side'"
+    class="ptcg-app-sidenav">
+    <ptcg-sidenav (click)="onSidenavClick(sidenav)"></ptcg-sidenav>
   </mat-sidenav>
 
   <mat-sidenav-content>

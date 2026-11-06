@@ -30,6 +30,36 @@
   li {
     padding: $ptcg-sidebar-tiny-padding;
   }
+
+  // Learn mode: the bot's explanation of the move logged just above
+  li.ptcg-game-logs-reason {
+    font-style: italic;
+    padding-left: calc(#{$ptcg-sidebar-tiny-padding} * 3);
+  }
+
+  ul.ptcg-game-logs-hide-reasons li.ptcg-game-logs-reason {
+    display: none;
+  }
+}
+
+.ptcg-game-logs-reason-label {
+  font-style: normal;
+  white-space: nowrap;
+}
+
+.ptcg-game-logs-reason-icon {
+  font-size: 1em;
+  height: 1em;
+  vertical-align: -0.125em;
+  width: 1em;
+}
+
+.ptcg-game-logs-reasons-toggle {
+  margin-right: map-get($padding, small);
+
+  &.ptcg-game-logs-reasons-off {
+    opacity: 0.4;
+  }
 }
 
 .ptcg-game-logs-footer {

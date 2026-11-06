@@ -10,7 +10,7 @@ import { CheckPokemonTypeEffect, CheckPokemonStatsEffect,
 import { Weakness, Resistance } from '../card/pokemon-types';
 import { CardType, SpecialCondition, CardTag } from '../card/card-types';
 import { AttackEffect, UseAttackEffect, HealEffect, KnockOutEffect,
-  UsePowerEffect, PowerEffect, UseStadiumEffect, EvolveEffect } from '../effects/game-effects';
+  UsePowerEffect, PowerEffect, UseStadiumEffect, EvolveEffect, ConfusionDamageEffect } from '../effects/game-effects';
 import { CoinFlipPrompt } from '../prompts/coin-flip-prompt';
 import { DealDamageEffect, ApplyWeaknessEffect } from '../effects/attack-effects';
 
@@ -76,7 +76,8 @@ function* useAttack(next: Function, store: StoreLike, state: State, effect: UseA
 
     if (flip === false) {
       store.log(state, GameLog.LOG_HURTS_ITSELF);
-      player.active.damage += 30;
+      const confusionDamage = new ConfusionDamageEffect(player, player.active, 30);
+      state = store.reduceEffect(state, confusionDamage);
       state = store.reduceEffect(state, new EndTurnEffect(player));
       return state;
     }
@@ -157,6 +158,11 @@ export function gameReducer(store: StoreLike, state: State, effect: Effect): Sta
     const player = effect.player;
     store.log(state, GameLog.LOG_PLAYER_USES_STADIUM, { name: player.name, stadium: effect.stadium.name });
     player.stadiumUsedTurn = state.turn;
+  }
+
+  if (effect instanceof ConfusionDamageEffect) {
+    effect.target.damage += Math.max(0, effect.damage);
+    return state;
   }
 
   if (effect instanceof HealEffect) {

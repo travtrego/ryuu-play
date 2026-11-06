@@ -3,6 +3,7 @@ import {
   Card,
   CardType,
   ChooseCardsPrompt,
+  CoinFlipPrompt,
   Effect,
   GameMessage,
   PokemonCard,
@@ -23,6 +24,16 @@ function* useFindAFriend(
 ): IterableIterator<State> {
   const player = effect.player;
   const opponent = StateUtils.getOpponent(state, player);
+
+  let flipResult = false;
+  yield store.prompt(state, new CoinFlipPrompt(player.id, GameMessage.COIN_FLIP), result => {
+    flipResult = result;
+    next();
+  });
+
+  if (!flipResult) {
+    return state;
+  }
 
   let cards: Card[] = [];
   yield store.prompt(

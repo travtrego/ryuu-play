@@ -16,11 +16,16 @@ function* playCard(next: Function, store: StoreLike, state: State, effect: Train
   let currentPlayer = player;
   let flipResult = true;
 
-  while (flipResult) {
-    yield store.prompt(state, new CoinFlipPrompt(player.id, GameMessage.COIN_FLIP), result => {
+  // The player flips first; on heads the other player flips, and so on.
+  // Whoever flips tails damages his or her own Active Pokémon.
+  for (;;) {
+    yield store.prompt(state, new CoinFlipPrompt(currentPlayer.id, GameMessage.COIN_FLIP), result => {
       flipResult = result;
       next();
     });
+    if (!flipResult) {
+      break;
+    }
     currentPlayer = currentPlayer === player ? opponent : player;
   }
 

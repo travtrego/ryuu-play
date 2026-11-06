@@ -33,6 +33,7 @@ export function attackReducer(store: StoreLike, state: State, effect: Effect): S
     const base = effect.attackEffect;
 
     const applyWeakness = new ApplyWeaknessEffect(base, effect.damage);
+    applyWeakness.source = effect.source;
     applyWeakness.target = effect.target;
     applyWeakness.ignoreWeakness = base.ignoreWeakness;
     applyWeakness.ignoreResistance = base.ignoreResistance;

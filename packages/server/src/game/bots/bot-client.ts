@@ -70,7 +70,10 @@ export class BotClient implements Client {
 
   protected addGameHandler(game: Game): BotGameHandler {
     const formatName = game.state.rules.formatName;
-    const gameHandler = new BotGameHandler(this, this.botAiFactory, game, this.loadDeck(formatName));
+    const deck = game.invitedDeck !== undefined
+      ? Promise.resolve(game.invitedDeck.slice())
+      : this.loadDeck(formatName);
+    const gameHandler = new BotGameHandler(this, this.botAiFactory, game, deck);
     this.gameHandlers.push(gameHandler);
     return gameHandler;
   }

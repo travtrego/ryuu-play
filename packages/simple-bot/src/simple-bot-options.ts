@@ -64,6 +64,14 @@ export interface StateScores {
     attackBonus: number;
     supporterBonus: number;
   };
+  /**
+   * Choosing which Pokémon goes into the Active Spot (a new Active after a
+   * Knock Out, or a switch). Added to the Pokémon score of a Pokémon whose
+   * attached Energy already pays for one of its attacks.
+   */
+  activeChoice: {
+    canAttack: number;
+  };
 }
 
 export interface SimpleBotOptions {

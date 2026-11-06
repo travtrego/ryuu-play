@@ -1,0 +1,13 @@
+{
+  "extends": "../common/tsconfig",
+  "compilerOptions": {
+    "outDir": "dist",
+    "rootDirs": ["./src"]
+  },
+  "include": [
+    "src/**/*.ts"
+  ],
+  "exclude": [
+    "src/**/*.spec.ts"
+  ]
+}

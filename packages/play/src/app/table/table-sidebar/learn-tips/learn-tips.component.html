@@ -1,0 +1,24 @@
+<ng-container *ngIf="tips.length > 0">
+  <div class="ptcg-learn-tips-header">
+    <mat-icon class="ptcg-learn-tips-icon">school</mat-icon>
+    <h4 translate>LEARN_TIPS_TITLE</h4>
+    <span class="ptcg-u-spacer"></span>
+    <mat-icon class="ptcg-learn-tips-toggle"
+      (click)="toggleTips()"
+      [matTooltip]="(showTips ? 'LEARN_TIPS_HIDE' : 'LEARN_TIPS_SHOW') | translate"
+      matTooltipShowDelay="500">
+      {{ showTips ? 'expand_less' : 'expand_more' }}
+    </mat-icon>
+  </div>
+
+  <ul class="ptcg-learn-tips-list" *ngIf="showTips">
+    <li *ngFor="let tip of tips; trackBy: trackById" [attr.data-tip]="tip.id">
+      {{ tip.text }}
+      <a class="ptcg-learn-tips-link"
+        routerLink="/rules"
+        [fragment]="tip.section"
+        target="_blank"
+        rel="noopener">{{ 'LEARN_TIPS_MORE' | translate }}</a>
+    </li>
+  </ul>
+</ng-container>

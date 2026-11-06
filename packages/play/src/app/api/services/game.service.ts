@@ -186,6 +186,15 @@ export class GameService {
       .subscribe(() => {}, (error: ApiError) => this.handleError(error));
   }
 
+  /**
+   * Learn mode, tutorial game: let the waiting bot make its next move, or
+   * (`release`) stop it waiting for the rest of the game.
+   */
+  public botContinueAction(gameId: number, release = false) {
+    this.socketService.emit('game:action:botContinue', {gameId, release})
+      .subscribe(() => {}, (error: ApiError) => this.handleError(error));
+  }
+
   public changeAvatarAction(gameId: number, avatarName: string) {
     this.socketService.emit('game:action:changeAvatar', {gameId, avatarName})
       .subscribe(() => {}, (error: ApiError) => this.handleError(error));

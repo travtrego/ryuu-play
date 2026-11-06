@@ -86,7 +86,7 @@ export class Silcoon extends PokemonCard {
       return store.prompt(state, new CoinFlipPrompt(opponent.id, GameMessage.COIN_FLIP), flipResult => {
         if (flipResult) {
           opponent.active.marker.addMarker(this.HARD_COCOON_MARKER, this);
-          opponent.marker.addMarker(this.CLEAR_HARD_COCOON_MARKER, this);
+          player.marker.addMarker(this.CLEAR_HARD_COCOON_MARKER, this);
         }
       });
     }

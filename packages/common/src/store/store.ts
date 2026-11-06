@@ -4,6 +4,7 @@ import { AppendLogAction } from './actions/append-log-action';
 import { Card } from './card/card';
 import { ChangeAvatarAction } from './actions/change-avatar-action';
 import { Effect } from './effects/effect';
+import { GameEffects } from './effects/game-effects';
 import { GameError } from '../game-error';
 import { GameMessage, GameLog } from '../game-message';
 import { Prompt } from './prompts/prompt';
@@ -237,6 +238,18 @@ export class Store implements StoreLike {
       player.discard.cards.forEach(c => cards.push(c));
     }
     cards.sort((c1, c2) => (c2.superType - c1.superType) || c1.fullName.localeCompare(c2.fullName));
+
+    // A card using a power resolves it after every other card has had the chance to block it
+    // (e.g. Muk's Toxic Gas checking its own Special Conditions before Dragonite's Step In switches).
+    if (effect.type === GameEffects.POWER_EFFECT) {
+      const source = (effect as Effect & { card?: Card }).card;
+      const index = source === undefined ? -1 : cards.indexOf(source);
+      if (index !== -1) {
+        cards.splice(index, 1);
+        cards.push(source as Card);
+      }
+    }
+
     cards.forEach(c => { state = c.reduceEffect(this, state, effect); });
     return state;
   }

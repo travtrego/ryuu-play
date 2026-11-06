@@ -2,6 +2,7 @@ import {
   AddSpecialConditionsEffect,
   AttackEffect,
   CardType,
+  ConfusionDamageEffect,
   DealDamageEffect,
   Effect,
   PokemonCard,
@@ -54,10 +55,18 @@ export class DarkPrimeape extends PokemonCard {
 
   public reduceEffect(store: StoreLike, state: State, effect: Effect): State {
 
-    // Note: Having problem with this one. When flip for confusion fails,
-    // we put damage counters, it's not "doing the damage" (for example
-    // Defender is not reducing the damage, weakness is not applied, etc).
-    // I think we shouldn't place 6 damage counters when confusion fails.
+    // Frenzy also applies when Dark Primeape hurts itself because it's Confused.
+    if (effect instanceof ConfusionDamageEffect && effect.target.getPokemonCard() === this) {
+      try {
+        const powerEffect = new PowerEffect(effect.player, this.powers[0], this);
+        store.reduceEffect(state, powerEffect);
+      } catch {
+        return state;
+      }
+      effect.damage += 30;
+      return state;
+    }
+
     if (effect instanceof DealDamageEffect && effect.source.getPokemonCard() === this) {
       const player = StateUtils.findOwner(state, effect.source);
 

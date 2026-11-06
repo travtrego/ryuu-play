@@ -117,4 +117,41 @@ describe('ChooseCardsPromptResolver', () => {
     expect(result.includes(r)).toBeTruthy();
   });
 
+  describe('explain (learn mode)', () => {
+
+    it('names the cards it discards from its hand', () => {
+      const keep = new TestCard('Charmeleon');
+      const drop = new TestCard('Rattata');
+      keep.id = 1;
+      drop.id = 2;
+      player.hand.cards = [ keep, drop ];
+      // A Pokemon in play that Charmeleon evolves from makes it worth keeping.
+      keep.evolvesFrom = 'Charmander';
+      const slot = player.active;
+      const charmander = new TestCard('Charmander');
+      slot.pokemons.cards = [ charmander ];
+      slot.pokemonPlayedTurn = -1;
+      prompt = new ChooseCardsPrompt(player.id, GameMessage.CHOOSE_CARD_TO_DISCARD, player.hand, {},
+        { min: 1, max: 1 });
+
+      const action = resolver.resolvePrompt(state, player, prompt) as ResolvePromptAction;
+      const reason = resolver.explain(state, player, prompt, action);
+
+      expect(action.result).toEqual([ drop ]);
+      expect(reason).toContain('Discarded Rattata from its hand: it was the least useful card to keep');
+    });
+
+    it('does not reveal cards searched from the deck', () => {
+      const card = new TestCard('Charizard');
+      player.deck.cards.push(card);
+      prompt.options.max = 1;
+
+      const action = resolver.resolvePrompt(state, player, prompt) as ResolvePromptAction;
+
+      expect(action.result).toEqual([ card ]);
+      expect(resolver.explain(state, player, prompt, action)).toBe('');
+    });
+
+  });
+
 });

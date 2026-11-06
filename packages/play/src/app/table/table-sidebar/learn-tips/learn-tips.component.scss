@@ -1,0 +1,43 @@
+@import '../../../../theme/variables.scss';
+
+:host {
+  display: block;
+}
+
+.ptcg-learn-tips-header {
+  align-items: center;
+  display: flex;
+  padding: map-get($padding, small);
+
+  & > h4 {
+    margin: 0;
+  }
+
+  & mat-icon {
+    height: 1em;
+    overflow: hidden;
+    width: 1em;
+  }
+}
+
+.ptcg-learn-tips-icon {
+  margin-right: map-get($padding, small);
+}
+
+.ptcg-learn-tips-toggle {
+  cursor: pointer;
+}
+
+.ptcg-learn-tips-list {
+  list-style-type: none;
+  margin: 0;
+  padding: 0 map-get($padding, small) map-get($padding, small);
+
+  li {
+    padding: $ptcg-sidebar-tiny-padding;
+  }
+}
+
+.ptcg-learn-tips-link {
+  white-space: nowrap;
+}

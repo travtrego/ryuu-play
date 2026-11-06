@@ -89,6 +89,14 @@ export class AttachEnergyPrompt extends Prompt<CardAssign[]> {
       return false;
     }
 
+    // Check if no card is attached to a blocked target
+    const blockedTo = this.options.blockedTo;
+    if (result.some(r => blockedTo.some(b => {
+      return b.player === r.to.player && b.slot === r.to.slot && b.index === r.to.index;
+    }))) {
+      return false;
+    }
+
     // Check if all targets are the same
     if (this.options.sameTarget && result.length > 1) {
       const t = result[0].to;

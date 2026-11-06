@@ -93,7 +93,8 @@ export class Cradily extends PokemonCard {
       const hasBench = opponent.bench.some(b => b.pokemons.cards.length > 0);
 
       if (hasBench === false) {
-        return state;
+        const specialConditionEffect = new AddSpecialConditionsEffect(effect, [SpecialCondition.POISONED]);
+        return store.reduceEffect(state, specialConditionEffect);
       }
 
       return store.prompt(

@@ -24,8 +24,9 @@ function* useJumpCatch(next: Function, store: StoreLike, state: State, effect: A
   const opponent = StateUtils.getOpponent(state, player);
   let cards: Card[] = [];
 
+  // Searching an empty deck finds nothing, but the attack is still used
   if (player.deck.cards.length === 0) {
-    throw new GameError(GameMessage.CANNOT_PLAY_THIS_CARD);
+    return state;
   }
 
   yield store.prompt(

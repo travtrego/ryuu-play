@@ -1,5 +1,6 @@
 import { Action } from '@ptcg/common';
 import { Arbiter } from './arbiter';
+import { BotPacer } from './bot-pacer';
 import { Client } from '../client/client.interface';
 import { Core } from './core';
 import { GameSettings } from '@ptcg/common';
@@ -18,13 +19,31 @@ export class Game implements StoreHandler {
   public id: number;
   public clients: Client[] = [];
   public playerStats: PlayerStats[] = [];
-  private arbiter = new Arbiter();
+  /**
+   * Learn mode: the deck an invited bot plays in this game instead of one of
+   * its saved decks (the guided first game). Ignored by human players.
+   */
+  public invitedDeck: string[] | undefined;
+  /**
+   * Learn mode: in a tutorial game the bot waits for the player's Continue
+   * before each move on its turn (see BotPacer). Undefined in other games.
+   */
+  public botPacer: BotPacer | undefined;
+  /**
+   * Answers the shuffle and coin-flip prompts. A tutorial game is given a
+   * ScriptedArbiter instead (see createTutorialGame), so its deck order and
+   * flips are fixed. Normal and guided games keep the random Arbiter.
+   */
+  private arbiter: Arbiter = new Arbiter();
   private store: Store;
   private matchRecorder: MatchRecorder;
   private timeoutRef: NodeJS.Timeout | undefined;
 
-  constructor(private core: Core, id: number, public gameSettings: GameSettings) {
+  constructor(private core: Core, id: number, public gameSettings: GameSettings, arbiter?: Arbiter) {
     this.id = id;
+    if (arbiter !== undefined) {
+      this.arbiter = arbiter;
+    }
     this.store = new Store(this);
     this.store.state.rules = gameSettings.rules;
     this.matchRecorder = new MatchRecorder(core);

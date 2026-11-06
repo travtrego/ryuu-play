@@ -3,6 +3,8 @@ export * from './cards/deck-analyser';
 export * from './cards/format.interface';
 
 export * from './bot-ai.interface';
+export * from './beginner-decks';
+export * from './tutorial-decks';
 export * from './bot-arbiter';
 export * from './game-settings';
 export * from './player-stats';

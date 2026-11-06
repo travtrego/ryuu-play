@@ -119,6 +119,8 @@ export class DarkDragonair extends PokemonCard {
         throw new GameError(GameMessage.POWER_ALREADY_USED);
       }
 
+      powerUseOnce.setMarker(effect);
+
       const generator = useEvolutionaryLight(() => generator.next(), store, state, effect);
       return generator.next().value;
     }

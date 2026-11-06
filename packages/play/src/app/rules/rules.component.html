@@ -1,0 +1,196 @@
+<ptcg-content>
+  <mat-toolbar>
+    <mat-toolbar-row>
+      <h1 translate>RULES_TITLE</h1>
+    </mat-toolbar-row>
+  </mat-toolbar>
+
+  <div class="ptcg-rules">
+
+    <p>
+      A quick guide to the rules this game uses. Play a game against a bot from the Games page,
+      and come back here whenever something on the table doesn't make sense.
+    </p>
+
+    <div class="ptcg-rules-toc">
+      <button mat-stroked-button *ngFor="let section of sections" (click)="scrollTo(section.id)">
+        {{ section.title }}
+      </button>
+    </div>
+
+    <mat-card class="ptcg-rules-section" id="rules-goal">
+      <mat-card-title>How to win</mat-card-title>
+      <mat-card-content>
+        <p>You win the moment any one of these happens:</p>
+        <ul>
+          <li><strong>You take all 6 of your Prize cards.</strong> You take a Prize each time you Knock Out one of your
+            opponent's Pokémon (some powerful Pokémon, like Pokémon-ex, give up 2).</li>
+          <li><strong>Your opponent has no Pokémon left in play.</strong> If their Active Pokémon is Knocked Out and they
+            have nothing on the Bench to replace it, you win.</li>
+          <li><strong>Your opponent can't draw.</strong> If a player has no cards left in their deck at the start of
+            their turn, they lose.</li>
+        </ul>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="ptcg-rules-section" id="rules-setup">
+      <mat-card-title>Setting up</mat-card-title>
+      <mat-card-content>
+        <ul>
+          <li>Each player shuffles a 60-card deck and draws 7 cards.</li>
+          <li>Each player puts one <strong>Basic Pokémon</strong> face down as their <strong>Active Pokémon</strong>,
+            and may put up to 5 more Basic Pokémon on their <strong>Bench</strong>.</li>
+          <li>Each player sets aside the top 6 cards of their deck, face down, as <strong>Prize cards</strong>.</li>
+          <li>A coin flip decides who goes first.</li>
+          <li><strong>No Basic Pokémon in your opening hand?</strong> That's a <em>mulligan</em>: you show your hand,
+            shuffle it back and draw 7 again. Your opponent may draw 1 extra card each time this happens.</li>
+        </ul>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="ptcg-rules-section" id="rules-turn">
+      <mat-card-title>Your turn</mat-card-title>
+      <mat-card-content>
+        <p><strong>1. Draw a card.</strong> (In this game the player going first draws on their first turn too.)</p>
+        <p><strong>2. Do any of these, in any order:</strong></p>
+        <ul>
+          <li>Put Basic Pokémon from your hand onto your Bench (5 at most).</li>
+          <li>Evolve your Pokémon.</li>
+          <li>Attach <strong>one</strong> Energy card from your hand to one of your Pokémon. Only one per turn.</li>
+          <li>Play Trainer cards (only <strong>one Supporter</strong> per turn).</li>
+          <li>Retreat your Active Pokémon, <strong>once</strong> per turn.</li>
+          <li>Use Abilities, Poké-Powers and other powers printed on your Pokémon.</li>
+        </ul>
+        <p><strong>3. Attack, or end your turn.</strong> Attacking always ends your turn, so do everything else first.</p>
+        <p class="ptcg-rules-tip">Tip: the most common beginner mistake is attacking before attaching Energy or
+          playing Trainers. Attack last.</p>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="ptcg-rules-section" id="rules-energy">
+      <mat-card-title>Energy and attacking</mat-card-title>
+      <mat-card-content>
+        <ul>
+          <li>Each attack shows an Energy cost next to its name. Your Active Pokémon needs at least that much Energy
+            attached to use it.</li>
+          <li>A specific symbol (Fire, Water...) needs that exact type. The plain star symbol is
+            <strong>Colorless</strong> and can be paid with any type of Energy.</li>
+          <li>Using an attack does <strong>not</strong> use up the Energy. It stays attached unless the attack's text says
+            to discard it.</li>
+          <li>Only your Active Pokémon can attack, and it attacks your opponent's Active Pokémon unless the attack says
+            otherwise.</li>
+        </ul>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="ptcg-rules-section" id="rules-evolve">
+      <mat-card-title>Evolving</mat-card-title>
+      <mat-card-content>
+        <ul>
+          <li>Put a <strong>Stage 1</strong> card on the Basic Pokémon it says it "Evolves from", and a
+            <strong>Stage 2</strong> card on the matching Stage 1.</li>
+          <li>You can't evolve a Pokémon on the same turn it came into play. That also means neither player can evolve
+            on their very first turn.</li>
+          <li>The evolved Pokémon keeps its attached Energy and the damage it already has, but gets the new card's HP and
+            attacks.</li>
+        </ul>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="ptcg-rules-section" id="rules-retreat">
+      <mat-card-title>Retreating</mat-card-title>
+      <mat-card-content>
+        <ul>
+          <li>To swap your Active Pokémon with one on your Bench, discard Energy from it equal to its
+            <strong>Retreat Cost</strong> (shown at the bottom of the card).</li>
+          <li>You can retreat once per turn.</li>
+          <li>An <strong>Asleep</strong> or <strong>Paralyzed</strong> Pokémon can't retreat.</li>
+          <li>A Pokémon that goes to the Bench is cured of all Special Conditions.</li>
+        </ul>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="ptcg-rules-section" id="rules-damage">
+      <mat-card-title>Damage, Weakness and Resistance</mat-card-title>
+      <mat-card-content>
+        <ul>
+          <li>Damage stays on a Pokémon. When its total damage reaches its HP, it is <strong>Knocked Out</strong>:
+            it and all cards attached to it go to the discard pile, and the attacker's owner takes a Prize card.</li>
+          <li>If your Active Pokémon is Knocked Out, you choose a Benched Pokémon to become your new Active Pokémon.</li>
+          <li><strong>Weakness:</strong> if the attacker's type matches the defender's Weakness, the damage is doubled
+            (×2). A few cards add a fixed amount instead (for example +20).</li>
+          <li><strong>Resistance:</strong> if the attacker's type matches the defender's Resistance, the damage is reduced
+            by the number shown (for example -30).</li>
+          <li>Weakness and Resistance apply to damage done to the <strong>Active</strong> Pokémon. Damage to Benched
+            Pokémon ignores them.</li>
+        </ul>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="ptcg-rules-section" id="rules-conditions">
+      <mat-card-title>Special Conditions</mat-card-title>
+      <mat-card-content>
+        <p>These only affect an <strong>Active</strong> Pokémon. "Between turns" means right after each player's turn
+          ends.</p>
+        <table class="ptcg-rules-table">
+          <tr>
+            <th>Poisoned</th>
+            <td>Takes 10 damage between turns.</td>
+          </tr>
+          <tr>
+            <th>Burned</th>
+            <td>Between turns, flip a coin. If tails, it takes 20 damage.</td>
+          </tr>
+          <tr>
+            <th>Asleep</th>
+            <td>Can't attack or retreat. Between turns, flip a coin. If heads, it wakes up.</td>
+          </tr>
+          <tr>
+            <th>Paralyzed</th>
+            <td>Can't attack or retreat. It recovers at the end of its owner's next turn.</td>
+          </tr>
+          <tr>
+            <th>Confused</th>
+            <td>When it tries to attack, flip a coin. If tails, the attack fails, it puts 30 damage on itself, and your
+              turn ends. It can still retreat.</td>
+          </tr>
+        </table>
+        <p class="ptcg-rules-tip">Retreating or evolving a Pokémon cures its Special Conditions.</p>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="ptcg-rules-section" id="rules-trainers">
+      <mat-card-title>Trainer cards</mat-card-title>
+      <mat-card-content>
+        <ul>
+          <li><strong>Items</strong> (and plain "Trainer" cards in older sets): play as many as you like, then discard
+            them.</li>
+          <li><strong>Supporters:</strong> usually stronger, but only one per turn.</li>
+          <li><strong>Stadiums:</strong> stay in play and affect both players. Only one Stadium can be in play; a new one
+            replaces it.</li>
+          <li><strong>Pokémon Tools:</strong> attach to one of your Pokémon and stay there.</li>
+          <li>Always read the card: Trainers are how you draw cards, search your deck and heal.</li>
+        </ul>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="ptcg-rules-section" id="rules-tips">
+      <mat-card-title>Beginner tips</mat-card-title>
+      <mat-card-content>
+        <ul>
+          <li><strong>Fill your Bench early.</strong> If your Active Pokémon is Knocked Out with an empty Bench, you lose
+            on the spot.</li>
+          <li><strong>Attach Energy every turn.</strong> It's free, and falling behind on Energy is the fastest way to
+            lose.</li>
+          <li><strong>Power up a backup.</strong> Put Energy on a Benched Pokémon so it can attack right away when your
+            Active one goes down.</li>
+          <li><strong>Count the damage.</strong> Before attacking, check whether you can Knock Out the Defending Pokémon
+            this turn, including Weakness.</li>
+          <li><strong>Watch your deck size.</strong> Running out of cards to draw is a loss too, so don't over-use draw
+            cards late in the game.</li>
+        </ul>
+      </mat-card-content>
+    </mat-card>
+
+  </div>
+</ptcg-content>

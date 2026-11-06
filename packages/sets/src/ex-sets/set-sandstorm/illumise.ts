@@ -71,15 +71,15 @@ export class Illumise extends PokemonCard {
   public reduceEffect(store: StoreLike, state: State, effect: Effect): State {
     // Reduce damage (before Weakness and Resistance)
     if (effect instanceof DealDamageEffect || effect instanceof PutDamageEffect) {
-      const opponent = StateUtils.findOwner(state, effect.target);
+      const owner = StateUtils.findOwner(state, effect.target);
 
       // For Defending Pokemon use DealDamageEffect 
-      if (effect instanceof DealDamageEffect && effect.target !== opponent.active) {
+      if (effect instanceof DealDamageEffect && effect.target !== owner.active) {
         return state;
       }
 
       // For Benched Pokemon use PutDamageEffect
-      if (effect instanceof PutDamageEffect && effect.target === opponent.active) {
+      if (effect instanceof PutDamageEffect && effect.target === owner.active) {
         return state;
       }
 
@@ -93,8 +93,17 @@ export class Illumise extends PokemonCard {
         return state;
       }
 
+      // Only Illumise's own Volbeat counts. "As long as Volbeat is in play"
+      // reads as either side, but that wording is a translation error:
+      //   Q. Illumise's "Glowing Screen" power says "As long as Volbeat is in
+      //      play..." Does this count for ANY Volbeat (yours or opponent's) or
+      //      only your own?
+      //   A. No. There was an error in translation that left it vague - a
+      //      player must have both of them in play on their side, to use those
+      //      Poke-Powers.
+      //   (Sep 26, 2003 PUI Rules Team)
       let hasVolbeat = false;
-      opponent.forEachPokemon(PlayerType.TOP_PLAYER, (pokemonSlot, pokemonCard) => {
+      owner.forEachPokemon(PlayerType.BOTTOM_PLAYER, (pokemonSlot, pokemonCard) => {
         if (pokemonCard.name === 'Volbeat') {
           hasVolbeat = true;
         }
@@ -116,7 +125,7 @@ export class Illumise extends PokemonCard {
 
       // Try to reduce PowerEffect, to check if something is blocking our ability
       try {
-        const powerEffect = new PowerEffect(opponent, this.powers[0], this);
+        const powerEffect = new PowerEffect(owner, this.powers[0], this);
         store.reduceEffect(state, powerEffect);
       } catch {
         return state;

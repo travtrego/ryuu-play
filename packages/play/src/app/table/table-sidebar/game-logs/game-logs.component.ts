@@ -1,6 +1,6 @@
 import { Component, Input, ElementRef } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { StateLog, StateLogParam } from '@ptcg/common';
+import { GameLog as GameLogMessage, StateLog, StateLogParam } from '@ptcg/common';
 
 import { GameService } from '../../../api/services/game.service';
 import { LocalGameState } from '../../../shared/session/session.interface';
@@ -12,7 +12,11 @@ interface GameLog {
   className: string;
   message: string;
   params: StateLogParam;
+  /** Learn mode: the bot's explanation of its previous move. */
+  isReason: boolean;
 }
+
+const SHOW_REASONS_STORAGE_KEY = 'ptcgShowBotReasons';
 
 @Component({
   selector: 'ptcg-game-logs',
@@ -21,12 +25,15 @@ interface GameLog {
 })
 export class GameLogsComponent {
 
-  private readonly LOG_COUNT_LIMIT = 50;
+  // bot explanations add roughly one entry per bot move, so keep more
+  private readonly LOG_COUNT_LIMIT = 100;
 
   public loading = true;
   public logs: GameLog[] = [];
   public message = '';
   public isDeleted: boolean;
+  public hasReasons = false;
+  public showReasons = GameLogsComponent.loadShowReasons();
   private state: LocalGameState;
 
   @Input() set gameState(gameState: LocalGameState) {
@@ -52,6 +59,26 @@ export class GameLogsComponent {
   public clearLogs() {
     this.state.logs = [];
     this.logs = [];
+  }
+
+  public toggleReasons() {
+    this.showReasons = !this.showReasons;
+    try {
+      window.localStorage.setItem(SHOW_REASONS_STORAGE_KEY, this.showReasons ? '1' : '0');
+    } catch (error) {
+      // storage unavailable, keep the choice for this session only
+    }
+    if (this.showReasons) {
+      this.scrollToBottom();
+    }
+  }
+
+  private static loadShowReasons(): boolean {
+    try {
+      return window.localStorage.getItem(SHOW_REASONS_STORAGE_KEY) !== '0';
+    } catch (error) {
+      return true;
+    }
   }
 
   public sendMessage() {
@@ -90,6 +117,8 @@ export class GameLogsComponent {
       }
     });
 
+    this.hasReasons = this.logs.some(log => log.isReason);
+
     if (!logsAdded) {
       return;
     }
@@ -101,6 +130,7 @@ export class GameLogsComponent {
     if (this.logs.length > this.LOG_COUNT_LIMIT) {
       const toDelete = this.logs.length - this.LOG_COUNT_LIMIT;
       this.logs.splice(0, toDelete);
+      this.hasReasons = this.logs.some(log => log.isReason);
     }
 
     this.scrollToBottom();
@@ -109,6 +139,7 @@ export class GameLogsComponent {
   private buildGameLog(log: StateLog): GameLog | undefined {
     let name: string;
     let className: string;
+    const isReason = log.message === GameLogMessage.LOG_BOT_REASON;
 
     const client = this.sessionService.session.clients.find(c => c.clientId === log.client);
     const user = client ? this.sessionService.session.users[client.userId] : undefined;
@@ -129,7 +160,8 @@ export class GameLogsComponent {
         name,
         className,
         message: log.message,
-        params: log.params
+        params: log.params,
+        isReason
       };
     } else if (log.client === 0) {
       return {
@@ -137,7 +169,8 @@ export class GameLogsComponent {
         name: 'System',
         className: 'ptcg-system',
         message: log.message,
-        params: log.params
+        params: log.params,
+        isReason
       };
     }
     return undefined;

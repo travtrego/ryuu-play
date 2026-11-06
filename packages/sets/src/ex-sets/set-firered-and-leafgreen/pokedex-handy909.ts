@@ -4,6 +4,7 @@ import {
   GameError,
   GameMessage,
   OrderCardsPrompt,
+  ShuffleDeckPrompt,
   State,
   StoreLike,
   TrainerCard,
@@ -33,21 +34,25 @@ export class PokedexHandy909 extends TrainerCard {
         throw new GameError(GameMessage.CANNOT_PLAY_THIS_CARD);
       }
 
-      const deckTop = new CardList();
-      player.deck.moveTo(deckTop, 6);
+      return store.prompt(state, new ShuffleDeckPrompt(player.id), shuffleOrder => {
+        player.deck.applyOrder(shuffleOrder);
 
-      return store.prompt(
-        state,
-        new OrderCardsPrompt(player.id, GameMessage.CHOOSE_CARDS_ORDER, deckTop, {
-          allowCancel: true,
-        }),
-        order => {
-          if (order !== null) {
-            deckTop.applyOrder(order);
+        const deckTop = new CardList();
+        player.deck.moveTo(deckTop, 6);
+
+        store.prompt(
+          state,
+          new OrderCardsPrompt(player.id, GameMessage.CHOOSE_CARDS_ORDER, deckTop, {
+            allowCancel: true,
+          }),
+          order => {
+            if (order !== null) {
+              deckTop.applyOrder(order);
+            }
+            player.deck.cards.unshift(...deckTop.cards);
           }
-          player.deck.cards.unshift(...deckTop.cards);
-        }
-      );
+        );
+      });
     }
 
     return state;

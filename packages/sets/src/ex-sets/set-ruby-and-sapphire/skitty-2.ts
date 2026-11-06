@@ -64,7 +64,7 @@ export class Skitty2 extends PokemonCard {
           GameMessage.ATTACH_ENERGY_CARDS,
           player.hand,
           PlayerType.BOTTOM_PLAYER,
-          [SlotType.ACTIVE],
+          [SlotType.ACTIVE, SlotType.BENCH],
           {
             superType: SuperType.ENERGY,
             energyType: EnergyType.BASIC,

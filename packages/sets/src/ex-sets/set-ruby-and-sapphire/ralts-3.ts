@@ -55,7 +55,7 @@ export class Ralts3 extends PokemonCard {
 
       const checkProvidedEnergyOpponent = new CheckProvidedEnergyEffect(opponent);
       state = store.reduceEffect(state, checkProvidedEnergyOpponent);
-      const opponentEnergy = checkProvidedEnergyPlayer.energyMap.reduce((left, p) => left + p.provideAmount, 0);
+      const opponentEnergy = checkProvidedEnergyOpponent.energyMap.reduce((left, p) => left + p.provideAmount, 0);
 
       if (playerEnergy !== opponentEnergy) {
         effect.damage = 10;

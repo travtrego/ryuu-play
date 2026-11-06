@@ -1,0 +1,48 @@
+@import '../../../../theme/variables.scss';
+
+:host {
+  display: block;
+}
+
+.ptcg-tutorial-coach-header {
+  align-items: center;
+  display: flex;
+  padding: map-get($padding, small);
+
+  & > h4 {
+    margin: 0;
+  }
+
+  & mat-icon {
+    height: 1em;
+    overflow: hidden;
+    width: 1em;
+  }
+}
+
+.ptcg-tutorial-coach-icon {
+  margin-right: map-get($padding, small);
+}
+
+.ptcg-tutorial-coach-progress {
+  font-size: 0.85em;
+  opacity: 0.7;
+}
+
+.ptcg-tutorial-coach-why,
+.ptcg-tutorial-coach-lesson,
+.ptcg-tutorial-coach-bot {
+  padding: $ptcg-sidebar-tiny-padding map-get($padding, small);
+}
+
+.ptcg-tutorial-coach-why {
+  opacity: 0.85;
+}
+
+.ptcg-tutorial-coach-actions {
+  padding-top: $ptcg-sidebar-tiny-padding;
+}
+
+.ptcg-tutorial-coach-link {
+  white-space: nowrap;
+}

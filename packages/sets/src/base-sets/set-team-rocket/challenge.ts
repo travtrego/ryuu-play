@@ -4,6 +4,7 @@ import {
   Effect,
   GameError,
   GameMessage,
+  Player,
   PokemonSlot,
   ShuffleDeckPrompt,
   Stage,
@@ -44,57 +45,37 @@ function* playCard(next: Function, store: StoreLike, state: State, effect: Train
 
   if (!wantToUse) {
     player.deck.moveTo(player.hand, 2);
+    return state;
   }
 
-  // Player
-  // Pokemon face-down onto Bench
-  let max = slots.length;
-  store.prompt(
-    state,
-    new ChooseCardsPrompt(
-      player.id,
-      GameMessage.CHOOSE_CARD_TO_PUT_ONTO_BENCH,
-      player.deck,
-      { superType: SuperType.POKEMON, stage: Stage.BASIC },
-      { min: 0, max, allowCancel: true }
-    ),
-    selected => {
-      const cards = selected || [];
-      if (cards.length > slots.length) {
-        cards.length = slots.length;
-      }
-      cards.forEach((card, index) => {
-        player.deck.moveCardTo(card, slots[index].pokemons);
-        slots[index].pokemons.isPublic = false;
-        slots[index].pokemonPlayedTurn = state.turn;
-      });
+  // Each player puts Basic Pokemon face-down onto his or her own Bench.
+  // (A player can't do this if his or her Bench is full.)
+  const choosePokemon = (who: Player, emptySlots: PokemonSlot[]) => {
+    if (emptySlots.length === 0) {
+      return;
     }
-  );
+    store.prompt(
+      state,
+      new ChooseCardsPrompt(
+        who.id,
+        GameMessage.CHOOSE_CARD_TO_PUT_ONTO_BENCH,
+        who.deck,
+        { superType: SuperType.POKEMON, stage: Stage.BASIC },
+        { min: 0, max: emptySlots.length, allowCancel: true }
+      ),
+      selected => {
+        const cards = (selected || []).slice(0, emptySlots.length);
+        cards.forEach((card, index) => {
+          who.deck.moveCardTo(card, emptySlots[index].pokemons);
+          emptySlots[index].pokemons.isPublic = false;
+          emptySlots[index].pokemonPlayedTurn = state.turn;
+        });
+      }
+    );
+  };
 
-  // Opponent
-  // Pokemon face-down onto Bench
-  max = slotsOpponent.length;
-  store.prompt(
-    state,
-    new ChooseCardsPrompt(
-      opponent.id,
-      GameMessage.CHOOSE_CARD_TO_PUT_ONTO_BENCH,
-      opponent.deck,
-      { superType: SuperType.POKEMON, stage: Stage.BASIC },
-      { min: 0, max, allowCancel: true }
-    ),
-    selected => {
-      const cards = selected || [];
-      if (cards.length > slots.length) {
-        cards.length = slots.length;
-      }
-      cards.forEach((card, index) => {
-        opponent.deck.moveCardTo(card, slotsOpponent[index].pokemons);
-        slotsOpponent[index].pokemons.isPublic = false;
-        slotsOpponent[index].pokemonPlayedTurn = state.turn;
-      });
-    }
-  );
+  choosePokemon(player, slots);
+  choosePokemon(opponent, slotsOpponent);
 
   // Wait for players to choose Pokemon
   yield store.waitPrompt(state, () => next());
