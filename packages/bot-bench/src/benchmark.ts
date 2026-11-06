@@ -1,4 +1,5 @@
 import { Rules } from '@ptcg/common';
+import { modernStandardRules } from '@ptcg/sets';
 import { BenchDeck } from './decks';
 import { BotVariant } from './bot-variants';
 import { GameLimits, GameOutcome, GameResult, playGame } from './headless-game';
@@ -102,6 +103,14 @@ export function scheduleGame(index: number, decks: BenchDeck[]): { deckA: BenchD
   };
 }
 
+/**
+ * The rules a game is played under: today's Standard rules when both decks are
+ * modern (Scarlet & Violet era), the engine defaults otherwise.
+ */
+export function rulesForDecks(a: BenchDeck, b: BenchDeck): Rules {
+  return a.era === 'sv' && b.era === 'sv' ? modernStandardRules() : new Rules();
+}
+
 export function runBenchmark(config: BenchmarkConfig): { summary: BenchmarkSummary; games: BenchGame[] } {
   if (config.decks.length === 0) {
     throw new Error('At least one deck is required');
@@ -132,7 +141,7 @@ function runOne(config: BenchmarkConfig, index: number): BenchGame {
   const a = { name: `A:${config.sideA.name}`, bot: config.sideA.create(`A:${config.sideA.name}`), deck: deckA.cards };
   const b = { name: `B:${config.sideB.name}`, bot: config.sideB.create(`B:${config.sideB.name}`), deck: deckB.cards };
   const seats: [typeof a, typeof b] = seat0 === 'A' ? [a, b] : [b, a];
-  const result = playGame(seats, seed, config.limits, new Rules());
+  const result = playGame(seats, seed, config.limits, rulesForDecks(deckA, deckB));
 
   const sideOf = (seat: number | undefined): Side | undefined => {
     if (seat === undefined) {

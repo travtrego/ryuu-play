@@ -1,3 +1,4 @@
+import { CardTag } from '../card/card-types';
 import { GameError } from '../../game-error';
 import { GameMessage } from '../../game-message';
 import { Effect } from '../effects/effect';
@@ -17,6 +18,13 @@ export function attackReducer(store: StoreLike, state: State, effect: Effect): S
     const pokemonCard = target.getPokemonCard();
     if (pokemonCard === undefined) {
       throw new GameError(GameMessage.ILLEGAL_ACTION);
+    }
+
+    // Tera rule: as long as a Tera Pokémon is on the Bench, prevent all
+    // damage done to it by attacks (both players' attacks).
+    if (pokemonCard.tags.includes(CardTag.TERA)
+      && StateUtils.findOwner(state, target).active !== target) {
+      return state;
     }
 
     const damage = Math.max(0, effect.damage);

@@ -14,7 +14,7 @@ const DECK_FILE = path.resolve(__dirname, '../../../data/meta-decks/naic-2026-te
 
 // Cards of the Team Rocket's Mewtwo ex list that are not implemented yet.
 // Remove a name here when its card lands; the test below then requires it.
-const NOT_YET_IMPLEMENTED = ['Team Rocket\'s Mimikyu'];
+const NOT_YET_IMPLEMENTED: string[] = [];
 
 interface DeckEntry { count: number; name: string; set: string; basic?: boolean; }
 
@@ -73,6 +73,21 @@ describe('Modern Standard format', () => {
     });
 
     expect(missing).toEqual(NOT_YET_IMPLEMENTED);
+  });
+
+  it('accepts the full 60-card Team Rocket\'s Mewtwo ex list as a valid deck', () => {
+    const deck = JSON.parse(fs.readFileSync(DECK_FILE, 'utf8'));
+    const names: string[] = [];
+    (deck.cards as DeckEntry[]).forEach(entry => {
+      for (let i = 0; i < entry.count; i++) {
+        names.push(fullNameOf(entry));
+      }
+    });
+    expect(names.length).toEqual(60);
+    const analyser = new DeckAnalyser(names);
+    expect(analyser.isValid()).toBeTrue();
+    const formats = analyser.getDeckFormats().map(f => f.name);
+    expect(formats).toContain(MODERN_STANDARD_NAME);
   });
 
   it('a deck may hold only 1 ACE SPEC card', () => {
