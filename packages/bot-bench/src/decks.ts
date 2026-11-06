@@ -257,6 +257,36 @@ export const modernBenchDecks: BenchDeck[] = [
     ['Fire Energy EVO', 3],
     ['Psychic Energy EVO', 3],
     ['Darkness Energy EVO', 3]
+  ]),
+
+  // Fall 2026 Regionals (data/meta-decks/regional-2026-dragapult-dusknoir.json)
+  deck('sv-dragapult-dusknoir', 'Standard (Scarlet & Violet): Dragapult ex / Dusknoir', 'sv', [
+    ['Dreepy TWM', 4],
+    ['Drakloak TWM', 4],
+    ['Dragapult ex TWM', 3],
+    ['Duskull PRE', 2],
+    ['Dusclops PRE', 2],
+    ['Dusknoir PRE', 1],
+    ['Budew ASC', 1],
+    ['Munkidori TWM', 1],
+    ['Fezandipiti ex ASC', 1],
+    ['Meowth ex POR', 1],
+    ['Lillie\'s Determination MEG', 4],
+    ['Boss\'s Orders MEG', 3],
+    ['Dawn PFL', 2],
+    ['Crispin SCR', 2],
+    ['Rosa\'s Encouragement POR', 1],
+    ['Buddy-Buddy Poffin TEF', 4],
+    ['Poké Pad POR', 4],
+    ['Ultra Ball MEG', 4],
+    ['Rare Candy MEG', 2],
+    ['Night Stretcher ASC', 2],
+    ['Special Red Card CRI', 1],
+    ['Unfair Stamp TWM', 1],
+    ['Team Rocket\'s Watchtower DRI', 2],
+    ['Fire Energy EVO', 3],
+    ['Psychic Energy EVO', 3],
+    ['Darkness Energy EVO', 2]
   ])
 
 ];
