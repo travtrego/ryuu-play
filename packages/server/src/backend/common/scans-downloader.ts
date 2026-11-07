@@ -10,6 +10,48 @@ import { config } from '../../config';
 export class ScansDownloader {
 
   public async downloadAllMissingCards(): Promise<void> {
+    const cardsToDownload = await this.listCardsToDownload();
+
+    if (cardsToDownload.length === 0) {
+      return;
+    }
+
+    console.log(`Cards with missing scans: ${cardsToDownload.length}.`);
+    console.log('Downloading missing images, please wait...');
+
+    // A scan that cannot be downloaded must not stop the server from starting.
+    // Card images are decoration: the game is perfectly playable without them,
+    // and newly added cards routinely have no scan published yet. Before this,
+    // one missing file rejected the whole run and start.js exited 1, so a fresh
+    // install could not boot at all.
+    const failed: string[] = [];
+
+    for (let i = 0; i < cardsToDownload.length; i++) {
+      const card = cardsToDownload[i];
+      const filePath = config.sets.scansDir + this.getCardPath(card);
+      const downloadUrl = config.sets.scansDownloadUrl + this.getCardPath(card);
+      console.log(`File (${i + 1}/${cardsToDownload.length}): ${downloadUrl}`);
+
+      try {
+        await this.createDirectoryForFile(filePath);
+        await this.downloadFile(downloadUrl, filePath);
+      } catch (error) {
+        failed.push(downloadUrl);
+      }
+    }
+
+    if (failed.length > 0) {
+      console.log(`Could not download ${failed.length} of ${cardsToDownload.length} scans. `
+        + 'Those cards will show a placeholder image; everything else works as normal.');
+      failed.slice(0, 5).forEach(url => console.log(`  missing: ${url}`));
+      if (failed.length > 5) {
+        console.log(`  ... and ${failed.length - 5} more.`);
+      }
+    }
+  }
+
+  /** The cards whose scan is not on disk yet. */
+  private async listCardsToDownload(): Promise<Card[]> {
     const cardManager = CardManager.getInstance();
     const cards = cardManager.getAllCards();
     const cardsToDownload: Card[] = [];
@@ -22,22 +64,7 @@ export class ScansDownloader {
       }
     }
 
-    if (cardsToDownload.length === 0) {
-      return;
-    }
-
-    console.log(`Cards total: ${cards.length}, cards with missing scans: ${cardsToDownload.length}.`);
-    console.log('Downloading missing images, please wait...');
-
-    for (let i = 0; i < cardsToDownload.length; i++) {
-      const card = cardsToDownload[i];
-      const filePath = config.sets.scansDir + this.getCardPath(card);
-      const downloadUrl = config.sets.scansDownloadUrl + this.getCardPath(card);
-      console.log(`File (${i + 1}/${cardsToDownload.length}): ${downloadUrl}`);
-
-      await this.createDirectoryForFile(filePath);
-      await this.downloadFile(downloadUrl, filePath);
-    }
+    return cardsToDownload;
   }
 
   private getCardPath(card: Card): string {
