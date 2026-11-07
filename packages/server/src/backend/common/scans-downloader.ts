@@ -1,4 +1,4 @@
-import { Card, CardManager } from '@ptcg/common';
+import { Card, CardManager, getCardImageUrl } from '@ptcg/common';
 import { access, constants, createWriteStream, mkdir, unlink } from 'node:fs';
 import { dirname } from 'node:path';
 import { get as httpGet } from 'node:http';
@@ -29,7 +29,7 @@ export class ScansDownloader {
     for (let i = 0; i < cardsToDownload.length; i++) {
       const card = cardsToDownload[i];
       const filePath = config.sets.scansDir + this.getCardPath(card);
-      const downloadUrl = config.sets.scansDownloadUrl + this.getCardPath(card);
+      const downloadUrl = this.getDownloadUrl(card);
       console.log(`File (${i + 1}/${cardsToDownload.length}): ${downloadUrl}`);
 
       try {
@@ -65,6 +65,18 @@ export class ScansDownloader {
     }
 
     return cardsToDownload;
+  }
+
+  /**
+   * Where to fetch a card's artwork from.
+   *
+   * The configured scans host has nothing for the Scarlet & Violet sets, so
+   * those cards have a known image URL recorded in @ptcg/common instead (see
+   * packages/sets/scripts/fetch-card-images.js). Everything else comes from the
+   * configured host as before.
+   */
+  private getDownloadUrl(card: Card): string {
+    return getCardImageUrl(card.fullName) || (config.sets.scansDownloadUrl + this.getCardPath(card));
   }
 
   private getCardPath(card: Card): string {
