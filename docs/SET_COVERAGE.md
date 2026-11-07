@@ -12,7 +12,7 @@ the code *dispatches on* the attack/power, not that the effect is correct.
 
 | Cards | Implemented | Vanilla | Complete | Partial | Needs logic | With spec |
 | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| 861 | 802 | 59 | 861 (100%) | 0 | 0 | 584 (67.8%) |
+| 932 | 869 | 60 | 929 (99.6%) | 3 | 0 | 608 (65.2%) |
 
 - **Implemented** — needs logic, and every attack/power that needs logic is
   referenced from the class (`attacks[i]` / `powers[i]`); Trainers and Special
@@ -56,18 +56,39 @@ reprints are implemented once.
 
 | Set (export) | Codes | Present | Official | Impl. | Vanilla | Partial | Needs logic | Specs | Formats |
 | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | --- |
+| `set-ascended-heroes` (`setAscendedHeroes`) | ASC | 4 |  | 4 | 0 | 0 | 0 | 1 | (none) |
 | `set-black-and-white` (`setBlackAndWhite`) | BW | 45 |  | 44 | 1 | 0 | 0 | 45 | Standard |
 | `set-black-and-white-2` (`setBlackAndWhite2`) | BW2 | 81 |  | 78 | 3 | 0 | 0 | 2 | Standard |
 | `set-black-and-white-3` (`setBlackAndWhite3`) | BW3 | 53 |  | 53 | 0 | 0 | 0 | 0 | Standard |
 | `set-black-and-white-4` (`setBlackAndWhite4`) | BW4 | 18 |  | 17 | 1 | 0 | 0 | 0 | Standard |
+| `set-black-bolt` (`setBlackBolt`) | BLK | 1 |  | 1 | 0 | 0 | 0 | 1 | (none) |
+| `set-chaos-rising` (`setChaosRising`) | CRI | 2 |  | 2 | 0 | 0 | 0 | 2 | (none) |
+| `set-destined-rivals` (`setDestinedRivals`) | DRI | 16 |  | 16 | 0 | 0 | 0 | 8 | (none) |
 | `set-diamond-and-pearl` (`setDiamondAndPearl`) | DP | 28 |  | 17 | 11 | 0 | 0 | 1 | Standard |
 | `set-hgss` (`setHgss`) | HGSS | 23 |  | 22 | 1 | 0 | 0 | 0 | Standard |
+| `set-journey-together` (`setJourneyTogether`) | JTG | 4 |  | 3 | 0 | 1 | 0 | 1 | (none) |
+| `set-mega-evolution` (`setMegaEvolution`) | MEG | 9 |  | 7 | 0 | 2 | 0 | 0 | (none) |
 | `set-op9` (`setOp9`) | OP9 | 15 |  | 15 | 0 | 0 | 0 | 1 | Standard |
+| `set-paldea-evolved` (`setPaldeaEvolved`) | PAL | 1 |  | 1 | 0 | 0 | 0 | 0 | (none) |
+| `set-perfect-order` (`setPerfectOrder`) | POR | 6 |  | 6 | 0 | 0 | 0 | 0 | (none) |
+| `set-phantasmal-flames` (`setPhantasmalFlames`) | PFL | 3 |  | 3 | 0 | 0 | 0 | 1 | (none) |
+| `set-prismatic-evolutions` (`setPrismaticEvolutions`) | PRE | 3 |  | 3 | 0 | 0 | 0 | 0 | (none) |
+| `set-scarlet-and-violet` (`setScarletAndViolet`) | SVI | 1 |  | 1 | 0 | 0 | 0 | 0 | (none) |
+| `set-shrouded-fable` (`setShroudedFable`) | SFA | 2 |  | 2 | 0 | 0 | 0 | 2 | (none) |
+| `set-stellar-crown` (`setStellarCrown`) | SCR | 1 |  | 1 | 0 | 0 | 0 | 1 | (none) |
+| `set-surging-sparks` (`setSurgingSparks`) | SSP | 1 |  | 1 | 0 | 0 | 0 | 0 | (none) |
 | `set-sword-and-shield` (`setSwordAndShield`) | SSH | 11 |  | 10 | 1 | 0 | 0 | 0 | Standard |
+| `set-temporal-forces` (`setTemporalForces`) | TEF | 7 |  | 7 | 0 | 0 | 0 | 1 | (none) |
+| `set-twilight-masquerade` (`setTwilightMasquerade`) | TWM | 9 |  | 8 | 1 | 0 | 0 | 5 | (none) |
+| `set-white-flare` (`setWhiteFlare`) | WHT | 1 |  | 1 | 0 | 0 | 0 | 1 | (none) |
 
 ## Suspected stubs / incomplete cards
 
-None flagged.
+| Set | Card | Status | Unhandled | Review note | File |
+| --- | --- | --- | --- | --- | --- |
+| set-journey-together | Lillie's Clefairy ex JTG | partial | power[0] "Fairy Zone" | not yet reviewed | `packages/sets/src/standard/set-journey-together/lillies-clefairy-ex.ts` |
+| set-mega-evolution | Alakazam MEG | partial | power[0] "Psychic Draw" | not yet reviewed | `packages/sets/src/standard/set-mega-evolution/alakazam.ts` |
+| set-mega-evolution | Kadabra MEG | partial | power[0] "Psychic Draw" | not yet reviewed | `packages/sets/src/standard/set-mega-evolution/kadabra.ts` |
 
 ## Text/code keyword mismatches (advisory)
 
@@ -79,7 +100,10 @@ or a shared `common*` helper). Some are legitimate (the condition is only
 | Set | Card | Text mentions | Review note | File |
 | --- | --- | --- | --- | --- |
 | set-base | Devolution Spray BS | special condition | False positive: conditions are cleared by `pokemonSlot.clearEffects()`. | `packages/sets/src/base-sets/set-base/devolution-spray.ts` |
+| set-ascended-heroes | Fezandipiti ex ASC | coin flip | not yet reviewed | `packages/sets/src/standard/set-ascended-heroes/fezandipiti-ex.ts` |
 | set-black-and-white-2 | Virbank City Gym PLS | special condition | False positive: Poisoned is only referenced (`poisonDamage += 20`). | `packages/sets/src/standard/set-black-and-white-2/virbank-city-gym.ts` |
+| set-mega-evolution | Ultra Ball MEG | shuffle | not yet reviewed | `packages/sets/src/standard/set-mega-evolution/ultra-ball.ts` |
+| set-perfect-order | Crushing Hammer POR | coin flip | not yet reviewed | `packages/sets/src/standard/set-perfect-order/crushing-hammer.ts` |
 
 ## Card files not exported by their set
 
@@ -89,6 +113,21 @@ commented out in `index.ts`), so they are not playable and not counted above.
 | Set | Card | Status if enabled | Unhandled | Review note | File |
 | --- | --- | --- | --- | --- | --- |
 | set-fossil | Ditto FO | partial | TODO marker in source | Commented out of the Fossil index; TODOs for copying passive Abilities. | `packages/sets/src/base-sets/set-fossil/ditto.ts` |
+
+## Specs not matched to a card file
+
+- `tests/standard/set-ascended-heroes/ascended-heroes.spec.ts`
+- `tests/standard/set-journey-together/alakazam-support.spec.ts`
+- `tests/standard/set-journey-together/blaziken-line.spec.ts`
+- `tests/standard/set-mega-evolution/alakazam-line.spec.ts`
+- `tests/standard/set-mega-evolution/mega-evolution.spec.ts`
+- `tests/standard/set-perfect-order/perfect-order.spec.ts`
+- `tests/standard/set-phantasmal-flames/alakazam-support.spec.ts`
+- `tests/standard/set-prismatic-evolutions/dusk-line.spec.ts`
+- `tests/standard/set-surging-sparks/special-energies.spec.ts`
+- `tests/standard/set-temporal-forces/alakazam-support.spec.ts`
+- `tests/standard/set-temporal-forces/temporal-forces.spec.ts`
+- `tests/standard/set-twilight-masquerade/dragapult-line.spec.ts`
 
 ## Method and limits
 

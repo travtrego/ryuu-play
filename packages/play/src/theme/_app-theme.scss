@@ -1,0 +1,25 @@
+@use '@angular/material' as mat;
+
+/**
+ * The page behind the app.
+ *
+ * Every surface in RyuuPlay is dark, but the body was painted #fff. The app
+ * itself covers it once Angular has rendered, so the white only shows where
+ * the app does not paint: while the bundle is still loading, and when a touch
+ * device or trackpad scrolls past the end of the page. Both are a white flash
+ * in an otherwise dark app.
+ *
+ * Taking the colour from the theme rather than hard-coding it means the page
+ * keeps matching the app if the theme is ever changed.
+ */
+@mixin ptcg-app-theme($theme) {
+  $background: map-get($theme, background);
+  $foreground: map-get($theme, foreground);
+
+  html, body {
+    background-color: mat.get-color-from-palette($background, background);
+    color: mat.get-color-from-palette($foreground, text);
+  }
+}
+
+@mixin ptcg-app-typography($config) { }
