@@ -1,0 +1,39 @@
+{
+  "id": "regional-2026-ns-zoroark",
+  "name": "N's Zoroark ex — Fall 2026 Regionals",
+  "format": "standard",
+  "asOf": "2026-11-07",
+  "source": "limitlesstcg.com/decks/list/30215 (checked 2026-11-07): Ian McGregor, 102nd Regional Louisville KY 10 Oct 2026. N's Zoroark is #4 in Standard (thetoploader.com, data of 5 Nov 2026: 5.2%; not re-fetched 2026-11-07). Cross-checked against a 7 Oct 2026 list on dittobase.com, which shares the same Pokemon core.",
+  "cards": [
+    { "count": 4, "name": "N's Zorua", "set": "JTG", "number": "97", "category": "pokemon" },
+    { "count": 4, "name": "N's Zoroark ex", "set": "JTG", "number": "98", "category": "pokemon" },
+    { "count": 2, "name": "Munkidori", "set": "TWM", "number": "95", "category": "pokemon" },
+    { "count": 1, "name": "N's Reshiram", "set": "JTG", "number": "116", "category": "pokemon" },
+    { "count": 1, "name": "N's Zekrom", "set": "ASC", "number": "155", "category": "pokemon" },
+    { "count": 1, "name": "N's Purrloin", "set": "JTG", "number": "96", "category": "pokemon" },
+    { "count": 1, "name": "Fezandipiti ex", "set": "ASC", "number": "142", "category": "pokemon" },
+    { "count": 1, "name": "Pecharunt ex", "set": "SFA", "number": "39", "category": "pokemon" },
+    { "count": 1, "name": "Tatsugiri", "set": "TWM", "number": "131", "category": "pokemon" },
+
+    { "count": 4, "name": "Lillie's Determination", "set": "MEG", "number": "119", "category": "trainer" },
+    { "count": 3, "name": "Boss's Orders", "set": "MEG", "number": "114", "category": "trainer" },
+    { "count": 2, "name": "Cyrano", "set": "SSP", "number": "170", "category": "trainer" },
+    { "count": 2, "name": "Judge", "set": "POR", "number": "76", "category": "trainer" },
+    { "count": 1, "name": "Brock's Scouting", "set": "JTG", "number": "146", "category": "trainer" },
+    { "count": 1, "name": "Janine's Secret Art", "set": "PRE", "number": "112", "category": "trainer" },
+    { "count": 1, "name": "Black Belt's Training", "set": "JTG", "number": "143", "category": "trainer" },
+    { "count": 4, "name": "Buddy-Buddy Poffin", "set": "TEF", "number": "144", "category": "trainer" },
+    { "count": 3, "name": "Poké Pad", "set": "POR", "number": "81", "category": "trainer" },
+    { "count": 3, "name": "N's PP Up", "set": "JTG", "number": "153", "category": "trainer" },
+    { "count": 2, "name": "Ultra Ball", "set": "MEG", "number": "131", "category": "trainer" },
+    { "count": 2, "name": "Night Stretcher", "set": "ASC", "number": "196", "category": "trainer" },
+    { "count": 1, "name": "Secret Box", "set": "TWM", "number": "163", "category": "trainer" },
+    { "count": 1, "name": "Special Red Card", "set": "CRI", "number": "82", "category": "trainer" },
+    { "count": 1, "name": "Air Balloon", "set": "ASC", "number": "181", "category": "trainer" },
+    { "count": 1, "name": "Binding Mochi", "set": "PRE", "number": "95", "category": "trainer" },
+    { "count": 1, "name": "Punk Helmet", "set": "PFL", "number": "92", "category": "trainer" },
+    { "count": 3, "name": "Team Rocket's Watchtower", "set": "DRI", "number": "180", "category": "trainer" },
+
+    { "count": 8, "name": "Darkness Energy", "set": "MEE", "number": "15", "category": "energy", "basic": true }
+  ]
+}

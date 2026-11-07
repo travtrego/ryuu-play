@@ -12,7 +12,7 @@ the code *dispatches on* the attack/power, not that the effect is correct.
 
 | Cards | Implemented | Vanilla | Complete | Partial | Needs logic | With spec |
 | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| 932 | 869 | 60 | 929 (99.6%) | 3 | 0 | 608 (65.2%) |
+| 948 | 884 | 61 | 945 (99.6%) | 3 | 0 | 608 (64.1%) |
 
 - **Implemented** — needs logic, and every attack/power that needs logic is
   referenced from the class (`attacks[i]` / `powers[i]`); Trainers and Special
@@ -56,7 +56,7 @@ reprints are implemented once.
 
 | Set (export) | Codes | Present | Official | Impl. | Vanilla | Partial | Needs logic | Specs | Formats |
 | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | --- |
-| `set-ascended-heroes` (`setAscendedHeroes`) | ASC | 4 |  | 4 | 0 | 0 | 0 | 1 | (none) |
+| `set-ascended-heroes` (`setAscendedHeroes`) | ASC | 6 |  | 6 | 0 | 0 | 0 | 1 | (none) |
 | `set-black-and-white` (`setBlackAndWhite`) | BW | 45 |  | 44 | 1 | 0 | 0 | 45 | Standard |
 | `set-black-and-white-2` (`setBlackAndWhite2`) | BW2 | 81 |  | 78 | 3 | 0 | 0 | 2 | Standard |
 | `set-black-and-white-3` (`setBlackAndWhite3`) | BW3 | 53 |  | 53 | 0 | 0 | 0 | 0 | Standard |
@@ -66,20 +66,20 @@ reprints are implemented once.
 | `set-destined-rivals` (`setDestinedRivals`) | DRI | 16 |  | 16 | 0 | 0 | 0 | 8 | (none) |
 | `set-diamond-and-pearl` (`setDiamondAndPearl`) | DP | 28 |  | 17 | 11 | 0 | 0 | 1 | Standard |
 | `set-hgss` (`setHgss`) | HGSS | 23 |  | 22 | 1 | 0 | 0 | 0 | Standard |
-| `set-journey-together` (`setJourneyTogether`) | JTG | 4 |  | 3 | 0 | 1 | 0 | 1 | (none) |
+| `set-journey-together` (`setJourneyTogether`) | JTG | 11 |  | 9 | 1 | 1 | 0 | 1 | (none) |
 | `set-mega-evolution` (`setMegaEvolution`) | MEG | 9 |  | 7 | 0 | 2 | 0 | 0 | (none) |
 | `set-op9` (`setOp9`) | OP9 | 15 |  | 15 | 0 | 0 | 0 | 1 | Standard |
 | `set-paldea-evolved` (`setPaldeaEvolved`) | PAL | 1 |  | 1 | 0 | 0 | 0 | 0 | (none) |
 | `set-perfect-order` (`setPerfectOrder`) | POR | 6 |  | 6 | 0 | 0 | 0 | 0 | (none) |
-| `set-phantasmal-flames` (`setPhantasmalFlames`) | PFL | 3 |  | 3 | 0 | 0 | 0 | 1 | (none) |
-| `set-prismatic-evolutions` (`setPrismaticEvolutions`) | PRE | 3 |  | 3 | 0 | 0 | 0 | 0 | (none) |
+| `set-phantasmal-flames` (`setPhantasmalFlames`) | PFL | 4 |  | 4 | 0 | 0 | 0 | 1 | (none) |
+| `set-prismatic-evolutions` (`setPrismaticEvolutions`) | PRE | 5 |  | 5 | 0 | 0 | 0 | 0 | (none) |
 | `set-scarlet-and-violet` (`setScarletAndViolet`) | SVI | 1 |  | 1 | 0 | 0 | 0 | 0 | (none) |
-| `set-shrouded-fable` (`setShroudedFable`) | SFA | 2 |  | 2 | 0 | 0 | 0 | 2 | (none) |
+| `set-shrouded-fable` (`setShroudedFable`) | SFA | 3 |  | 3 | 0 | 0 | 0 | 2 | (none) |
 | `set-stellar-crown` (`setStellarCrown`) | SCR | 1 |  | 1 | 0 | 0 | 0 | 1 | (none) |
-| `set-surging-sparks` (`setSurgingSparks`) | SSP | 1 |  | 1 | 0 | 0 | 0 | 0 | (none) |
+| `set-surging-sparks` (`setSurgingSparks`) | SSP | 2 |  | 2 | 0 | 0 | 0 | 0 | (none) |
 | `set-sword-and-shield` (`setSwordAndShield`) | SSH | 11 |  | 10 | 1 | 0 | 0 | 0 | Standard |
 | `set-temporal-forces` (`setTemporalForces`) | TEF | 7 |  | 7 | 0 | 0 | 0 | 1 | (none) |
-| `set-twilight-masquerade` (`setTwilightMasquerade`) | TWM | 9 |  | 8 | 1 | 0 | 0 | 5 | (none) |
+| `set-twilight-masquerade` (`setTwilightMasquerade`) | TWM | 11 |  | 10 | 1 | 0 | 0 | 5 | (none) |
 | `set-white-flare` (`setWhiteFlare`) | WHT | 1 |  | 1 | 0 | 0 | 0 | 1 | (none) |
 
 ## Suspected stubs / incomplete cards
@@ -119,6 +119,7 @@ commented out in `index.ts`), so they are not playable and not counted above.
 - `tests/standard/set-ascended-heroes/ascended-heroes.spec.ts`
 - `tests/standard/set-journey-together/alakazam-support.spec.ts`
 - `tests/standard/set-journey-together/blaziken-line.spec.ts`
+- `tests/standard/set-journey-together/ns-zoroark-deck.spec.ts`
 - `tests/standard/set-mega-evolution/alakazam-line.spec.ts`
 - `tests/standard/set-mega-evolution/mega-evolution.spec.ts`
 - `tests/standard/set-perfect-order/perfect-order.spec.ts`
