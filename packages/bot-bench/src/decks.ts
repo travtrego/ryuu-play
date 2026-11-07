@@ -349,6 +349,38 @@ export const modernBenchDecks: BenchDeck[] = [
     ['Psychic Energy EVO', 2],
     ['Mist Energy TEF', 1],
     ['Enriching Energy SSP', 1]
+  ]),
+
+  // Fall 2026 Regionals (data/meta-decks/regional-2026-ns-zoroark.json)
+  deck('sv-ns-zoroark', 'Standard (Scarlet & Violet): N\'s Zoroark ex', 'sv', [
+    ['N\'s Zorua JTG', 4],
+    ['N\'s Zoroark ex JTG', 4],
+    ['Munkidori TWM', 2],
+    ['N\'s Reshiram JTG', 1],
+    ['N\'s Zekrom ASC', 1],
+    ['N\'s Purrloin JTG', 1],
+    ['Fezandipiti ex ASC', 1],
+    ['Pecharunt ex SFA', 1],
+    ['Tatsugiri TWM', 1],
+    ['Lillie\'s Determination MEG', 4],
+    ['Boss\'s Orders MEG', 3],
+    ['Cyrano SSP', 2],
+    ['Judge POR', 2],
+    ['Brock\'s Scouting JTG', 1],
+    ['Janine\'s Secret Art PRE', 1],
+    ['Black Belt\'s Training JTG', 1],
+    ['Buddy-Buddy Poffin TEF', 4],
+    ['Poké Pad POR', 3],
+    ['N\'s PP Up JTG', 3],
+    ['Ultra Ball MEG', 2],
+    ['Night Stretcher ASC', 2],
+    ['Secret Box TWM', 1],
+    ['Special Red Card CRI', 1],
+    ['Air Balloon ASC', 1],
+    ['Binding Mochi PRE', 1],
+    ['Punk Helmet PFL', 1],
+    ['Team Rocket\'s Watchtower DRI', 3],
+    ['Darkness Energy EVO', 8]
   ])
 
 ];

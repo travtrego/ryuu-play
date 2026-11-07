@@ -30,11 +30,17 @@ owner handed from the GPT lane to Claude. Issue #2's lane split is retired.
   fifth entry below), 25 of 25 cards.
 - **Deck 5, Alakazam / Dudunsparce — done end-to-end** (2026-11-06, sixth
   entry below), 29 of 29 cards.
-- **Next: deck 6.** Re-check the tier list first (thetoploader.com/meta, data of
-  5 Nov 2026: 4 N's Zoroark 5.2%, 5 Slowking 5.1%, 7 Mega Excadrill 3.7%,
-  8 Festival Lead 3.6%, 9 Dhelmise Banette 2.9%, 10 Basic Box 2.8%).
-  **Mega Evolution ex** (a Mega ex gives up 3 Prize cards) is needed for Mega
-  Excadrill / Mega Lopunny and is not in the engine yet.
+- **Deck 6, N's Zoroark ex — done end-to-end** (2026-11-07, first entry
+  below), 28 of 28 cards.
+- **Next: deck 7.** Re-check the tier list first (thetoploader.com/meta, data of
+  5 Nov 2026: 5 Slowking 5.1%, 7 Mega Excadrill 3.7%, 8 Festival Lead 3.6%,
+  9 Dhelmise Banette 2.9%, 10 Basic Box 2.8%). **Mega Evolution ex** (a Mega ex gives up 3 Prize cards) is
+  needed for Mega Excadrill / Mega Lopunny and is not in the engine yet.
+- **Bot weakness with N's Zoroark:** the bot picks the Night Joker attack to
+  copy by printed damage (`ChooseAttackPromptResolver`), so with N's Zekrom on
+  the Bench it always copies Rampaging Thunder and then can't attack next turn.
+  It also attacks with Night Joker when no N's Pokémon is on the Bench (the
+  attack then does nothing).
 - **Bot weakness with Alakazam:** it draws too much (Run Away Draw, Psychic
   Draw, Enriching Energy) and loses by deck-out in about half the mirror
   games (9 of 20).
@@ -127,6 +133,58 @@ game** with the Tips panel; a recap is piece 4.
   squash-merged); check `merged_at` on the branch's PR. Exactly one `claude/*`
   branch is genuinely unmerged with no PR:
   `claude/pokemon-tcg-ai-trainer-3m3qqe` (2026-09-29). Leave it alone.
+
+---
+
+## 2026-11-07 (1) — N's Zoroark ex end-to-end
+
+Branch `claude/ryuu-2026-11-07-ns-zoroark`.
+
+- **List:** Limitless 30215, Ian McGregor, 102nd Regional Louisville KY
+  10 Oct 2026 (`data/meta-decks/regional-2026-ns-zoroark.json`). Its Pokémon
+  core matches a 7 Oct 2026 list on dittobase.com. N's Zoroark is #4 in
+  Standard (thetoploader.com, 5 Nov 2026; not re-fetched today). A
+  higher-placed list was not found this run.
+- **16 new cards** (limitlesstcg.com card pages, 2026-11-07): N's Zorua,
+  N's Zoroark ex, N's Purrloin, N's Reshiram, N's PP Up, Brock's Scouting,
+  Black Belt's Training JTG; N's Zekrom, Air Balloon ASC; Pecharunt ex SFA;
+  Tatsugiri, Secret Box (ACE SPEC) TWM; Cyrano SSP; Janine's Secret Art,
+  Binding Mochi PRE; Punk Helmet PFL. No new engine rules were needed.
+- meta-audit for this deck: before 11 of 28 implemented (16 missing, 1
+  basic-Energy print to verify), after 28 of 28.
+
+### Choices and limits
+
+- Night Joker copies an attack with the same mechanism as Team Rocket's
+  Mimikyu. Another N's Zoroark ex's Night Joker is blocked in the prompt (it
+  would only ask again). "This Pokémon" in a copied attack is the attacker:
+  Powerful Rage counts the damage on N's Zoroark ex, and a copied Rampaging
+  Thunder stops N's Zoroark ex attacking next turn.
+- Shred follows Rayquaza DRV: the attacker's boosts (Black Belt's Training,
+  Maximum Belt) and Weakness/Resistance apply, then the damage is placed
+  directly, skipping the step where the defender's damage reduction lives.
+  "When damaged" effects (Lucky Helmet, Punk Helmet) still trigger. A
+  defending card that changes damage at the `DealDamageEffect` step would
+  still apply; none in the modern pool does that to its own damage today.
+- Trade can't be used with an empty deck (the engine convention, as with
+  Fezandipiti ex), though the card would allow discarding for nothing.
+- Brock's Scouting asks first: 2 Basic Pokémon or 1 Evolution Pokémon.
+- Janine's Secret Art can be played with no Basic D Energy in the deck (the
+  search just finds nothing).
+- Card costs for Rampaging Thunder (R L L C), Powerful Rage (R L) and Surf
+  (R W) are as Limitless lists them; I did not check them against a scan.
+
+### Results
+
+- 20 mirror games (seed 1): 0 errors, 0 rejected bot actions; 15 by Prizes,
+  4 by deck-out, 1 by no Active Pokémon. In 6 seeded mirrors the bot used
+  every new card (Trade, Night Joker, Subjugating Chains, Attract Customers,
+  N's PP Up, Janine's Secret Art, Secret Box, Cyrano, Brock's Scouting, Black
+  Belt's Training, Air Balloon, Binding Mochi, Punk Helmet), with "Why?"
+  notes. Bot weakness: see Next up.
+- Modern smoke is now a six-deck round robin (15 games) plus two mirrors:
+  0 errors. Specs: sets 2866, simple-bot 91, bot-bench 59, server 76.
+  The play package was not built locally (CI builds it).
 
 ---
 
