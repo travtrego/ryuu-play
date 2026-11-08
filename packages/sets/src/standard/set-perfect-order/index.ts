@@ -5,6 +5,7 @@ import { Judge } from './judge';
 import { MeowthEx } from './meowth-ex';
 import { PokePad } from './poke-pad';
 import { RosasEncouragement } from './rosas-encouragement';
+import { MegaSkarmoryEx } from './mega-skarmory-ex';
 
 export const setPerfectOrder: Card[] = [
   new TelepathicPsychicEnergy(),
@@ -13,4 +14,5 @@ export const setPerfectOrder: Card[] = [
   new MeowthEx(),
   new PokePad(),
   new RosasEncouragement(),
+  new MegaSkarmoryEx(),
 ];

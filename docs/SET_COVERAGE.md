@@ -12,7 +12,7 @@ the code *dispatches on* the attack/power, not that the effect is correct.
 
 | Cards | Implemented | Vanilla | Complete | Partial | Needs logic | With spec |
 | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| 948 | 884 | 61 | 945 (99.6%) | 3 | 0 | 608 (64.1%) |
+| 963 | 898 | 62 | 960 (99.6%) | 3 | 0 | 608 (63.1%) |
 
 - **Implemented** — needs logic, and every attack/power that needs logic is
   referenced from the class (`attacks[i]` / `powers[i]`); Trainers and Special
@@ -61,25 +61,26 @@ reprints are implemented once.
 | `set-black-and-white-2` (`setBlackAndWhite2`) | BW2 | 81 |  | 78 | 3 | 0 | 0 | 2 | Standard |
 | `set-black-and-white-3` (`setBlackAndWhite3`) | BW3 | 53 |  | 53 | 0 | 0 | 0 | 0 | Standard |
 | `set-black-and-white-4` (`setBlackAndWhite4`) | BW4 | 18 |  | 17 | 1 | 0 | 0 | 0 | Standard |
-| `set-black-bolt` (`setBlackBolt`) | BLK | 1 |  | 1 | 0 | 0 | 0 | 1 | (none) |
-| `set-chaos-rising` (`setChaosRising`) | CRI | 2 |  | 2 | 0 | 0 | 0 | 2 | (none) |
+| `set-black-bolt` (`setBlackBolt`) | BLK | 2 |  | 2 | 0 | 0 | 0 | 1 | (none) |
+| `set-chaos-rising` (`setChaosRising`) | CRI | 4 |  | 3 | 1 | 0 | 0 | 2 | (none) |
 | `set-destined-rivals` (`setDestinedRivals`) | DRI | 16 |  | 16 | 0 | 0 | 0 | 8 | (none) |
 | `set-diamond-and-pearl` (`setDiamondAndPearl`) | DP | 28 |  | 17 | 11 | 0 | 0 | 1 | Standard |
 | `set-hgss` (`setHgss`) | HGSS | 23 |  | 22 | 1 | 0 | 0 | 0 | Standard |
 | `set-journey-together` (`setJourneyTogether`) | JTG | 11 |  | 9 | 1 | 1 | 0 | 1 | (none) |
-| `set-mega-evolution` (`setMegaEvolution`) | MEG | 9 |  | 7 | 0 | 2 | 0 | 0 | (none) |
+| `set-mega-evolution` (`setMegaEvolution`) | MEG | 10 |  | 8 | 0 | 2 | 0 | 0 | (none) |
 | `set-op9` (`setOp9`) | OP9 | 15 |  | 15 | 0 | 0 | 0 | 1 | Standard |
 | `set-paldea-evolved` (`setPaldeaEvolved`) | PAL | 1 |  | 1 | 0 | 0 | 0 | 0 | (none) |
-| `set-perfect-order` (`setPerfectOrder`) | POR | 6 |  | 6 | 0 | 0 | 0 | 0 | (none) |
-| `set-phantasmal-flames` (`setPhantasmalFlames`) | PFL | 4 |  | 4 | 0 | 0 | 0 | 1 | (none) |
+| `set-perfect-order` (`setPerfectOrder`) | POR | 7 |  | 7 | 0 | 0 | 0 | 0 | (none) |
+| `set-phantasmal-flames` (`setPhantasmalFlames`) | PFL | 7 |  | 7 | 0 | 0 | 0 | 1 | (none) |
+| `set-pitch-black` (`setPitchBlack`) | PBL | 2 |  | 2 | 0 | 0 | 0 | 0 | (none) |
 | `set-prismatic-evolutions` (`setPrismaticEvolutions`) | PRE | 5 |  | 5 | 0 | 0 | 0 | 0 | (none) |
-| `set-scarlet-and-violet` (`setScarletAndViolet`) | SVI | 1 |  | 1 | 0 | 0 | 0 | 0 | (none) |
+| `set-scarlet-and-violet` (`setScarletAndViolet`) | SVI | 2 |  | 2 | 0 | 0 | 0 | 0 | (none) |
 | `set-shrouded-fable` (`setShroudedFable`) | SFA | 3 |  | 3 | 0 | 0 | 0 | 2 | (none) |
 | `set-stellar-crown` (`setStellarCrown`) | SCR | 1 |  | 1 | 0 | 0 | 0 | 1 | (none) |
 | `set-surging-sparks` (`setSurgingSparks`) | SSP | 2 |  | 2 | 0 | 0 | 0 | 0 | (none) |
 | `set-sword-and-shield` (`setSwordAndShield`) | SSH | 11 |  | 10 | 1 | 0 | 0 | 0 | Standard |
-| `set-temporal-forces` (`setTemporalForces`) | TEF | 7 |  | 7 | 0 | 0 | 0 | 1 | (none) |
-| `set-twilight-masquerade` (`setTwilightMasquerade`) | TWM | 11 |  | 10 | 1 | 0 | 0 | 5 | (none) |
+| `set-temporal-forces` (`setTemporalForces`) | TEF | 10 |  | 10 | 0 | 0 | 0 | 1 | (none) |
+| `set-twilight-masquerade` (`setTwilightMasquerade`) | TWM | 12 |  | 11 | 1 | 0 | 0 | 5 | (none) |
 | `set-white-flare` (`setWhiteFlare`) | WHT | 1 |  | 1 | 0 | 0 | 0 | 1 | (none) |
 
 ## Suspected stubs / incomplete cards
@@ -104,6 +105,7 @@ or a shared `common*` helper). Some are legitimate (the condition is only
 | set-black-and-white-2 | Virbank City Gym PLS | special condition | False positive: Poisoned is only referenced (`poisonDamage += 20`). | `packages/sets/src/standard/set-black-and-white-2/virbank-city-gym.ts` |
 | set-mega-evolution | Ultra Ball MEG | shuffle | not yet reviewed | `packages/sets/src/standard/set-mega-evolution/ultra-ball.ts` |
 | set-perfect-order | Crushing Hammer POR | coin flip | not yet reviewed | `packages/sets/src/standard/set-perfect-order/crushing-hammer.ts` |
+| set-scarlet-and-violet | Pokégear 3.0 SVI | shuffle | not yet reviewed | `packages/sets/src/standard/set-scarlet-and-violet/pokegear-30.ts` |
 
 ## Card files not exported by their set
 
@@ -124,6 +126,7 @@ commented out in `index.ts`), so they are not playable and not counted above.
 - `tests/standard/set-mega-evolution/mega-evolution.spec.ts`
 - `tests/standard/set-perfect-order/perfect-order.spec.ts`
 - `tests/standard/set-phantasmal-flames/alakazam-support.spec.ts`
+- `tests/standard/set-pitch-black/mega-excadrill-deck.spec.ts`
 - `tests/standard/set-prismatic-evolutions/dusk-line.spec.ts`
 - `tests/standard/set-surging-sparks/special-energies.spec.ts`
 - `tests/standard/set-temporal-forces/alakazam-support.spec.ts`

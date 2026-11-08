@@ -49,6 +49,7 @@ export const modernStandardSets: Card[][] = [
   standard.setPerfectOrder,
   standard.setBlackBolt,
   standard.setWhiteFlare,
+  standard.setPitchBlack,
 ];
 
 export function modernStandardRules(): Rules {

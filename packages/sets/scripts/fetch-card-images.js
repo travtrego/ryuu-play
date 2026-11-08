@@ -22,7 +22,7 @@ const API = 'https://api.pokemontcg.io/v2';
 
 // Sets whose artwork upstream does not host. Older sets already have scans.
 const MODERN_SETS = ['SVI', 'PAL', 'OBF', 'MEW', 'PAR', 'PAF', 'TEF', 'TWM', 'SFA',
-  'SCR', 'SSP', 'PRE', 'JTG', 'DRI', 'BLK', 'WHT', 'MEG', 'POR', 'ASC', 'CRI', 'PFL'];
+  'SCR', 'SSP', 'PRE', 'JTG', 'DRI', 'BLK', 'WHT', 'MEG', 'POR', 'ASC', 'CRI', 'PFL', 'PBL'];
 
 function getJson(url, attempt = 1) {
   return new Promise((resolve, reject) => {

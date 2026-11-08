@@ -65,7 +65,8 @@ describe('Modern Standard bench decks', () => {
     expect(rulesForDecks(tr, old).firstTurnAttack).toBeTrue();
   });
 
-  ['sv-tr-mewtwo', 'sv-dragapult', 'sv-dragapult-dusknoir', 'sv-dragapult-blaziken', 'sv-alakazam', 'sv-ns-zoroark'].forEach(name => [1, 2, 3].forEach(seed => {
+  ['sv-tr-mewtwo', 'sv-dragapult', 'sv-dragapult-dusknoir', 'sv-dragapult-blaziken', 'sv-alakazam', 'sv-ns-zoroark',
+    'sv-mega-excadrill'].forEach(name => [1, 2, 3].forEach(seed => {
     it(`plays a ${name} mirror to a normal finish, with reasons (seed ${seed})`, () => {
       const deck = findDeck(name);
       const a = new ReasonRecorder('a');

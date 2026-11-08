@@ -6,6 +6,9 @@ import { Eri } from './eri';
 import { FlutterMane } from './flutter-mane';
 import { MaximumBelt } from './maximum-belt';
 import { MistEnergy } from './mist-energy';
+import { Beldum } from './beldum';
+import { HerosCape } from './heros-cape';
+import { Metang } from './metang';
 
 export const setTemporalForces: Card[] = [
   new BuddyBuddyPoffin(),
@@ -15,4 +18,7 @@ export const setTemporalForces: Card[] = [
   new FlutterMane(),
   new MaximumBelt(),
   new MistEnergy(),
+  new Beldum(),
+  new HerosCape(),
+  new Metang(),
 ];
