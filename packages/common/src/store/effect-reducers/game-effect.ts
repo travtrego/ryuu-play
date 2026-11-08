@@ -119,6 +119,12 @@ export function gameReducer(store: StoreLike, state: State, effect: Effect): Sta
       if (card.tags.includes(CardTag.POKEMON_EX)) {
         effect.prizeCount += 1;
       }
+
+      // Mega Evolution Pokémon ex rule: 3 Prize cards in total. The card also
+      // carries POKEMON_EX (it is a Pokémon ex), which gave the first extra one.
+      if (card.tags.includes(CardTag.MEGA_EVOLUTION_EX)) {
+        effect.prizeCount += 1;
+      }
       
       // Fossil rule
       if (card.tags.includes(CardTag.FOSSIL) && state.rules.noPrizeForFossil) {

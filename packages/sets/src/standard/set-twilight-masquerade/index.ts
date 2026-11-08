@@ -10,6 +10,7 @@ import { Munkidori } from './munkidori';
 import { SecretBox } from './secret-box';
 import { Tatsugiri } from './tatsugiri';
 import { UnfairStamp } from './unfair-stamp';
+import { Kieran } from './kieran';
 
 export const setTwilightMasquerade: Card[] = [
   new HandheldFan(),
@@ -23,4 +24,5 @@ export const setTwilightMasquerade: Card[] = [
   new UnfairStamp(),
   new Tatsugiri(),
   new SecretBox(),
+  new Kieran(),
 ];

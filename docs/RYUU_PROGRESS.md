@@ -32,10 +32,26 @@ owner handed from the GPT lane to Claude. Issue #2's lane split is retired.
   entry below), 29 of 29 cards.
 - **Deck 6, N's Zoroark ex — done end-to-end** (2026-11-07, first entry
   below), 28 of 28 cards.
-- **Next: deck 7.** Re-check the tier list first (thetoploader.com/meta, data of
-  5 Nov 2026: 5 Slowking 5.1%, 7 Mega Excadrill 3.7%, 8 Festival Lead 3.6%,
-  9 Dhelmise Banette 2.9%, 10 Basic Box 2.8%). **Mega Evolution ex** (a Mega ex gives up 3 Prize cards) is
-  needed for Mega Excadrill / Mega Lopunny and is not in the engine yet.
+- **Deck 7, Mega Excadrill ex — done end-to-end** (2026-11-08, first entry
+  below), 22 of 22 cards. **The Mega Evolution Pokémon ex rule (3 Prize
+  cards) is in the engine now**, so other Mega decks need cards only.
+- **Next: deck 8.** Re-check the tier list first (thetoploader.com/meta, data of
+  5 Nov 2026: 5 Slowking 5.1%, 8 Festival Lead 3.6%, 9 Dhelmise Banette 2.9%,
+  10 Basic Box 2.8%). Slowking (Seek Inspiration copies the attack of a
+  discarded card) also plays Mega Kangaskhan ex and Mega Slowbro ex; a list
+  from dittobase.com (3 Aug 2026) had 11 of 29 cards missing. Find a fresher
+  list before starting. thetoploader.com and limitlesstcg.com/decks could
+  not be fetched unattended on 2026-11-08 (they needed an approval);
+  individual limitlesstcg.com deck and card pages found through search
+  worked.
+- **Card art missing for the decks 6-7 cards** (N's Zoroark, Mega
+  Excadrill): `packages/sets/scripts/fetch-card-images.js` (now also lists
+  PBL) could not reach api.pokemontcg.io from the 2026-11-08 run (DNS
+  failure), so `card-images.ts` still maps 71 cards. Rerun it where the API
+  is reachable.
+- **Bot weakness with Mega Excadrill:** it retreats a lot (in 6 seeded
+  mirrors: Genesect ex 169 times, Metagross 89) and never used Metallic
+  Hammer's discard or Empoleon ex's Iron Feathers. Games still finish.
 - **Bot weakness with N's Zoroark:** the bot picks the Night Joker attack to
   copy by printed damage (`ChooseAttackPromptResolver`), so with N's Zekrom on
   the Bench it always copies Rampaging Thunder and then can't attack next turn.
@@ -133,6 +149,74 @@ game** with the Tips panel; a recap is piece 4.
   squash-merged); check `merged_at` on the branch's PR. Exactly one `claude/*`
   branch is genuinely unmerged with no PR:
   `claude/pokemon-tcg-ai-trainer-3m3qqe` (2026-09-29). Leave it alone.
+
+---
+
+## 2026-11-08 (1) — Mega Excadrill ex end-to-end, Mega Evolution ex rule
+
+Branch `claude/ryuu-2026-11-08-mega-excadrill`.
+
+- **List:** Limitless 30008, Riguel Assis, 5th Regional Recife 3 Oct 2026
+  (`data/meta-decks/regional-2026-mega-excadrill.json`). Compared with
+  Limitless 30828 (49th Puebla, 24 Oct 2026) and 30062 (75th Recife): same
+  core. Mega Excadrill is #7 in Standard (thetoploader.com, 5 Nov 2026; not
+  re-fetched today). I picked it over #5 Slowking because it needs the Mega
+  Evolution ex rule that Slowking lists also need, and has fewer complex
+  cards.
+- **Engine rule:** new `CardTag.MEGA_EVOLUTION_EX`. A Mega Evolution Pokémon ex
+  carries both `POKEMON_EX` and this tag, so it still counts as a Pokémon ex
+  for Kieran, Maximum Belt, Black Belt's Training etc., and gives up 3 Prize
+  cards. No older card has the tag, so older formats play as before (XY-era
+  M Pokémon-EX are not implemented). Spec in `common`.
+- **15 new cards** (limitlesstcg.com card pages, 2026-11-08): Drilbur and Mega
+  Excadrill ex PBL (new `set-pitch-black`, added to the modern format);
+  Beldum, Metang, Hero's Cape (ACE SPEC) TEF; Beldum, Metagross CRI; Piplup,
+  Empoleon ex, Jumbo Ice Cream PFL; Genesect ex BLK; Mega Skarmory ex POR;
+  Kieran TWM; Pokégear 3.0 SVI and Switch MEG (reprints of the existing
+  cards). meta-audit for this deck: before 7 of 22 (13 missing, 2 to verify;
+  Pokégear 3.0 was already in as "Pokegear 3.0"), after 22 of 22.
+
+### Choices and limits
+
+- Limitless does not print Rule Box text or Weakness/Resistance values. The
+  Mega rule (3 Prizes), Weakness x2 and Resistance -30 are the standard
+  Scarlet & Violet / Mega Evolution values, not read off these cards.
+  Hero's Cape is ACE SPEC (shop listings say "ACE SPEC Rare"); Limitless
+  showed "Ultra Rare".
+- Mega Skarmory ex is a Basic Pokémon (Skarmory has no evolution). The Sonic
+  Ripper cost M M C comes from the attack line; the page showed no symbols.
+- Emperor's Stance (Empoleon ex) prevents attack effects that go through an
+  attack effect object, like Mist Energy. **It does not stop an attack that
+  switches it out** (e.g. Metagross's Bounce Back): switching the Defending
+  Pokémon is not an effect object in this engine, the same limit Mist Energy
+  has today. (Boss's Orders is a Trainer, so it is not affected anyway.)
+- "Takes 30/60 less damage during your opponent's next turn" (Genesect ex,
+  Empoleon ex) uses the existing opponent-next-turn marker on the Pokémon's
+  slot, as Graveler FO does; it is not cleared if the Pokémon retreats.
+- Metal Maker shuffles the cards it did not attach and puts them under the
+  deck; it can't be used with an empty deck (engine convention).
+- Jumbo Ice Cream can't be played if the Active has fewer than 3 Energy cards
+  or no damage (the engine's Potion convention). "3 or more Energy" counts
+  Energy cards.
+- Kieran: with an empty Bench it goes straight to the damage choice. There
+  are no Pokémon V in the modern format, so only ex is boosted.
+- Metallic Hammer asks first whether to discard (only offered with 3 M
+  Energy attached).
+
+### Results
+
+- 20 mirror games (seed 1): 0 errors, 0 rejected bot actions; 16 by Prizes,
+  3 by deck-out, 1 by no Active Pokémon. In 6 seeded mirrors the bot used
+  Metal Maker, Metallic Signal, Undermine, Maximum Drilling, Bounce Back,
+  Sonic Ripper, Protect Charge, Call for Family, Call for Support, Iron
+  Tackle, Kieran, Jumbo Ice Cream, Hero's Cape, Pokégear 3.0, Switch and Rare
+  Candy (into Metagross and Empoleon ex). Not seen: Iron Feathers and the
+  Metallic Hammer discard.
+- Modern smoke is now a seven-deck round robin (21 games) plus two mirrors:
+  0 errors. bot-bench spec plays 3 seeded mirrors of the new deck too, with
+  "Why?" notes.
+- Specs: common 367, sets 2890, simple-bot 91, bot-bench 62, server 76.
+  The play package was not built locally (CI builds it).
 
 ---
 

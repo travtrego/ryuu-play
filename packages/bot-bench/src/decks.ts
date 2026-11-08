@@ -381,6 +381,32 @@ export const modernBenchDecks: BenchDeck[] = [
     ['Punk Helmet PFL', 1],
     ['Team Rocket\'s Watchtower DRI', 3],
     ['Darkness Energy EVO', 8]
+  ]),
+
+  // Fall 2026 Regionals (data/meta-decks/regional-2026-mega-excadrill.json)
+  deck('sv-mega-excadrill', 'Standard (Scarlet & Violet): Mega Excadrill ex', 'sv', [
+    ['Beldum TEF', 3],
+    ['Beldum CRI', 1],
+    ['Metang TEF', 4],
+    ['Metagross CRI', 1],
+    ['Drilbur PBL', 3],
+    ['Mega Excadrill ex PBL', 2],
+    ['Piplup PFL', 2],
+    ['Empoleon ex PFL', 1],
+    ['Genesect ex BLK', 2],
+    ['Mega Skarmory ex POR', 1],
+    ['Fezandipiti ex ASC', 1],
+    ['Brock\'s Scouting JTG', 4],
+    ['Team Rocket\'s Petrel DRI', 4],
+    ['Boss\'s Orders MEG', 1],
+    ['Kieran TWM', 1],
+    ['Buddy-Buddy Poffin TEF', 4],
+    ['Pokégear 3.0 SVI', 4],
+    ['Jumbo Ice Cream PFL', 1],
+    ['Switch MEG', 1],
+    ['Rare Candy MEG', 1],
+    ['Hero\'s Cape TEF', 1],
+    ['Metal Energy EVO', 17]
   ])
 
 ];

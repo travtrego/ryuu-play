@@ -2,6 +2,12 @@
 export enum CardTag {
   POKEMON_SP = 'SP',
   POKEMON_EX = 'EX',
+  /**
+   * Mega Evolution Pokémon ex (Mega Evolution era, 2025+). Always paired with
+   * POKEMON_EX: a Mega Evolution Pokémon ex is a Pokémon ex, but gives up 3
+   * Prize cards instead of 2.
+   */
+  MEGA_EVOLUTION_EX = 'MEGA_EVOLUTION_EX',
   POKEMON_GX = 'GX',
   POKEMON_LV_X = 'LV_X',
   ACE_SPEC = 'ACE_SPEC',

@@ -44,4 +44,20 @@ describe('gameReducer - Knock Out turn tracking', () => {
     card.tags = [CardTag.POKEMON_GX];
     expect(StateUtils.hasRuleBox(card)).toBeTrue();
   });
+
+  it('prize count: 1 for a plain Pokémon, 2 for a Pokémon ex, 3 for a Mega Evolution Pokémon ex', () => {
+    const prizesFor = (tags: string[]) => {
+      const state = createTurnState(4);
+      const store = createStore(state);
+      const owner = state.players[1];
+      const card = owner.active.getPokemonCard() as TestBasic;
+      card.tags = tags;
+      const effect = new KnockOutEffect(owner, owner.active);
+      store.reduceEffect(state, effect);
+      return effect.prizeCount;
+    };
+    expect(prizesFor([])).toEqual(1);
+    expect(prizesFor([CardTag.POKEMON_EX])).toEqual(2);
+    expect(prizesFor([CardTag.POKEMON_EX, CardTag.MEGA_EVOLUTION_EX])).toEqual(3);
+  });
 });
