@@ -407,6 +407,39 @@ export const modernBenchDecks: BenchDeck[] = [
     ['Rare Candy MEG', 1],
     ['Hero\'s Cape TEF', 1],
     ['Metal Energy EVO', 17]
+  ]),
+
+  // Fall 2026 Regionals (data/meta-decks/regional-2026-slowking.json)
+  deck('sv-slowking', 'Standard (Scarlet & Violet): Slowking', 'sv', [
+    ['Slowpoke SCR', 3],
+    ['Slowking SCR', 3],
+    ['Mega Kangaskhan ex MEG', 3],
+    ['Kyurem SFA', 2],
+    ['Latias ex SSP', 2],
+    ['Metagross CRI', 1],
+    ['Annihilape PBL', 1],
+    ['Fezandipiti ex ASC', 1],
+    ['Lillie\'s Clefairy ex JTG', 1],
+    ['Meowth ex POR', 1],
+    ['Drapion POR', 1],
+    ['Munkidori TWM', 1],
+    ['Mew ex 30C', 1],
+    ['Zeraora DRI', 1],
+    ['Lillie\'s Determination MEG', 4],
+    ['Ciphermaniac\'s Codebreaking TEF', 3],
+    ['Crispin SCR', 1],
+    ['Ultra Ball MEG', 4],
+    ['Poké Pad POR', 3],
+    ['Wondrous Patch PFL', 3],
+    ['Night Stretcher ASC', 2],
+    ['Switch MEG', 1],
+    ['Secret Box TWM', 1],
+    ['Lucky Helmet TWM', 2],
+    ['Academy at Night SFA', 4],
+    ['Telepathic Psychic Energy POR', 4],
+    ['Psychic Energy EVO', 3],
+    ['Darkness Energy EVO', 2],
+    ['Boomerang Energy TWM', 1]
   ])
 
 ];

@@ -9,6 +9,7 @@ import { RareCandyMEG } from './rare-candy';
 import { RiskyRuins } from './risky-ruins';
 import { UltraBallMEG } from './ultra-ball';
 import { SwitchMEG } from './switch';
+import { MegaKangaskhanEx } from './mega-kangaskhan-ex';
 
 export const setMegaEvolution: Card[] = [
   new Abra(),
@@ -21,4 +22,5 @@ export const setMegaEvolution: Card[] = [
   new RiskyRuins(),
   new UltraBallMEG(),
   new SwitchMEG(),
+  new MegaKangaskhanEx(),
 ];
