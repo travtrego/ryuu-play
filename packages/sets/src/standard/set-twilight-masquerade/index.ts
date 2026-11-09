@@ -11,6 +11,7 @@ import { SecretBox } from './secret-box';
 import { Tatsugiri } from './tatsugiri';
 import { UnfairStamp } from './unfair-stamp';
 import { Kieran } from './kieran';
+import { BoomerangEnergy } from './boomerang-energy';
 
 export const setTwilightMasquerade: Card[] = [
   new HandheldFan(),
@@ -25,4 +26,5 @@ export const setTwilightMasquerade: Card[] = [
   new Tatsugiri(),
   new SecretBox(),
   new Kieran(),
+  new BoomerangEnergy(),
 ];

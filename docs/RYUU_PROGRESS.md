@@ -35,17 +35,18 @@ owner handed from the GPT lane to Claude. Issue #2's lane split is retired.
 - **Deck 7, Mega Excadrill ex — done end-to-end** (2026-11-08, first entry
   below), 22 of 22 cards. **The Mega Evolution Pokémon ex rule (3 Prize
   cards) is in the engine now**, so other Mega decks need cards only.
-- **Next: deck 8.** Re-check the tier list first (thetoploader.com/meta, data of
-  5 Nov 2026: 5 Slowking 5.1%, 8 Festival Lead 3.6%, 9 Dhelmise Banette 2.9%,
-  10 Basic Box 2.8%). Slowking (Seek Inspiration copies the attack of a
-  discarded card) also plays Mega Kangaskhan ex and Mega Slowbro ex; a list
-  from dittobase.com (3 Aug 2026) had 11 of 29 cards missing. Find a fresher
-  list before starting. thetoploader.com and limitlesstcg.com/decks could
-  not be fetched unattended on 2026-11-08 (they needed an approval);
-  individual limitlesstcg.com deck and card pages found through search
-  worked.
-- **Card art missing for the decks 6-7 cards** (N's Zoroark, Mega
-  Excadrill): `packages/sets/scripts/fetch-card-images.js` (now also lists
+- **Deck 8, Slowking — done end-to-end** (2026-11-09, first entry below),
+  29 of 29 cards. The bot now retreats for free into a Pokémon that can
+  attack when its Active can't (this ended stalled Slowking mirrors).
+- **Next: deck 9.** Re-check the tier list first (thetoploader.com/meta,
+  data of 8 Nov 2026: A-tier 8 Festival Lead 3.59%, 9 Dhelmise Banette
+  2.96%, 10 Basic Box (Ogerpon Clefairy) 2.84%, 11 Ogerpon Meganium
+  Hydrapple 2.48%, 12 Grimmsnarl Froslass 2.25%). thetoploader.com/meta
+  could be fetched on 2026-11-09; limitlesstcg.com card pages reached by URL
+  needed an approval, but deck and card pages found through search worked,
+  and pkmncards.com / dittobase.com card pages worked for card text.
+- **Card art missing for the decks 6-8 cards** (N's Zoroark, Mega
+  Excadrill, Slowking): `packages/sets/scripts/fetch-card-images.js` (now also lists
   PBL) could not reach api.pokemontcg.io from the 2026-11-08 run (DNS
   failure), so `card-images.ts` still maps 71 cards. Rerun it where the API
   is reachable.
@@ -149,6 +150,77 @@ game** with the Tips panel; a recap is piece 4.
   squash-merged); check `merged_at` on the branch's PR. Exactly one `claude/*`
   branch is genuinely unmerged with no PR:
   `claude/pokemon-tcg-ai-trainer-3m3qqe` (2026-09-29). Leave it alone.
+
+---
+
+## 2026-11-09 (1) — Slowking end-to-end, free retreat into an attacker
+
+Branch `claude/ryuu-2026-11-09-slowking`.
+
+- **List:** Limitless 30199, Matthew Dennery, 74th Regional Louisville KY
+  10 Oct 2026 (`data/meta-decks/regional-2026-slowking.json`). Slowking is
+  #5 in Standard (thetoploader.com/meta, data of 8 Nov 2026, 5.13%) and the
+  highest-ranked deck not yet done. Only a lower-placed list was found by
+  search; the Pokémon core matches the other Louisville and Nice Slowking
+  lists on the Drapion POR decklist page.
+- **12 new cards** (text from pkmncards.com, limitlesstcg.com, dittobase.com
+  and serebii.net card pages, 2026-11-09): Slowpoke, Slowking SCR; Mega
+  Kangaskhan ex MEG; Kyurem, Academy at Night SFA; Latias ex SSP; Annihilape
+  PBL; Drapion POR; Zeraora DRI; Mew ex 30C (new `set-30th-celebration`,
+  added to the modern format); Ciphermaniac's Codebreaking TEF; Boomerang
+  Energy TWM. No new engine rules were needed (the Mega rule came with deck 7).
+- meta-audit for this deck: before 17 of 29 (9 missing, 3 to verify), after
+  29 of 29.
+- **Bot change** (`RetreatTactic`): when the Active can't pay for any attack
+  and a retreat costs no Energy (Latias ex's Skyliner makes Basic Pokémon
+  free), the bot retreats into a Benched Pokémon that can attack. Before,
+  the state score (HP and printed damage) kept Latias ex or Meowth ex Active,
+  Seek Inspiration (no printed damage) looked worthless, and both bots used
+  Academy at Night every turn to stay out of deck-out: 2 of 20 mirrors hit
+  the 200-turn guard. After: 20 of 20 by Prizes, 22 turns on average (was
+  41). Not measured against the old bot in the BS/BW eras; it only acts
+  when the Active can't attack and the retreat is free.
+
+### Choices and limits
+
+- Seek Inspiration: the copied attack is used by Slowking ("this Pokémon"
+  means Slowking), with no further Energy check. A discarded Slowking can be
+  copied (Seek Inspiration again or Super Psy Bolt). Nothing happens with an
+  empty deck.
+- Copied attacks written for this deck (Trifrost, Hazardous Tail, Thunder
+  Raid) act on the attacker, not on the card they are printed on.
+- Boomerang Energy comes back when a `DiscardCardsEffect` of its own
+  Pokémon's attack discards it (Trifrost, Thunder Raid and the older cards
+  that discard that way); an attack that moves Energy to the discard pile
+  directly would not trigger it. It is reattached on the attack's end of
+  turn.
+- Durable Body flips on damage from any attack (the opponent's or the
+  attacker's own) that leaves Annihilape at 0 HP or less; damage counters
+  (Ghostly Blow, Phantom Dive) are not damage and don't trigger it.
+- Memory Helix works like Mew-EX BW's Versatile: an Ability used from the
+  Active Spot opens the list of attacks of your Benched Pokémon that the
+  attached Energy can pay for.
+- Run Errand: one per player per turn across all Mega Kangaskhan ex.
+- Plasma Bane checks for "Colress" in the name of any card in the opponent's
+  discard pile; there are no Colress cards in the modern pool yet.
+- Academy at Night counts as used only once a card is chosen (cancel is
+  allowed).
+- **Not verified:** Mega Kangaskhan ex being a Basic Pokémon (no page stated
+  the stage; Kangaskhan has no evolution) and Annihilape's Ghostly Blow cost
+  (Limitless described it as two Psychic Energy, no symbols). Weakness x2 and
+  Resistance -30 are the standard values where a page left them out.
+
+### Results
+
+- 20 mirror games (seed 1): 0 errors, 0 rejected bot actions, 20 by Prizes.
+  The bot used Seek Inspiration (copying Trifrost and others), Super Psy
+  Bolt and Academy at Night (seen in the game logs of a stalled game before
+  the bot change; the logs after the change were not inspected).
+- Modern smoke is now an eight-deck round robin (28 games) plus two
+  mirrors: 0 errors, 0 rejected actions. bot-bench spec plays 3 seeded
+  Slowking mirrors with "Why?" notes. Older-era smoke (21 games): 0 errors.
+- Specs: common 367, sets 2910, simple-bot 92, bot-bench 65, server 76.
+  The play package was not built locally (CI builds it).
 
 ---
 

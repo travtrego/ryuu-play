@@ -50,6 +50,7 @@ export const modernStandardSets: Card[][] = [
   standard.setBlackBolt,
   standard.setWhiteFlare,
   standard.setPitchBlack,
+  standard.set30thCelebration,
 ];
 
 export function modernStandardRules(): Rules {

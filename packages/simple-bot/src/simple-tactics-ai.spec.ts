@@ -201,6 +201,24 @@ describe('SimpleTacticsAi learn-mode reasons', () => {
     expect(reason).toContain('Charmander is Paralyzed');
   });
 
+  it('retreats for free from a big Pokémon that can\'t attack to one that can', () => {
+    bot.active.pokemons.cards[0] = withId(new TestPokemon('Big', 250, [
+      { name: 'Huge Hit', cost: [ CardType.PSYCHIC, CardType.PSYCHIC, CardType.COLORLESS ], damage: '200' }
+    ]));
+    bot.active.energies.cards.push(withId(new TestEnergy(CardType.PSYCHIC)));
+    // An attack with no printed damage (like one that copies another attack).
+    bot.bench[0] = slotOf(new TestPokemon('Copier', 60, [
+      { name: 'Copy', cost: [ CardType.COLORLESS ], damage: '' }
+    ], Stage.BASIC, '', [ CardType.COLORLESS, CardType.COLORLESS ]));
+    bot.bench[0].energies.cards.push(withId(new TestEnergy(CardType.PSYCHIC)));
+    bot.energyPlayedTurn = state.turn;
+
+    const { action } = decide();
+
+    expect(action instanceof RetreatAction).toBe(true);
+    expect((action as RetreatAction).benchIndex).toBe(0);
+  });
+
   it('explains a retreat to a Pokémon that can attack', () => {
     bot.active.pokemons.cards[0] = withId(new TestPokemon('Magikarp', 30, [
       { name: 'Splash', cost: [ CardType.WATER, CardType.WATER, CardType.WATER ], damage: '10' }

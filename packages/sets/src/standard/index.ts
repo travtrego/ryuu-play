@@ -24,3 +24,4 @@ export * from './set-sword-and-shield';
 export * from './set-temporal-forces';
 export * from './set-twilight-masquerade';
 export * from './set-white-flare';
+export * from './set-30th-celebration';
