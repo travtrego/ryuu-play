@@ -7,6 +7,7 @@ import { PokePad } from './poke-pad';
 import { RosasEncouragement } from './rosas-encouragement';
 import { MegaSkarmoryEx } from './mega-skarmory-ex';
 import { Drapion } from './drapion';
+import { GrowingGrassEnergy } from './growing-grass-energy';
 
 export const setPerfectOrder: Card[] = [
   new TelepathicPsychicEnergy(),
@@ -17,4 +18,5 @@ export const setPerfectOrder: Card[] = [
   new RosasEncouragement(),
   new MegaSkarmoryEx(),
   new Drapion(),
+  new GrowingGrassEnergy(),
 ];

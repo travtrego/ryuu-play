@@ -38,18 +38,26 @@ owner handed from the GPT lane to Claude. Issue #2's lane split is retired.
 - **Deck 8, Slowking — done end-to-end** (2026-11-09, first entry below),
   29 of 29 cards. The bot now retreats for free into a Pokémon that can
   attack when its Active can't (this ended stalled Slowking mirrors).
-- **Next: deck 9.** Re-check the tier list first (thetoploader.com/meta,
-  data of 8 Nov 2026: A-tier 8 Festival Lead 3.59%, 9 Dhelmise Banette
-  2.96%, 10 Basic Box (Ogerpon Clefairy) 2.84%, 11 Ogerpon Meganium
-  Hydrapple 2.48%, 12 Grimmsnarl Froslass 2.25%). thetoploader.com/meta
-  could be fetched on 2026-11-09; limitlesstcg.com card pages reached by URL
-  needed an approval, but deck and card pages found through search worked,
-  and pkmncards.com / dittobase.com card pages worked for card text.
-- **Card art missing for the decks 6-8 cards** (N's Zoroark, Mega
-  Excadrill, Slowking): `packages/sets/scripts/fetch-card-images.js` (now also lists
+- **Deck 9, Festival Lead — done end-to-end** (2026-11-10, first entry
+  below), 26 of 26 cards. **The engine now lets a Pokémon attack more than
+  once a turn** (`CheckAttackCountEffect`, used by the Festival Lead Ability).
+- **Next: deck 10.** Re-check the tier list first (thetoploader.com/meta,
+  data of 8 Nov 2026: A-tier 9 Dhelmise Banette 2.97%, 10 Basic Box 2.87%,
+  11 Lucario Hariyama 2.72%, 12 Ogerpon Meganium Hydrapple 2.49%,
+  13 Grimmsnarl Froslass 2.24%). Limitless deck pages found through search
+  (e.g. limitlesstcg.com/decks/list/30813) and serebii.net, pkmncards.com,
+  dittobase.com, mydextcg.com and scrydex.com card pages worked on
+  2026-11-10; pages reached by a typed URL (not from a search result)
+  needed an approval and failed.
+- **Card art missing for the decks 6-9 cards** (N's Zoroark, Mega
+  Excadrill, Slowking, Festival Lead): `packages/sets/scripts/fetch-card-images.js` (now also lists
   PBL) could not reach api.pokemontcg.io from the 2026-11-08 run (DNS
   failure), so `card-images.ts` still maps 71 cards. Rerun it where the API
   is reachable.
+- **Bot weakness with Festival Lead:** 5 of 10 seeded mirrors ended with
+  no Active Pokémon (two games on turn 3): the deck's Basics have 40-70 HP
+  and the bot often starts with one Pokémon in play. Same family as the
+  Dragapult "one fragile Pokémon" weakness below.
 - **Bot weakness with Mega Excadrill:** it retreats a lot (in 6 seeded
   mirrors: Genesect ex 169 times, Metagross 89) and never used Metallic
   Hammer's discard or Empoleon ex's Iron Feathers. Games still finish.
@@ -150,6 +158,56 @@ game** with the Tips panel; a recap is piece 4.
   squash-merged); check `merged_at` on the branch's PR. Exactly one `claude/*`
   branch is genuinely unmerged with no PR:
   `claude/pokemon-tcg-ai-trainer-3m3qqe` (2026-09-29). Leave it alone.
+
+---
+
+## 2026-11-10 (1) — Festival Lead end-to-end, attacking twice
+
+Branch `claude/ryuu-2026-11-10-festival-lead`.
+
+- **List:** Limitless 30813, Ciaran Farah, 29th Regional Puebla 24 Oct 2026
+  (`data/meta-decks/regional-2026-festival-lead.json`). Festival Lead is #8
+  in Standard (thetoploader.com/meta, data of 8 Nov 2026, 3.58%) and the
+  highest-ranked deck not yet done.
+- **15 new cards** (text from serebii.net, pkmncards.com, dittobase.com,
+  limitlesstcg.com, mydextcg.com and scrydex.com card pages, 2026-11-10):
+  Applin TWM 17, Applin TWM 126 (the Dragon one, `fullName` "Applin TWM
+  126"), Dipplin, Grookey, Thwackey, Goldeen, Festival Grounds, Lana's Aid
+  TWM; Rellor, Rabsca TEF; Seaking PRE; Shaymin DRI; Gladion's Final Battle
+  PBL; Brave Bangle WHT; Growing Grass Energy POR. Specs for each in
+  `tests/standard/set-twilight-masquerade/festival-lead-deck.spec.ts`.
+- **Engine rule:** after an attack the engine asks `CheckAttackCountEffect`
+  how many attacks the Active Pokémon may use (1 unless a card raises it).
+  If another is allowed, Knock Outs are resolved first (Prizes, the
+  opponent's new Active Pokémon, game end), then the player gets a
+  cancellable "attack again" prompt listing the attacks they can pay for.
+  Only the same Pokémon may attack again. Nothing changes for cards that
+  don't raise the count; all older specs pass unchanged.
+- meta-audit for this deck: before 11 of 26 (12 missing, 3 to verify),
+  after 26 of 26. All decks: before 302 of 336 implemented (14 to verify,
+  20 missing, 12 decks), after 331 of 362 (13 to verify, 18 missing, 13
+  decks).
+- Bot: 10 seeded mirrors, 0 errors, 0 rejected actions; 18 turns with two
+  attacks in 114 attacks. Added to the modern smoke (CI) and the modern
+  bench spec.
+
+### Choices and limits
+
+- "For each Energy attached" (Rabsca's Psychic) counts Energy cards.
+- Festival Grounds removes Special Conditions from every Pokémon with Energy
+  whenever any effect is processed while it is in play, and blocks new ones
+  from attacks; a condition put on some other way lasts only until the next
+  effect (before Poison/Burn checks between turns).
+- Rabsca's Spherical Shield blocks every attack effect from the opponent on
+  the Bench (damage, damage counters, discards, conditions); Shaymin's Flower
+  Curtain blocks only damage (`PutDamageEffect`/`DealDamageEffect`), so
+  damage counters still land, as printed.
+- Thwackey's Boom Boom Groove checks the Active Pokémon's Ability by name
+  ("Festival Lead"); it does not check whether that Ability is blocked.
+- Lana's Aid and Gladion's Final Battle can't be played when they would do
+  nothing / aren't the last card in hand.
+- Not verified in a browser: the "attack again" prompt in the UI (it is the
+  existing Choose-attack prompt with cancel enabled, and a new en.json text).
 
 ---
 

@@ -12,6 +12,14 @@ import { Tatsugiri } from './tatsugiri';
 import { UnfairStamp } from './unfair-stamp';
 import { Kieran } from './kieran';
 import { BoomerangEnergy } from './boomerang-energy';
+import { Applin } from './applin';
+import { ApplinDragon } from './applin-dragon';
+import { Dipplin } from './dipplin';
+import { Grookey } from './grookey';
+import { Thwackey } from './thwackey';
+import { Goldeen } from './goldeen';
+import { FestivalGrounds } from './festival-grounds';
+import { LanasAid } from './lanas-aid';
 
 export const setTwilightMasquerade: Card[] = [
   new HandheldFan(),
@@ -27,4 +35,12 @@ export const setTwilightMasquerade: Card[] = [
   new SecretBox(),
   new Kieran(),
   new BoomerangEnergy(),
+  new Applin(),
+  new ApplinDragon(),
+  new Dipplin(),
+  new Grookey(),
+  new Thwackey(),
+  new Goldeen(),
+  new FestivalGrounds(),
+  new LanasAid(),
 ];

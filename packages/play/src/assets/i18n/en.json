@@ -330,6 +330,7 @@
     "CARDS_SHOWED_BY_THE_OPPONENT": "Cards showed by the opponent.",
     "CHOOSE_ATTACK_TO_COPY": "Choose attack, that will be copied.",
     "CHOOSE_ATTACK_TO_DISABLE": "Choose attack, that will be disabled.",
+    "CHOOSE_ATTACK_TO_USE_AGAIN": "You may attack again. Choose an attack, or cancel to end your turn.",
     "CHOOSE_CARDS_ORDER": "Order cards in any way you like.",
     "CHOOSE_CARD_TO_ATTACH": "Choose card, that will be attached to the Pokémon.",
     "CHOOSE_CARD_TO_COPY_EFFECT": "Choose card, that you want to play.",

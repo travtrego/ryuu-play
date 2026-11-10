@@ -10,6 +10,8 @@ import { Beldum } from './beldum';
 import { HerosCape } from './heros-cape';
 import { Metang } from './metang';
 import { CiphermaniacsCodebreaking } from './ciphermaniacs-codebreaking';
+import { Rellor } from './rellor';
+import { Rabsca } from './rabsca';
 
 export const setTemporalForces: Card[] = [
   new BuddyBuddyPoffin(),
@@ -23,4 +25,6 @@ export const setTemporalForces: Card[] = [
   new HerosCape(),
   new Metang(),
   new CiphermaniacsCodebreaking(),
+  new Rellor(),
+  new Rabsca(),
 ];

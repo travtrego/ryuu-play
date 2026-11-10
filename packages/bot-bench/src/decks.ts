@@ -440,6 +440,36 @@ export const modernBenchDecks: BenchDeck[] = [
     ['Psychic Energy EVO', 3],
     ['Darkness Energy EVO', 2],
     ['Boomerang Energy TWM', 1]
+  ]),
+
+  // Fall 2026 Regionals (data/meta-decks/regional-2026-festival-lead.json)
+  deck('sv-festival-lead', 'Standard (Scarlet & Violet): Festival Lead', 'sv', [
+    ['Applin TWM', 3],
+    ['Applin TWM 126', 1],
+    ['Dipplin TWM', 3],
+    ['Grookey TWM', 3],
+    ['Thwackey TWM', 4],
+    ['Goldeen TWM', 2],
+    ['Seaking PRE', 1],
+    ['Rellor TEF', 1],
+    ['Rabsca TEF', 1],
+    ['Shaymin DRI', 1],
+    ['Lillie\'s Determination MEG', 4],
+    ['Boss\'s Orders MEG', 2],
+    ['Gladion\'s Final Battle PBL', 2],
+    ['Kieran TWM', 1],
+    ['Lana\'s Aid TWM', 1],
+    ['Buddy-Buddy Poffin TEF', 4],
+    ['Poké Pad POR', 4],
+    ['Bug Catching Set TWM', 3],
+    ['Ultra Ball MEG', 2],
+    ['Night Stretcher ASC', 2],
+    ['Secret Box TWM', 1],
+    ['Air Balloon ASC', 3],
+    ['Brave Bangle WHT', 2],
+    ['Festival Grounds TWM', 4],
+    ['Grass Energy EVO', 4],
+    ['Growing Grass Energy POR', 1]
   ])
 
 ];
