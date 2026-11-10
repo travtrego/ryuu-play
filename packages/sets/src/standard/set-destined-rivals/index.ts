@@ -16,6 +16,7 @@ import { TeamRocketsTarountula } from './team-rockets-tarountula';
 import { TeamRocketsTransceiver } from './team-rockets-transceiver';
 import { TeamRocketsWatchtower } from './team-rockets-watchtower';
 import { ZeraoraDRI } from './zeraora';
+import { ShayminDRI } from './shaymin';
 
 export const setDestinedRivals: Card[] = [
   new SacredAsh(),
@@ -35,4 +36,5 @@ export const setDestinedRivals: Card[] = [
   new TeamRocketsTransceiver(),
   new TeamRocketsWatchtower(),
   new ZeraoraDRI(),
+  new ShayminDRI(),
 ];

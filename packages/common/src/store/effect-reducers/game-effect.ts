@@ -6,8 +6,11 @@ import { State, GamePhase } from '../state/state';
 import { StoreLike } from '../store-like';
 import { StateUtils } from '../state-utils';
 import { CheckPokemonTypeEffect, CheckPokemonStatsEffect,
-  CheckProvidedEnergyEffect, CheckAttackCostEffect } from '../effects/check-effects';
-import { Weakness, Resistance } from '../card/pokemon-types';
+  CheckProvidedEnergyEffect, CheckAttackCostEffect, CheckAttackCountEffect } from '../effects/check-effects';
+import { Weakness, Resistance, Attack } from '../card/pokemon-types';
+import { Player } from '../state/player';
+import { ChooseAttackPrompt } from '../prompts/choose-attack-prompt';
+import { checkState } from './check-effect';
 import { CardType, SpecialCondition, CardTag } from '../card/card-types';
 import { AttackEffect, UseAttackEffect, HealEffect, KnockOutEffect,
   UsePowerEffect, PowerEffect, UseStadiumEffect, EvolveEffect, ConfusionDamageEffect } from '../effects/game-effects';
@@ -51,62 +54,140 @@ function* useAttack(next: Function, store: StoreLike, state: State, effect: UseA
     throw new GameError(GameMessage.CANNOT_USE_ATTACK);
   }
 
-  const sp = player.active.specialConditions;
-  if (sp.includes(SpecialCondition.PARALYZED) || sp.includes(SpecialCondition.ASLEEP)) {
-    throw new GameError(GameMessage.BLOCKED_BY_SPECIAL_CONDITION);
+  const attacker = player.active.getPokemonCard();
+  let attack: Attack = effect.attack;
+  let attacksUsed = 0;
+
+  while (true) {
+    const isFirst = attacksUsed === 0;
+    const sp = player.active.specialConditions;
+    if (sp.includes(SpecialCondition.PARALYZED) || sp.includes(SpecialCondition.ASLEEP)) {
+      if (isFirst) {
+        throw new GameError(GameMessage.BLOCKED_BY_SPECIAL_CONDITION);
+      }
+      break;
+    }
+
+    if (!canPayAttack(store, state, player, attack)) {
+      if (isFirst) {
+        throw new GameError(GameMessage.NOT_ENOUGH_ENERGY);
+      }
+      break;
+    }
+
+    if (sp.includes(SpecialCondition.CONFUSED)) {
+      let flip = false;
+
+      store.log(state, GameLog.LOG_FLIP_CONFUSION, { name: player.name });
+      yield store.prompt(state, new CoinFlipPrompt(
+        player.id,
+        GameMessage.FLIP_CONFUSION),
+      result => {
+        flip = result;
+        next();
+      });
+
+      if (flip === false) {
+        store.log(state, GameLog.LOG_HURTS_ITSELF);
+        const confusionDamage = new ConfusionDamageEffect(player, player.active, 30);
+        state = store.reduceEffect(state, confusionDamage);
+        state = store.reduceEffect(state, new EndTurnEffect(player));
+        return state;
+      }
+    }
+
+    store.log(state, GameLog.LOG_PLAYER_USES_ATTACK, { name: player.name, attack: attack.name });
+    state.phase = GamePhase.ATTACK;
+    const attackEffect = new AttackEffect(player, opponent, attack);
+    state = store.reduceEffect(state, attackEffect);
+
+    if (store.hasPrompts()) {
+      yield store.waitPrompt(state, () => next());
+    }
+
+    if (attackEffect.damage > 0) {
+      const dealDamage = new DealDamageEffect(attackEffect, attackEffect.damage);
+      state = store.reduceEffect(state, dealDamage);
+    }
+
+    if (store.hasPrompts()) {
+      yield store.waitPrompt(state, () => next());
+    }
+
+    attacksUsed += 1;
+
+    // Some Pokémon may attack more than once (Festival Lead). Before the
+    // next attack, Knock Outs are resolved: Prizes are taken and a new
+    // Active Pokémon is chosen, as after a normal attack.
+    if (attacksUsed >= getAttackCount(store, state, player)) {
+      break;
+    }
+
+    let checked = false;
+    let waiting = false;
+    state = checkState(store, state, () => {
+      checked = true;
+      if (waiting) {
+        next();
+      }
+    });
+    if (!checked) {
+      waiting = true;
+      yield state;
+    }
+
+    if (state.phase === GamePhase.FINISHED) {
+      return state;
+    }
+
+    // Only the Pokémon that attacked may attack again.
+    const active = player.active.getPokemonCard();
+    if (active === undefined || active !== attacker
+      || attacksUsed >= getAttackCount(store, state, player)) {
+      break;
+    }
+
+    const blocked = active.attacks
+      .filter(a => !canPayAttack(store, state, player, a))
+      .map(a => ({ index: 0, name: a.name }));
+    if (blocked.length === active.attacks.length) {
+      break;
+    }
+
+    let chosen: Attack | null = null;
+    yield store.prompt(state, new ChooseAttackPrompt(
+      player.id,
+      GameMessage.CHOOSE_ATTACK_TO_USE_AGAIN,
+      [ active ],
+      { allowCancel: true, blocked }
+    ), result => {
+      chosen = result as Attack | null;
+      next();
+    });
+
+    if (chosen === null) {
+      break;
+    }
+    attack = chosen;
   }
 
-  const attack = effect.attack;
+  return store.reduceEffect(state, new EndTurnEffect(player));
+}
+
+function canPayAttack(store: StoreLike, state: State, player: Player, attack: Attack): boolean {
   const checkAttackCost = new CheckAttackCostEffect(player, attack);
   state = store.reduceEffect(state, checkAttackCost);
 
   const checkProvidedEnergy = new CheckProvidedEnergyEffect(player);
   state = store.reduceEffect(state, checkProvidedEnergy);
 
-  if (StateUtils.checkEnoughEnergy(checkProvidedEnergy.energyMap, checkAttackCost.cost) === false) {
-    throw new GameError(GameMessage.NOT_ENOUGH_ENERGY);
-  }
+  return StateUtils.checkEnoughEnergy(checkProvidedEnergy.energyMap, checkAttackCost.cost);
+}
 
-  if (sp.includes(SpecialCondition.CONFUSED)) {
-    let flip = false;
-
-    store.log(state, GameLog.LOG_FLIP_CONFUSION, { name: player.name });
-    yield store.prompt(state, new CoinFlipPrompt(
-      player.id,
-      GameMessage.FLIP_CONFUSION),
-    result => {
-      flip = result;
-      next();
-    });
-
-    if (flip === false) {
-      store.log(state, GameLog.LOG_HURTS_ITSELF);
-      const confusionDamage = new ConfusionDamageEffect(player, player.active, 30);
-      state = store.reduceEffect(state, confusionDamage);
-      state = store.reduceEffect(state, new EndTurnEffect(player));
-      return state;
-    }
-  }
-
-  store.log(state, GameLog.LOG_PLAYER_USES_ATTACK, { name: player.name, attack: attack.name });
-  state.phase = GamePhase.ATTACK;
-  const attackEffect = new AttackEffect(player, opponent, attack);
-  state = store.reduceEffect(state, attackEffect);
-
-  if (store.hasPrompts()) {
-    yield store.waitPrompt(state, () => next());
-  }
-
-  if (attackEffect.damage > 0) {
-    const dealDamage = new DealDamageEffect(attackEffect, attackEffect.damage);
-    state = store.reduceEffect(state, dealDamage);
-  }
-
-  if (store.hasPrompts()) {
-    yield store.waitPrompt(state, () => next());
-  }
-
-  return store.reduceEffect(state, new EndTurnEffect(player));
+function getAttackCount(store: StoreLike, state: State, player: Player): number {
+  const checkAttackCount = new CheckAttackCountEffect(player, player.active);
+  store.reduceEffect(state, checkAttackCount);
+  return checkAttackCount.attackCount;
 }
 
 export function gameReducer(store: StoreLike, state: State, effect: Effect): State {

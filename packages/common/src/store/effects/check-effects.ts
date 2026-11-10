@@ -15,7 +15,8 @@ export enum CheckEffects {
   CHECK_ENOUGH_ENERGY_EFFECT = 'CHECK_ENOUGH_ENERGY_EFFECT',
   AFTER_CHECK_ENOUGH_ENERGY_EFFECT = 'AFTER_CHECK_ENOUGH_ENERGY_EFFECT',
   CHECK_POKEMON_PLAYED_TURN_EFFECT = 'CHECK_POKEMON_PLAYED_TURN_EFFECT',
-  CHECK_TABLE_STATE_EFFECT = 'CHECK_TABLE_STATE_EFFECT'
+  CHECK_TABLE_STATE_EFFECT = 'CHECK_TABLE_STATE_EFFECT',
+  CHECK_ATTACK_COUNT_EFFECT = 'CHECK_ATTACK_COUNT_EFFECT'
 }
 
 export class CheckHpEffect implements Effect {
@@ -139,5 +140,25 @@ export class CheckTableStateEffect implements Effect {
 
   constructor() {
     this.benchSize = 5;
+  }
+}
+
+/**
+ * How many attacks the Active Pokémon may use this turn. Asked after the
+ * first attack; a card raises `attackCount` to let the Pokémon attack again
+ * (e.g. the Festival Lead Ability: "this Pokémon may use an attack it has
+ * twice").
+ */
+export class CheckAttackCountEffect implements Effect {
+  readonly type: string = CheckEffects.CHECK_ATTACK_COUNT_EFFECT;
+  public preventDefault = false;
+  public player: Player;
+  public target: PokemonSlot;
+  public attackCount: number;
+
+  constructor(player: Player, target: PokemonSlot) {
+    this.player = player;
+    this.target = target;
+    this.attackCount = 1;
   }
 }
