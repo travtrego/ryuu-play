@@ -39,8 +39,9 @@ function findKoPokemons(store: StoreLike, state: State): PokemonItem[] {
   return pokemons;
 }
 
-function handleBenchSizeChange(store: StoreLike, state: State, benchSize: number): State {
-  state.players.forEach(player => {
+function handleBenchSizeChange(store: StoreLike, state: State, effect: CheckTableStateEffect): State {
+  state.players.forEach((player, playerIndex) => {
+    const benchSize = effect.benchSizes[playerIndex] ?? effect.benchSize;
     // Add empty slots if bench is smaller
     while (player.bench.length < benchSize) {
       const bench = new PokemonSlot();
@@ -276,7 +277,7 @@ function* executeCheckState(next: Function, store: StoreLike, state: State,
   store.reduceEffect(state, checkTableStateEffect);
 
   // Size of the bench has changed. This may require some Pokemons to be discarded
-  handleBenchSizeChange(store, state, checkTableStateEffect.benchSize);
+  handleBenchSizeChange(store, state, checkTableStateEffect);
   if (store.hasPrompts()) {
     yield store.waitPrompt(state, () => next());
   }

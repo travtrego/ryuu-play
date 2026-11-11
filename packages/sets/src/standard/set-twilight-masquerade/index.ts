@@ -20,6 +20,8 @@ import { Thwackey } from './thwackey';
 import { Goldeen } from './goldeen';
 import { FestivalGrounds } from './festival-grounds';
 import { LanasAid } from './lanas-aid';
+import { TealMaskOgerponEx } from './teal-mask-ogerpon-ex';
+import { WellspringMaskOgerponEx } from './wellspring-mask-ogerpon-ex';
 
 export const setTwilightMasquerade: Card[] = [
   new HandheldFan(),
@@ -43,4 +45,6 @@ export const setTwilightMasquerade: Card[] = [
   new Goldeen(),
   new FestivalGrounds(),
   new LanasAid(),
+  new TealMaskOgerponEx(),
+  new WellspringMaskOgerponEx(),
 ];

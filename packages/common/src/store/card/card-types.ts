@@ -12,6 +12,9 @@ export enum CardTag {
   POKEMON_LV_X = 'LV_X',
   ACE_SPEC = 'ACE_SPEC',
   TERA = 'TERA',
+  /** Ancient / Future Pokémon (Scarlet & Violet Paradox Pokémon). Not a Rule Box. */
+  ANCIENT = 'ANCIENT',
+  FUTURE = 'FUTURE',
   FOSSIL = 'FOSSIL'
 }
 

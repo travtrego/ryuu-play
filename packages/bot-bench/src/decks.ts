@@ -470,6 +470,37 @@ export const modernBenchDecks: BenchDeck[] = [
     ['Festival Grounds TWM', 4],
     ['Grass Energy EVO', 4],
     ['Growing Grass Energy POR', 1]
+  ]),
+
+  // Fall 2026 Regionals (data/meta-decks/regional-2026-basic-box.json)
+  deck('sv-basic-box', 'Standard (Scarlet & Violet): Basic Box', 'sv', [
+    ['Mega Kangaskhan ex MEG', 4],
+    ['Meowth ex POR', 3],
+    ['Teal Mask Ogerpon ex TWM', 2],
+    ['Wellspring Mask Ogerpon ex TWM', 2],
+    ['Latias ex SSP', 2],
+    ['Lillie\'s Clefairy ex JTG', 2],
+    ['Raging Bolt ex TEF', 1],
+    ['Chien-Pao SSP', 1],
+    ['Iron Crown ex TEF', 1],
+    ['Passimian SSP', 1],
+    ['Fezandipiti ex ASC', 1],
+    ['Iron Leaves ex TEF', 1],
+    ['Crispin SCR', 4],
+    ['Cyrano SSP', 2],
+    ['Boss\'s Orders MEG', 2],
+    ['Ciphermaniac\'s Codebreaking TEF', 1],
+    ['Energy Switch MEG', 4],
+    ['Ultra Ball MEG', 4],
+    ['Night Stretcher ASC', 2],
+    ['Unfair Stamp TWM', 1],
+    ['Glass Trumpet SCR', 1],
+    ['Area Zero Underdepths SCR', 3],
+    ['Grass Energy EVO', 6],
+    ['Psychic Energy EVO', 3],
+    ['Lightning Energy EVO', 2],
+    ['Fighting Energy EVO', 2],
+    ['Water Energy EVO', 2]
   ])
 
 ];

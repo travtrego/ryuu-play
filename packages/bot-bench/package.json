@@ -12,7 +12,7 @@
     "test": "nyc -e \".ts\" -x \"src/**/*.spec.ts\" jasmine-ts \"src/**/*.spec.ts\"",
     "bench": "tsc && node dist/cli.js",
     "bench:smoke": "node dist/cli.js --games 21 --seed 1 --max-errors 0 --max-guard-aborts 0 --max-stalled 0 --max-illegal-moves 0",
-    "bench:smoke:modern": "node dist/cli.js --decks sv-tr-mewtwo --games 6 --seed 1 --max-errors 0 --max-guard-aborts 0 --max-stalled 0 --max-illegal-moves 0 && node dist/cli.js --decks sv-dragapult --games 6 --seed 1 --max-errors 0 --max-guard-aborts 0 --max-stalled 0 --max-illegal-moves 0 && node dist/cli.js --decks sv-tr-mewtwo,sv-dragapult,sv-dragapult-dusknoir,sv-dragapult-blaziken,sv-alakazam,sv-ns-zoroark,sv-mega-excadrill,sv-slowking,sv-festival-lead --games 36 --seed 1 --max-errors 0 --max-guard-aborts 0 --max-stalled 0 --max-illegal-moves 0"
+    "bench:smoke:modern": "node dist/cli.js --decks sv-tr-mewtwo --games 6 --seed 1 --max-errors 0 --max-guard-aborts 0 --max-stalled 0 --max-illegal-moves 0 && node dist/cli.js --decks sv-dragapult --games 6 --seed 1 --max-errors 0 --max-guard-aborts 0 --max-stalled 0 --max-illegal-moves 0 && node dist/cli.js --decks sv-tr-mewtwo,sv-dragapult,sv-dragapult-dusknoir,sv-dragapult-blaziken,sv-alakazam,sv-ns-zoroark,sv-mega-excadrill,sv-slowking,sv-festival-lead,sv-basic-box --games 40 --seed 1 --max-errors 0 --max-guard-aborts 0 --max-stalled 0 --max-illegal-moves 0"
   },
   "author": "",
   "license": "MIT",
