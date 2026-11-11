@@ -1,0 +1,38 @@
+{
+  "id": "regional-2026-basic-box",
+  "name": "Basic Box — Fall 2026 Regionals",
+  "format": "standard",
+  "asOf": "2026-11-11",
+  "source": "Luc Gantner, 1st place Regional Nice 17-18 Oct 2026 (pokezentrum.de winners article, 19 Oct 2026); the same 60 cards, with the print codes used here, are his Regional Frankfurt list at limitlesstcg.com/decks/list/29659 (checked 2026-11-11). Basic Box is #2 in Standard on limitlesstcg.com (8.86%, checked 2026-11-11) and the highest-ranked deck not yet done.",
+  "cards": [
+    { "count": 4, "name": "Mega Kangaskhan ex", "set": "MEG", "number": "104", "category": "pokemon" },
+    { "count": 3, "name": "Meowth ex", "set": "POR", "number": "62", "category": "pokemon" },
+    { "count": 2, "name": "Teal Mask Ogerpon ex", "set": "TWM", "number": "25", "category": "pokemon" },
+    { "count": 2, "name": "Wellspring Mask Ogerpon ex", "set": "TWM", "number": "64", "category": "pokemon" },
+    { "count": 2, "name": "Latias ex", "set": "SSP", "number": "76", "category": "pokemon" },
+    { "count": 2, "name": "Lillie's Clefairy ex", "set": "JTG", "number": "56", "category": "pokemon" },
+    { "count": 1, "name": "Raging Bolt ex", "set": "TEF", "number": "123", "category": "pokemon" },
+    { "count": 1, "name": "Chien-Pao", "set": "SSP", "number": "56", "category": "pokemon" },
+    { "count": 1, "name": "Iron Crown ex", "set": "TEF", "number": "81", "category": "pokemon" },
+    { "count": 1, "name": "Passimian", "set": "SSP", "number": "111", "category": "pokemon" },
+    { "count": 1, "name": "Fezandipiti ex", "set": "ASC", "number": "142", "category": "pokemon" },
+    { "count": 1, "name": "Iron Leaves ex", "set": "TEF", "number": "25", "category": "pokemon" },
+
+    { "count": 4, "name": "Crispin", "set": "SCR", "number": "133", "category": "trainer" },
+    { "count": 2, "name": "Cyrano", "set": "SSP", "number": "170", "category": "trainer" },
+    { "count": 2, "name": "Boss's Orders", "set": "MEG", "number": "114", "category": "trainer" },
+    { "count": 1, "name": "Ciphermaniac's Codebreaking", "set": "TEF", "number": "145", "category": "trainer" },
+    { "count": 4, "name": "Energy Switch", "set": "MEG", "number": "115", "category": "trainer" },
+    { "count": 4, "name": "Ultra Ball", "set": "MEG", "number": "131", "category": "trainer" },
+    { "count": 2, "name": "Night Stretcher", "set": "ASC", "number": "196", "category": "trainer" },
+    { "count": 1, "name": "Unfair Stamp", "set": "TWM", "number": "165", "category": "trainer" },
+    { "count": 1, "name": "Glass Trumpet", "set": "SCR", "number": "135", "category": "trainer" },
+    { "count": 3, "name": "Area Zero Underdepths", "set": "SCR", "number": "131", "category": "trainer" },
+
+    { "count": 6, "name": "Grass Energy", "set": "MEE", "number": "9", "category": "energy", "basic": true },
+    { "count": 3, "name": "Psychic Energy", "set": "MEE", "number": "13", "category": "energy", "basic": true },
+    { "count": 2, "name": "Lightning Energy", "set": "MEE", "number": "12", "category": "energy", "basic": true },
+    { "count": 2, "name": "Fighting Energy", "set": "MEE", "number": "14", "category": "energy", "basic": true },
+    { "count": 2, "name": "Water Energy", "set": "MEE", "number": "11", "category": "energy", "basic": true }
+  ]
+}

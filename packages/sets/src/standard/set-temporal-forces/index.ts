@@ -12,6 +12,9 @@ import { Metang } from './metang';
 import { CiphermaniacsCodebreaking } from './ciphermaniacs-codebreaking';
 import { Rellor } from './rellor';
 import { Rabsca } from './rabsca';
+import { RagingBoltEx } from './raging-bolt-ex';
+import { IronCrownEx } from './iron-crown-ex';
+import { IronLeavesEx } from './iron-leaves-ex';
 
 export const setTemporalForces: Card[] = [
   new BuddyBuddyPoffin(),
@@ -27,4 +30,7 @@ export const setTemporalForces: Card[] = [
   new CiphermaniacsCodebreaking(),
   new Rellor(),
   new Rabsca(),
+  new RagingBoltEx(),
+  new IronCrownEx(),
+  new IronLeavesEx(),
 ];

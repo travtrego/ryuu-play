@@ -41,16 +41,22 @@ owner handed from the GPT lane to Claude. Issue #2's lane split is retired.
 - **Deck 9, Festival Lead — done end-to-end** (2026-11-10, first entry
   below), 26 of 26 cards. **The engine now lets a Pokémon attack more than
   once a turn** (`CheckAttackCountEffect`, used by the Festival Lead Ability).
-- **Next: deck 10.** Re-check the tier list first (thetoploader.com/meta,
-  data of 8 Nov 2026: A-tier 9 Dhelmise Banette 2.97%, 10 Basic Box 2.87%,
-  11 Lucario Hariyama 2.72%, 12 Ogerpon Meganium Hydrapple 2.49%,
-  13 Grimmsnarl Froslass 2.24%). Limitless deck pages found through search
-  (e.g. limitlesstcg.com/decks/list/30813) and serebii.net, pkmncards.com,
-  dittobase.com, mydextcg.com and scrydex.com card pages worked on
-  2026-11-10; pages reached by a typed URL (not from a search result)
-  needed an approval and failed.
-- **Card art missing for the decks 6-9 cards** (N's Zoroark, Mega
-  Excadrill, Slowking, Festival Lead): `packages/sets/scripts/fetch-card-images.js` (now also lists
+- **Deck 10, Basic Box — done end-to-end** (2026-11-11, first entry
+  below), 27 of 27 cards. **The engine now supports a different Bench size
+  per player** (`CheckTableStateEffect.benchSizes`, used by Area Zero
+  Underdepths), and has `CardTag.ANCIENT` / `CardTag.FUTURE`.
+- **Next: deck 11.** Re-check the meta first. limitlesstcg.com home page
+  (checked 2026-11-11, TEF-30C): Dragapult 36.50%, Basic Box 8.86%, Slowking
+  7.62%, N's Zoroark 7.29%, Alakazam 6.39%, Festival Lead 5.70% - all six
+  now done. Next candidates from thetoploader.com/meta (8 Nov 2026):
+  Dhelmise Banette, Lucario Hariyama, Ogerpon Meganium Hydrapple, Grimmsnarl
+  Froslass. Lillie's Clefairy ex (NAIC list, 3 cards missing: Koraidon ex,
+  Dusk Ball, Prime Catcher) and Crustle
+  (9 missing) are older NAIC lists; re-check they are still played before
+  doing them. Limitless card pages by typed URL
+  (limitlesstcg.com/cards/TEF/81) worked on 2026-11-11.
+- **Card art missing for the decks 6-10 cards** (N's Zoroark, Mega
+  Excadrill, Slowking, Festival Lead, Basic Box): `packages/sets/scripts/fetch-card-images.js` (now also lists
   PBL) could not reach api.pokemontcg.io from the 2026-11-08 run (DNS
   failure), so `card-images.ts` still maps 71 cards. Rerun it where the API
   is reachable.
@@ -160,6 +166,52 @@ game** with the Tips panel; a recap is piece 4.
   `claude/pokemon-tcg-ai-trainer-3m3qqe` (2026-09-29). Leave it alone.
 
 ---
+
+## 2026-11-11 (1) — Basic Box end-to-end, 8 Bench spots with Area Zero
+
+Branch `claude/ryuu-2026-11-11-basic-box`.
+
+- **List:** Luc Gantner's Regional Nice winner (17-18 Oct 2026, pokezentrum.de
+  winners article); the same 60 cards are his Frankfurt list,
+  limitlesstcg.com/decks/list/29659, whose print codes are used
+  (`data/meta-decks/regional-2026-basic-box.json`). Basic Box is #2 in
+  Standard on limitlesstcg.com (8.86%, checked 2026-11-11), the
+  highest-ranked deck not yet done.
+- **9 new cards** (text from limitlesstcg.com card pages, Iron Crown ex also
+  pkmncards.com, 2026-11-11): Teal Mask Ogerpon ex, Wellspring Mask Ogerpon
+  ex TWM; Raging Bolt ex, Iron Crown ex, Iron Leaves ex TEF; Chien-Pao,
+  Passimian SSP; Glass Trumpet, Area Zero Underdepths SCR. 21 specs in
+  `tests/standard/set-temporal-forces/basic-box-deck.spec.ts`.
+- **Engine:** `CheckTableStateEffect.benchSizes` gives each player their own
+  Bench size (unset entries fall back to `benchSize`, so every older card
+  behaves as before). Area Zero Underdepths sets 8 for a player with a Tera
+  Pokémon in play; when that player has none left, or the Stadium leaves
+  play, the existing check asks them to discard down to 5. New tags
+  `CardTag.ANCIENT` and `CardTag.FUTURE` (Cobalt Command boosts Future
+  Pokémon).
+- meta-audit for this deck: before 18 of 27 (9 missing), after 27 of 27. All
+  decks: before 331 of 362 implemented (13 to verify, 18 missing, 14 decks),
+  after 362 of 389 (13 to verify, 14 missing, 15 decks).
+- Bot: 10 seeded mirrors, 0 errors, 0 rejected actions (ends: 8 by Prizes,
+  1 no Active, 1 deck-out). Every new card was played or used; most used
+  were Sob (43 times in 10 games), Prism Edge 17, Teal Dance 11, Burst Roar
+  10; Twin Shotels was never chosen. Added to the modern smoke (CI, now 40
+  games over 10 decks) and the modern bench spec.
+- Tests: common 367, sets 2951, simple-bot 92, bot-bench 71, server 76
+  specs, 0 failures.
+
+### Choices and limits (not verified against official rulings)
+
+- Twin Shotels places its 50 damage directly (no Weakness/Resistance, no
+  damage-reduction effects on the targets) but still respects the Tera rule
+  on a Benched Tera Pokémon.
+- Myriad Leaf Shower counts Energy cards on both Active Pokémon (same choice
+  as Rabsca).
+- Torrential Pump is only offered when the opponent has a Benched Pokémon
+  (shuffling Energy away would otherwise do nothing).
+- When Area Zero Underdepths leaves play, both players discard in player
+  order, not "the player who played it first"; the result is the same.
+- Flutter Mane TEF was not given the new ANCIENT tag (nothing reads it yet).
 
 ## 2026-11-10 (1) — Festival Lead end-to-end, attacking twice
 

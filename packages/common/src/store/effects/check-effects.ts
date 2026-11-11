@@ -136,7 +136,15 @@ export class AfterCheckProvidedEnergyEffect implements Effect {
 export class CheckTableStateEffect implements Effect {
   readonly type: string = CheckEffects.CHECK_TABLE_STATE_EFFECT;
   public preventDefault = false;
+  /** Bench size for every player, unless `benchSizes` says otherwise. */
   public benchSize: number;
+  /**
+   * Bench size per player (index into `state.players`). A card that changes
+   * only one player's Bench (e.g. Area Zero Underdepths: "Each player who has
+   * any Tera Pokémon in play can have up to 8 Pokémon on their Bench") sets
+   * the entry for that player; an unset entry falls back to `benchSize`.
+   */
+  public benchSizes: (number | undefined)[] = [];
 
   constructor() {
     this.benchSize = 5;
