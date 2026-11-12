@@ -66,7 +66,10 @@ describe('Modern Standard bench decks', () => {
   });
 
   ['sv-tr-mewtwo', 'sv-dragapult', 'sv-dragapult-dusknoir', 'sv-dragapult-blaziken', 'sv-alakazam', 'sv-ns-zoroark',
-    'sv-mega-excadrill', 'sv-slowking', 'sv-festival-lead', 'sv-basic-box'].forEach(name => [1, 2, 3].forEach(seed => {
+    'sv-mega-excadrill', 'sv-slowking', 'sv-festival-lead', 'sv-basic-box', 'sv-dhelmise'].forEach(name => (
+    // Dhelmise seed 2 is a real 2-turn game (a lone 30 HP Poltchageist is Knocked
+    // Out on turn 2, 0 errors), too short to check the "Why?" notes; seed 4 instead.
+    name === 'sv-dhelmise' ? [1, 3, 4] : [1, 2, 3]).forEach(seed => {
     it(`plays a ${name} mirror to a normal finish, with reasons (seed ${seed})`, () => {
       const deck = findDeck(name);
       const a = new ReasonRecorder('a');

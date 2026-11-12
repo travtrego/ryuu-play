@@ -45,18 +45,29 @@ owner handed from the GPT lane to Claude. Issue #2's lane split is retired.
   below), 27 of 27 cards. **The engine now supports a different Bench size
   per player** (`CheckTableStateEffect.benchSizes`, used by Area Zero
   Underdepths), and has `CardTag.ANCIENT` / `CardTag.FUTURE`.
-- **Next: deck 11.** Re-check the meta first. limitlesstcg.com home page
-  (checked 2026-11-11, TEF-30C): Dragapult 36.50%, Basic Box 8.86%, Slowking
-  7.62%, N's Zoroark 7.29%, Alakazam 6.39%, Festival Lead 5.70% - all six
-  now done. Next candidates from thetoploader.com/meta (8 Nov 2026):
-  Dhelmise Banette, Lucario Hariyama, Ogerpon Meganium Hydrapple, Grimmsnarl
+- **Deck 11, Dhelmise — done end-to-end** (2026-11-12, first entry
+  below), 22 of 22 cards. **Hide 'n' Sneak** (prevent effects of the
+  opponent's attacks and Abilities) is a shared helper,
+  `set-pitch-black/hide-n-sneak.ts`; Cursed Blast and Adrena-Brain now
+  respect it.
+- **Next: deck 12.** Re-check the meta first. Regional Puebla (24-25 Oct
+  2026, gamertagmythras.com results hub, checked 2026-11-12): Dragapult
+  17.60%, Basic Box 7.74%, N's Zoroark 6.39%, Dragapult/Dusknoir 5.72%,
+  Dhelmise 5.00%, Mega Excadrill 4.82% - all done. Its Top 8 also had
+  **Lopunny / Dusknoir** (8th). Other candidates from thetoploader.com/meta
+  (8 Nov 2026): Lucario Hariyama, Ogerpon Meganium Hydrapple, Grimmsnarl
   Froslass. Lillie's Clefairy ex (NAIC list, 3 cards missing: Koraidon ex,
-  Dusk Ball, Prime Catcher) and Crustle
-  (9 missing) are older NAIC lists; re-check they are still played before
-  doing them. Limitless card pages by typed URL
-  (limitlesstcg.com/cards/TEF/81) worked on 2026-11-11.
-- **Card art missing for the decks 6-10 cards** (N's Zoroark, Mega
-  Excadrill, Slowking, Festival Lead, Basic Box): `packages/sets/scripts/fetch-card-images.js` (now also lists
+  Dusk Ball, Prime Catcher) and Crustle (9 missing) are older NAIC lists;
+  re-check they are still played before doing them. On 2026-11-12 the
+  limitlesstcg.com home page needed a permission the unattended run could
+  not get, but limitlesstcg.com/cards/<SET>/<n>, .../decklists and
+  limitlesstcg.com/decks/list/<id> pages (found through web search) worked.
+- **Bot weakness with Dhelmise:** in 20 seeded mirrors, 8 ended by
+  deck-out (Puppet Pull, Gwynn and Lillie's Determination draw a lot); one
+  game (bench spec seed 2) ended on turn 2 because the bot went first with
+  a lone Poltchageist (30 HP).
+- **Card art missing for the decks 6-11 cards** (N's Zoroark, Mega
+  Excadrill, Slowking, Festival Lead, Basic Box, Dhelmise): `packages/sets/scripts/fetch-card-images.js` (now also lists
   PBL) could not reach api.pokemontcg.io from the 2026-11-08 run (DNS
   failure), so `card-images.ts` still maps 71 cards. Rerun it where the API
   is reachable.
@@ -166,6 +177,60 @@ game** with the Tips panel; a recap is piece 4.
   `claude/pokemon-tcg-ai-trainer-3m3qqe` (2026-09-29). Leave it alone.
 
 ---
+
+## 2026-11-12 (1) — Dhelmise end-to-end, Hide 'n' Sneak
+
+Branch `claude/ryuu-2026-11-12-dhelmise`.
+
+- **List:** Nino Brodar, 12th at Regional Gdańsk (31 Oct 2026),
+  limitlesstcg.com/decks/list/31087 (checked 2026-11-12), the best-placed
+  Dhelmise list on limitlesstcg.com/cards/PBL/34/decklists
+  (`data/meta-decks/regional-2026-dhelmise.json`). Dhelmise was 5.00% of
+  Regional Puebla, the highest-share deck not yet done.
+- **9 new cards** (text from limitlesstcg.com card pages, 2026-11-12):
+  Poltchageist, Sinistcha, Shuppet, Banette, Dhelmise, Gwynn PBL;
+  Explorer's Guidance TEF; Bloodmoon Ursaluna ex, Legacy Energy (ACE SPEC)
+  TWM. 19 specs in `tests/standard/set-pitch-black/dhelmise-deck.spec.ts`.
+  The other 13 cards of the list were already in (earlier decks).
+- **Hide 'n' Sneak** (`set-pitch-black/hide-n-sneak.ts`): every effect of
+  an opponent's attack except damage is prevented (the Mist Energy /
+  Empoleon ex shape, so Matcha Spin's and Dragapult's damage counters,
+  Special Conditions etc. don't land); an Ability lock turns it off. For
+  Abilities the engine has no general "effect of an Ability" event, so the
+  two modern Abilities that touch an opponent's Pokémon now ask
+  `HideNSneak.protects`: **Cursed Blast** (Dusclops/Dusknoir PRE) and
+  **Adrena-Brain** (Munkidori) can't choose such a Pokémon, and can't be
+  used when every opponent's Pokémon is protected.
+- meta-audit for this deck: before 13 of 22 (9 missing), after 22 of 22.
+  All decks: before 375 of 411 implemented (13 to verify, 23 missing, 16
+  decks), after 384 of 411 (13 to verify, 14 missing).
+- Bot: 20 seeded mirrors, 0 errors, 0 rejected actions (ends: 12 by
+  Prizes, 8 deck-out). Added to the modern smoke (CI, now 44 games over 11
+  decks) and the modern bench spec. The bench spec uses seeds 1, 3, 4 for
+  this deck: seed 2 is a real 2-turn game (a lone Poltchageist Knocked Out
+  on turn 2), too short for the "Why?" check (it needs more than 10 notes).
+- Tests: sets 2970, simple-bot 92, bot-bench 74 specs, 0 failures; bot
+  smoke and modern smoke clean. common, server and play were not changed.
+
+### Choices and limits (not verified against official rulings)
+
+- Gwynn can't be played with no Pokémon without a Rule Box in hand, and
+  then asks for at least 1 (the card says "up to 2"; playing it to discard
+  nothing would only spend the Supporter).
+- Hide 'n' Sneak for Abilities covers only Cursed Blast and Adrena-Brain
+  (blocked as targets rather than "chosen, then nothing happens"). Other
+  Abilities that affect the opponent's Pokémon as a group (Flutter Mane's
+  Ability lock, Lillie's Clefairy ex changing Dragon Weakness) are not
+  stopped by it; I did not find a ruling.
+- Attack effects that move the opponent's Pokémon without an attack-effect
+  event in this engine (for example some "switch the opponent's Active"
+  attacks that edit the board directly) are not stopped by Hide 'n' Sneak.
+- Legacy Energy: "Knocked Out by damage from an attack" is read as
+  "Knocked Out during the opponent's attack" (same as Lillie's Pearl); the
+  once-per-game mark is per player, across all their Legacy Energy.
+- Weakness ×2 and Resistance −30 are the era's standard values (the card
+  page shows only the type).
+- No card art for the 9 new cards (see "Card art missing" above).
 
 ## 2026-11-11 (1) — Basic Box end-to-end, 8 Bench spots with Area Zero
 
