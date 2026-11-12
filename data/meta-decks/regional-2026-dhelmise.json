@@ -1,0 +1,33 @@
+{
+  "id": "regional-2026-dhelmise",
+  "name": "Dhelmise — Fall 2026 Regionals",
+  "format": "standard",
+  "asOf": "2026-11-12",
+  "source": "Nino Brodar, 12th place Regional Gdańsk 31 Oct 2026, limitlesstcg.com/decks/list/31087 (checked 2026-11-12); the best-placed Dhelmise list on limitlesstcg.com/cards/PBL/34/decklists. Dhelmise was 5.00% of the Regional Puebla field (24-25 Oct 2026, gamertagmythras.com 2027-season results hub, checked 2026-11-12), the highest-share deck not yet done.",
+  "cards": [
+    { "count": 4, "name": "Poltchageist", "set": "PBL", "number": "5", "category": "pokemon" },
+    { "count": 2, "name": "Sinistcha", "set": "PBL", "number": "6", "category": "pokemon" },
+    { "count": 4, "name": "Dhelmise", "set": "PBL", "number": "39", "category": "pokemon" },
+    { "count": 3, "name": "Dunsparce", "set": "JTG", "number": "120", "category": "pokemon" },
+    { "count": 2, "name": "Dudunsparce", "set": "TEF", "number": "129", "category": "pokemon" },
+    { "count": 2, "name": "Shuppet", "set": "PBL", "number": "33", "category": "pokemon" },
+    { "count": 4, "name": "Banette", "set": "PBL", "number": "34", "category": "pokemon" },
+    { "count": 2, "name": "Lillie's Clefairy ex", "set": "JTG", "number": "56", "category": "pokemon" },
+    { "count": 1, "name": "Bloodmoon Ursaluna ex", "set": "TWM", "number": "141", "category": "pokemon" },
+    { "count": 1, "name": "Latias ex", "set": "SSP", "number": "76", "category": "pokemon" },
+
+    { "count": 4, "name": "Lillie's Determination", "set": "MEG", "number": "119", "category": "trainer" },
+    { "count": 4, "name": "Gwynn", "set": "PBL", "number": "78", "category": "trainer" },
+    { "count": 3, "name": "Boss's Orders", "set": "MEG", "number": "114", "category": "trainer" },
+    { "count": 2, "name": "Explorer's Guidance", "set": "TEF", "number": "147", "category": "trainer" },
+    { "count": 1, "name": "Black Belt's Training", "set": "JTG", "number": "143", "category": "trainer" },
+    { "count": 4, "name": "Ultra Ball", "set": "MEG", "number": "131", "category": "trainer" },
+    { "count": 4, "name": "Poké Pad", "set": "POR", "number": "81", "category": "trainer" },
+    { "count": 3, "name": "Night Stretcher", "set": "ASC", "number": "196", "category": "trainer" },
+    { "count": 3, "name": "Prism Tower", "set": "CRI", "number": "80", "category": "trainer" },
+
+    { "count": 4, "name": "Telepathic Psychic Energy", "set": "POR", "number": "88", "category": "energy" },
+    { "count": 2, "name": "Psychic Energy", "set": "MEE", "number": "13", "category": "energy", "basic": true },
+    { "count": 1, "name": "Legacy Energy", "set": "TWM", "number": "167", "category": "energy" }
+  ]
+}

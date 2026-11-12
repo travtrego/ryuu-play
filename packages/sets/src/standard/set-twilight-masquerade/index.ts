@@ -22,6 +22,8 @@ import { FestivalGrounds } from './festival-grounds';
 import { LanasAid } from './lanas-aid';
 import { TealMaskOgerponEx } from './teal-mask-ogerpon-ex';
 import { WellspringMaskOgerponEx } from './wellspring-mask-ogerpon-ex';
+import { BloodmoonUrsalunaEx } from './bloodmoon-ursaluna-ex';
+import { LegacyEnergy } from './legacy-energy';
 
 export const setTwilightMasquerade: Card[] = [
   new HandheldFan(),
@@ -47,4 +49,6 @@ export const setTwilightMasquerade: Card[] = [
   new LanasAid(),
   new TealMaskOgerponEx(),
   new WellspringMaskOgerponEx(),
+  new BloodmoonUrsalunaEx(),
+  new LegacyEnergy(),
 ];

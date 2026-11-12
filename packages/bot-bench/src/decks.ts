@@ -501,6 +501,32 @@ export const modernBenchDecks: BenchDeck[] = [
     ['Lightning Energy EVO', 2],
     ['Fighting Energy EVO', 2],
     ['Water Energy EVO', 2]
+  ]),
+
+  // Fall 2026 Regionals (data/meta-decks/regional-2026-dhelmise.json)
+  deck('sv-dhelmise', 'Standard (Scarlet & Violet): Dhelmise', 'sv', [
+    ['Poltchageist PBL', 4],
+    ['Sinistcha PBL', 2],
+    ['Dhelmise PBL', 4],
+    ['Dunsparce JTG', 3],
+    ['Dudunsparce TEF', 2],
+    ['Shuppet PBL', 2],
+    ['Banette PBL', 4],
+    ['Lillie\'s Clefairy ex JTG', 2],
+    ['Bloodmoon Ursaluna ex TWM', 1],
+    ['Latias ex SSP', 1],
+    ['Lillie\'s Determination MEG', 4],
+    ['Gwynn PBL', 4],
+    ['Boss\'s Orders MEG', 3],
+    ['Explorer\'s Guidance TEF', 2],
+    ['Black Belt\'s Training JTG', 1],
+    ['Ultra Ball MEG', 4],
+    ['Poké Pad POR', 4],
+    ['Night Stretcher ASC', 3],
+    ['Prism Tower CRI', 3],
+    ['Telepathic Psychic Energy POR', 4],
+    ['Psychic Energy EVO', 2],
+    ['Legacy Energy TWM', 1]
   ])
 
 ];

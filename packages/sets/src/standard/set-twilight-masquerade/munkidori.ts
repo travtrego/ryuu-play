@@ -21,6 +21,7 @@ import {
   StateUtils,
   StoreLike,
 } from '@ptcg/common';
+import { HideNSneak } from '../set-pitch-black/hide-n-sneak';
 
 function* useAdrenaBrain(
   next: Function,
@@ -30,6 +31,21 @@ function* useAdrenaBrain(
   self: Munkidori
 ): IterableIterator<State> {
   const player = effect.player;
+  const opponent = StateUtils.getOpponent(state, player);
+  // Hide 'n' Sneak prevents the effects of the opponent's Abilities on that Pokémon.
+  const protectedTargets: { player: PlayerType, slot: SlotType, index: number }[] = [];
+  let open = 0;
+  opponent.forEachPokemon(PlayerType.TOP_PLAYER, (slot, card, target) => {
+    if (HideNSneak.protects(store, state, player, slot)) {
+      protectedTargets.push(target);
+    } else {
+      open += 1;
+    }
+  });
+  if (open === 0) {
+    throw new GameError(GameMessage.CANNOT_USE_POWER);
+  }
+
   const blocked: { player: PlayerType, slot: SlotType, index: number }[] = [];
   player.forEachPokemon(PlayerType.BOTTOM_PLAYER, (slot, card, target) => {
     if (slot.damage === 0) {
@@ -58,7 +74,7 @@ function* useAdrenaBrain(
     GameMessage.CHOOSE_POKEMON_TO_DAMAGE,
     PlayerType.TOP_PLAYER,
     [SlotType.ACTIVE, SlotType.BENCH],
-    { allowCancel: false }
+    { allowCancel: false, blocked: protectedTargets }
   ), result => {
     target = result && result.length > 0 ? result[0] : undefined;
     next();
