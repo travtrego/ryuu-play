@@ -1,0 +1,36 @@
+{
+  "id": "online-2026-lopunny-dudunsparce",
+  "name": "Lopunny Dudunsparce — Fall 2026",
+  "format": "standard",
+  "asOf": "2026-11-13",
+  "source": "SnazzyPlatypus, 5th of 161 (8-3) at Vault of Games #10, 8 Nov 2026, play.limitlesstcg.com/tournament/6aea6ad30c463890f304ab8c/player/snazzyplatypus/decklist (checked 2026-11-13); among the best-placed lists on play.limitlesstcg.com/decks/lopunny-dudunsparce. Lopunny Dudunsparce was 2.42% of 4,051 players on play.limitlesstcg.com/decks?format=standard (checked 2026-11-13).",
+  "cards": [
+    { "count": 3, "name": "Buneary", "set": "PFL", "number": "83", "category": "pokemon" },
+    { "count": 2, "name": "Mega Lopunny ex", "set": "PFL", "number": "84", "category": "pokemon" },
+    { "count": 2, "name": "Dunsparce", "set": "JTG", "number": "120", "category": "pokemon" },
+    { "count": 1, "name": "Dunsparce", "set": "TEF", "number": "128", "category": "pokemon" },
+    { "count": 2, "name": "Dudunsparce", "set": "TEF", "number": "129", "category": "pokemon" },
+    { "count": 2, "name": "Snorunt", "set": "ASC", "number": "46", "category": "pokemon" },
+    { "count": 2, "name": "Mega Froslass ex", "set": "ASC", "number": "47", "category": "pokemon" },
+    { "count": 1, "name": "Meowth ex", "set": "POR", "number": "62", "category": "pokemon" },
+    { "count": 1, "name": "Mew ex", "set": "30C", "number": "66", "category": "pokemon" },
+    { "count": 1, "name": "Fan Rotom", "set": "SCR", "number": "118", "category": "pokemon" },
+    { "count": 1, "name": "Lillie's Clefairy ex", "set": "JTG", "number": "56", "category": "pokemon" },
+
+    { "count": 4, "name": "Lillie's Determination", "set": "MEG", "number": "119", "category": "trainer" },
+    { "count": 4, "name": "Hilda", "set": "WHT", "number": "84", "category": "trainer" },
+    { "count": 3, "name": "Boss's Orders", "set": "MEG", "number": "114", "category": "trainer" },
+    { "count": 3, "name": "Wally's Compassion", "set": "MEG", "number": "132", "category": "trainer" },
+    { "count": 4, "name": "Buddy-Buddy Poffin", "set": "TEF", "number": "144", "category": "trainer" },
+    { "count": 4, "name": "Poké Pad", "set": "POR", "number": "81", "category": "trainer" },
+    { "count": 4, "name": "Ultra Ball", "set": "MEG", "number": "131", "category": "trainer" },
+    { "count": 2, "name": "Night Stretcher", "set": "ASC", "number": "196", "category": "trainer" },
+    { "count": 1, "name": "Special Red Card", "set": "CRI", "number": "82", "category": "trainer" },
+    { "count": 2, "name": "Air Balloon", "set": "ASC", "number": "181", "category": "trainer" },
+    { "count": 3, "name": "Battle Cage", "set": "PFL", "number": "85", "category": "trainer" },
+
+    { "count": 4, "name": "Mist Energy", "set": "TEF", "number": "161", "category": "energy" },
+    { "count": 3, "name": "Water Energy", "set": "MEE", "number": "11", "category": "energy", "basic": true },
+    { "count": 1, "name": "Enriching Energy", "set": "SSP", "number": "191", "category": "energy" }
+  ]
+}

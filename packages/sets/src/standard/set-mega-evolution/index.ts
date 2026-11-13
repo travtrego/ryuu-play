@@ -1,4 +1,5 @@
 import { Card } from '@ptcg/common';
+import { WallysCompassion } from './wallys-compassion';
 import { PremiumPowerPro } from './premium-power-pro';
 import { FightingGong } from './fighting-gong';
 import { LunatoneMEG } from './lunatone';
@@ -43,4 +44,5 @@ export const setMegaEvolution: Card[] = [
   new LunatoneMEG(),
   new FightingGong(),
   new PremiumPowerPro(),
+  new WallysCompassion(),
 ];

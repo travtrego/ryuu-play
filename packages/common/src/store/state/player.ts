@@ -28,6 +28,11 @@ export class Player {
 
   retreatedTurn: number = 0;
 
+  /** True when this player moved a Pokémon into their Active Spot during the
+   * current turn by retreat or a switching effect (not by promoting after a
+   * Knock Out). Read by cards like Mega Lopunny ex; cleared at end of turn. */
+  movedActiveThisTurn: boolean = false;
+
   energyPlayedTurn: number = 0;
   
   stadiumPlayedTurn: number = 0;
@@ -77,6 +82,7 @@ export class Player {
       const temp = this.active;
       this.active = this.bench[benchIndex];
       this.bench[benchIndex] = temp;
+      this.movedActiveThisTurn = true;
     }
   }
 

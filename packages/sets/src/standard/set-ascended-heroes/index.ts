@@ -1,4 +1,6 @@
 import { Card } from '@ptcg/common';
+import { MegaFroslassEx } from './mega-froslass-ex';
+import { SnoruntASC } from './snorunt';
 import { ChikoritaASC } from './chikorita';
 import { AirBalloon } from './air-balloon';
 import { Budew } from './budew';
@@ -15,4 +17,6 @@ export const setAscendedHeroes: Card[] = [
   new NsZekrom(),
   new AirBalloon(),
   new ChikoritaASC(),
+  new SnoruntASC(),
+  new MegaFroslassEx(),
 ];

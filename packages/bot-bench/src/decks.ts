@@ -581,6 +581,35 @@ export const modernBenchDecks: BenchDeck[] = [
     ['Fighting Energy EVO', 8],
     ['Rocky Fighting Energy POR', 3],
     ['Legacy Energy TWM', 1]
+  ]),
+
+  // Fall 2026 online (data/meta-decks/online-2026-lopunny-dudunsparce.json)
+  deck('sv-lopunny', 'Standard (Scarlet & Violet): Lopunny Dudunsparce', 'sv', [
+    ['Buneary PFL', 3],
+    ['Mega Lopunny ex PFL', 2],
+    ['Dunsparce JTG', 2],
+    ['Dunsparce TEF', 1],
+    ['Dudunsparce TEF', 2],
+    ['Snorunt ASC', 2],
+    ['Mega Froslass ex ASC', 2],
+    ['Meowth ex POR', 1],
+    ['Mew ex 30C', 1],
+    ['Fan Rotom SCR', 1],
+    ['Lillie\'s Clefairy ex JTG', 1],
+    ['Lillie\'s Determination MEG', 4],
+    ['Hilda WHT', 4],
+    ['Boss\'s Orders MEG', 3],
+    ['Wally\'s Compassion MEG', 3],
+    ['Buddy-Buddy Poffin TEF', 4],
+    ['Poké Pad POR', 4],
+    ['Ultra Ball MEG', 4],
+    ['Night Stretcher ASC', 2],
+    ['Special Red Card CRI', 1],
+    ['Air Balloon ASC', 2],
+    ['Battle Cage PFL', 3],
+    ['Mist Energy TEF', 4],
+    ['Water Energy EVO', 3],
+    ['Enriching Energy SSP', 1]
   ])
 
 ];
