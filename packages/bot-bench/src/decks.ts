@@ -527,6 +527,34 @@ export const modernBenchDecks: BenchDeck[] = [
     ['Telepathic Psychic Energy POR', 4],
     ['Psychic Energy EVO', 2],
     ['Legacy Energy TWM', 1]
+  ]),
+
+  // Fall 2026 online (data/meta-decks/online-2026-ogerpon-meganium-hydrapple.json)
+  deck('sv-ogerpon-meganium', 'Standard (Scarlet & Violet): Ogerpon Meganium Hydrapple', 'sv', [
+    ['Teal Mask Ogerpon ex TWM', 4],
+    ['Chikorita ASC', 2],
+    ['Bayleef MEG', 2],
+    ['Meganium MEG', 2],
+    ['Applin TWM', 2],
+    ['Dipplin TWM', 2],
+    ['Hydrapple ex SCR', 2],
+    ['Meowth ex POR', 2],
+    ['Fezandipiti ex ASC', 1],
+    ['Celebi MEG', 1],
+    ['Tapu Bulu SFA', 1],
+    ['Lillie\'s Determination MEG', 4],
+    ['Boss\'s Orders MEG', 2],
+    ['Team Rocket\'s Petrel DRI', 1],
+    ['Briar SCR', 1],
+    ['Judge POR', 1],
+    ['Lana\'s Aid TWM', 1],
+    ['Bug Catching Set TWM', 4],
+    ['Ultra Ball MEG', 4],
+    ['Night Stretcher ASC', 2],
+    ['Unfair Stamp TWM', 1],
+    ['Poké Pad POR', 1],
+    ['Forest of Vitality MEG', 4],
+    ['Grass Energy EVO', 13]
   ])
 
 ];

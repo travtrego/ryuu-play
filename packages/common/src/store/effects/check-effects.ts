@@ -4,6 +4,7 @@ import { Player } from '../state/player';
 import { Resistance, Weakness, Attack } from '../card/pokemon-types';
 import { EnergyMap } from '../prompts/choose-energy-prompt';
 import { PokemonSlot } from '../state/pokemon-slot';
+import { PokemonCard } from '../card/pokemon-card';
 
 export enum CheckEffects {
   CHECK_HP_EFFECT = 'CHECK_HP_EFFECT',
@@ -40,11 +41,18 @@ export class CheckPokemonPlayedTurnEffect implements Effect {
   public player: Player;
   public target: PokemonSlot;
   public pokemonPlayedTurn: number;
+  /**
+   * The card the Pokémon is about to evolve into, when the check is made for
+   * a normal evolution from the hand (Forest of Vitality looks at its type).
+   * Unset for other checks, such as Rare Candy.
+   */
+  public evolvesInto?: PokemonCard;
 
-  constructor(player: Player, target: PokemonSlot) {
+  constructor(player: Player, target: PokemonSlot, evolvesInto?: PokemonCard) {
     this.player = player;
     this.target = target;
     this.pokemonPlayedTurn = target.pokemonPlayedTurn;
+    this.evolvesInto = evolvesInto;
   }
 }
 
