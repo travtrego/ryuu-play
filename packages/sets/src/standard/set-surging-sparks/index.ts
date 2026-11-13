@@ -1,4 +1,6 @@
 import { Card } from '@ptcg/common';
+import { LisiasAppeal } from './lisias-appeal';
+import { GravityMountain } from './gravity-mountain';
 import { Cyrano } from './cyrano';
 import { EnrichingEnergy } from './enriching-energy';
 import { LatiasEx } from './latias-ex';
@@ -11,4 +13,6 @@ export const setSurgingSparks: Card[] = [
   new LatiasEx(),
   new ChienPao(),
   new Passimian(),
+  new GravityMountain(),
+  new LisiasAppeal(),
 ];

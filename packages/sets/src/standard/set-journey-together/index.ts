@@ -1,4 +1,5 @@
 import { Card } from '@ptcg/common';
+import { DudunsparceEx } from './dudunsparce-ex';
 import { BlackBeltsTraining } from './black-belts-training';
 import { BlazikenEx } from './blaziken-ex';
 import { BrocksScouting } from './brocks-scouting';
@@ -23,4 +24,5 @@ export const setJourneyTogether: Card[] = [
   new NsPPUp(),
   new BrocksScouting(),
   new BlackBeltsTraining(),
+  new DudunsparceEx(),
 ];

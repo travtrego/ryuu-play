@@ -1,4 +1,5 @@
 import { Card } from '@ptcg/common';
+import { RioluPRE } from './riolu';
 import { BindingMochi } from './binding-mochi';
 import { Dusclops } from './dusclops';
 import { Dusknoir } from './dusknoir';
@@ -13,4 +14,5 @@ export const setPrismaticEvolutions: Card[] = [
   new JaninesSecretArt(),
   new BindingMochi(),
   new SeakingPRE(),
+  new RioluPRE(),
 ];
