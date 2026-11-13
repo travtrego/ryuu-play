@@ -141,6 +141,11 @@ export function gamePhaseReducer(store: StoreLike, state: State, effect: Effect)
       throw new GameError(GameMessage.NOT_YOUR_TURN);
     }
 
+    // "Moved to the Active Spot this turn" only holds within the turn it happened.
+    for (const p of state.players) {
+      p.movedActiveThisTurn = false;
+    }
+
     state = checkState(store, state, () => {
       if (state.phase === GamePhase.FINISHED) {
         return;

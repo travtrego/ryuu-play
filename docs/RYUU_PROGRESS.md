@@ -57,13 +57,21 @@ owner handed from the GPT lane to Claude. Issue #2's lane split is retired.
   Energy by what it provides (Wild Growth's GG counts as 2).
 - **Deck 13, Mega Lucario ex — done end-to-end** (2026-11-13, second entry
   below), 22 of 22 cards.
-- **Next: deck 14.** Re-check the meta first. play.limitlesstcg.com/decks
-  (Standard, through Delta Reign, checked 2026-11-13, 4,051 players):
-  Mega Rayquaza 10.47%, Dragapult 7.83%, Basic Box 5.83%, Slowking 4.89%,
-  Ogerpon Meganium Hydrapple 3.75% (done), Alakazam Dudunsparce 3.65%, N's
-  Zoroark 3.01%, **Talonflame Dusknoir 3.01%**, Dhelmise 2.86%, Mega
-  Excadrill 2.59%, Dragapult Dudunsparce 2.57%, **Lopunny Dudunsparce
-  2.42%**, **Crustle 2.25%**, Mega Lucario 2.17% (done), **Greninja 1.88%**.
+- **Deck 14, Lopunny Dudunsparce — done end-to-end** (2026-11-13, third
+  entry below), 25 of 25 cards.
+- **Next: deck 15.** Re-check the meta first. play.limitlesstcg.com/decks
+  (Standard, through Delta Reign, checked 2026-11-13): Mega Rayquaza 10.47%
+  (blocked on DLR cards, see below), Dragapult 7.83% (done), Basic Box 5.83%
+  (done), Slowking 4.89% (done), Ogerpon Meganium Hydrapple 3.75% (done),
+  Alakazam Dudunsparce 3.65% (done), N's Zoroark 3.01% (done), **Talonflame
+  Dusknoir 3.01%** (needs DLR Talonflame ex and Legendary Trench),
+  Dhelmise 2.86% (done), Mega Excadrill 2.59% (done), Dragapult Dudunsparce
+  2.57%, Lopunny Dudunsparce 2.42% (done), **Crustle 2.25%** (needs DLR
+  Azurill, Aarune, Legendary Trench), Mega Lucario 2.17% (done), **Greninja
+  1.88%** (Greninja ex TWM 106/30C 21, Dusknoir line PRE, Mega Starmie ex
+  POR, Mega Froslass ex ASC (done), Grand Tree SCR, Bubbly Water Energy CRI,
+  Ignition Energy WHT - no DLR cards; a candidate). PizzaParrker Greninja
+  list: play.limitlesstcg.com/tournament/6aee7c9fe99f3235a75e29c5/player/pizzaparrker/decklist.
 - **Mega Rayquaza (#1 online) was tried 2026-11-13 and skipped:** it needs
   Delta Reign (DLR) cards whose text the unattended run could not pin down.
   Card pages disagreed or were unreachable: Talonflame ex DLR 88 (Stage 2
@@ -199,6 +207,56 @@ game** with the Tips panel; a recap is piece 4.
   `claude/pokemon-tcg-ai-trainer-3m3qqe` (2026-09-29). Leave it alone.
 
 ---
+
+## 2026-11-13 (3) — Lopunny Dudunsparce end-to-end, "moved to the Active Spot this turn"
+
+Branch `claude/ryuu-2026-11-13-lopunny`.
+
+- **List:** SnazzyPlatypus, 5th of 161 (8-3) at Vault of Games #10 (8 Nov
+  2026), play.limitlesstcg.com/decks/lopunny-dudunsparce
+  (`data/meta-decks/online-2026-lopunny-dudunsparce.json`). Lopunny
+  Dudunsparce was 2.42% of play.limitlesstcg.com Standard (checked
+  2026-11-13). No Delta Reign cards.
+- **6 new cards** (text checked 2026-11-13 on at least two of pkmncards.com,
+  dittobase.com, pocketmonsters.net, scrydex.com, limitlesstcg.com): Mega
+  Lopunny ex, Buneary PFL; Snorunt, Mega Froslass ex ASC; Fan Rotom SCR;
+  Wally's Compassion MEG. Buneary PFL had been flagged "verify print" (same
+  name as OP9 Buneary); it is now its own card. 13 specs in
+  `tests/standard/set-phantasmal-flames/lopunny-deck.spec.ts`.
+- **Engine:** `Player.movedActiveThisTurn` (a boolean, set by
+  `switchPokemon` for retreats and switching effects, not by promoting a new
+  Active after a Knock Out; cleared for both players at the end of each
+  turn). Mega Lopunny ex's Gale Thrust reads it (+170 damage). It is a
+  Player field, not a slot field, so the many retreat/switch tests that
+  deep-compare a PokemonSlot are unchanged.
+- meta-audit for this deck: before 19 of 25 (1 to verify, 5 missing), after
+  25 of 25. All decks: before (18 decks) 431 of 457 (13 to verify, 13
+  missing); after (19 decks) 456 of 482 (13 to verify, 13 missing).
+- Bot: 20 seeded mirrors, 0 errors, 0 rejected actions (all 20 by Prizes).
+  Added to the modern smoke (CI, now 56 games over 14 decks) and the modern
+  bench spec.
+- Tests: common 367, sets 3019, simple-bot 92, bot-bench 83, server 76
+  specs, 0 failures; bot smoke and modern smoke clean.
+
+### Choices and limits (not verified against official rulings)
+
+- "Moved from your Bench to the Active Spot this turn" is read as: the
+  player used retreat or a switching effect this turn (the current Active is
+  the one that moved). Promoting a new Active after a Knock Out does not
+  count. An attack that switches (Buneary's Run Around) ends the turn, so it
+  does not enable Gale Thrust the same turn.
+- Mega Froslass ex attack costs: pocketmonsters.net and scrydex.com agree
+  Resentful Refrain is 1 Water and Absolute Snow is Water + 2 Colorless
+  (dittobase.com differed); the two-source reading is used.
+- Spiky Hopper skips effects on the opponent's Active Pokémon the same way
+  as N's Zekrom's attack.
+- Fan Call: "during your first turn" is turns 1-2; once per turn; searches
+  for Colorless Pokémon with 100 HP or less.
+- Wally's Compassion heals a Mega Evolution Pokémon ex and, only if any
+  damage was healed, puts all its Energy into the hand; it can't be played
+  with no Mega Evolution Pokémon ex in play.
+- Weakness ×2 / Resistance −30 are the era's standard values.
+- No card art for the 6 new cards.
 
 ## 2026-11-13 (2) — Mega Lucario ex end-to-end
 

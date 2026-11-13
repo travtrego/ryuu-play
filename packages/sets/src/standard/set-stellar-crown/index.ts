@@ -1,4 +1,5 @@
 import { Card } from '@ptcg/common';
+import { FanRotom } from './fan-rotom';
 import { Briar } from './briar';
 import { HydrappleEx } from './hydrapple-ex';
 import { Crispin } from './crispin';
@@ -15,4 +16,5 @@ export const setStellarCrown: Card[] = [
   new AreaZeroUnderdepths(),
   new HydrappleEx(),
   new Briar(),
+  new FanRotom(),
 ];
