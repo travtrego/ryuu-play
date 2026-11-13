@@ -1,4 +1,5 @@
 import { Card } from '@ptcg/common';
+import { RockyFightingEnergy } from './rocky-fighting-energy';
 import { TelepathicPsychicEnergy } from './telepathic-psychic-energy';
 import { CrushingHammerPOR } from './crushing-hammer';
 import { Judge } from './judge';
@@ -19,4 +20,5 @@ export const setPerfectOrder: Card[] = [
   new MegaSkarmoryEx(),
   new Drapion(),
   new GrowingGrassEnergy(),
+  new RockyFightingEnergy(),
 ];

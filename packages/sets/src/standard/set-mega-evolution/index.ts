@@ -1,4 +1,10 @@
 import { Card } from '@ptcg/common';
+import { PremiumPowerPro } from './premium-power-pro';
+import { FightingGong } from './fighting-gong';
+import { LunatoneMEG } from './lunatone';
+import { SolrockMEG } from './solrock';
+import { RioluMEG } from './riolu';
+import { MegaLucarioEx } from './mega-lucario-ex';
 import { ForestOfVitality } from './forest-of-vitality';
 import { CelebiMEG } from './celebi';
 import { MeganiumMEG } from './meganium';
@@ -31,4 +37,10 @@ export const setMegaEvolution: Card[] = [
   new MeganiumMEG(),
   new CelebiMEG(),
   new ForestOfVitality(),
+  new MegaLucarioEx(),
+  new RioluMEG(),
+  new SolrockMEG(),
+  new LunatoneMEG(),
+  new FightingGong(),
+  new PremiumPowerPro(),
 ];

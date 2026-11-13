@@ -555,6 +555,32 @@ export const modernBenchDecks: BenchDeck[] = [
     ['Poké Pad POR', 1],
     ['Forest of Vitality MEG', 4],
     ['Grass Energy EVO', 13]
+  ]),
+
+  // Fall 2026 online (data/meta-decks/online-2026-mega-lucario.json)
+  deck('sv-mega-lucario', 'Standard (Scarlet & Violet): Mega Lucario ex', 'sv', [
+    ['Riolu PRE', 3],
+    ['Riolu MEG', 1],
+    ['Mega Lucario ex MEG', 3],
+    ['Dunsparce JTG', 3],
+    ['Dudunsparce TEF', 2],
+    ['Dudunsparce ex JTG', 1],
+    ['Solrock MEG', 2],
+    ['Lunatone MEG', 2],
+    ['Lillie\'s Determination MEG', 4],
+    ['Boss\'s Orders MEG', 4],
+    ['Hilda WHT', 2],
+    ['Lisia\'s Appeal SSP', 1],
+    ['Poké Pad POR', 4],
+    ['Fighting Gong MEG', 4],
+    ['Premium Power Pro MEG', 4],
+    ['Buddy-Buddy Poffin TEF', 2],
+    ['Ultra Ball MEG', 2],
+    ['Lucky Helmet TWM', 2],
+    ['Gravity Mountain SSP', 2],
+    ['Fighting Energy EVO', 8],
+    ['Rocky Fighting Energy POR', 3],
+    ['Legacy Energy TWM', 1]
   ])
 
 ];

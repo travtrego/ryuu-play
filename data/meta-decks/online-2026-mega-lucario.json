@@ -1,0 +1,33 @@
+{
+  "id": "online-2026-mega-lucario",
+  "name": "Mega Lucario ex — Fall 2026",
+  "format": "standard",
+  "asOf": "2026-11-13",
+  "source": "geberuto, 2nd of 194 (13-1) at Moujii's Dojo, 12 Nov 2026, play.limitlesstcg.com/tournament/6aee20e4c931f53978d94d65/player/geberuto/decklist (checked 2026-11-13); among the best-placed lists on play.limitlesstcg.com/decks/mega-lucario-ex (Standard, rotation 2026, through Delta Reign). Mega Lucario was 2.17% of 4,051 players on play.limitlesstcg.com/decks?format=standard (checked 2026-11-13). Mega Rayquaza (10.47%) was skipped for now: it needs Delta Reign cards (Legendary Pyroduct, a two-half Stadium; Talonflame ex) whose exact text this run could not confirm.",
+  "cards": [
+    { "count": 3, "name": "Riolu", "set": "PRE", "number": "50", "category": "pokemon" },
+    { "count": 1, "name": "Riolu", "set": "MEG", "number": "76", "category": "pokemon" },
+    { "count": 3, "name": "Mega Lucario ex", "set": "MEG", "number": "77", "category": "pokemon" },
+    { "count": 3, "name": "Dunsparce", "set": "JTG", "number": "120", "category": "pokemon" },
+    { "count": 2, "name": "Dudunsparce", "set": "TEF", "number": "129", "category": "pokemon" },
+    { "count": 1, "name": "Dudunsparce ex", "set": "JTG", "number": "121", "category": "pokemon" },
+    { "count": 2, "name": "Solrock", "set": "MEG", "number": "75", "category": "pokemon" },
+    { "count": 2, "name": "Lunatone", "set": "MEG", "number": "74", "category": "pokemon" },
+
+    { "count": 4, "name": "Lillie's Determination", "set": "MEG", "number": "119", "category": "trainer" },
+    { "count": 4, "name": "Boss's Orders", "set": "MEG", "number": "114", "category": "trainer" },
+    { "count": 2, "name": "Hilda", "set": "WHT", "number": "84", "category": "trainer" },
+    { "count": 1, "name": "Lisia's Appeal", "set": "SSP", "number": "179", "category": "trainer" },
+    { "count": 4, "name": "Poké Pad", "set": "POR", "number": "81", "category": "trainer" },
+    { "count": 4, "name": "Fighting Gong", "set": "MEG", "number": "116", "category": "trainer" },
+    { "count": 4, "name": "Premium Power Pro", "set": "MEG", "number": "124", "category": "trainer" },
+    { "count": 2, "name": "Buddy-Buddy Poffin", "set": "TEF", "number": "144", "category": "trainer" },
+    { "count": 2, "name": "Ultra Ball", "set": "MEG", "number": "131", "category": "trainer" },
+    { "count": 2, "name": "Lucky Helmet", "set": "TWM", "number": "158", "category": "trainer" },
+    { "count": 2, "name": "Gravity Mountain", "set": "SSP", "number": "177", "category": "trainer" },
+
+    { "count": 8, "name": "Fighting Energy", "set": "MEE", "number": "14", "category": "energy", "basic": true },
+    { "count": 3, "name": "Rocky Fighting Energy", "set": "POR", "number": "87", "category": "energy" },
+    { "count": 1, "name": "Legacy Energy", "set": "TWM", "number": "167", "category": "energy" }
+  ]
+}

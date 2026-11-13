@@ -55,24 +55,35 @@ owner handed from the GPT lane to Claude. Issue #2's lane split is retired.
   `CheckPokemonPlayedTurnEffect` which card a Pokémon evolves into**
   (`evolvesInto`, used by Forest of Vitality), and Myriad Leaf Shower counts
   Energy by what it provides (Wild Growth's GG counts as 2).
-- **Next: deck 13.** Re-check the meta first. play.limitlesstcg.com/decks
+- **Deck 13, Mega Lucario ex — done end-to-end** (2026-11-13, second entry
+  below), 22 of 22 cards.
+- **Next: deck 14.** Re-check the meta first. play.limitlesstcg.com/decks
   (Standard, through Delta Reign, checked 2026-11-13, 4,051 players):
   Mega Rayquaza 10.47%, Dragapult 7.83%, Basic Box 5.83%, Slowking 4.89%,
-  Ogerpon Meganium Hydrapple 3.75%, Alakazam Dudunsparce 3.65%, N's Zoroark
-  3.01%, **Talonflame Dusknoir 3.01%**, Dhelmise 2.86%, Mega Excadrill 2.59%,
-  Dragapult Dudunsparce 2.57%, **Lopunny Dudunsparce 2.42%**, **Crustle
-  2.25%**, **Mega Lucario 2.17%**, Greninja 1.88%. **Mega Rayquaza** is #1
-  online but needs new **Delta Reign (DLR)** cards (Mega Rayquaza ex DLR 84,
-  Talonflame ex DLR 88, Legendary Pyroduct DLR 94/95) plus Ethan's Ho-Oh ex
-  DRI, Special Red Card CRI, Blowtorch PFL, Cyrano SSP; a recent list:
+  Ogerpon Meganium Hydrapple 3.75% (done), Alakazam Dudunsparce 3.65%, N's
+  Zoroark 3.01%, **Talonflame Dusknoir 3.01%**, Dhelmise 2.86%, Mega
+  Excadrill 2.59%, Dragapult Dudunsparce 2.57%, **Lopunny Dudunsparce
+  2.42%**, **Crustle 2.25%**, Mega Lucario 2.17% (done), **Greninja 1.88%**.
+- **Mega Rayquaza (#1 online) was tried 2026-11-13 and skipped:** it needs
+  Delta Reign (DLR) cards whose text the unattended run could not pin down.
+  Card pages disagreed or were unreachable: Talonflame ex DLR 88 (Stage 2
+  per limitlesstcg.com, "basic ex" per cardsrealm; an Ability that puts it
+  onto the Bench from the hand), and **Legendary Pyroduct DLR 94/95**, a
+  two-half ("split") Stadium whose text and rules were not found (one guide
+  said it removes Abilities of Evolution Pokémon). A split card is also a new
+  engine rule. Needed besides: Mega Rayquaza ex DLR 84 (Basic, 280 HP,
+  Ruler's Roar, Storm Emerald 50× per R and L Energy on all your Pokémon),
+  Ethan's Ho-Oh ex DRI 39, Iron Thorns ex TWM 77, Blowtorch PFL 86. List:
   AzulGG, 1st of 494, 7 Nov 2026,
   play.limitlesstcg.com/tournament/6a8723725a30714095575300/player/azulgg/decklist.
-  Its card text must be checked carefully (new set). Otherwise Talonflame
-  Dusknoir, Crustle (old NAIC list, 9 missing; re-check it) or Lopunny.
-  On 2026-11-13 limitlesstcg.com/cards/<SET>/<n> pages sometimes needed a
-  permission the unattended run could not get; pkmncards.com,
-  serebii.net/card/... and dittobase.com card pages (found through web
-  search) worked, and limitlesstcg.com pages found by search mostly did.
+  **Crustle** (current list Shackalacka55, 1st of 60, 7 Nov 2026) and
+  **Talonflame Dusknoir** also use DLR cards (Legendary Trench split
+  Stadium, Azurill, Aarune; Talonflame ex). Lopunny Dudunsparce or Greninja
+  may be easier.
+- On 2026-11-13 limitlesstcg.com/cards/<SET>/<n> and serebii.net pages
+  sometimes needed a permission the unattended run could not get;
+  pkmncards.com, dittobase.com, scrydex.com and cardsrealm.com card pages
+  (found through web search) worked.
 - **Bot weakness with Dhelmise:** in 20 seeded mirrors, 8 ended by
   deck-out (Puppet Pull, Gwynn and Lillie's Determination draw a lot); one
   game (bench spec seed 2) ended on turn 2 because the bot went first with
@@ -188,6 +199,50 @@ game** with the Tips panel; a recap is piece 4.
   `claude/pokemon-tcg-ai-trainer-3m3qqe` (2026-09-29). Leave it alone.
 
 ---
+
+## 2026-11-13 (2) — Mega Lucario ex end-to-end
+
+Branch `claude/ryuu-2026-11-13-mega-lucario` (started for Mega Rayquaza,
+which was skipped; see "Next up").
+
+- **List:** geberuto, 2nd of 194 (13-1) at Moujii's Dojo (12 Nov 2026),
+  play.limitlesstcg.com/decks/mega-lucario-ex
+  (`data/meta-decks/online-2026-mega-lucario.json`). Mega Lucario was 2.17%
+  of play.limitlesstcg.com Standard (checked 2026-11-13). The list has no
+  Delta Reign cards.
+- **11 new cards** (text checked 2026-11-13 on at least two of
+  pkmncards.com, dittobase.com, scrydex.com, limitlesstcg.com): Mega Lucario
+  ex, Riolu, Solrock, Lunatone, Fighting Gong, Premium Power Pro MEG; Riolu
+  PRE; Dudunsparce ex JTG; Gravity Mountain, Lisia's Appeal SSP; Rocky
+  Fighting Energy POR. Riolu, Solrock and Lunatone had been flagged "verify
+  print" (same names as older cards); each is now its own card. 17 specs in
+  `tests/standard/set-mega-evolution/mega-lucario-deck.spec.ts`.
+- No engine change: Mega Lucario ex is a Stage 1 Mega Evolution Pokémon ex
+  (3 Prize cards, already in the engine).
+- meta-audit for this deck: before 11 of 22 (4 to verify, 7 missing), after
+  22 of 22. All decks: before (17 decks) 408 of 435 (13 to verify, 14
+  missing); after (18 decks) 431 of 457 (13 to verify, 13 missing).
+- Bot: 20 seeded mirrors, 0 errors, 0 rejected actions. Added to the modern
+  smoke (CI, now 52 games over 13 decks) and the modern bench spec.
+- Tests: sets 3006, simple-bot 92, bot-bench 80 specs, 0 failures; bot
+  smoke and modern smoke clean. common, server and play were not changed.
+
+### Choices and limits (not verified against official rulings)
+
+- Lunar Cycle: one Lunar Cycle per player per turn, whichever Lunatone; the
+  Energy is discarded as the cost, then 3 cards are drawn.
+- Lisia's Appeal can't be played when the opponent has no Benched Basic
+  Pokémon.
+- Premium Power Pro boosts damage to the opponent's Active Pokémon from
+  attacks by a Pokémon that is F type when it attacks; several copies add up.
+- Destructive Drill skips effects on the opponent's Active Pokémon the same
+  way as N's Zekrom's attack (Weakness/Resistance still apply).
+- Rocky Fighting Energy works like Mist Energy, only while the Pokémon is F
+  type.
+- The Mega Brave / Accelerating Stab lock uses the shared
+  `duringYourNextTurn` marker on the Active Spot (as N's Zekrom).
+- Weakness ×2 / Resistance −30 are the era's standard values.
+- No card art for the 11 new cards.
 
 ## 2026-11-13 (1) — Ogerpon Meganium Hydrapple end-to-end, Forest of Vitality
 
