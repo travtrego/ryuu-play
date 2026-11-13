@@ -1,0 +1,35 @@
+{
+  "id": "online-2026-ogerpon-meganium-hydrapple",
+  "name": "Ogerpon Meganium Hydrapple — Fall 2026",
+  "format": "standard",
+  "asOf": "2026-11-13",
+  "source": "TrialbyCalmBat, 1st of 226 (8-0) at Sunny's Weekly #281, 9 Nov 2026, play.limitlesstcg.com/tournament/6ae901a50c463890f3049d40/player/trialbycalmbat/decklist (checked 2026-11-13); the best-placed list on play.limitlesstcg.com/decks/ogerpon-meganium-hydrapple (Standard, rotation 2026, through Delta Reign). Ogerpon Meganium Hydrapple was 3.75% of 4,051 players on play.limitlesstcg.com/decks?format=standard (checked 2026-11-13), the highest-share deck not yet done whose cards predate Delta Reign (Mega Rayquaza, 10.47%, needs new Delta Reign cards).",
+  "cards": [
+    { "count": 4, "name": "Teal Mask Ogerpon ex", "set": "TWM", "number": "25", "category": "pokemon" },
+    { "count": 2, "name": "Chikorita", "set": "ASC", "number": "8", "category": "pokemon" },
+    { "count": 2, "name": "Bayleef", "set": "MEG", "number": "9", "category": "pokemon" },
+    { "count": 2, "name": "Meganium", "set": "MEG", "number": "10", "category": "pokemon" },
+    { "count": 2, "name": "Applin", "set": "TWM", "number": "17", "category": "pokemon" },
+    { "count": 2, "name": "Dipplin", "set": "TWM", "number": "18", "category": "pokemon" },
+    { "count": 2, "name": "Hydrapple ex", "set": "SCR", "number": "14", "category": "pokemon" },
+    { "count": 2, "name": "Meowth ex", "set": "POR", "number": "62", "category": "pokemon" },
+    { "count": 1, "name": "Fezandipiti ex", "set": "ASC", "number": "142", "category": "pokemon" },
+    { "count": 1, "name": "Celebi", "set": "MEG", "number": "12", "category": "pokemon" },
+    { "count": 1, "name": "Tapu Bulu", "set": "SFA", "number": "6", "category": "pokemon" },
+
+    { "count": 4, "name": "Lillie's Determination", "set": "MEG", "number": "119", "category": "trainer" },
+    { "count": 2, "name": "Boss's Orders", "set": "MEG", "number": "114", "category": "trainer" },
+    { "count": 1, "name": "Team Rocket's Petrel", "set": "DRI", "number": "176", "category": "trainer" },
+    { "count": 1, "name": "Briar", "set": "SCR", "number": "132", "category": "trainer" },
+    { "count": 1, "name": "Judge", "set": "POR", "number": "76", "category": "trainer" },
+    { "count": 1, "name": "Lana's Aid", "set": "TWM", "number": "155", "category": "trainer" },
+    { "count": 4, "name": "Bug Catching Set", "set": "TWM", "number": "143", "category": "trainer" },
+    { "count": 4, "name": "Ultra Ball", "set": "MEG", "number": "131", "category": "trainer" },
+    { "count": 2, "name": "Night Stretcher", "set": "ASC", "number": "196", "category": "trainer" },
+    { "count": 1, "name": "Unfair Stamp", "set": "TWM", "number": "165", "category": "trainer" },
+    { "count": 1, "name": "Poké Pad", "set": "POR", "number": "81", "category": "trainer" },
+    { "count": 4, "name": "Forest of Vitality", "set": "MEG", "number": "117", "category": "trainer" },
+
+    { "count": 13, "name": "Grass Energy", "set": "MEE", "number": "9", "category": "energy", "basic": true }
+  ]
+}

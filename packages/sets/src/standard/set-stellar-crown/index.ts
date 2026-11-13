@@ -1,4 +1,6 @@
 import { Card } from '@ptcg/common';
+import { Briar } from './briar';
+import { HydrappleEx } from './hydrapple-ex';
 import { Crispin } from './crispin';
 import { Slowking } from './slowking';
 import { Slowpoke } from './slowpoke';
@@ -11,4 +13,6 @@ export const setStellarCrown: Card[] = [
   new Slowpoke(),
   new GlassTrumpet(),
   new AreaZeroUnderdepths(),
+  new HydrappleEx(),
+  new Briar(),
 ];

@@ -50,18 +50,29 @@ owner handed from the GPT lane to Claude. Issue #2's lane split is retired.
   opponent's attacks and Abilities) is a shared helper,
   `set-pitch-black/hide-n-sneak.ts`; Cursed Blast and Adrena-Brain now
   respect it.
-- **Next: deck 12.** Re-check the meta first. Regional Puebla (24-25 Oct
-  2026, gamertagmythras.com results hub, checked 2026-11-12): Dragapult
-  17.60%, Basic Box 7.74%, N's Zoroark 6.39%, Dragapult/Dusknoir 5.72%,
-  Dhelmise 5.00%, Mega Excadrill 4.82% - all done. Its Top 8 also had
-  **Lopunny / Dusknoir** (8th). Other candidates from thetoploader.com/meta
-  (8 Nov 2026): Lucario Hariyama, Ogerpon Meganium Hydrapple, Grimmsnarl
-  Froslass. Lillie's Clefairy ex (NAIC list, 3 cards missing: Koraidon ex,
-  Dusk Ball, Prime Catcher) and Crustle (9 missing) are older NAIC lists;
-  re-check they are still played before doing them. On 2026-11-12 the
-  limitlesstcg.com home page needed a permission the unattended run could
-  not get, but limitlesstcg.com/cards/<SET>/<n>, .../decklists and
-  limitlesstcg.com/decks/list/<id> pages (found through web search) worked.
+- **Deck 12, Ogerpon Meganium Hydrapple — done end-to-end** (2026-11-13,
+  first entry below), 24 of 24 cards. **The engine now tells
+  `CheckPokemonPlayedTurnEffect` which card a Pokémon evolves into**
+  (`evolvesInto`, used by Forest of Vitality), and Myriad Leaf Shower counts
+  Energy by what it provides (Wild Growth's GG counts as 2).
+- **Next: deck 13.** Re-check the meta first. play.limitlesstcg.com/decks
+  (Standard, through Delta Reign, checked 2026-11-13, 4,051 players):
+  Mega Rayquaza 10.47%, Dragapult 7.83%, Basic Box 5.83%, Slowking 4.89%,
+  Ogerpon Meganium Hydrapple 3.75%, Alakazam Dudunsparce 3.65%, N's Zoroark
+  3.01%, **Talonflame Dusknoir 3.01%**, Dhelmise 2.86%, Mega Excadrill 2.59%,
+  Dragapult Dudunsparce 2.57%, **Lopunny Dudunsparce 2.42%**, **Crustle
+  2.25%**, **Mega Lucario 2.17%**, Greninja 1.88%. **Mega Rayquaza** is #1
+  online but needs new **Delta Reign (DLR)** cards (Mega Rayquaza ex DLR 84,
+  Talonflame ex DLR 88, Legendary Pyroduct DLR 94/95) plus Ethan's Ho-Oh ex
+  DRI, Special Red Card CRI, Blowtorch PFL, Cyrano SSP; a recent list:
+  AzulGG, 1st of 494, 7 Nov 2026,
+  play.limitlesstcg.com/tournament/6a8723725a30714095575300/player/azulgg/decklist.
+  Its card text must be checked carefully (new set). Otherwise Talonflame
+  Dusknoir, Crustle (old NAIC list, 9 missing; re-check it) or Lopunny.
+  On 2026-11-13 limitlesstcg.com/cards/<SET>/<n> pages sometimes needed a
+  permission the unattended run could not get; pkmncards.com,
+  serebii.net/card/... and dittobase.com card pages (found through web
+  search) worked, and limitlesstcg.com pages found by search mostly did.
 - **Bot weakness with Dhelmise:** in 20 seeded mirrors, 8 ended by
   deck-out (Puppet Pull, Gwynn and Lillie's Determination draw a lot); one
   game (bench spec seed 2) ended on turn 2 because the bot went first with
@@ -177,6 +188,68 @@ game** with the Tips panel; a recap is piece 4.
   `claude/pokemon-tcg-ai-trainer-3m3qqe` (2026-09-29). Leave it alone.
 
 ---
+
+## 2026-11-13 (1) — Ogerpon Meganium Hydrapple end-to-end, Forest of Vitality
+
+Branch `claude/ryuu-2026-11-13-ogerpon-meganium`.
+
+- **List:** TrialbyCalmBat, 1st of 226 (8-0) at Sunny's Weekly #281 (9 Nov
+  2026), the best-placed list on play.limitlesstcg.com/decks/ogerpon-meganium-hydrapple
+  (`data/meta-decks/online-2026-ogerpon-meganium-hydrapple.json`). The deck
+  was 3.75% of play.limitlesstcg.com Standard (checked 2026-11-13), the
+  highest-share deck not yet done whose cards all predate Delta Reign.
+- **8 new cards** (text checked 2026-11-13 on at least two of
+  limitlesstcg.com, pkmncards.com, serebii.net, scrydex.com, dittobase.com):
+  Chikorita ASC; Bayleef, Meganium, Celebi, Forest of Vitality MEG;
+  Hydrapple ex, Briar SCR; Tapu Bulu SFA. 19 specs in
+  `tests/standard/set-stellar-crown/ogerpon-meganium-deck.spec.ts`. The
+  other 16 cards were already in (earlier decks). Celebi MEG was flagged
+  "verify print" (same name as Celebi HGSS); it is now its own card.
+- **Engine:** `CheckPokemonPlayedTurnEffect.evolvesInto` (optional, set
+  only for a normal evolution from the hand, so Rare Candy is unchanged).
+  Forest of Vitality uses it: a G Pokémon played this turn may evolve into
+  a G Pokémon, not on turn 1 or 2, so Chikorita -> Bayleef -> Meganium in
+  one turn works. **Wild Growth** sets `provideAmount = 2` on its owner's
+  Basic G Energy (it does nothing under an Ability lock, and two Meganium
+  give the same 2). **Teal Mask Ogerpon ex's Myriad Leaf Shower** now counts
+  Energy by what it provides instead of by card count (no change without
+  Wild Growth or a 2-Energy card).
+- meta-audit for this deck: before 16 of 24 (1 to verify, 7 missing),
+  after 24 of 24. All decks: before (16 decks) 384 of 411 (13 to verify, 14
+  missing); with the new deck before 400 of 435 (14 to verify, 21 missing),
+  after 408 of 435 (13 to verify, 14 missing).
+- Bot: 20 seeded mirrors, 0 errors, 0 rejected actions (17 by Prizes, 3
+  no Active Pokémon). Added to the modern smoke (CI, now 48 games over 12
+  decks) and the modern bench spec (seeds 1-3, "Why?" notes checked).
+- Tests: common 367, sets 2989, simple-bot 92, bot-bench 77, server 76
+  specs, 0 failures; bot smoke and modern smoke clean. play was not built
+  locally (CI builds it); only an optional field was added to common.
+
+### Choices and limits (not verified against official rulings)
+
+- Counting Energy under Wild Growth: "for each Energy" / "for each G
+  Energy" counts provided Energy, so one Basic G Energy counts as 2 for
+  Myriad Leaf Shower and Syrup Storm (the same rule as Double Colorless
+  Energy for older "for each Energy" attacks). This is what makes the deck
+  work; I did not find a ruling that names these cards.
+- Hydrapple ex Syrup Storm: two sources (limitlesstcg.com, dittobase.com)
+  give cost CC and "attached to all of your Pokémon"; serebii.net said
+  "this Pokémon". The two-source reading is used.
+- Tapu Bulu Wood Hammer self-damage: limitlesstcg.com and scrydex.com say
+  30, serebii.net 20; 30 is used.
+- Chikorita Seed Bomb: limitlesstcg.com and dittobase.com say GG,
+  serebii.net GGG; GG is used.
+- Briar: the engine does not record what caused a Knock Out, so a Knock Out
+  of the opponent's Active Pokémon during this player's attack while their
+  Active is a Tera Pokémon takes 1 more Prize (same reading as Legacy
+  Energy). Only Teal Mask Ogerpon ex is Tera in this deck.
+- Growl (Chikorita): reduces damage the Defending Pokémon's attacks do to
+  the other player's Pokémon only (not self-damage); if Chikorita leaves
+  play before then, the reduction stops (it is tracked by the card).
+- Forest of Vitality checks the Pokémon's current type (CheckPokemonTypeEffect)
+  and the printed type of the evolution card.
+- Weakness ×2 is the era's standard value (card pages show only the type).
+- No card art for the 8 new cards.
 
 ## 2026-11-12 (1) — Dhelmise end-to-end, Hide 'n' Sneak
 

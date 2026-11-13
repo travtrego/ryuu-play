@@ -1,4 +1,5 @@
 import { Card } from '@ptcg/common';
+import { ChikoritaASC } from './chikorita';
 import { AirBalloon } from './air-balloon';
 import { Budew } from './budew';
 import { FezandipitiEx } from './fezandipiti-ex';
@@ -13,4 +14,5 @@ export const setAscendedHeroes: Card[] = [
   new NightStretcherASC(),
   new NsZekrom(),
   new AirBalloon(),
+  new ChikoritaASC(),
 ];

@@ -34,7 +34,7 @@ export function playPokemonReducer(store: StoreLike, state: State, effect: Effec
     }
 
     if (isEvolved && pokemonCard.stage < stage && pokemonCard.name === evolvesFrom) {
-      const playedTurnEffect = new CheckPokemonPlayedTurnEffect(effect.player, effect.target);
+      const playedTurnEffect = new CheckPokemonPlayedTurnEffect(effect.player, effect.target, effect.pokemonCard);
       store.reduceEffect(state, playedTurnEffect);
 
       if (playedTurnEffect.pokemonPlayedTurn >= state.turn) {

@@ -1,5 +1,6 @@
 import {
   AttackEffect,
+  CheckProvidedEnergyEffect,
   CardTag,
   CardType,
   ChooseCardsPrompt,
@@ -9,6 +10,8 @@ import {
   EnergyType,
   GameError,
   GameMessage,
+  Player,
+  PokemonSlot,
   PokemonCard,
   PowerEffect,
   PowerType,
@@ -95,8 +98,10 @@ export class TealMaskOgerponEx extends PokemonCard {
     }
 
     if (effect instanceof AttackEffect && effect.attack === this.attacks[0]) {
-      const energies = effect.player.active.energies.cards.length
-        + effect.opponent.active.energies.cards.length;
+      // Energy is counted by what it provides (a Basic G Energy under
+      // Meganium's Wild Growth provides GG and counts as 2).
+      const energies = countProvidedEnergy(store, state, effect.player, effect.player.active)
+        + countProvidedEnergy(store, state, effect.opponent, effect.opponent.active);
       effect.damage += 30 * energies;
       return state;
     }
@@ -113,4 +118,10 @@ function isBasicGrassEnergy(card: unknown): boolean {
   return card instanceof EnergyCard
     && card.energyType === EnergyType.BASIC
     && card.provides.includes(CardType.GRASS);
+}
+
+function countProvidedEnergy(store: StoreLike, state: State, player: Player, slot: PokemonSlot): number {
+  const check = new CheckProvidedEnergyEffect(player, slot);
+  store.reduceEffect(state, check);
+  return check.energyMap.reduce((sum, item) => sum + item.provideAmount, 0);
 }

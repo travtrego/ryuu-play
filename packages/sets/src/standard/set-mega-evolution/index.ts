@@ -1,4 +1,8 @@
 import { Card } from '@ptcg/common';
+import { ForestOfVitality } from './forest-of-vitality';
+import { CelebiMEG } from './celebi';
+import { MeganiumMEG } from './meganium';
+import { BayleefMEG } from './bayleef';
 import { Abra } from './abra';
 import { Alakazam } from './alakazam';
 import { Kadabra } from './kadabra';
@@ -23,4 +27,8 @@ export const setMegaEvolution: Card[] = [
   new UltraBallMEG(),
   new SwitchMEG(),
   new MegaKangaskhanEx(),
+  new BayleefMEG(),
+  new MeganiumMEG(),
+  new CelebiMEG(),
+  new ForestOfVitality(),
 ];

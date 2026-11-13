@@ -1,4 +1,5 @@
 import { Card } from '@ptcg/common';
+import { TapuBulu } from './tapu-bulu';
 import { Genesect } from './genesect';
 import { NightStretcher } from './night-stretcher';
 import { PecharuntEx } from './pecharunt-ex';
@@ -11,4 +12,5 @@ export const setShroudedFable: Card[] = [
   new PecharuntEx(),
   new Kyurem(),
   new AcademyAtNight(),
+  new TapuBulu(),
 ];
