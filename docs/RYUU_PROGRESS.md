@@ -59,19 +59,27 @@ owner handed from the GPT lane to Claude. Issue #2's lane split is retired.
   below), 22 of 22 cards.
 - **Deck 14, Lopunny Dudunsparce — done end-to-end** (2026-11-13, third
   entry below), 25 of 25 cards.
-- **Next: deck 15.** Re-check the meta first. play.limitlesstcg.com/decks
+- **Deck 15, Greninja ex — done end-to-end** (2026-11-14, first entry
+  below), 32 of 32 cards.
+- **Next: deck 16.** Re-check the meta first. play.limitlesstcg.com/decks
   (Standard, through Delta Reign, checked 2026-11-13): Mega Rayquaza 10.47%
   (blocked on DLR cards, see below), Dragapult 7.83% (done), Basic Box 5.83%
   (done), Slowking 4.89% (done), Ogerpon Meganium Hydrapple 3.75% (done),
   Alakazam Dudunsparce 3.65% (done), N's Zoroark 3.01% (done), **Talonflame
   Dusknoir 3.01%** (needs DLR Talonflame ex and Legendary Trench),
-  Dhelmise 2.86% (done), Mega Excadrill 2.59% (done), Dragapult Dudunsparce
-  2.57%, Lopunny Dudunsparce 2.42% (done), **Crustle 2.25%** (needs DLR
-  Azurill, Aarune, Legendary Trench), Mega Lucario 2.17% (done), **Greninja
-  1.88%** (Greninja ex TWM 106/30C 21, Dusknoir line PRE, Mega Starmie ex
-  POR, Mega Froslass ex ASC (done), Grand Tree SCR, Bubbly Water Energy CRI,
-  Ignition Energy WHT - no DLR cards; a candidate). PizzaParrker Greninja
-  list: play.limitlesstcg.com/tournament/6aee7c9fe99f3235a75e29c5/player/pizzaparrker/decklist.
+  Dhelmise 2.86% (done), Mega Excadrill 2.59% (done), **Dragapult
+  Dudunsparce 2.57%** (likely cards only: Dragapult line and Dudunsparce are
+  in; re-check a current list), Lopunny Dudunsparce 2.42% (done), **Crustle
+  2.25%** (needs DLR Azurill, Aarune, Legendary Trench), Mega Lucario 2.17%
+  (done), Greninja 1.88% (done). On 2026-11-14 the play.limitlesstcg.com deck
+  pages again needed a permission the unattended run could not get;
+  dittobase.com deck pages worked.
+- **Bot stall seen 2026-11-14 (not a Greninja game):** adding sv-greninja to
+  the combined modern smoke pool re-paired the seeded games, and one
+  Alakazam vs Slowking game (60-game run, seed 1, game 52) hit the 200-turn
+  guard with Prizes 1 vs 4. The combined smoke was kept at its 14 decks / 56
+  games and Greninja got its own 6-game smoke step. Worth a look: reproduce
+  with `--decks <the 15 sv decks> --games 60 --seed 1 --only 52`.
 - **Mega Rayquaza (#1 online) was tried 2026-11-13 and skipped:** it needs
   Delta Reign (DLR) cards whose text the unattended run could not pin down.
   Card pages disagreed or were unreachable: Talonflame ex DLR 88 (Stage 2
@@ -207,6 +215,62 @@ game** with the Tips panel; a recap is piece 4.
   `claude/pokemon-tcg-ai-trainer-3m3qqe` (2026-09-29). Leave it alone.
 
 ---
+
+## 2026-11-14 (1) — Greninja ex end-to-end, Grand Tree, Ignition Energy
+
+Branch `claude/ryuu-2026-11-14-greninja`.
+
+- **List:** Neo7hinker, 2nd of 128 (6-1-0) at "CHALLENGE OF DOOM! GOODBYE
+  TO 30TH FORMAT!" (3 Nov 2026), via dittobase.com/tcg/decks/meta/30c/greninja-ex
+  (`data/meta-decks/online-2026-greninja.json`). Greninja was 1.88% of
+  play.limitlesstcg.com Standard (checked 2026-11-13). No Delta Reign cards.
+  The PizzaParrker list named last run could not be opened (permission).
+- **9 new cards** (text checked 2026-11-14 on at least two of
+  pkmncards.com, dittobase.com, pocketmonsters.net, serebii.net,
+  scrydex.com, bulbapedia, mydextcg.com): Greninja ex TWM; Froakie,
+  Frogadier, Bubbly Water Energy CRI; Staryu, Mega Starmie ex POR;
+  Colress's Tenacity SFA; Grand Tree SCR (ACE SPEC Stadium); Ignition Energy
+  WHT. Staryu POR had been flagged "verify print" (same name as Base Set
+  Staryu); it is now its own card. 16 specs in
+  `tests/standard/set-twilight-masquerade/greninja-deck.spec.ts`.
+- No engine change.
+- meta-audit for this deck: before 23 of 32 (1 to verify, 8 missing), after
+  32 of 32. All decks: before (19 decks) 456 of 482 (13 to verify, 13
+  missing); after (20 decks) 488 of 514 (13 to verify, 13 missing).
+- Bot: 20 seeded mirrors, 0 errors, 0 rejected actions (end reasons:
+  Prizes 17, no Active 4). In 10 mirrors the bot used Shinobi Blade 136
+  times, Mirage Barrage 6, Jetting Blow 32, Summoning Jutsu 9 and Grand
+  Tree 68. Added to the modern smoke as its own 6-game step (see "Next up"
+  for why not in the combined pool) and to the modern bench spec.
+- Tests: sets 3035, simple-bot 92, bot-bench 86 specs, 0 failures; bot
+  smoke and modern smoke clean. common, server and play were not changed.
+
+### Choices and limits (not verified against official rulings)
+
+- **Greninja ex is a Fighting-type (Tera) Pokémon with Psychic Weakness**,
+  as pkmncards.com, dittobase.com and pocketmonsters.net all print, even
+  though its attacks cost W. So Bubbly Water Energy does not protect it.
+- Mirage Barrage: "Discard 2 Energy" means 2 Energy cards (one Ignition
+  Energy is one card), chosen by the player, discarded before the damage.
+  The 2 targets may be any 2 of the opponent's Pokémon (Active or Bench);
+  with only 1 Pokémon in play, it hits that one. Weakness/Resistance apply
+  only to the Active.
+- Nebula Beam places its damage directly, like N's Zekrom's Shred, but
+  without Weakness/Resistance; the attacker's own boosts still apply.
+- Ignition Energy provides CCC on any Stage 1 or Stage 2 Pokémon (Mega
+  Evolution Pokémon ex included) and is discarded at the end of every turn
+  in which it is attached.
+- Bubbly Water Energy recovers/blocks Special Conditions only while the
+  Pokémon is W, checked on every effect (as Festival Grounds).
+- Grand Tree: can't be used with no Basic that may evolve now (not put into
+  play this turn, not the first turn) or an empty deck; using it spends the
+  once-per-turn use even if the search finds nothing. Evolving this way does
+  not raise `EvolveEffect` (as Evosoda), so "when you play from your hand"
+  triggers don't fire.
+- Colress's Tenacity: each search is optional (0 or 1 card), and it can't
+  be played with an empty deck.
+- Weakness ×2 is the era's standard value.
+- No card art for the 9 new cards.
 
 ## 2026-11-13 (3) — Lopunny Dudunsparce end-to-end, "moved to the Active Spot this turn"
 

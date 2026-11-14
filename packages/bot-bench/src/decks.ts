@@ -610,6 +610,41 @@ export const modernBenchDecks: BenchDeck[] = [
     ['Mist Energy TEF', 4],
     ['Water Energy EVO', 3],
     ['Enriching Energy SSP', 1]
+  ]),
+
+  deck('sv-greninja', 'Standard (Scarlet & Violet): Greninja ex', 'sv', [
+    ['Froakie CRI', 3],
+    ['Frogadier CRI', 2],
+    ['Greninja ex TWM', 2],
+    ['Duskull PRE', 2],
+    ['Dusclops PRE', 2],
+    ['Dusknoir PRE', 2],
+    ['Snorunt ASC', 2],
+    ['Mega Froslass ex ASC', 2],
+    ['Staryu POR', 1],
+    ['Mega Starmie ex POR', 1],
+    ['Meowth ex POR', 2],
+    ['Budew ASC', 1],
+    ['Fezandipiti ex ASC', 1],
+    ['Latias ex SSP', 1],
+    ['Lillie\'s Determination MEG', 3],
+    ['Hilda WHT', 2],
+    ['Boss\'s Orders MEG', 2],
+    ['Colress\'s Tenacity SFA', 1],
+    ['Judge POR', 1],
+    ['Team Rocket\'s Petrel DRI', 1],
+    ['Buddy-Buddy Poffin TEF', 4],
+    ['Ultra Ball MEG', 4],
+    ['Poké Pad POR', 3],
+    ['Rare Candy MEG', 2],
+    ['Night Stretcher ASC', 1],
+    ['Special Red Card CRI', 1],
+    ['Switch MEG', 1],
+    ['Grand Tree SCR', 1],
+    ['Gravity Mountain SSP', 1],
+    ['Water Energy EVO', 4],
+    ['Bubbly Water Energy CRI', 1],
+    ['Ignition Energy WHT', 3]
   ])
 
 ];

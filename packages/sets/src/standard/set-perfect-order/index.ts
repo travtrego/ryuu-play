@@ -9,6 +9,8 @@ import { RosasEncouragement } from './rosas-encouragement';
 import { MegaSkarmoryEx } from './mega-skarmory-ex';
 import { Drapion } from './drapion';
 import { GrowingGrassEnergy } from './growing-grass-energy';
+import { StaryuPOR } from './staryu';
+import { MegaStarmieEx } from './mega-starmie-ex';
 
 export const setPerfectOrder: Card[] = [
   new TelepathicPsychicEnergy(),
@@ -21,4 +23,6 @@ export const setPerfectOrder: Card[] = [
   new Drapion(),
   new GrowingGrassEnergy(),
   new RockyFightingEnergy(),
+  new StaryuPOR(),
+  new MegaStarmieEx(),
 ];

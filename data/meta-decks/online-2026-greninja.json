@@ -1,0 +1,43 @@
+{
+  "id": "online-2026-greninja",
+  "name": "Greninja ex — Fall 2026",
+  "format": "standard",
+  "asOf": "2026-11-14",
+  "source": "Neo7hinker, 2nd of 128 (6-1-0) at CHALLENGE OF DOOM! GOODBYE TO 30TH FORMAT!, 3 Nov 2026, via dittobase.com/tcg/decks/meta/30c/greninja-ex (checked 2026-11-14; also on pokemoncard.io/deck/greninja-neo7hinker-183661). Greninja was 1.88% of play.limitlesstcg.com Standard (through Delta Reign, checked 2026-11-13) and 1.16% of the 30th Celebration format on dittobase (checked 2026-11-14). The list has no Delta Reign cards.",
+  "cards": [
+    { "count": 3, "name": "Froakie", "set": "CRI", "number": "20", "category": "pokemon" },
+    { "count": 2, "name": "Frogadier", "set": "CRI", "number": "21", "category": "pokemon" },
+    { "count": 2, "name": "Greninja ex", "set": "TWM", "number": "106", "category": "pokemon" },
+    { "count": 2, "name": "Duskull", "set": "PRE", "number": "35", "category": "pokemon" },
+    { "count": 2, "name": "Dusclops", "set": "PRE", "number": "36", "category": "pokemon" },
+    { "count": 2, "name": "Dusknoir", "set": "PRE", "number": "37", "category": "pokemon" },
+    { "count": 2, "name": "Snorunt", "set": "ASC", "number": "46", "category": "pokemon" },
+    { "count": 2, "name": "Mega Froslass ex", "set": "ASC", "number": "47", "category": "pokemon" },
+    { "count": 1, "name": "Staryu", "set": "POR", "number": "20", "category": "pokemon" },
+    { "count": 1, "name": "Mega Starmie ex", "set": "POR", "number": "21", "category": "pokemon" },
+    { "count": 2, "name": "Meowth ex", "set": "POR", "number": "62", "category": "pokemon" },
+    { "count": 1, "name": "Budew", "set": "ASC", "number": "16", "category": "pokemon" },
+    { "count": 1, "name": "Fezandipiti ex", "set": "ASC", "number": "142", "category": "pokemon" },
+    { "count": 1, "name": "Latias ex", "set": "SSP", "number": "76", "category": "pokemon" },
+
+    { "count": 3, "name": "Lillie's Determination", "set": "MEG", "number": "119", "category": "trainer" },
+    { "count": 2, "name": "Hilda", "set": "WHT", "number": "84", "category": "trainer" },
+    { "count": 2, "name": "Boss's Orders", "set": "MEG", "number": "114", "category": "trainer" },
+    { "count": 1, "name": "Colress's Tenacity", "set": "SFA", "number": "57", "category": "trainer" },
+    { "count": 1, "name": "Judge", "set": "POR", "number": "76", "category": "trainer" },
+    { "count": 1, "name": "Team Rocket's Petrel", "set": "DRI", "number": "176", "category": "trainer" },
+    { "count": 4, "name": "Buddy-Buddy Poffin", "set": "TEF", "number": "144", "category": "trainer" },
+    { "count": 4, "name": "Ultra Ball", "set": "MEG", "number": "131", "category": "trainer" },
+    { "count": 3, "name": "Poké Pad", "set": "POR", "number": "81", "category": "trainer" },
+    { "count": 2, "name": "Rare Candy", "set": "MEG", "number": "125", "category": "trainer" },
+    { "count": 1, "name": "Night Stretcher", "set": "ASC", "number": "196", "category": "trainer" },
+    { "count": 1, "name": "Special Red Card", "set": "CRI", "number": "82", "category": "trainer" },
+    { "count": 1, "name": "Switch", "set": "MEG", "number": "130", "category": "trainer" },
+    { "count": 1, "name": "Grand Tree", "set": "SCR", "number": "136", "category": "trainer" },
+    { "count": 1, "name": "Gravity Mountain", "set": "SSP", "number": "177", "category": "trainer" },
+
+    { "count": 4, "name": "Water Energy", "set": "MEE", "number": "11", "category": "energy", "basic": true },
+    { "count": 1, "name": "Bubbly Water Energy", "set": "CRI", "number": "84", "category": "energy" },
+    { "count": 3, "name": "Ignition Energy", "set": "WHT", "number": "86", "category": "energy" }
+  ]
+}
