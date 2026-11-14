@@ -7,6 +7,7 @@ import { Slowking } from './slowking';
 import { Slowpoke } from './slowpoke';
 import { GlassTrumpet } from './glass-trumpet';
 import { AreaZeroUnderdepths } from './area-zero-underdepths';
+import { GrandTree } from './grand-tree';
 
 export const setStellarCrown: Card[] = [
   new Crispin(),
@@ -17,4 +18,5 @@ export const setStellarCrown: Card[] = [
   new HydrappleEx(),
   new Briar(),
   new FanRotom(),
+  new GrandTree(),
 ];

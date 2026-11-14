@@ -24,6 +24,7 @@ import { TealMaskOgerponEx } from './teal-mask-ogerpon-ex';
 import { WellspringMaskOgerponEx } from './wellspring-mask-ogerpon-ex';
 import { BloodmoonUrsalunaEx } from './bloodmoon-ursaluna-ex';
 import { LegacyEnergy } from './legacy-energy';
+import { GreninjaEx } from './greninja-ex';
 
 export const setTwilightMasquerade: Card[] = [
   new HandheldFan(),
@@ -51,4 +52,5 @@ export const setTwilightMasquerade: Card[] = [
   new WellspringMaskOgerponEx(),
   new BloodmoonUrsalunaEx(),
   new LegacyEnergy(),
+  new GreninjaEx(),
 ];
