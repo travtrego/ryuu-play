@@ -645,6 +645,36 @@ export const modernBenchDecks: BenchDeck[] = [
     ['Water Energy EVO', 4],
     ['Bubbly Water Energy CRI', 1],
     ['Ignition Energy WHT', 3]
+  ]),
+
+  // Online, Nov 2026 (data/meta-decks/online-2026-dragapult-dudunsparce.json)
+  deck('sv-dragapult-dudunsparce', 'Standard (Scarlet & Violet): Dragapult ex / Dudunsparce', 'sv', [
+    ['Dreepy TWM', 4],
+    ['Drakloak TWM', 4],
+    ['Dragapult ex TWM', 3],
+    ['Dunsparce TEF', 2],
+    ['Dudunsparce TEF', 1],
+    ['Dudunsparce ex JTG', 1],
+    ['Budew ASC', 2],
+    ['Munkidori TWM', 2],
+    ['Fezandipiti ex ASC', 1],
+    ['Meowth ex POR', 1],
+    ['Shaymin DRI', 1],
+    ['Lillie\'s Determination MEG', 4],
+    ['Boss\'s Orders MEG', 3],
+    ['Crispin SCR', 2],
+    ['Dawn PFL', 1],
+    ['Judge POR', 1],
+    ['Rosa\'s Encouragement POR', 1],
+    ['Buddy-Buddy Poffin TEF', 4],
+    ['Poké Pad POR', 4],
+    ['Ultra Ball MEG', 3],
+    ['Night Stretcher ASC', 3],
+    ['Unfair Stamp TWM', 1],
+    ['Risky Ruins MEG', 2],
+    ['Darkness Energy EVO', 3],
+    ['Fire Energy EVO', 3],
+    ['Psychic Energy EVO', 3]
   ])
 
 ];

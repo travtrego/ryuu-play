@@ -1,0 +1,37 @@
+{
+  "id": "online-2026-dragapult-dudunsparce",
+  "name": "Dragapult ex Dudunsparce — Fall 2026",
+  "format": "standard",
+  "asOf": "2026-11-15",
+  "source": "Niceas, 2nd at Rare Candy Club Showdown #50, 2 Nov 2026, via dittobase.com/tcg/decks/meta/30c/dragapult-ex/variants/dragapult-dudunsparce-a15b3dd453427ce4 (checked 2026-11-15; the page's representative list, newest top-placing complete list). Dragapult Dudunsparce was 2.57% of play.limitlesstcg.com Standard (checked 2026-11-13).",
+  "cards": [
+    { "count": 4, "name": "Dreepy", "set": "TWM", "number": "128", "category": "pokemon" },
+    { "count": 4, "name": "Drakloak", "set": "TWM", "number": "129", "category": "pokemon" },
+    { "count": 3, "name": "Dragapult ex", "set": "TWM", "number": "130", "category": "pokemon" },
+    { "count": 2, "name": "Dunsparce", "set": "TEF", "number": "128", "category": "pokemon" },
+    { "count": 1, "name": "Dudunsparce", "set": "TEF", "number": "129", "category": "pokemon" },
+    { "count": 1, "name": "Dudunsparce ex", "set": "JTG", "number": "121", "category": "pokemon" },
+    { "count": 2, "name": "Budew", "set": "ASC", "number": "16", "category": "pokemon" },
+    { "count": 2, "name": "Munkidori", "set": "TWM", "number": "95", "category": "pokemon" },
+    { "count": 1, "name": "Fezandipiti ex", "set": "ASC", "number": "142", "category": "pokemon" },
+    { "count": 1, "name": "Meowth ex", "set": "POR", "number": "62", "category": "pokemon" },
+    { "count": 1, "name": "Shaymin", "set": "DRI", "number": "10", "category": "pokemon" },
+
+    { "count": 4, "name": "Lillie's Determination", "set": "MEG", "number": "119", "category": "trainer" },
+    { "count": 3, "name": "Boss's Orders", "set": "MEG", "number": "114", "category": "trainer" },
+    { "count": 2, "name": "Crispin", "set": "SCR", "number": "133", "category": "trainer" },
+    { "count": 1, "name": "Dawn", "set": "PFL", "number": "87", "category": "trainer" },
+    { "count": 1, "name": "Judge", "set": "POR", "number": "76", "category": "trainer" },
+    { "count": 1, "name": "Rosa's Encouragement", "set": "POR", "number": "84", "category": "trainer" },
+    { "count": 4, "name": "Buddy-Buddy Poffin", "set": "TEF", "number": "144", "category": "trainer" },
+    { "count": 4, "name": "Poké Pad", "set": "POR", "number": "81", "category": "trainer" },
+    { "count": 3, "name": "Ultra Ball", "set": "MEG", "number": "131", "category": "trainer" },
+    { "count": 3, "name": "Night Stretcher", "set": "ASC", "number": "196", "category": "trainer" },
+    { "count": 1, "name": "Unfair Stamp", "set": "TWM", "number": "165", "category": "trainer" },
+    { "count": 2, "name": "Risky Ruins", "set": "MEG", "number": "127", "category": "trainer" },
+
+    { "count": 3, "name": "Darkness Energy", "set": "MEE", "number": "15", "category": "energy", "basic": true },
+    { "count": 3, "name": "Fire Energy", "set": "MEE", "number": "10", "category": "energy", "basic": true },
+    { "count": 3, "name": "Psychic Energy", "set": "MEE", "number": "13", "category": "energy", "basic": true }
+  ]
+}

@@ -61,19 +61,16 @@ owner handed from the GPT lane to Claude. Issue #2's lane split is retired.
   entry below), 25 of 25 cards.
 - **Deck 15, Greninja ex — done end-to-end** (2026-11-14, first entry
   below), 32 of 32 cards.
-- **Next: deck 16.** Re-check the meta first. play.limitlesstcg.com/decks
-  (Standard, through Delta Reign, checked 2026-11-13): Mega Rayquaza 10.47%
-  (blocked on DLR cards, see below), Dragapult 7.83% (done), Basic Box 5.83%
-  (done), Slowking 4.89% (done), Ogerpon Meganium Hydrapple 3.75% (done),
-  Alakazam Dudunsparce 3.65% (done), N's Zoroark 3.01% (done), **Talonflame
-  Dusknoir 3.01%** (needs DLR Talonflame ex and Legendary Trench),
-  Dhelmise 2.86% (done), Mega Excadrill 2.59% (done), **Dragapult
-  Dudunsparce 2.57%** (likely cards only: Dragapult line and Dudunsparce are
-  in; re-check a current list), Lopunny Dudunsparce 2.42% (done), **Crustle
-  2.25%** (needs DLR Azurill, Aarune, Legendary Trench), Mega Lucario 2.17%
-  (done), Greninja 1.88% (done). On 2026-11-14 the play.limitlesstcg.com deck
-  pages again needed a permission the unattended run could not get;
-  dittobase.com deck pages worked.
+- **Deck 16, Dragapult ex / Dudunsparce — done end-to-end** (2026-11-15,
+  first entry below), 26 of 26 cards. No new cards were needed: every card
+  was already in from decks 2, 5, 11, 13 and 14.
+- **Next: deck 17.** Re-check the meta first. Left from the 2026-11-13
+  play.limitlesstcg.com/decks list (Standard, through Delta Reign): Mega
+  Rayquaza 10.47%, **Talonflame Dusknoir 3.01%** and **Crustle 2.25%**, all
+  three blocked on Delta Reign (DLR) cards (see below). Every other deck
+  above 1.8% is done. If DLR card text still can't be pinned down, look
+  further down the list for a deck without DLR cards, or fix one of the bot
+  weaknesses below (measured with bot-bench).
 - **Bot stall seen 2026-11-14 (not a Greninja game):** adding sv-greninja to
   the combined modern smoke pool re-paired the seeded games, and one
   Alakazam vs Slowking game (60-game run, seed 1, game 52) hit the 200-turn
@@ -215,6 +212,38 @@ game** with the Tips panel; a recap is piece 4.
   `claude/pokemon-tcg-ai-trainer-3m3qqe` (2026-09-29). Leave it alone.
 
 ---
+
+## 2026-11-15 (1) — Dragapult ex / Dudunsparce end-to-end
+
+Branch `claude/ryuu-2026-11-15-dragapult-dudunsparce`.
+
+- **List:** Niceas, 2nd at Rare Candy Club Showdown #50 (2 Nov 2026), the
+  representative list on
+  dittobase.com/tcg/decks/meta/30c/dragapult-ex/variants/dragapult-dudunsparce-a15b3dd453427ce4
+  (checked 2026-11-15; newest top-placing complete list there)
+  (`data/meta-decks/online-2026-dragapult-dudunsparce.json`). Dragapult
+  Dudunsparce was 2.57% of play.limitlesstcg.com Standard (checked
+  2026-11-13). No Delta Reign cards.
+- **No new cards.** All 26 were already implemented with specs (Dragapult
+  line, Budew, Munkidori, Fezandipiti ex, Meowth ex and the Trainers from
+  deck 2; Dudunsparce TEF from deck 5; Shaymin DRI from deck 9; Dawn PFL from deck 3;
+  Dudunsparce ex JTG from deck 13). Re-checked on 2026-11-15 against
+  pkmncards.com: Dudunsparce ex JTG (Stage 1, C, 270 HP, Tenacious Tail C
+  60× per opponent's Pokémon ex in play, Destructive Drill CCC 150 not
+  affected by effects on the opponent's Active, Weakness F, Retreat 3)
+  matches the code. The other cards were not re-checked this run.
+- No engine change.
+- meta-audit: this deck 26 of 26 (0 to verify, 0 missing). All decks:
+  before (20 decks) 488 of 514 (13 to verify, 13 missing); after (21 decks)
+  514 of 540 (13 to verify, 13 missing).
+- Bot: new bench deck `sv-dragapult-dudunsparce`. 20 seeded mirrors (seed
+  1): 0 errors, 0 rejected actions, 0 guard/stalled (end reasons: Prizes 19,
+  no Active 1; 17.8 turns on average). Added to the modern smoke as its own
+  6-game step (keeps the combined pool's pairings unchanged, see the stall
+  note in Next up) and to the modern bench spec (valid in the modern
+  Standard format, "Why?" notes recorded for seeds 1-3).
+- Tests: bot-bench 89 specs, 0 failures; modern smoke clean. common, sets,
+  simple-bot, server and play were not changed (compiled only).
 
 ## 2026-11-14 (1) — Greninja ex end-to-end, Grand Tree, Ignition Energy
 
