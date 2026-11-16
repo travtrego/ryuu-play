@@ -1,0 +1,31 @@
+{
+  "id": "online-2026-rockets-honchkrow",
+  "name": "Team Rocket's Honchkrow — Fall 2026",
+  "format": "standard",
+  "asOf": "2026-11-16",
+  "source": "MewEX1, 1st of 32 at LAIC Tests #2, 14 Nov 2026, play.limitlesstcg.com/tournament/6af75704b2fccaf0272d1198/player/mewex1/decklist (checked 2026-11-16). Rocket's Honchkrow was 1.91% of play.limitlesstcg.com Standard (rotation 2026, through DLR; checked 2026-11-16). No Delta Reign cards.",
+  "cards": [
+    { "count": 4, "name": "Team Rocket's Murkrow", "set": "DRI", "number": "127", "category": "pokemon" },
+    { "count": 3, "name": "Team Rocket's Honchkrow", "set": "ASC", "number": "127", "category": "pokemon" },
+    { "count": 2, "name": "Team Rocket's Porygon", "set": "DRI", "number": "153", "category": "pokemon" },
+    { "count": 1, "name": "Team Rocket's Porygon2", "set": "DRI", "number": "154", "category": "pokemon" },
+    { "count": 2, "name": "Team Rocket's Articuno", "set": "DRI", "number": "51", "category": "pokemon" },
+
+    { "count": 4, "name": "Team Rocket's Petrel", "set": "DRI", "number": "176", "category": "trainer" },
+    { "count": 4, "name": "Team Rocket's Archer", "set": "DRI", "number": "170", "category": "trainer" },
+    { "count": 4, "name": "Team Rocket's Proton", "set": "DRI", "number": "177", "category": "trainer" },
+    { "count": 4, "name": "Team Rocket's Ariana", "set": "DRI", "number": "171", "category": "trainer" },
+    { "count": 4, "name": "Team Rocket's Giovanni", "set": "DRI", "number": "174", "category": "trainer" },
+    { "count": 4, "name": "Roto-Stick", "set": "PRE", "number": "127", "category": "trainer" },
+    { "count": 4, "name": "Team Rocket's Transceiver", "set": "DRI", "number": "178", "category": "trainer" },
+    { "count": 3, "name": "Poké Pad", "set": "POR", "number": "81", "category": "trainer" },
+    { "count": 3, "name": "Night Stretcher", "set": "ASC", "number": "196", "category": "trainer" },
+    { "count": 1, "name": "Miracle Headset", "set": "SSP", "number": "183", "category": "trainer" },
+    { "count": 1, "name": "Ultra Ball", "set": "MEG", "number": "131", "category": "trainer" },
+    { "count": 1, "name": "Pokégear 3.0", "set": "SVI", "number": "186", "category": "trainer" },
+    { "count": 3, "name": "Team Rocket's Factory", "set": "DRI", "number": "173", "category": "trainer" },
+
+    { "count": 4, "name": "Team Rocket's Energy", "set": "DRI", "number": "182", "category": "energy" },
+    { "count": 4, "name": "Ignition Energy", "set": "WHT", "number": "86", "category": "energy" }
+  ]
+}

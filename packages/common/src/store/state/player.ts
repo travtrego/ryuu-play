@@ -46,6 +46,13 @@ export class Player {
    */
   knockedOutTurn: number = -1;
 
+  /**
+   * Names of this player's Pokémon Knocked Out during `knockedOutTurn`.
+   * Lets cards ask "if any of your Team Rocket's Pokémon were Knocked Out
+   * during your opponent's last turn" (Team Rocket's Archer).
+   */
+  knockedOutNames: string[] = [];
+
   marker = new Marker();
 
   avatarName: string = '';

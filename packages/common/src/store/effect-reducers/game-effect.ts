@@ -213,6 +213,10 @@ export function gameReducer(store: StoreLike, state: State, effect: Effect): Sta
       }
 
       store.log(state, GameLog.LOG_POKEMON_KO, { name: card.name });
+      if (effect.player.knockedOutTurn !== state.turn || !effect.player.knockedOutNames) {
+        effect.player.knockedOutNames = [];
+      }
+      effect.player.knockedOutNames.push(card.name);
       effect.player.knockedOutTurn = state.turn;
       effect.target.moveTo(effect.player.discard);
       effect.target.clearEffects();
