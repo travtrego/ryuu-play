@@ -15,6 +15,22 @@ describe('gameReducer - Knock Out turn tracking', () => {
     expect(state.players[0].knockedOutTurn).toEqual(-1);
   });
 
+  it('records the names of the Pokémon Knocked Out that turn', () => {
+    const state = createTurnState(4);
+    const store = createStore(state);
+    const owner = state.players[1];
+    owner.knockedOutNames = ['Old KO'];
+    owner.knockedOutTurn = 2;
+    const name = owner.active.getPokemonCard()!.name;
+    store.reduceEffect(state, new KnockOutEffect(owner, owner.active));
+    expect(owner.knockedOutNames).toEqual([name]);
+    state.turn = 5;
+    expect(StateUtils.wasKnockedOutLastTurnMatching(state, owner, n => n === name)).toBeTrue();
+    expect(StateUtils.wasKnockedOutLastTurnMatching(state, owner, n => n === 'Other')).toBeFalse();
+    delete (owner as any).knockedOutNames;
+    expect(StateUtils.wasKnockedOutLastTurnMatching(state, owner, n => n === name)).toBeFalse();
+  });
+
   it('wasKnockedOutLastTurn is true only on the next turn', () => {
     const state = createTurnState(4);
     const player = state.players[1];

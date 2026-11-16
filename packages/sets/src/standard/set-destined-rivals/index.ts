@@ -18,6 +18,10 @@ import { TeamRocketsWatchtower } from './team-rockets-watchtower';
 import { ZeraoraDRI } from './zeraora';
 import { ShayminDRI } from './shaymin';
 
+import { TeamRocketsArcher } from './team-rockets-archer';
+import { TeamRocketsMurkrow } from './team-rockets-murkrow';
+import { TeamRocketsPorygon } from './team-rockets-porygon';
+import { TeamRocketsPorygon2 } from './team-rockets-porygon2';
 export const setDestinedRivals: Card[] = [
   new SacredAsh(),
   new CombuskenDRI(),
@@ -37,4 +41,8 @@ export const setDestinedRivals: Card[] = [
   new TeamRocketsWatchtower(),
   new ZeraoraDRI(),
   new ShayminDRI(),
+  new TeamRocketsArcher(),
+  new TeamRocketsMurkrow(),
+  new TeamRocketsPorygon(),
+  new TeamRocketsPorygon2(),
 ];

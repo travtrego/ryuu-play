@@ -6,6 +6,7 @@ import { EnrichingEnergy } from './enriching-energy';
 import { LatiasEx } from './latias-ex';
 import { ChienPao } from './chien-pao';
 import { Passimian } from './passimian';
+import { MiracleHeadset } from './miracle-headset';
 
 export const setSurgingSparks: Card[] = [
   new EnrichingEnergy(),
@@ -15,4 +16,5 @@ export const setSurgingSparks: Card[] = [
   new Passimian(),
   new GravityMountain(),
   new LisiasAppeal(),
+  new MiracleHeadset(),
 ];

@@ -64,13 +64,22 @@ owner handed from the GPT lane to Claude. Issue #2's lane split is retired.
 - **Deck 16, Dragapult ex / Dudunsparce — done end-to-end** (2026-11-15,
   first entry below), 26 of 26 cards. No new cards were needed: every card
   was already in from decks 2, 5, 11, 13 and 14.
-- **Next: deck 17.** Re-check the meta first. Left from the 2026-11-13
-  play.limitlesstcg.com/decks list (Standard, through Delta Reign): Mega
-  Rayquaza 10.47%, **Talonflame Dusknoir 3.01%** and **Crustle 2.25%**, all
-  three blocked on Delta Reign (DLR) cards (see below). Every other deck
-  above 1.8% is done. If DLR card text still can't be pinned down, look
-  further down the list for a deck without DLR cards, or fix one of the bot
-  weaknesses below (measured with bot-bench).
+- **Deck 17, Team Rocket's Honchkrow — done end-to-end** (2026-11-16,
+  first entry below), 20 of 20 cards. **The engine now records which
+  Pokémon were Knocked Out** (`Player.knockedOutNames`,
+  `StateUtils.wasKnockedOutLastTurnMatching`, used by Team Rocket's Archer).
+- **Next: deck 18.** Re-check the meta first. play.limitlesstcg.com Standard
+  (rotation 2026, through DLR) on 2026-11-16: Mega Rayquaza 9.64%,
+  **Talonflame Dusknoir 2.85%** and **Crustle 2.41%** are still blocked on
+  Delta Reign (DLR) cards (see below). Next decks without that block, by
+  share: **Sharpedo Toxtricity 1.53%**, **Lucario Hariyama 1.32%**,
+  **Cynthia's Garchomp 1.29%**, **Alakazam Dusknoir 1.27%** (probably few
+  new cards: Alakazam and Dusknoir lines are in), Mega Golisopod 1.24%, Iron
+  Thorns 1.21%. Check each list for DLR cards before starting.
+- **Bot weakness with Honchkrow:** 17 of 20 seeded mirrors ended by deck-out
+  (Ariana, Roto-Stick, Archer and Deceit draw/search a lot; Rocket Feathers
+  does hit, e.g. 120-360 damage). Same family as the Alakazam and Dhelmise
+  deck-out notes below.
 - **Bot stall seen 2026-11-14 (not a Greninja game):** adding sv-greninja to
   the combined modern smoke pool re-paired the seeded games, and one
   Alakazam vs Slowking game (60-game run, seed 1, game 52) hit the 200-turn
@@ -212,6 +221,53 @@ game** with the Tips panel; a recap is piece 4.
   `claude/pokemon-tcg-ai-trainer-3m3qqe` (2026-09-29). Leave it alone.
 
 ---
+
+## 2026-11-16 (1) — Team Rocket's Honchkrow end-to-end, Knock Out names
+
+Branch `claude/ryuu-2026-11-16-rockets-honchkrow`.
+
+- **List:** MewEX1, 1st of 32 at LAIC Tests #2 (14 Nov 2026),
+  play.limitlesstcg.com/tournament/6af75704b2fccaf0272d1198/player/mewex1/decklist
+  (`data/meta-decks/online-2026-rockets-honchkrow.json`). Rocket's
+  Honchkrow was 1.91% of play.limitlesstcg.com Standard (checked
+  2026-11-16). No Delta Reign cards. A second winning list (Marcelo Seiti,
+  Hit Challenge #59, 7 Nov) differs only by 1 Team Rocket's Mimikyu,
+  4 Poké Pad, 2 Night Stretcher and no Ultra Ball.
+- **7 new cards**, each checked against card pages on 2026-11-16:
+  Team Rocket's Murkrow DRI 127 (pkmncards.com: Basic D, 80 HP, Deceit C
+  search a Supporter, Torment DC 30 + chosen attack can't be used next
+  turn (the shared Amnesia helper), Weakness L, Resistance F-30, Retreat 1);
+  Team Rocket's Honchkrow ASC 127 (scrydex.com and dittobase.com: Stage 1,
+  130 HP, Rocket Feathers CC 60× per "Team Rocket" Supporter discarded from
+  hand, Hammer In DCC 100, Weakness L, Resistance F-30, Retreat 1);
+  Team Rocket's Porygon DRI 153 (pkmncards.com: 60 HP, Hacking C); Team
+  Rocket's Porygon2 DRI 154 (pkmncards.com and dittobase.com: 90 HP,
+  R Command CCC 20× per "Team Rocket" Supporter in the discard pile);
+  Team Rocket's Archer DRI 170 (cardcodex.com: only if a Team Rocket's
+  Pokémon was Knocked Out during the opponent's last turn; both shuffle hands
+  in, draw 5 / opponent draws 3); Roto-Stick PRE 127 (pkmncards.com: top 4,
+  take any number of Supporters); Miracle Headset SSP 183 (dittobase.com:
+  ACE SPEC Item, up to 2 Supporters from the discard pile). The other
+  13 cards were already in (deck 1 and later decks) and were not re-checked.
+  Not verified: Porygon's and Archer's text came from one site each.
+- **Engine:** `Player.knockedOutNames` (names of the Pokémon Knocked Out in
+  `knockedOutTurn`) and `StateUtils.wasKnockedOutLastTurnMatching`. Older
+  formats unaffected (a new field; old saved games without it read as
+  empty). Known limit, shared with Unfair Stamp: only the latest turn with a
+  Knock Out is kept, so if one of your own Pokémon is Knocked Out during your
+  turn before you play Archer, Archer can no longer see last turn's Knock Out.
+- meta-audit: this deck before 13 of 20 (7 missing), after 20 of 20.
+  All decks: before (21 decks) 514 of 540 (13 to verify, 13 missing); with
+  the new list 527 of 560 (20 missing); after 534 of 560 (13 to verify,
+  13 missing).
+- Bot: new bench deck `sv-rockets-honchkrow`. 20 seeded mirrors (seed 1):
+  0 errors, 0 rejected actions, 0 guard/stalled (end reasons: deck-out 17,
+  Prizes 3; 37 turns on average). Added to the modern smoke as its own
+  6-game step and to the modern bench spec (valid in the modern Standard
+  format, "Why?" notes recorded for seeds 1-3).
+- Tests: common 368 specs, sets 3051, simple-bot 92, bot-bench 92, all
+  0 failures; full modern smoke clean. Server type-checks; play not rebuilt
+  locally (CI builds it). Card art for the new cards not fetched.
 
 ## 2026-11-15 (1) — Dragapult ex / Dudunsparce end-to-end
 

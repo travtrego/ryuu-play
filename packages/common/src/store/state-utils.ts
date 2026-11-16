@@ -110,6 +110,17 @@ export class StateUtils {
   }
 
   /**
+   * Like `wasKnockedOutLastTurn`, but only counts Knocked Out Pokémon whose
+   * name passes `nameFilter` (e.g. "Team Rocket's Pokémon").
+   */
+  public static wasKnockedOutLastTurnMatching(
+    state: State, player: Player, nameFilter: (name: string) => boolean
+  ): boolean {
+    return StateUtils.wasKnockedOutLastTurn(state, player)
+      && (player.knockedOutNames || []).some(name => nameFilter(name));
+  }
+
+  /**
    * Pokémon with a Rule Box (Pokémon ex, Pokémon-EX, GX, LV.X, ...). Tera is
    * not a Rule Box by itself; a Tera Pokémon ex has one through its ex tag.
    */

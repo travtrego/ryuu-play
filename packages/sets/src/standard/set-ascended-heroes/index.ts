@@ -8,6 +8,7 @@ import { FezandipitiEx } from './fezandipiti-ex';
 import { NightStretcherASC } from './night-stretcher';
 import { NighttimeMine } from './nighttime-mine';
 import { NsZekrom } from './ns-zekrom';
+import { TeamRocketsHonchkrow } from './team-rockets-honchkrow';
 
 export const setAscendedHeroes: Card[] = [
   new NighttimeMine(),
@@ -19,4 +20,5 @@ export const setAscendedHeroes: Card[] = [
   new ChikoritaASC(),
   new SnoruntASC(),
   new MegaFroslassEx(),
+  new TeamRocketsHonchkrow(),
 ];

@@ -6,6 +6,7 @@ import { Dusknoir } from './dusknoir';
 import { Duskull } from './duskull';
 import { JaninesSecretArt } from './janines-secret-art';
 import { SeakingPRE } from './seaking';
+import { RotoStick } from './roto-stick';
 
 export const setPrismaticEvolutions: Card[] = [
   new Dusclops(),
@@ -15,4 +16,5 @@ export const setPrismaticEvolutions: Card[] = [
   new BindingMochi(),
   new SeakingPRE(),
   new RioluPRE(),
+  new RotoStick(),
 ];

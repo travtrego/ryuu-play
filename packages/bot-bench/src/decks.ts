@@ -675,6 +675,30 @@ export const modernBenchDecks: BenchDeck[] = [
     ['Darkness Energy EVO', 3],
     ['Fire Energy EVO', 3],
     ['Psychic Energy EVO', 3]
+  ]),
+
+  // Online, Nov 2026 (data/meta-decks/online-2026-rockets-honchkrow.json)
+  deck('sv-rockets-honchkrow', 'Standard (Scarlet & Violet): Team Rocket\'s Honchkrow', 'sv', [
+    ['Team Rocket\'s Murkrow DRI', 4],
+    ['Team Rocket\'s Honchkrow ASC', 3],
+    ['Team Rocket\'s Porygon DRI', 2],
+    ['Team Rocket\'s Porygon2 DRI', 1],
+    ['Team Rocket\'s Articuno DRI', 2],
+    ['Team Rocket\'s Petrel DRI', 4],
+    ['Team Rocket\'s Archer DRI', 4],
+    ['Team Rocket\'s Proton DRI', 4],
+    ['Team Rocket\'s Ariana DRI', 4],
+    ['Team Rocket\'s Giovanni DRI', 4],
+    ['Roto-Stick PRE', 4],
+    ['Team Rocket\'s Transceiver DRI', 4],
+    ['Poké Pad POR', 3],
+    ['Night Stretcher ASC', 3],
+    ['Miracle Headset SSP', 1],
+    ['Ultra Ball MEG', 1],
+    ['Pokégear 3.0 SVI', 1],
+    ['Team Rocket\'s Factory DRI', 3],
+    ['Team Rocket\'s Energy DRI', 4],
+    ['Ignition Energy WHT', 4]
   ])
 
 ];
