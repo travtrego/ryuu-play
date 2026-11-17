@@ -68,14 +68,20 @@ owner handed from the GPT lane to Claude. Issue #2's lane split is retired.
   first entry below), 20 of 20 cards. **The engine now records which
   Pokémon were Knocked Out** (`Player.knockedOutNames`,
   `StateUtils.wasKnockedOutLastTurnMatching`, used by Team Rocket's Archer).
-- **Next: deck 18.** Re-check the meta first. play.limitlesstcg.com Standard
-  (rotation 2026, through DLR) on 2026-11-16: Mega Rayquaza 9.64%,
-  **Talonflame Dusknoir 2.85%** and **Crustle 2.41%** are still blocked on
-  Delta Reign (DLR) cards (see below). Next decks without that block, by
-  share: **Sharpedo Toxtricity 1.53%**, **Lucario Hariyama 1.32%**,
-  **Cynthia's Garchomp 1.29%**, **Alakazam Dusknoir 1.27%** (probably few
-  new cards: Alakazam and Dusknoir lines are in), Mega Golisopod 1.24%, Iron
-  Thorns 1.21%. Check each list for DLR cards before starting.
+- **Deck 18, Alakazam / Dusknoir — done end-to-end** (2026-11-17,
+  first entry below), 26 of 26 cards. **Devolving is in** (Strange
+  Timepiece) and **Patrat's Watchful Eye** is a shared check
+  (`Patrat.blocksMovingDamage`, asked by Munkidori's Adrena-Brain).
+- **Next: deck 19.** Re-check the meta first. On 2026-11-16
+  play.limitlesstcg.com Standard (rotation 2026, through DLR) had Mega
+  Rayquaza 9.64%, **Talonflame Dusknoir 2.85%** and **Crustle 2.41%** still
+  blocked on Delta Reign (DLR) cards (see below). Next decks without that
+  block, by share: **Sharpedo Toxtricity 1.53%**, **Lucario Hariyama
+  1.32%**, **Cynthia's Garchomp 1.29%**, Mega Golisopod 1.24%, Iron Thorns
+  1.21%. Check each list for DLR cards before starting.
+  play.limitlesstcg.com and limitlesstcg.com/cards pages needed a
+  permission the 2026-11-17 run could not get; dittobase.com (deck lists by
+  archetype, PBL format) and pkmncards.com / scrydex.com card pages worked.
 - **Bot weakness with Honchkrow:** 17 of 20 seeded mirrors ended by deck-out
   (Ariana, Roto-Stick, Archer and Deceit draw/search a lot; Rocket Feathers
   does hit, e.g. 120-360 damage). Same family as the Alakazam and Dhelmise
@@ -221,6 +227,67 @@ game** with the Tips panel; a recap is piece 4.
   `claude/pokemon-tcg-ai-trainer-3m3qqe` (2026-09-29). Leave it alone.
 
 ---
+
+## 2026-11-17 (1) — Alakazam / Dusknoir end-to-end, devolving, Watchful Eye
+
+Branch `claude/ryuu-2026-11-17-alakazam-dusknoir`.
+
+- **List:** Capra1811, 3rd of 194 (8-2) at Surge's TCG Vault Winner Takes
+  All (15 Sep 2026),
+  dittobase.com/tcg/decks/meta/pbl/alakazam-dusknoir/6a9eeea7ab080c8c957fcf3e-3
+  (`data/meta-decks/online-2026-alakazam-dusknoir.json`). The largest event
+  among the best recent finishes dittobase lists for the archetype; the
+  other top lists there run the same 24 Pokémon. Alakazam Dusknoir was
+  1.27% of play.limitlesstcg.com Standard on 2026-11-16 (previous run's
+  check; that site was not reachable this run). The list is from the PBL
+  format (before Delta Reign); no DLR cards. **Not verified:** that the
+  list is still what people play after DLR.
+- **5 new cards**, each checked against a card page on 2026-11-17:
+  Abra TWM 80 (scrydex.com: Basic P, 40 HP, Ability Teleporter: once during
+  your turn, if Active, shuffle it and all attached cards into your deck;
+  Beam P 10; Weakness D, Resistance F-30, Retreat 1); Patrat CRI 70
+  (limitlesstcg.com via search, and Bulbapedia: Basic C, 70 HP, Ability
+  Watchful Eye: damage counters on each Pokémon can't be moved to other
+  Pokémon; Bite C 10; Weakness F, Retreat 1); Strange Timepiece MEG 128
+  (pkmncards.com: Item, devolve 1 of your evolved P Pokémon by putting any
+  number of Evolution cards on it into your hand; it can't evolve this
+  turn); Prime Catcher TEF 157 (pkmncards.com: ACE SPEC Item, switch in an
+  opponent's Benched Pokémon, if you do switch your Active Pokémon with 1 of
+  your Benched Pokémon); Enhanced Hammer TWM 148 (pkmncards.com: same
+  effect as Enhanced Hammer DEX, now a TWM printing). The other 21 cards
+  were already in (decks 3, 5, 11, 14 and others) and were not re-checked.
+- **Engine / shared code:** devolving lives in the Strange Timepiece card
+  (`removableEvolutionCount`): the top 1 or 2 Evolution cards go to the
+  hand, damage stays, Special Conditions and other effects end, and
+  `pokemonPlayedTurn` is set so it can't evolve this turn; checkState
+  Knocks it Out if its HP is now too low. Watchful Eye is a static check,
+  `Patrat.blocksMovingDamage(store, state)` (off under an Ability lock);
+  the only modern card that moves damage counters, Munkidori's
+  Adrena-Brain, asks it first. Older formats unchanged.
+- **Choices (not verified against official rulings):** Teleporter is
+  refused with an empty Bench (using it would leave no Pokémon in play),
+  as Dudunsparce's Run Away Draw already is. Prime Catcher can't be played
+  if the opponent has no Benched Pokémon; with nothing on your own Bench
+  only the opponent's Pokémon are switched. Strange Timepiece asks which
+  Pokémon to leave on top (e.g. "Kadabra" or "Abra") instead of asking for
+  a number of cards.
+- meta-audit: this deck before 21 of 26 (2 to verify, 3 missing), after
+  26 of 26. All decks (23): before 555 of 586 (15 to verify, 16 missing);
+  after 561 of 586 (13 to verify, 12 missing). Prime Catcher was also
+  missing from the Crustle list.
+- Bot: new bench deck `sv-alakazam-dusknoir`. 20 seeded mirrors (seed 1):
+  0 errors, 0 rejected actions, 0 guard/stalled (end reasons: Prizes 6,
+  deck-out 9, no Active 5; 24 turns on average). Same deck-out weakness as
+  the Alakazam / Dudunsparce deck. Added to the modern smoke as its own
+  6-game step (clean), to the modern bench spec (valid in the modern
+  Standard format, "Why?" notes for seeds 1-3) and to the sets format spec
+  (the 60-card JSON list is a valid modern Standard deck). An 8-game count
+  showed the bot trying Strange Timepiece, Prime Catcher, Enhanced Hammer
+  and Teleporter; **not checked** whether its Strange Timepiece plays are
+  sensible (it may devolve an Alakazam for no gain).
+- Tests: sets 3069 specs, bot-bench 95, 0 failures. common, simple-bot and
+  server unchanged (not re-run locally; CI runs them). Card art for the
+  new cards not fetched.
 
 ## 2026-11-16 (1) — Team Rocket's Honchkrow end-to-end, Knock Out names
 
