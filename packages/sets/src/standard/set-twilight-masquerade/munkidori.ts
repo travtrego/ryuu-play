@@ -22,6 +22,7 @@ import {
   StoreLike,
 } from '@ptcg/common';
 import { HideNSneak } from '../set-pitch-black/hide-n-sneak';
+import { Patrat } from '../set-chaos-rising/patrat';
 
 function* useAdrenaBrain(
   next: Function,
@@ -163,6 +164,10 @@ export class Munkidori extends PokemonCard {
       let hasDamaged = false;
       player.forEachPokemon(PlayerType.BOTTOM_PLAYER, s => { hasDamaged = hasDamaged || s.damage > 0; });
       if (!hasDark || !hasDamaged) {
+        throw new GameError(GameMessage.CANNOT_USE_POWER);
+      }
+      // Patrat's Watchful Eye: damage counters can't be moved.
+      if (Patrat.blocksMovingDamage(store, state)) {
         throw new GameError(GameMessage.CANNOT_USE_POWER);
       }
 

@@ -699,6 +699,36 @@ export const modernBenchDecks: BenchDeck[] = [
     ['Team Rocket\'s Factory DRI', 3],
     ['Team Rocket\'s Energy DRI', 4],
     ['Ignition Energy WHT', 4]
+  ]),
+
+  // Online, Sep 2026 (data/meta-decks/online-2026-alakazam-dusknoir.json)
+  deck('sv-alakazam-dusknoir', 'Standard (Scarlet & Violet): Alakazam / Dusknoir', 'sv', [
+    ['Abra MEG', 3],
+    ['Abra TWM', 1],
+    ['Kadabra MEG', 4],
+    ['Alakazam MEG', 3],
+    ['Duskull PRE', 4],
+    ['Dusclops PRE', 2],
+    ['Dusknoir PRE', 2],
+    ['Budew ASC', 2],
+    ['Fezandipiti ex ASC', 1],
+    ['Patrat CRI', 1],
+    ['Shaymin DRI', 1],
+    ['Gwynn PBL', 4],
+    ['Hilda WHT', 4],
+    ['Dawn PFL', 2],
+    ['Boss\'s Orders MEG', 1],
+    ['Rare Candy MEG', 4],
+    ['Poké Pad POR', 4],
+    ['Buddy-Buddy Poffin TEF', 3],
+    ['Night Stretcher ASC', 2],
+    ['Special Red Card CRI', 2],
+    ['Strange Timepiece MEG', 2],
+    ['Enhanced Hammer TWM', 1],
+    ['Prime Catcher TEF', 1],
+    ['Sacred Ash DRI', 1],
+    ['Telepathic Psychic Energy POR', 4],
+    ['Psychic Energy EVO', 1]
   ])
 
 ];

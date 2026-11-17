@@ -21,6 +21,7 @@ import { RiskyRuins } from './risky-ruins';
 import { UltraBallMEG } from './ultra-ball';
 import { SwitchMEG } from './switch';
 import { MegaKangaskhanEx } from './mega-kangaskhan-ex';
+import { StrangeTimepiece } from './strange-timepiece';
 
 export const setMegaEvolution: Card[] = [
   new Abra(),
@@ -45,4 +46,5 @@ export const setMegaEvolution: Card[] = [
   new FightingGong(),
   new PremiumPowerPro(),
   new WallysCompassion(),
+  new StrangeTimepiece(),
 ];
