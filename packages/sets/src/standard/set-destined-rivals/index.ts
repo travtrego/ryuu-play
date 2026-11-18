@@ -22,6 +22,13 @@ import { TeamRocketsArcher } from './team-rockets-archer';
 import { TeamRocketsMurkrow } from './team-rockets-murkrow';
 import { TeamRocketsPorygon } from './team-rockets-porygon';
 import { TeamRocketsPorygon2 } from './team-rockets-porygon2';
+import { CynthiasGible } from './cynthias-gible';
+import { CynthiasGabite } from './cynthias-gabite';
+import { CynthiasGarchompEx } from './cynthias-garchomp-ex';
+import { CynthiasRoselia } from './cynthias-roselia';
+import { CynthiasRoserade } from './cynthias-roserade';
+import { CynthiasSpiritomb } from './cynthias-spiritomb';
+import { CynthiasPowerWeight } from './cynthias-power-weight';
 export const setDestinedRivals: Card[] = [
   new SacredAsh(),
   new CombuskenDRI(),
@@ -45,4 +52,11 @@ export const setDestinedRivals: Card[] = [
   new TeamRocketsMurkrow(),
   new TeamRocketsPorygon(),
   new TeamRocketsPorygon2(),
+  new CynthiasGible(),
+  new CynthiasGabite(),
+  new CynthiasGarchompEx(),
+  new CynthiasRoselia(),
+  new CynthiasRoserade(),
+  new CynthiasSpiritomb(),
+  new CynthiasPowerWeight(),
 ];

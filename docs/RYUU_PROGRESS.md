@@ -72,16 +72,23 @@ owner handed from the GPT lane to Claude. Issue #2's lane split is retired.
   first entry below), 26 of 26 cards. **Devolving is in** (Strange
   Timepiece) and **Patrat's Watchful Eye** is a shared check
   (`Patrat.blocksMovingDamage`, asked by Munkidori's Adrena-Brain).
-- **Next: deck 19.** Re-check the meta first. On 2026-11-16
-  play.limitlesstcg.com Standard (rotation 2026, through DLR) had Mega
-  Rayquaza 9.64%, **Talonflame Dusknoir 2.85%** and **Crustle 2.41%** still
-  blocked on Delta Reign (DLR) cards (see below). Next decks without that
-  block, by share: **Sharpedo Toxtricity 1.53%**, **Lucario Hariyama
-  1.32%**, **Cynthia's Garchomp 1.29%**, Mega Golisopod 1.24%, Iron Thorns
-  1.21%. Check each list for DLR cards before starting.
-  play.limitlesstcg.com and limitlesstcg.com/cards pages needed a
-  permission the 2026-11-17 run could not get; dittobase.com (deck lists by
-  archetype, PBL format) and pkmncards.com / scrydex.com card pages worked.
+- **Deck 19, Cynthia's Garchomp ex — done end-to-end** (2026-11-18,
+  first entry below), 22 of 22 cards. `isCynthiasPokemon` (name starts
+  with "Cynthia's") is in `set-destined-rivals/cynthia-utils.ts` for any
+  later Cynthia's cards.
+- **Next: deck 20.** Re-check the meta first. dittobase.com's **30C**
+  format pages (Delta Reign / 30th Celebration / Pitch Black, i.e. after
+  DLR) worked on 2026-11-18 and show meta share per archetype; use them
+  instead of the PBL pages. Candidates without the DLR block, from the
+  2026-11-16 play.limitlesstcg.com shares: **Sharpedo Toxtricity 1.53%**,
+  **Lucario Hariyama 1.32%**, Mega Golisopod 1.24%, Iron Thorns 1.21%.
+  Mega Rayquaza, Talonflame Dusknoir and Crustle are still blocked on
+  Delta Reign (DLR) cards (see below). Check each list for DLR cards before
+  starting.
+  limitlesstcg.com/cards/<SET>/<n> pages worked on 2026-11-18 **only when
+  the exact URL came from a web search result** (search "<card> DRI 104
+  limitlesstcg"); typed URLs needed a permission the run could not get.
+  dittobase.com card pages, scrydex.com and pkmncards.com also worked.
 - **Bot weakness with Honchkrow:** 17 of 20 seeded mirrors ended by deck-out
   (Ariana, Roto-Stick, Archer and Deceit draw/search a lot; Rocket Feathers
   does hit, e.g. 120-360 damage). Same family as the Alakazam and Dhelmise
@@ -227,6 +234,61 @@ game** with the Tips panel; a recap is piece 4.
   `claude/pokemon-tcg-ai-trainer-3m3qqe` (2026-09-29). Leave it alone.
 
 ---
+
+## 2026-11-18 (1) — Cynthia's Garchomp ex end-to-end
+
+Branch `claude/ryuu-2026-11-18-cynthias-garchomp`.
+
+- **List:** dukefan417, 8th of 117 (8-4) at Moujii's Dojo (5 Nov 2026),
+  dittobase.com/tcg/decks/meta/30c/cynthia-garchomp-ex/6ae4ccc50d00101b48bf267c-8
+  (`data/meta-decks/online-2026-cynthias-garchomp.json`). The largest recent
+  event with a complete list on dittobase's 30C archetype page (Delta Reign /
+  30th Celebration / Pitch Black), where Cynthia's Garchomp ex was 1.56% of
+  the meta (checked 2026-11-18). Other top lists there (Packs12 3rd of 67,
+  4 Nov; Nacho858071 1st of 54, 27 Oct) run the same 18-Pokémon core. No
+  Delta Reign cards.
+- **7 new cards**, each checked on 2026-11-18: Cynthia's Gible DRI 102
+  (dittobase.com: Basic F, 70 HP, Rock Hurl F 20 not affected by Resistance,
+  Weakness G, Retreat 1); Cynthia's Gabite DRI 103 (scrydex.com and
+  dittobase.com: Stage 1, 100 HP, Ability Champion's Call: once during your
+  turn search your deck for a Cynthia's Pokémon, reveal it, put it into your
+  hand, shuffle; Dragonslice F 40; Weakness G, Retreat 1); Cynthia's
+  Garchomp ex DRI 104 (limitlesstcg.com, scrydex.com, cardcodex.com: Stage 2,
+  330 HP, Corkscrew Dive F 100 "you may draw until you have 6 cards",
+  Draconic Buster FF 260 discard all Energy from this Pokémon, Weakness G,
+  **no Retreat Cost** (limitlesstcg.com says 0, scrydex.com shows none));
+  Cynthia's Roselia DRI 7 (limitlesstcg.com and dittobase.com: Basic G,
+  70 HP, Spike Sting C 20, Weakness R, Retreat 1); Cynthia's Roserade DRI 8
+  (limitlesstcg.com and dittobase.com: Stage 1, 130 HP, Ability Cheer On to
+  Glory: attacks by your Cynthia's Pokémon do 30 more to the opponent's
+  Active before Weakness and Resistance; Leaf Step GCC 80; Weakness R,
+  Retreat 1); Cynthia's Spiritomb DRI 129 (limitlesstcg.com and
+  dittobase.com: Basic D, 70 HP, Raging Curse C 10× per damage counter on
+  your Benched Cynthia's Pokémon, not affected by Weakness; Weakness G,
+  Retreat 1); Cynthia's Power Weight DRI 162 (pkmncards.com: Tool, the
+  Cynthia's Pokémon it is attached to gets +70 HP). The other 15 cards were
+  already in from earlier decks and were not re-checked.
+- **Choices (not verified against official rulings):** each Roserade in
+  play adds its own 30 (two Roserade = +60), and Cheer On to Glory only adds
+  to an attack that already does damage (so a Raging Curse with no damage
+  counters stays 0), as Premium Power Pro already does. Corkscrew Dive asks
+  "draw cards?" only when the hand has fewer than 6 cards.
+- No engine change; a shared `isCynthiasPokemon` helper.
+- meta-audit: this deck before 15 of 22 (7 missing), after 22 of 22.
+  All decks: before (23 decks) 561 of 586 (13 to verify, 12 missing); with
+  the new list 576 of 608 (19 missing); after 583 of 608 (13 to verify,
+  12 missing).
+- Bot: new bench deck `sv-cynthias-garchomp`. 20 seeded mirrors (seed 1):
+  0 errors, 0 rejected actions, 0 guard/stalled (end reasons reported:
+  prizes 15, no-active 8; 18 turns on average). Added to the modern smoke as
+  its own 6-game step (full modern smoke clean), to the modern bench spec
+  (valid in the modern Standard format, "Why?" notes for seeds 1-3) and to
+  the sets format spec (the 60-card JSON list is a valid modern Standard
+  deck). **Not checked:** how well the bot plays the deck (e.g. whether it
+  saves Draconic Buster for big targets).
+- Tests: sets 3084 specs (14 new), bot-bench 98, 0 failures. common,
+  simple-bot and server unchanged (not re-run locally; CI runs them). Card
+  art for the new cards not fetched.
 
 ## 2026-11-17 (1) — Alakazam / Dusknoir end-to-end, devolving, Watchful Eye
 
