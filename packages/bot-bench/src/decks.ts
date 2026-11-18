@@ -729,6 +729,32 @@ export const modernBenchDecks: BenchDeck[] = [
     ['Sacred Ash DRI', 1],
     ['Telepathic Psychic Energy POR', 4],
     ['Psychic Energy EVO', 1]
+  ]),
+
+  // Online, Nov 2026 (data/meta-decks/online-2026-cynthias-garchomp.json)
+  deck('sv-cynthias-garchomp', 'Standard (Scarlet & Violet): Cynthia\'s Garchomp ex', 'sv', [
+    ['Cynthia\'s Gible DRI', 4],
+    ['Cynthia\'s Gabite DRI', 4],
+    ['Cynthia\'s Garchomp ex DRI', 3],
+    ['Cynthia\'s Roselia DRI', 3],
+    ['Cynthia\'s Roserade DRI', 3],
+    ['Cynthia\'s Spiritomb DRI', 1],
+    ['Lillie\'s Determination MEG', 4],
+    ['Boss\'s Orders MEG', 3],
+    ['Hilda WHT', 3],
+    ['Judge POR', 2],
+    ['Buddy-Buddy Poffin TEF', 4],
+    ['Fighting Gong MEG', 3],
+    ['Poké Pad POR', 3],
+    ['Premium Power Pro MEG', 3],
+    ['Cynthia\'s Power Weight DRI', 3],
+    ['Rare Candy MEG', 2],
+    ['Night Stretcher ASC', 1],
+    ['Switch MEG', 1],
+    ['Unfair Stamp TWM', 1],
+    ['Team Rocket\'s Watchtower DRI', 2],
+    ['Rocky Fighting Energy POR', 3],
+    ['Fighting Energy EVO', 4]
   ])
 
 ];
