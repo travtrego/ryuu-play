@@ -755,6 +755,31 @@ export const modernBenchDecks: BenchDeck[] = [
     ['Team Rocket\'s Watchtower DRI', 2],
     ['Rocky Fighting Energy POR', 3],
     ['Fighting Energy EVO', 4]
+  ]),
+
+  // Online, Oct 2026 (data/meta-decks/online-2026-sharpedo-toxtricity.json)
+  deck('sv-sharpedo-toxtricity', 'Standard (Scarlet & Violet): Mega Sharpedo ex / Toxtricity', 'sv', [
+    ['Carvanha PFL', 3],
+    ['Mega Sharpedo ex PFL', 3],
+    ['Toxel PFL', 2],
+    ['Toxtricity PFL', 2],
+    ['Pecharunt ex SFA', 3],
+    ['Munkidori TWM', 2],
+    ['Tatsugiri TWM', 2],
+    ['Fezandipiti ex ASC', 1],
+    ['Yveltal MEG', 1],
+    ['Lillie\'s Determination MEG', 4],
+    ['Boss\'s Orders MEG', 3],
+    ['Judge POR', 3],
+    ['Team Rocket\'s Petrel DRI', 2],
+    ['Buddy-Buddy Poffin TEF', 4],
+    ['Poké Pad POR', 4],
+    ['Ultra Ball MEG', 4],
+    ['Night Stretcher ASC', 1],
+    ['Unfair Stamp TWM', 1],
+    ['Binding Mochi PRE', 3],
+    ['Team Rocket\'s Watchtower DRI', 3],
+    ['Darkness Energy EVO', 9]
   ])
 
 ];

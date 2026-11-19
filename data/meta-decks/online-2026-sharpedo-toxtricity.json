@@ -1,0 +1,32 @@
+{
+  "id": "online-2026-sharpedo-toxtricity",
+  "name": "Mega Sharpedo ex / Toxtricity — Fall 2026",
+  "format": "standard",
+  "asOf": "2026-11-19",
+  "source": "CapTheAvenger, 2nd place, the representative list on dittobase's 30C (Delta Reign / 30th Celebration / Pitch Black) Sharpedo Toxtricity page, dittobase.com/tcg/decks/meta/30c/sharpedo-toxtricity/variants/sharpedo-toxtricity-c8a3c3a4d8a4d581 (checked 2026-11-19), where the archetype was 3.01% of the meta (10th; the highest not yet in RyuuPlay). The 1st of 397 list (RedwingPhoenix, 24 Oct 2026) could not be opened by the unattended run. A Pitch Black list (EvanCampbell94, 7th of 263, 14 Sep 2026) runs the same core without Yveltal. No Delta Reign cards.",
+  "cards": [
+    { "count": 3, "name": "Carvanha", "set": "PFL", "number": "60", "category": "pokemon" },
+    { "count": 3, "name": "Mega Sharpedo ex", "set": "PFL", "number": "61", "category": "pokemon" },
+    { "count": 2, "name": "Toxel", "set": "PFL", "number": "67", "category": "pokemon" },
+    { "count": 2, "name": "Toxtricity", "set": "PFL", "number": "68", "category": "pokemon" },
+    { "count": 3, "name": "Pecharunt ex", "set": "SFA", "number": "39", "category": "pokemon" },
+    { "count": 2, "name": "Munkidori", "set": "TWM", "number": "95", "category": "pokemon" },
+    { "count": 2, "name": "Tatsugiri", "set": "TWM", "number": "131", "category": "pokemon" },
+    { "count": 1, "name": "Fezandipiti ex", "set": "ASC", "number": "142", "category": "pokemon" },
+    { "count": 1, "name": "Yveltal", "set": "MEG", "number": "88", "category": "pokemon" },
+
+    { "count": 4, "name": "Lillie's Determination", "set": "MEG", "number": "119", "category": "trainer" },
+    { "count": 3, "name": "Boss's Orders", "set": "MEG", "number": "114", "category": "trainer" },
+    { "count": 3, "name": "Judge", "set": "POR", "number": "76", "category": "trainer" },
+    { "count": 2, "name": "Team Rocket's Petrel", "set": "DRI", "number": "176", "category": "trainer" },
+    { "count": 4, "name": "Buddy-Buddy Poffin", "set": "TEF", "number": "144", "category": "trainer" },
+    { "count": 4, "name": "Poké Pad", "set": "POR", "number": "81", "category": "trainer" },
+    { "count": 4, "name": "Ultra Ball", "set": "MEG", "number": "131", "category": "trainer" },
+    { "count": 1, "name": "Night Stretcher", "set": "ASC", "number": "196", "category": "trainer" },
+    { "count": 1, "name": "Unfair Stamp", "set": "TWM", "number": "165", "category": "trainer" },
+    { "count": 3, "name": "Binding Mochi", "set": "PRE", "number": "95", "category": "trainer" },
+    { "count": 3, "name": "Team Rocket's Watchtower", "set": "DRI", "number": "180", "category": "trainer" },
+
+    { "count": 9, "name": "Darkness Energy", "set": "MEE", "number": "15", "category": "energy", "basic": true }
+  ]
+}

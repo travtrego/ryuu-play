@@ -22,6 +22,7 @@ import { UltraBallMEG } from './ultra-ball';
 import { SwitchMEG } from './switch';
 import { MegaKangaskhanEx } from './mega-kangaskhan-ex';
 import { StrangeTimepiece } from './strange-timepiece';
+import { YveltalMEG } from './yveltal';
 
 export const setMegaEvolution: Card[] = [
   new Abra(),
@@ -47,4 +48,5 @@ export const setMegaEvolution: Card[] = [
   new PremiumPowerPro(),
   new WallysCompassion(),
   new StrangeTimepiece(),
+  new YveltalMEG(),
 ];
