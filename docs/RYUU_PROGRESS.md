@@ -76,19 +76,21 @@ owner handed from the GPT lane to Claude. Issue #2's lane split is retired.
   first entry below), 22 of 22 cards. `isCynthiasPokemon` (name starts
   with "Cynthia's") is in `set-destined-rivals/cynthia-utils.ts` for any
   later Cynthia's cards.
-- **Next: deck 20.** Re-check the meta first. dittobase.com's **30C**
-  format pages (Delta Reign / 30th Celebration / Pitch Black, i.e. after
-  DLR) worked on 2026-11-18 and show meta share per archetype; use them
-  instead of the PBL pages. Candidates without the DLR block, from the
-  2026-11-16 play.limitlesstcg.com shares: **Sharpedo Toxtricity 1.53%**,
-  **Lucario Hariyama 1.32%**, Mega Golisopod 1.24%, Iron Thorns 1.21%.
-  Mega Rayquaza, Talonflame Dusknoir and Crustle are still blocked on
-  Delta Reign (DLR) cards (see below). Check each list for DLR cards before
-  starting.
-  limitlesstcg.com/cards/<SET>/<n> pages worked on 2026-11-18 **only when
-  the exact URL came from a web search result** (search "<card> DRI 104
-  limitlesstcg"); typed URLs needed a permission the run could not get.
-  dittobase.com card pages, scrydex.com and pkmncards.com also worked.
+- **Deck 20, Mega Sharpedo ex / Toxtricity — done end-to-end**
+  (2026-11-19, first entry below), 21 of 21 cards.
+- **Next: deck 21.** Re-check the meta first. dittobase.com's **30C**
+  overview page, dittobase.com/tcg/decks/meta/30c, worked on 2026-11-19
+  (typed URL) and lists every archetype with its meta share; its variant
+  pages show a representative list. Individual list pages
+  (`.../variants/<id>/<event>-<place>`) and play.limitlesstcg.com decklists
+  needed a permission the unattended run could not get. Highest not yet in
+  RyuuPlay on 2026-11-19: **Lucario Hariyama 2.88%** (11th), Crustle 1.91%
+  (blocked, see below), Lopunny Dusknoir 1.60% (probably few new cards),
+  Grimmsnarl Froslass 1.48%, Mega Greninja 1.44%. Check each list for
+  Delta Reign (DLR) cards before starting.
+  limitlesstcg.com/cards/<SET>/<n> and pkmncards.com card pages worked on
+  2026-11-19 when the URL came from a web search result (search
+  "<card> PFL 61 limitlesstcg"); scrydex.com and mydextcg.com also worked.
 - **Bot weakness with Honchkrow:** 17 of 20 seeded mirrors ended by deck-out
   (Ariana, Roto-Stick, Archer and Deceit draw/search a lot; Rocket Feathers
   does hit, e.g. 120-360 damage). Same family as the Alakazam and Dhelmise
@@ -234,6 +236,58 @@ game** with the Tips panel; a recap is piece 4.
   `claude/pokemon-tcg-ai-trainer-3m3qqe` (2026-09-29). Leave it alone.
 
 ---
+
+## 2026-11-19 (1) — Mega Sharpedo ex / Toxtricity end-to-end
+
+Branch `claude/ryuu-2026-11-19-sharpedo-toxtricity`.
+
+- **List:** CapTheAvenger, 2nd place, the representative list on dittobase's
+  30C Sharpedo Toxtricity page,
+  dittobase.com/tcg/decks/meta/30c/sharpedo-toxtricity/variants/sharpedo-toxtricity-c8a3c3a4d8a4d581
+  (`data/meta-decks/online-2026-sharpedo-toxtricity.json`). The archetype
+  was 3.01% of the 30C meta (10th) on 2026-11-19, the highest not yet in
+  RyuuPlay. **Not verified:** the 1st of 397 list (RedwingPhoenix, 24 Oct
+  2026) could not be opened (permission), so the exact event and size of
+  the representative list are not recorded. A Pitch Black list
+  (EvanCampbell94, 7th of 263, 14 Sep 2026) runs the same core. No Delta
+  Reign cards.
+- **5 new cards**, each checked on 2026-11-19 against two or three card
+  pages: Carvanha PFL 60 (limitlesstcg.com, pkmncards.com: Basic D, 70 HP,
+  Reckless Charge D 30, 10 damage to itself, Weakness G, Retreat 1); Mega
+  Sharpedo ex PFL 61 (limitlesstcg.com, pkmncards.com: Stage 1 from
+  Carvanha, Mega Evolution ex, 330 HP, Greedy Fang D 70 draw 2, Hungry Jaws
+  DD 120+, 150 more if it has any damage counters, Weakness G, **no Retreat
+  Cost**); Toxel PFL 67 (pkmncards.com, mydextcg.com: Basic D, 70 HP, Call
+  for Family D up to 2 Basic Pokémon, Playful Kick DC 20, Weakness F,
+  Retreat 1); Toxtricity PFL 68 (limitlesstcg.com, pkmncards.com,
+  scrydex.com: Stage 1, 140 HP, Ability Sinister Surge: once during your
+  turn search the deck for a Basic D Energy, attach it to 1 of your Benched
+  D Pokémon, shuffle, and if you attached put 2 damage counters on that
+  Pokémon; Gentle Slap DDC 100 (pkmncards.com showed DC, the other two
+  DDC); Weakness F, Retreat 2); Yveltal MEG 88 (limitlesstcg.com,
+  pkmncards.com: Basic D, 110 HP, Clutch D 20 the Defending Pokémon can't
+  retreat during the opponent's next turn, Dark Feather DDC 110, Weakness L,
+  Resistance F-30, no Retreat Cost). The other 16 cards were already in from
+  earlier decks and were not re-checked.
+- **Choices (not verified against official rulings):** Sinister Surge can't
+  be used without a Benched D Pokémon in play; the player may find nothing
+  (then no damage counters). It reads the printed type (as Pecharunt ex's
+  Subjugating Chains does).
+- No engine change.
+- meta-audit: this deck before 16 of 21 (4 missing, Carvanha to verify),
+  after 21 of 21. All decks: before (24 decks) 583 of 608 (13 to verify,
+  12 missing); with the new list 599 of 629 (14 to verify, 16 missing);
+  after 604 of 629 (13 to verify, 12 missing).
+- Bot: new bench deck `sv-sharpedo-toxtricity`. 20 seeded mirrors (seed 1):
+  0 errors, 0 rejected actions, 0 guard/stalled (prizes 19, deck-out 1;
+  20.5 turns on average). Added to the modern smoke as its own 6-game step
+  (full modern smoke clean locally), to the modern bench spec (mirror,
+  "Why?" notes for seeds 1-3) and to the sets format spec (the 60-card list
+  is a valid modern Standard deck). **Not checked:** how well the bot plays
+  it (e.g. whether it uses Sinister Surge to turn Hungry Jaws on).
+- Tests: sets 3097 specs (13 new), bot-bench 101, 0 failures. common,
+  simple-bot and server unchanged (not re-run locally; CI runs them). Card
+  art for the new cards not fetched.
 
 ## 2026-11-18 (1) — Cynthia's Garchomp ex end-to-end
 
