@@ -212,7 +212,12 @@ export function gameReducer(store: StoreLike, state: State, effect: Effect): Sta
         effect.prizeCount = 0;
       }
 
-      store.log(state, GameLog.LOG_POKEMON_KO, { name: card.name });
+      // player (the owner) and prizes are read by the after-game recap in learn mode.
+      store.log(state, GameLog.LOG_POKEMON_KO, {
+        name: card.name,
+        player: effect.player.name,
+        prizes: effect.prizeCount
+      });
       if (effect.player.knockedOutTurn !== state.turn || !effect.player.knockedOutNames) {
         effect.player.knockedOutNames = [];
       }

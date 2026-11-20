@@ -267,6 +267,7 @@
   "GAME_LOGS_WHY": "Why?",
   "GAME_LOGS_SHOW_REASONS": "Show why the bot made each move",
   "GAME_LOGS_HIDE_REASONS": "Hide the bot's explanations",
+  "GAME_RECAP_TITLE": "Game recap",
   "LEARN_TIPS_TITLE": "Tips",
   "TUTORIAL_COACH_TITLE": "Tutorial",
   "TUTORIAL_COACH_PROGRESS": "{{done}} of {{total}}",

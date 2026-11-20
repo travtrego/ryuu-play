@@ -1,5 +1,6 @@
 import { KnockOutEffect } from '../effects/game-effects';
 import { CardTag } from '../card/card-types';
+import { GameLog } from '../../game-message';
 import { StateUtils } from '../state-utils';
 import { TestBasic, createStore, createTurnState } from '../reducers/reducer-test-utils';
 
@@ -75,5 +76,17 @@ describe('gameReducer - Knock Out turn tracking', () => {
     expect(prizesFor([])).toEqual(1);
     expect(prizesFor([CardTag.POKEMON_EX])).toEqual(2);
     expect(prizesFor([CardTag.POKEMON_EX, CardTag.MEGA_EVOLUTION_EX])).toEqual(3);
+  });
+
+  it('logs the Knock Out with the owner and the Prize count (read by the recap)', () => {
+    const state = createTurnState(4);
+    const store = createStore(state);
+    const owner = state.players[1];
+    const card = owner.active.getPokemonCard() as TestBasic;
+    card.tags = [CardTag.POKEMON_EX];
+    store.reduceEffect(state, new KnockOutEffect(owner, owner.active));
+    const log = state.logs.find(l => l.message === GameLog.LOG_POKEMON_KO);
+    expect(log).toBeDefined();
+    expect(log!.params).toEqual({ name: card.name, player: owner.name, prizes: 2 });
   });
 });

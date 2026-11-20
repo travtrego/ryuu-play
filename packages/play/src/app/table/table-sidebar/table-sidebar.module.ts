@@ -7,6 +7,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { TableSidebarComponent } from './table-sidebar.component';
 import { PlayerActionsComponent } from './player-actions/player-actions.component';
 import { GameLogsComponent } from './game-logs/game-logs.component';
+import { GameRecapComponent } from './game-recap/game-recap.component';
 import { ReplayControlsComponent } from './replay-controls/replay-controls.component';
 import { ChooseAvatarPopupComponent } from './choose-avatar-popup/choose-avatar-popup.component';
 import { PlayerAvatarComponent } from './player-avatar/player-avatar.component';
@@ -23,6 +24,7 @@ import { TutorialCoachComponent } from './tutorial-coach/tutorial-coach.componen
     declarations: [
         ChooseAvatarPopupComponent,
         GameLogsComponent,
+        GameRecapComponent,
         LearnTipsComponent,
         PlayerActionsComponent,
         PlayerAvatarComponent,

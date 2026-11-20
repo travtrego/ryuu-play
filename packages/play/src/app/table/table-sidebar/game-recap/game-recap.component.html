@@ -1,0 +1,26 @@
+<ng-container *ngIf="recap">
+  <div class="ptcg-game-recap-header">
+    <mat-icon class="ptcg-game-recap-icon">emoji_events</mat-icon>
+    <h4 translate>GAME_RECAP_TITLE</h4>
+  </div>
+
+  <p class="ptcg-game-recap-headline" [attr.data-result]="recap.result">{{ recap.headline }}</p>
+
+  <ul class="ptcg-game-recap-facts">
+    <li *ngFor="let line of recap.facts; trackBy: trackById" [attr.data-line]="line.id">
+      {{ line.text }}
+    </li>
+  </ul>
+
+  <ul class="ptcg-game-recap-lessons" *ngIf="recap.lessons.length > 0">
+    <li *ngFor="let line of recap.lessons; trackBy: trackById" [attr.data-line]="line.id">
+      <mat-icon class="ptcg-game-recap-lesson-icon">school</mat-icon>
+      {{ line.text }}
+      <a *ngIf="line.section" class="ptcg-game-recap-link"
+        routerLink="/rules"
+        [fragment]="line.section"
+        target="_blank"
+        rel="noopener">{{ 'LEARN_TIPS_MORE' | translate }}</a>
+    </li>
+  </ul>
+</ng-container>

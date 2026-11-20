@@ -1,0 +1,53 @@
+@import '../../../../theme/variables.scss';
+
+:host {
+  display: block;
+}
+
+.ptcg-game-recap-header {
+  align-items: center;
+  display: flex;
+  padding: map-get($padding, small);
+
+  & > h4 {
+    margin: 0;
+  }
+
+  & mat-icon {
+    height: 1em;
+    overflow: hidden;
+    width: 1em;
+  }
+}
+
+.ptcg-game-recap-icon {
+  margin-right: map-get($padding, small);
+}
+
+.ptcg-game-recap-headline {
+  font-weight: bold;
+  margin: 0;
+  padding: 0 map-get($padding, small);
+}
+
+.ptcg-game-recap-facts,
+.ptcg-game-recap-lessons {
+  list-style-type: none;
+  margin: 0;
+  padding: 0 map-get($padding, small) map-get($padding, small);
+
+  li {
+    padding: $ptcg-sidebar-tiny-padding;
+  }
+}
+
+.ptcg-game-recap-lesson-icon {
+  font-size: 1em;
+  height: 1em;
+  vertical-align: middle;
+  width: 1em;
+}
+
+.ptcg-game-recap-link {
+  white-space: nowrap;
+}
