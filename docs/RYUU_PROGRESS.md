@@ -78,6 +78,11 @@ owner handed from the GPT lane to Claude. Issue #2's lane split is retired.
   later Cynthia's cards.
 - **Deck 20, Mega Sharpedo ex / Toxtricity — done end-to-end**
   (2026-11-19, first entry below), 21 of 21 cards.
+- **2026-11-20: deck 21 not started.** That run had web search but no tool
+  to open a page (no WebFetch; subagents are ruled out by the run budget), so
+  it could neither read a current list nor check card text. It did tutorial
+  piece 4's after-game recap instead (entry below). A run that can open pages
+  should pick this up.
 - **Next: deck 21.** Re-check the meta first. dittobase.com's **30C**
   overview page, dittobase.com/tcg/decks/meta/30c, worked on 2026-11-19
   (typed URL) and lists every archetype with its meta share; its variant
@@ -180,9 +185,11 @@ Build in this order; each piece is usable when it lands:
    block off-script moves (decided: guide, don't block).
 3. ~~The bot pauses until the player clicks Continue~~ — **done 2026-11-05**
    (`BotPacer`, a Continue button in the coach panel). See the entry below.
-4. **Next: deck primers and an after-game recap.** A primer per deck (game plan, key
-   Pokémon and evolution lines, what to hold, matchups), and a recap built from
-   the real game log ("the bot took 2 Prizes because your Bench was empty").
+4. **Half done.** ~~After-game recap~~ — **done 2026-11-20** (a "Game recap"
+   panel in the sidebar, `game-recap.ts`; see the entry below). **Next: deck
+   primers** — a primer per deck (game plan, key Pokémon and evolution lines,
+   what to hold, matchups). Recap follow-ups: it is not shown in replays, and
+   it has no "turning point" line yet (e.g. the turn the Prize race flipped).
 5. Smaller follow-ups: the games page does not open the new table by itself
    (true of the guided game too: the player clicks "#1 bot" under Tables);
    highlight the coach's target card on the board; the coach is in the
@@ -236,6 +243,39 @@ game** with the Tips panel; a recap is piece 4.
   `claude/pokemon-tcg-ai-trainer-3m3qqe` (2026-09-29). Leave it alone.
 
 ---
+
+## 2026-11-20 (1) — After-game recap (tutorial piece 4, first half)
+
+Branch `claude/ryuu-2026-11-20-game-recap`.
+
+- **Why not deck 21:** this run could search the web but not open any page,
+  so no current list and no card text could be checked; per the rules,
+  card work was skipped rather than guessed. Modern-deck work was blocked, so
+  the run did the next learn-mode item.
+- **What the player sees:** when a game ends, a "Game recap" panel appears at
+  the top of the table sidebar (above Tips) with: who won and in how many
+  turns; how it ended (last Prize card, Active Knocked Out with an empty
+  Bench, no card to draw, left the game, ran out of time); Prize cards taken
+  by each side; which Pokémon each side Knocked Out (with "(2 Prizes)" /
+  "(3 Prizes)" for ex and Mega ex); and up to 2 lessons, each restating a
+  rule from the "How to play" page with a "Learn more" link: keep a Pokémon
+  on the Bench (lost by empty Bench), watch your deck size (lost by
+  deck-out), protect Pokémon ex / Mega ex (one of yours gave up 2 or 3
+  Prizes), power up a backup (any other loss), or read the bot's "Why?"
+  notes (won). Not shown to spectators, in replays, or for a game that ended
+  before it started.
+- **Engine (log only, no rule change):** the Knock Out log line
+  (`LOG_POKEMON_KO`) now also carries the owner's name and the Prize count
+  (`{ name, player, prizes }`); the visible log text is unchanged. Older
+  saved logs without the owner are skipped by the recap. If both players
+  have the same name, the Knock Out lists are left out.
+- **Not verified:** not seen in a browser by a person; checked only by unit
+  specs and `ng build`. The Prize count in the log is the count when the
+  Pokémon was Knocked Out; if fewer Prize cards were left, fewer were taken.
+- meta-audit (unchanged, no deck work): 604 of 629 (13 to verify, 12 missing).
+- Tests: common 369 specs (1 new), play 201 (14 new), simple-bot 92, server
+  76, 0 failures; play lint and `ng build` ok. sets and bot-bench not re-run
+  locally (no change there; CI runs them).
 
 ## 2026-11-19 (1) — Mega Sharpedo ex / Toxtricity end-to-end
 
