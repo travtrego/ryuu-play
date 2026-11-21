@@ -20,10 +20,10 @@ export class DeckService {
     return this.api.get<DeckResponse>('/v1/decks/get/' + deckId);
   }
 
-  public createDeck(deckName: string) {
+  public createDeck(deckName: string, cards: string[] = []) {
     return this.api.post<DeckResponse>('/v1/decks/save', {
       name: deckName,
-      cards: []
+      cards
     });
   }
 

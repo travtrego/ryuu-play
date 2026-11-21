@@ -49,6 +49,12 @@ describe('DeckService', () => {
 
       expect(apiServiceSpy.post).toHaveBeenCalledWith('/v1/decks/save', { name: deckName, cards: [] });
     });
+
+    it('should create a new deck with cards', () => {
+      service.createDeck('Copied', ['Dreepy TWM', 'Dreepy TWM']);
+
+      expect(apiServiceSpy.post).toHaveBeenCalledWith('/v1/decks/save', { name: 'Copied', cards: ['Dreepy TWM', 'Dreepy TWM'] });
+    });
   });
 
   describe('saveDeck', () => {

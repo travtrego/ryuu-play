@@ -6,6 +6,7 @@ export * from './bot-ai.interface';
 export * from './beginner-decks';
 export * from './card-images';
 export * from './tutorial-decks';
+export * from './modern-decks';
 export * from './bot-arbiter';
 export * from './game-settings';
 export * from './player-stats';
