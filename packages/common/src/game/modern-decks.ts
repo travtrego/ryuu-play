@@ -1,0 +1,704 @@
+/**
+ * Today's Standard (Scarlet & Violet / Mega Evolution era) decks: real
+ * tournament lists, one per deck finished end-to-end in RyuuPlay (see
+ * docs/RYUU_PROGRESS.md). Each list's source and date are in the matching
+ * `data/meta-decks/*.json` file named in `source`.
+ *
+ * Single source for two users: the bot benchmark (`packages/bot-bench`,
+ * `modernBenchDecks`) plays them, and the Deck primers page in the client lets
+ * a player copy one into their own decks. Card names are the engine's
+ * `fullName`, exactly as a saved deck stores them.
+ */
+
+export interface ModernDeck {
+  /** Stable id, also the bot-bench deck name (`--decks <id>`). */
+  id: string;
+  /** Display name of the archetype. */
+  name: string;
+  /** A name of at most 32 characters (the deck-name limit), when `name` is longer. */
+  shortName?: string;
+  /** Where the list comes from. */
+  source: string;
+  /** The 60 cards, as [card fullName, count]. */
+  cards: Array<[string, number]>;
+}
+
+export const MODERN_DECKS: ModernDeck[] = [
+
+  {
+    id: 'sv-tr-mewtwo',
+    name: 'Team Rocket\'s Mewtwo ex / Spidops',
+    shortName: 'Team Rocket\'s Mewtwo ex',
+    source: '2026 NAIC Masters Top 8, Juho Kallama (data/meta-decks/naic-2026-team-rocket-mewtwo.json)',
+    cards: [
+      ['Team Rocket\'s Mewtwo ex DRI', 2],
+      ['Team Rocket\'s Spidops DRI', 4],
+      ['Team Rocket\'s Tarountula DRI', 4],
+      ['Team Rocket\'s Articuno DRI', 2],
+      ['Team Rocket\'s Mimikyu DRI', 2],
+      ['Lillie\'s Clefairy ex JTG', 1],
+      ['Lillie\'s Determination MEG', 4],
+      ['Team Rocket\'s Ariana DRI', 4],
+      ['Team Rocket\'s Giovanni DRI', 3],
+      ['Team Rocket\'s Proton DRI', 2],
+      ['Team Rocket\'s Petrel DRI', 1],
+      ['Prism Tower CRI', 2],
+      ['Team Rocket\'s Factory DRI', 1],
+      ['Team Rocket\'s Transceiver DRI', 4],
+      ['Ultra Ball MEG', 4],
+      ['Night Stretcher SFA', 3],
+      ['Bug Catching Set TWM', 2],
+      ['Lucky Helmet TWM', 2],
+      ['Energy Switch SVI', 1],
+      ['Maximum Belt TEF', 1],
+      ['Team Rocket\'s Energy DRI', 4],
+      ['Grass Energy EVO', 6],
+      ['Psychic Energy EVO', 1]
+    ]
+  },
+
+  {
+    id: 'sv-dragapult',
+    name: 'Dragapult ex',
+    source: 'Fall 2026 Regionals stock list (data/meta-decks/regional-2026-dragapult.json)',
+    cards: [
+      ['Dreepy TWM', 4],
+      ['Drakloak TWM', 4],
+      ['Dragapult ex TWM', 3],
+      ['Munkidori TWM', 2],
+      ['Budew ASC', 2],
+      ['Dunsparce TEF', 1],
+      ['Dudunsparce TEF', 1],
+      ['Meowth ex POR', 1],
+      ['Fezandipiti ex ASC', 1],
+      ['Lillie\'s Determination MEG', 4],
+      ['Boss\'s Orders MEG', 3],
+      ['Crispin SCR', 2],
+      ['Rosa\'s Encouragement POR', 1],
+      ['Judge POR', 1],
+      ['Buddy-Buddy Poffin TEF', 4],
+      ['Poké Pad POR', 4],
+      ['Crushing Hammer POR', 4],
+      ['Ultra Ball MEG', 3],
+      ['Night Stretcher ASC', 3],
+      ['Unfair Stamp TWM', 1],
+      ['Risky Ruins MEG', 2],
+      ['Fire Energy EVO', 3],
+      ['Psychic Energy EVO', 3],
+      ['Darkness Energy EVO', 3]
+    ]
+  },
+
+  {
+    id: 'sv-dragapult-dusknoir',
+    name: 'Dragapult ex / Dusknoir',
+    source: 'Fall 2026 Regionals (data/meta-decks/regional-2026-dragapult-dusknoir.json)',
+    cards: [
+      ['Dreepy TWM', 4],
+      ['Drakloak TWM', 4],
+      ['Dragapult ex TWM', 3],
+      ['Duskull PRE', 2],
+      ['Dusclops PRE', 2],
+      ['Dusknoir PRE', 1],
+      ['Budew ASC', 1],
+      ['Munkidori TWM', 1],
+      ['Fezandipiti ex ASC', 1],
+      ['Meowth ex POR', 1],
+      ['Lillie\'s Determination MEG', 4],
+      ['Boss\'s Orders MEG', 3],
+      ['Dawn PFL', 2],
+      ['Crispin SCR', 2],
+      ['Rosa\'s Encouragement POR', 1],
+      ['Buddy-Buddy Poffin TEF', 4],
+      ['Poké Pad POR', 4],
+      ['Ultra Ball MEG', 4],
+      ['Rare Candy MEG', 2],
+      ['Night Stretcher ASC', 2],
+      ['Special Red Card CRI', 1],
+      ['Unfair Stamp TWM', 1],
+      ['Team Rocket\'s Watchtower DRI', 2],
+      ['Fire Energy EVO', 3],
+      ['Psychic Energy EVO', 3],
+      ['Darkness Energy EVO', 2]
+    ]
+  },
+
+  {
+    id: 'sv-dragapult-blaziken',
+    name: 'Dragapult ex / Blaziken ex',
+    source: 'Fall 2026 Regionals (data/meta-decks/regional-2026-dragapult-blaziken.json)',
+    cards: [
+      ['Dreepy TWM', 4],
+      ['Drakloak TWM', 4],
+      ['Dragapult ex TWM', 2],
+      ['Torchic DRI', 2],
+      ['Combusken DRI', 1],
+      ['Blaziken ex JTG', 2],
+      ['Munkidori TWM', 2],
+      ['Budew ASC', 1],
+      ['Chi-Yu TWM', 1],
+      ['Fezandipiti ex ASC', 1],
+      ['Meowth ex POR', 1],
+      ['Lillie\'s Determination MEG', 4],
+      ['Boss\'s Orders MEG', 3],
+      ['Crispin SCR', 2],
+      ['Judge POR', 2],
+      ['Buddy-Buddy Poffin TEF', 4],
+      ['Poké Pad POR', 4],
+      ['Ultra Ball MEG', 4],
+      ['Rare Candy MEG', 3],
+      ['Night Stretcher ASC', 2],
+      ['Unfair Stamp TWM', 1],
+      ['Team Rocket\'s Watchtower DRI', 2],
+      ['Fire Energy EVO', 3],
+      ['Psychic Energy EVO', 3],
+      ['Darkness Energy EVO', 2]
+    ]
+  },
+
+  {
+    id: 'sv-alakazam',
+    name: 'Alakazam / Dudunsparce',
+    source: 'Fall 2026 Regionals (data/meta-decks/regional-2026-alakazam-dudunsparce.json)',
+    cards: [
+      ['Abra MEG', 4],
+      ['Kadabra MEG', 4],
+      ['Alakazam MEG', 3],
+      ['Dunsparce JTG', 3],
+      ['Dudunsparce TEF', 2],
+      ['Flutter Mane TEF', 1],
+      ['Elgyem BLK', 1],
+      ['Genesect SFA', 1],
+      ['Fezandipiti ex ASC', 1],
+      ['Lillie\'s Clefairy ex JTG', 1],
+      ['Dawn PFL', 4],
+      ['Hilda WHT', 3],
+      ['Boss\'s Orders MEG', 2],
+      ['Eri TEF', 1],
+      ['Buddy-Buddy Poffin TEF', 4],
+      ['Poké Pad POR', 4],
+      ['Rare Candy MEG', 2],
+      ['Wondrous Patch PFL', 2],
+      ['Night Stretcher ASC', 1],
+      ['Sacred Ash DRI', 1],
+      ['Special Red Card CRI', 1],
+      ['Lillie\'s Pearl JTG', 2],
+      ['Handheld Fan TWM', 1],
+      ['Nighttime Mine ASC', 2],
+      ['Battle Cage PFL', 1],
+      ['Telepathic Psychic Energy POR', 4],
+      ['Psychic Energy EVO', 2],
+      ['Mist Energy TEF', 1],
+      ['Enriching Energy SSP', 1]
+    ]
+  },
+
+  {
+    id: 'sv-ns-zoroark',
+    name: 'N\'s Zoroark ex',
+    source: 'Fall 2026 Regionals (data/meta-decks/regional-2026-ns-zoroark.json)',
+    cards: [
+      ['N\'s Zorua JTG', 4],
+      ['N\'s Zoroark ex JTG', 4],
+      ['Munkidori TWM', 2],
+      ['N\'s Reshiram JTG', 1],
+      ['N\'s Zekrom ASC', 1],
+      ['N\'s Purrloin JTG', 1],
+      ['Fezandipiti ex ASC', 1],
+      ['Pecharunt ex SFA', 1],
+      ['Tatsugiri TWM', 1],
+      ['Lillie\'s Determination MEG', 4],
+      ['Boss\'s Orders MEG', 3],
+      ['Cyrano SSP', 2],
+      ['Judge POR', 2],
+      ['Brock\'s Scouting JTG', 1],
+      ['Janine\'s Secret Art PRE', 1],
+      ['Black Belt\'s Training JTG', 1],
+      ['Buddy-Buddy Poffin TEF', 4],
+      ['Poké Pad POR', 3],
+      ['N\'s PP Up JTG', 3],
+      ['Ultra Ball MEG', 2],
+      ['Night Stretcher ASC', 2],
+      ['Secret Box TWM', 1],
+      ['Special Red Card CRI', 1],
+      ['Air Balloon ASC', 1],
+      ['Binding Mochi PRE', 1],
+      ['Punk Helmet PFL', 1],
+      ['Team Rocket\'s Watchtower DRI', 3],
+      ['Darkness Energy EVO', 8]
+    ]
+  },
+
+  {
+    id: 'sv-mega-excadrill',
+    name: 'Mega Excadrill ex',
+    source: 'Fall 2026 Regionals (data/meta-decks/regional-2026-mega-excadrill.json)',
+    cards: [
+      ['Beldum TEF', 3],
+      ['Beldum CRI', 1],
+      ['Metang TEF', 4],
+      ['Metagross CRI', 1],
+      ['Drilbur PBL', 3],
+      ['Mega Excadrill ex PBL', 2],
+      ['Piplup PFL', 2],
+      ['Empoleon ex PFL', 1],
+      ['Genesect ex BLK', 2],
+      ['Mega Skarmory ex POR', 1],
+      ['Fezandipiti ex ASC', 1],
+      ['Brock\'s Scouting JTG', 4],
+      ['Team Rocket\'s Petrel DRI', 4],
+      ['Boss\'s Orders MEG', 1],
+      ['Kieran TWM', 1],
+      ['Buddy-Buddy Poffin TEF', 4],
+      ['Pokégear 3.0 SVI', 4],
+      ['Jumbo Ice Cream PFL', 1],
+      ['Switch MEG', 1],
+      ['Rare Candy MEG', 1],
+      ['Hero\'s Cape TEF', 1],
+      ['Metal Energy EVO', 17]
+    ]
+  },
+
+  {
+    id: 'sv-slowking',
+    name: 'Slowking',
+    source: 'Fall 2026 Regionals (data/meta-decks/regional-2026-slowking.json)',
+    cards: [
+      ['Slowpoke SCR', 3],
+      ['Slowking SCR', 3],
+      ['Mega Kangaskhan ex MEG', 3],
+      ['Kyurem SFA', 2],
+      ['Latias ex SSP', 2],
+      ['Metagross CRI', 1],
+      ['Annihilape PBL', 1],
+      ['Fezandipiti ex ASC', 1],
+      ['Lillie\'s Clefairy ex JTG', 1],
+      ['Meowth ex POR', 1],
+      ['Drapion POR', 1],
+      ['Munkidori TWM', 1],
+      ['Mew ex 30C', 1],
+      ['Zeraora DRI', 1],
+      ['Lillie\'s Determination MEG', 4],
+      ['Ciphermaniac\'s Codebreaking TEF', 3],
+      ['Crispin SCR', 1],
+      ['Ultra Ball MEG', 4],
+      ['Poké Pad POR', 3],
+      ['Wondrous Patch PFL', 3],
+      ['Night Stretcher ASC', 2],
+      ['Switch MEG', 1],
+      ['Secret Box TWM', 1],
+      ['Lucky Helmet TWM', 2],
+      ['Academy at Night SFA', 4],
+      ['Telepathic Psychic Energy POR', 4],
+      ['Psychic Energy EVO', 3],
+      ['Darkness Energy EVO', 2],
+      ['Boomerang Energy TWM', 1]
+    ]
+  },
+
+  {
+    id: 'sv-festival-lead',
+    name: 'Festival Lead',
+    source: 'Fall 2026 Regionals (data/meta-decks/regional-2026-festival-lead.json)',
+    cards: [
+      ['Applin TWM', 3],
+      ['Applin TWM 126', 1],
+      ['Dipplin TWM', 3],
+      ['Grookey TWM', 3],
+      ['Thwackey TWM', 4],
+      ['Goldeen TWM', 2],
+      ['Seaking PRE', 1],
+      ['Rellor TEF', 1],
+      ['Rabsca TEF', 1],
+      ['Shaymin DRI', 1],
+      ['Lillie\'s Determination MEG', 4],
+      ['Boss\'s Orders MEG', 2],
+      ['Gladion\'s Final Battle PBL', 2],
+      ['Kieran TWM', 1],
+      ['Lana\'s Aid TWM', 1],
+      ['Buddy-Buddy Poffin TEF', 4],
+      ['Poké Pad POR', 4],
+      ['Bug Catching Set TWM', 3],
+      ['Ultra Ball MEG', 2],
+      ['Night Stretcher ASC', 2],
+      ['Secret Box TWM', 1],
+      ['Air Balloon ASC', 3],
+      ['Brave Bangle WHT', 2],
+      ['Festival Grounds TWM', 4],
+      ['Grass Energy EVO', 4],
+      ['Growing Grass Energy POR', 1]
+    ]
+  },
+
+  {
+    id: 'sv-basic-box',
+    name: 'Basic Box',
+    source: 'Fall 2026 Regionals (data/meta-decks/regional-2026-basic-box.json)',
+    cards: [
+      ['Mega Kangaskhan ex MEG', 4],
+      ['Meowth ex POR', 3],
+      ['Teal Mask Ogerpon ex TWM', 2],
+      ['Wellspring Mask Ogerpon ex TWM', 2],
+      ['Latias ex SSP', 2],
+      ['Lillie\'s Clefairy ex JTG', 2],
+      ['Raging Bolt ex TEF', 1],
+      ['Chien-Pao SSP', 1],
+      ['Iron Crown ex TEF', 1],
+      ['Passimian SSP', 1],
+      ['Fezandipiti ex ASC', 1],
+      ['Iron Leaves ex TEF', 1],
+      ['Crispin SCR', 4],
+      ['Cyrano SSP', 2],
+      ['Boss\'s Orders MEG', 2],
+      ['Ciphermaniac\'s Codebreaking TEF', 1],
+      ['Energy Switch MEG', 4],
+      ['Ultra Ball MEG', 4],
+      ['Night Stretcher ASC', 2],
+      ['Unfair Stamp TWM', 1],
+      ['Glass Trumpet SCR', 1],
+      ['Area Zero Underdepths SCR', 3],
+      ['Grass Energy EVO', 6],
+      ['Psychic Energy EVO', 3],
+      ['Lightning Energy EVO', 2],
+      ['Fighting Energy EVO', 2],
+      ['Water Energy EVO', 2]
+    ]
+  },
+
+  {
+    id: 'sv-dhelmise',
+    name: 'Dhelmise',
+    source: 'Fall 2026 Regionals (data/meta-decks/regional-2026-dhelmise.json)',
+    cards: [
+      ['Poltchageist PBL', 4],
+      ['Sinistcha PBL', 2],
+      ['Dhelmise PBL', 4],
+      ['Dunsparce JTG', 3],
+      ['Dudunsparce TEF', 2],
+      ['Shuppet PBL', 2],
+      ['Banette PBL', 4],
+      ['Lillie\'s Clefairy ex JTG', 2],
+      ['Bloodmoon Ursaluna ex TWM', 1],
+      ['Latias ex SSP', 1],
+      ['Lillie\'s Determination MEG', 4],
+      ['Gwynn PBL', 4],
+      ['Boss\'s Orders MEG', 3],
+      ['Explorer\'s Guidance TEF', 2],
+      ['Black Belt\'s Training JTG', 1],
+      ['Ultra Ball MEG', 4],
+      ['Poké Pad POR', 4],
+      ['Night Stretcher ASC', 3],
+      ['Prism Tower CRI', 3],
+      ['Telepathic Psychic Energy POR', 4],
+      ['Psychic Energy EVO', 2],
+      ['Legacy Energy TWM', 1]
+    ]
+  },
+
+  {
+    id: 'sv-ogerpon-meganium',
+    name: 'Ogerpon Meganium Hydrapple',
+    source: 'Fall 2026 online (data/meta-decks/online-2026-ogerpon-meganium-hydrapple.json)',
+    cards: [
+      ['Teal Mask Ogerpon ex TWM', 4],
+      ['Chikorita ASC', 2],
+      ['Bayleef MEG', 2],
+      ['Meganium MEG', 2],
+      ['Applin TWM', 2],
+      ['Dipplin TWM', 2],
+      ['Hydrapple ex SCR', 2],
+      ['Meowth ex POR', 2],
+      ['Fezandipiti ex ASC', 1],
+      ['Celebi MEG', 1],
+      ['Tapu Bulu SFA', 1],
+      ['Lillie\'s Determination MEG', 4],
+      ['Boss\'s Orders MEG', 2],
+      ['Team Rocket\'s Petrel DRI', 1],
+      ['Briar SCR', 1],
+      ['Judge POR', 1],
+      ['Lana\'s Aid TWM', 1],
+      ['Bug Catching Set TWM', 4],
+      ['Ultra Ball MEG', 4],
+      ['Night Stretcher ASC', 2],
+      ['Unfair Stamp TWM', 1],
+      ['Poké Pad POR', 1],
+      ['Forest of Vitality MEG', 4],
+      ['Grass Energy EVO', 13]
+    ]
+  },
+
+  {
+    id: 'sv-mega-lucario',
+    name: 'Mega Lucario ex',
+    source: 'Fall 2026 online (data/meta-decks/online-2026-mega-lucario.json)',
+    cards: [
+      ['Riolu PRE', 3],
+      ['Riolu MEG', 1],
+      ['Mega Lucario ex MEG', 3],
+      ['Dunsparce JTG', 3],
+      ['Dudunsparce TEF', 2],
+      ['Dudunsparce ex JTG', 1],
+      ['Solrock MEG', 2],
+      ['Lunatone MEG', 2],
+      ['Lillie\'s Determination MEG', 4],
+      ['Boss\'s Orders MEG', 4],
+      ['Hilda WHT', 2],
+      ['Lisia\'s Appeal SSP', 1],
+      ['Poké Pad POR', 4],
+      ['Fighting Gong MEG', 4],
+      ['Premium Power Pro MEG', 4],
+      ['Buddy-Buddy Poffin TEF', 2],
+      ['Ultra Ball MEG', 2],
+      ['Lucky Helmet TWM', 2],
+      ['Gravity Mountain SSP', 2],
+      ['Fighting Energy EVO', 8],
+      ['Rocky Fighting Energy POR', 3],
+      ['Legacy Energy TWM', 1]
+    ]
+  },
+
+  {
+    id: 'sv-lopunny',
+    name: 'Lopunny Dudunsparce',
+    source: 'Fall 2026 online (data/meta-decks/online-2026-lopunny-dudunsparce.json)',
+    cards: [
+      ['Buneary PFL', 3],
+      ['Mega Lopunny ex PFL', 2],
+      ['Dunsparce JTG', 2],
+      ['Dunsparce TEF', 1],
+      ['Dudunsparce TEF', 2],
+      ['Snorunt ASC', 2],
+      ['Mega Froslass ex ASC', 2],
+      ['Meowth ex POR', 1],
+      ['Mew ex 30C', 1],
+      ['Fan Rotom SCR', 1],
+      ['Lillie\'s Clefairy ex JTG', 1],
+      ['Lillie\'s Determination MEG', 4],
+      ['Hilda WHT', 4],
+      ['Boss\'s Orders MEG', 3],
+      ['Wally\'s Compassion MEG', 3],
+      ['Buddy-Buddy Poffin TEF', 4],
+      ['Poké Pad POR', 4],
+      ['Ultra Ball MEG', 4],
+      ['Night Stretcher ASC', 2],
+      ['Special Red Card CRI', 1],
+      ['Air Balloon ASC', 2],
+      ['Battle Cage PFL', 3],
+      ['Mist Energy TEF', 4],
+      ['Water Energy EVO', 3],
+      ['Enriching Energy SSP', 1]
+    ]
+  },
+
+  {
+    id: 'sv-greninja',
+    name: 'Greninja ex',
+    source: 'Online, Nov 2026 (data/meta-decks/online-2026-greninja.json)',
+    cards: [
+      ['Froakie CRI', 3],
+      ['Frogadier CRI', 2],
+      ['Greninja ex TWM', 2],
+      ['Duskull PRE', 2],
+      ['Dusclops PRE', 2],
+      ['Dusknoir PRE', 2],
+      ['Snorunt ASC', 2],
+      ['Mega Froslass ex ASC', 2],
+      ['Staryu POR', 1],
+      ['Mega Starmie ex POR', 1],
+      ['Meowth ex POR', 2],
+      ['Budew ASC', 1],
+      ['Fezandipiti ex ASC', 1],
+      ['Latias ex SSP', 1],
+      ['Lillie\'s Determination MEG', 3],
+      ['Hilda WHT', 2],
+      ['Boss\'s Orders MEG', 2],
+      ['Colress\'s Tenacity SFA', 1],
+      ['Judge POR', 1],
+      ['Team Rocket\'s Petrel DRI', 1],
+      ['Buddy-Buddy Poffin TEF', 4],
+      ['Ultra Ball MEG', 4],
+      ['Poké Pad POR', 3],
+      ['Rare Candy MEG', 2],
+      ['Night Stretcher ASC', 1],
+      ['Special Red Card CRI', 1],
+      ['Switch MEG', 1],
+      ['Grand Tree SCR', 1],
+      ['Gravity Mountain SSP', 1],
+      ['Water Energy EVO', 4],
+      ['Bubbly Water Energy CRI', 1],
+      ['Ignition Energy WHT', 3]
+    ]
+  },
+
+  {
+    id: 'sv-dragapult-dudunsparce',
+    name: 'Dragapult ex / Dudunsparce',
+    source: 'Online, Nov 2026 (data/meta-decks/online-2026-dragapult-dudunsparce.json)',
+    cards: [
+      ['Dreepy TWM', 4],
+      ['Drakloak TWM', 4],
+      ['Dragapult ex TWM', 3],
+      ['Dunsparce TEF', 2],
+      ['Dudunsparce TEF', 1],
+      ['Dudunsparce ex JTG', 1],
+      ['Budew ASC', 2],
+      ['Munkidori TWM', 2],
+      ['Fezandipiti ex ASC', 1],
+      ['Meowth ex POR', 1],
+      ['Shaymin DRI', 1],
+      ['Lillie\'s Determination MEG', 4],
+      ['Boss\'s Orders MEG', 3],
+      ['Crispin SCR', 2],
+      ['Dawn PFL', 1],
+      ['Judge POR', 1],
+      ['Rosa\'s Encouragement POR', 1],
+      ['Buddy-Buddy Poffin TEF', 4],
+      ['Poké Pad POR', 4],
+      ['Ultra Ball MEG', 3],
+      ['Night Stretcher ASC', 3],
+      ['Unfair Stamp TWM', 1],
+      ['Risky Ruins MEG', 2],
+      ['Darkness Energy EVO', 3],
+      ['Fire Energy EVO', 3],
+      ['Psychic Energy EVO', 3]
+    ]
+  },
+
+  {
+    id: 'sv-rockets-honchkrow',
+    name: 'Team Rocket\'s Honchkrow',
+    source: 'Online, Nov 2026 (data/meta-decks/online-2026-rockets-honchkrow.json)',
+    cards: [
+      ['Team Rocket\'s Murkrow DRI', 4],
+      ['Team Rocket\'s Honchkrow ASC', 3],
+      ['Team Rocket\'s Porygon DRI', 2],
+      ['Team Rocket\'s Porygon2 DRI', 1],
+      ['Team Rocket\'s Articuno DRI', 2],
+      ['Team Rocket\'s Petrel DRI', 4],
+      ['Team Rocket\'s Archer DRI', 4],
+      ['Team Rocket\'s Proton DRI', 4],
+      ['Team Rocket\'s Ariana DRI', 4],
+      ['Team Rocket\'s Giovanni DRI', 4],
+      ['Roto-Stick PRE', 4],
+      ['Team Rocket\'s Transceiver DRI', 4],
+      ['Poké Pad POR', 3],
+      ['Night Stretcher ASC', 3],
+      ['Miracle Headset SSP', 1],
+      ['Ultra Ball MEG', 1],
+      ['Pokégear 3.0 SVI', 1],
+      ['Team Rocket\'s Factory DRI', 3],
+      ['Team Rocket\'s Energy DRI', 4],
+      ['Ignition Energy WHT', 4]
+    ]
+  },
+
+  {
+    id: 'sv-alakazam-dusknoir',
+    name: 'Alakazam / Dusknoir',
+    source: 'Online, Sep 2026 (data/meta-decks/online-2026-alakazam-dusknoir.json)',
+    cards: [
+      ['Abra MEG', 3],
+      ['Abra TWM', 1],
+      ['Kadabra MEG', 4],
+      ['Alakazam MEG', 3],
+      ['Duskull PRE', 4],
+      ['Dusclops PRE', 2],
+      ['Dusknoir PRE', 2],
+      ['Budew ASC', 2],
+      ['Fezandipiti ex ASC', 1],
+      ['Patrat CRI', 1],
+      ['Shaymin DRI', 1],
+      ['Gwynn PBL', 4],
+      ['Hilda WHT', 4],
+      ['Dawn PFL', 2],
+      ['Boss\'s Orders MEG', 1],
+      ['Rare Candy MEG', 4],
+      ['Poké Pad POR', 4],
+      ['Buddy-Buddy Poffin TEF', 3],
+      ['Night Stretcher ASC', 2],
+      ['Special Red Card CRI', 2],
+      ['Strange Timepiece MEG', 2],
+      ['Enhanced Hammer TWM', 1],
+      ['Prime Catcher TEF', 1],
+      ['Sacred Ash DRI', 1],
+      ['Telepathic Psychic Energy POR', 4],
+      ['Psychic Energy EVO', 1]
+    ]
+  },
+
+  {
+    id: 'sv-cynthias-garchomp',
+    name: 'Cynthia\'s Garchomp ex',
+    source: 'Online, Nov 2026 (data/meta-decks/online-2026-cynthias-garchomp.json)',
+    cards: [
+      ['Cynthia\'s Gible DRI', 4],
+      ['Cynthia\'s Gabite DRI', 4],
+      ['Cynthia\'s Garchomp ex DRI', 3],
+      ['Cynthia\'s Roselia DRI', 3],
+      ['Cynthia\'s Roserade DRI', 3],
+      ['Cynthia\'s Spiritomb DRI', 1],
+      ['Lillie\'s Determination MEG', 4],
+      ['Boss\'s Orders MEG', 3],
+      ['Hilda WHT', 3],
+      ['Judge POR', 2],
+      ['Buddy-Buddy Poffin TEF', 4],
+      ['Fighting Gong MEG', 3],
+      ['Poké Pad POR', 3],
+      ['Premium Power Pro MEG', 3],
+      ['Cynthia\'s Power Weight DRI', 3],
+      ['Rare Candy MEG', 2],
+      ['Night Stretcher ASC', 1],
+      ['Switch MEG', 1],
+      ['Unfair Stamp TWM', 1],
+      ['Team Rocket\'s Watchtower DRI', 2],
+      ['Rocky Fighting Energy POR', 3],
+      ['Fighting Energy EVO', 4]
+    ]
+  },
+
+  {
+    id: 'sv-sharpedo-toxtricity',
+    name: 'Mega Sharpedo ex / Toxtricity',
+    source: 'Online, Oct 2026 (data/meta-decks/online-2026-sharpedo-toxtricity.json)',
+    cards: [
+      ['Carvanha PFL', 3],
+      ['Mega Sharpedo ex PFL', 3],
+      ['Toxel PFL', 2],
+      ['Toxtricity PFL', 2],
+      ['Pecharunt ex SFA', 3],
+      ['Munkidori TWM', 2],
+      ['Tatsugiri TWM', 2],
+      ['Fezandipiti ex ASC', 1],
+      ['Yveltal MEG', 1],
+      ['Lillie\'s Determination MEG', 4],
+      ['Boss\'s Orders MEG', 3],
+      ['Judge POR', 3],
+      ['Team Rocket\'s Petrel DRI', 2],
+      ['Buddy-Buddy Poffin TEF', 4],
+      ['Poké Pad POR', 4],
+      ['Ultra Ball MEG', 4],
+      ['Night Stretcher ASC', 1],
+      ['Unfair Stamp TWM', 1],
+      ['Binding Mochi PRE', 3],
+      ['Team Rocket\'s Watchtower DRI', 3],
+      ['Darkness Energy EVO', 9]
+    ]
+  }
+
+];
+
+/** The name a deck copied from `deck` gets in the player's deck list (32 characters at most). */
+export function modernDeckName(deck: ModernDeck): string {
+  return deck.shortName !== undefined ? deck.shortName : deck.name;
+}
+
+/** The deck as a flat list of card names, one entry per copy. */
+export function modernDeckCards(deck: ModernDeck): string[] {
+  const cards: string[] = [];
+  for (const [name, count] of deck.cards) {
+    for (let i = 0; i < count; i++) {
+      cards.push(name);
+    }
+  }
+  return cards;
+}

@@ -1,0 +1,113 @@
+<ptcg-content [loading]="loading">
+  <mat-toolbar>
+    <mat-toolbar-row>
+      <h1>Deck primers</h1>
+    </mat-toolbar-row>
+  </mat-toolbar>
+
+  <div class="ptcg-primers">
+
+    <p>
+      Decks from today's Standard format, each a real tournament list. Pick one to see how it plays and
+      what is in it, then add it to your decks and play it against the bot from the Games page.
+      New to the game? Start with <a routerLink="/rules">How to play</a>.
+    </p>
+
+    <div class="ptcg-primers-toc">
+      <button mat-stroked-button *ngFor="let deck of decks"
+        [color]="deck === selected ? 'primary' : undefined"
+        [class.ptcg-primers-selected]="deck === selected"
+        (click)="choose(deck)">
+        {{ deck.name }}
+      </button>
+    </div>
+
+    <mat-card class="ptcg-primers-section">
+      <mat-card-title>{{ selected.name }}</mat-card-title>
+      <mat-card-subtitle>List: {{ selected.source }}</mat-card-subtitle>
+      <mat-card-content>
+        <ng-container *ngIf="text; else noText">
+          <h3>Game plan</h3>
+          <p class="ptcg-primers-plan">{{ text.plan }}</p>
+          <h3>Tips</h3>
+          <ul>
+            <li *ngFor="let tip of text.tips">{{ tip }}</li>
+          </ul>
+        </ng-container>
+        <ng-template #noText>
+          <p class="ptcg-primers-note">No written primer for this deck yet; the card summary below is
+            generated from the cards.</p>
+        </ng-template>
+
+        <div class="ptcg-primers-actions">
+          <button mat-raised-button color="primary" (click)="addToMyDecks()" [disabled]="loading">
+            Add to my decks
+          </button>
+          <a mat-button *ngIf="addedDeckId !== undefined" [routerLink]="['/deck', addedDeckId]">
+            Open "{{ addedDeckName }}" in the deck editor
+          </a>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="ptcg-primers-section">
+      <mat-card-title>Evolution lines</mat-card-title>
+      <mat-card-content>
+        <ul class="ptcg-primers-lines">
+          <li *ngFor="let line of analysis.lines">
+            <ng-container *ngFor="let step of line.steps; let last = last">
+              <span *ngFor="let pokemon of step; let lastPrint = last">{{ pokemon.count }}× {{ pokemon.name
+                }}<ng-container *ngIf="!lastPrint">, </ng-container></span>
+              <span *ngIf="!last" class="ptcg-primers-arrow"> → </span>
+            </ng-container>
+            <span *ngIf="line.missingEvolvesFrom" class="ptcg-primers-note">
+              (evolves from {{ line.missingEvolvesFrom }}, which is not in this deck)</span>
+          </li>
+        </ul>
+        <p>
+          {{ analysis.pokemonCount }} Pokémon, {{ analysis.trainerCount }} Trainer cards
+          (<ng-container *ngFor="let kind of analysis.trainerKinds; let last = last">{{ kind.count }} {{ kind.label
+            }}<ng-container *ngIf="!last">, </ng-container></ng-container>),
+          {{ analysis.energyCount }} Energy
+          (<ng-container *ngFor="let energy of analysis.energies; let last = last">{{ energy.count }} {{ energy.label
+            }}<ng-container *ngIf="!last">, </ng-container></ng-container>).
+        </p>
+        <p *ngIf="analysis.exCount > 0 || analysis.megaExCount > 0" class="ptcg-primers-prizes">
+          Prize cards: this deck has
+          <ng-container *ngIf="analysis.exCount > 0">{{ analysis.exCount }} Pokémon ex (2 Prize cards each)</ng-container>
+          <ng-container *ngIf="analysis.exCount > 0 && analysis.megaExCount > 0"> and </ng-container>
+          <ng-container *ngIf="analysis.megaExCount > 0">{{ analysis.megaExCount }} Mega Evolution Pokémon ex
+            (3 Prize cards each)</ng-container>.
+          Every other Pokémon gives up 1. <a routerLink="/rules" fragment="goal">How Prize cards work</a>
+        </p>
+        <p *ngIf="analysis.unknown.length > 0" class="ptcg-primers-note">
+          Cards this client does not know: {{ analysis.unknown.join(', ') }}.
+        </p>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="ptcg-primers-section">
+      <mat-card-title>The Pokémon</mat-card-title>
+      <mat-card-content>
+        <p class="ptcg-primers-note">Click a name to see the full card.</p>
+        <div class="ptcg-primers-pokemon" *ngFor="let pokemon of allPokemon()">
+          <div>
+            <a class="ptcg-primers-card-link" role="button" tabindex="0"
+              (click)="showCard(pokemon)" (keydown.enter)="showCard(pokemon)">{{ pokemon.count }}× {{ pokemon.name }}</a>
+            <span class="ptcg-primers-stats">
+              {{ pokemon.stage }} · {{ pokemon.hp }} HP · gives up {{ pokemon.prizes }}
+              Prize card{{ pokemon.prizes === 1 ? '' : 's' }} · Weakness: {{ pokemon.weakness || 'none' }} ·
+              Retreat: {{ pokemon.retreat }}
+            </span>
+          </div>
+          <div *ngFor="let ability of pokemon.abilities">Ability: <strong>{{ ability }}</strong></div>
+          <div *ngFor="let attack of pokemon.attacks">
+            <strong>{{ attack.name }}</strong><span *ngIf="attack.damage"> {{ attack.damage }}</span>
+            <span class="ptcg-primers-cost"> ({{ attack.cost.length > 0 ? attack.cost.join(', ') : 'no Energy' }})</span>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+  </div>
+</ptcg-content>

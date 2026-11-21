@@ -1,0 +1,89 @@
+.ptcg-primers {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 16px;
+
+  a {
+    color: inherit;
+    text-decoration: underline;
+  }
+
+  p, li {
+    line-height: 1.55;
+  }
+}
+
+.ptcg-primers-toc {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+
+  button {
+    max-width: 100%;
+    white-space: normal;
+    line-height: 1.3;
+    padding-top: 6px;
+    padding-bottom: 6px;
+    height: auto;
+  }
+}
+
+.ptcg-primers-selected {
+  font-weight: bold;
+}
+
+.ptcg-primers-section {
+  margin-bottom: 16px;
+
+  h3 {
+    margin: 12px 0 4px;
+  }
+
+  ul {
+    padding-left: 20px;
+  }
+}
+
+.ptcg-primers-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.ptcg-primers-lines li {
+  margin-bottom: 4px;
+}
+
+.ptcg-primers-arrow {
+  opacity: 0.7;
+}
+
+.ptcg-primers-note,
+.ptcg-primers-stage,
+.ptcg-primers-cost {
+  opacity: 0.75;
+}
+
+.ptcg-primers-stage {
+  font-size: 0.85em;
+}
+
+.ptcg-primers-pokemon {
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(127, 127, 127, 0.25);
+  line-height: 1.5;
+}
+
+.ptcg-primers-card-link {
+  font-weight: bold;
+  cursor: pointer;
+  margin-right: 8px;
+}
+
+.ptcg-primers-stats {
+  opacity: 0.75;
+  font-size: 0.9em;
+}

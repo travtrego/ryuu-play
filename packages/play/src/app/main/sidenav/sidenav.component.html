@@ -14,6 +14,9 @@
   <a routerLink="/rules" mat-list-item>
     {{ 'MAIN_RULES' | translate }}
   </a>
+  <a routerLink="/primers" mat-list-item>
+    {{ 'MAIN_PRIMERS' | translate }}
+  </a>
   <a routerLink="/message" mat-list-item>
     <span
       [matBadge]="unreadMessages$ | async"

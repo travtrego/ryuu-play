@@ -83,6 +83,9 @@ owner handed from the GPT lane to Claude. Issue #2's lane split is retired.
   it could neither read a current list nor check card text. It did tutorial
   piece 4's after-game recap instead (entry below). A run that can open pages
   should pick this up.
+- **2026-11-21: deck 21 not started again**, same reason (web search only,
+  no tool to open a page; subagents ruled out). That run did deck primers
+  (tutorial piece 4's second half, entry below).
 - **Next: deck 21.** Re-check the meta first. dittobase.com's **30C**
   overview page, dittobase.com/tcg/decks/meta/30c, worked on 2026-11-19
   (typed URL) and lists every archetype with its meta share; its variant
@@ -185,11 +188,14 @@ Build in this order; each piece is usable when it lands:
    block off-script moves (decided: guide, don't block).
 3. ~~The bot pauses until the player clicks Continue~~ — **done 2026-11-05**
    (`BotPacer`, a Continue button in the coach panel). See the entry below.
-4. **Half done.** ~~After-game recap~~ — **done 2026-11-20** (a "Game recap"
-   panel in the sidebar, `game-recap.ts`; see the entry below). **Next: deck
-   primers** — a primer per deck (game plan, key Pokémon and evolution lines,
-   what to hold, matchups). Recap follow-ups: it is not shown in replays, and
-   it has no "turning point" line yet (e.g. the turn the Prize race flipped).
+4. ~~After-game recap~~ — **done 2026-11-20** (a "Game recap" panel in the
+   sidebar, `game-recap.ts`). ~~Deck primers~~ — **done 2026-11-21** (a "Deck
+   primers" page, see the entry below). Follow-ups: the recap is not shown in
+   replays and has no "turning point" line yet; primers have no matchup notes
+   (nothing measured to base them on) and the bot still plays from its own
+   saved decks, so "play this deck against itself" needs the bot account to
+   have the deck; a new modern deck needs a primer in
+   `packages/play/src/app/primers/deck-primers.ts` (a spec fails otherwise).
 5. Smaller follow-ups: the games page does not open the new table by itself
    (true of the guided game too: the player clicks "#1 bot" under Tables);
    highlight the coach's target card on the board; the coach is in the
@@ -243,6 +249,48 @@ game** with the Tips panel; a recap is piece 4.
   `claude/pokemon-tcg-ai-trainer-3m3qqe` (2026-09-29). Leave it alone.
 
 ---
+
+## 2026-11-21 (1) — Deck primers (tutorial piece 4, second half)
+
+Branch `claude/ryuu-2026-11-21-deck-primers`.
+
+- **Why not deck 21:** like 2026-11-20, this run could search the web but not
+  open pages, so no current list or card text could be checked. Modern-deck
+  work was blocked; the run did the last learn-mode piece.
+- **What the player sees:** a "Deck primers" page (sidebar, and a link on
+  the Decks page). One button per modern deck (all 20); each primer has a
+  written game plan and 3-4 tips, an "Add to my decks" button that copies the
+  60 cards into the player's decks (name made unique, e.g. "Dragapult ex 2",
+  with an "Open in the deck editor" link), the evolution lines (e.g. "4×
+  Dreepy → 4× Drakloak → 3× Dragapult ex", with a note when a line starts
+  from a Pokémon whose pre-evolution is not in the list), the deck make-up
+  (Pokémon / Supporters / Items / Tools / Stadiums / Energy), how many
+  Pokémon ex and Mega Pokémon ex it has (2 / 3 Prize cards), and every
+  Pokémon with stage, HP, Prize cards, Weakness, Retreat, Abilities and
+  attacks (click a name for the full card). The selected deck is in the URL
+  (`/primers#sv-dragapult`).
+- **Where the text comes from:** the generated half reads the same card
+  objects the table plays with. The written half was written from the card
+  text as implemented in packages/sets (dumped for all 20 decks) and makes no
+  matchup or win-rate claims. **Not verified:** the written tips were not
+  checked against official rulings or by a player.
+- **Refactor:** the 20 modern lists moved from `bot-bench/src/decks.ts` to
+  `common/src/game/modern-decks.ts` (`MODERN_DECKS`), so the client and the
+  bot benchmark share one copy. Checked that `modernBenchDecks` and
+  `benchDecks` are byte-for-byte the same as before (JSON compare of the old
+  and new compiled modules).
+- **Checked in a browser** (local server, Playwright, 2026-11-21): the page
+  renders at 1280 px and 390 px wide, "Add to my decks" twice gave
+  "Dragapult ex" and "Dragapult ex 2", both valid in "Standard (Scarlet &
+  Violet)" on the Decks page, the card popup opens, and all 20 decks show 0
+  unknown cards. The last small template change (the "not in this deck"
+  note) was checked by spec and `ng build` only (the local login rate limit
+  stopped the re-run).
+- meta-audit (unchanged, no deck work): 604 of 629 (13 to verify, 12 missing).
+- Tests: common 374 specs (5 new), play 215 (14 new), simple-bot 92,
+  bot-bench 101, server 76, 0 failures; modern Standard smoke 0 errors and 0
+  rejected bot actions; play lint and `ng build` ok. sets not re-run locally
+  (no change there; CI runs it).
 
 ## 2026-11-20 (1) — After-game recap (tutorial piece 4, first half)
 
