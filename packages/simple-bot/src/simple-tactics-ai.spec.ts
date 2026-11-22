@@ -1,7 +1,7 @@
 import { State, Player, PokemonSlot, PokemonCard, EnergyCard, CardType, Stage,
   CardList, GamePhase, PlayCardAction, AttackAction, PassTurnAction, RetreatAction,
   SpecialCondition, Card, ChoosePokemonPrompt, ChooseCardsPrompt, GameMessage, PlayerType,
-  SlotType, ResolvePromptAction } from '@ptcg/common';
+  SlotType, ResolvePromptAction, Effect, EndTurnEffect, StoreLike } from '@ptcg/common';
 import { SimpleTacticsAi } from './simple-tactics-ai';
 import { SimpleBotOptions } from './simple-bot-options';
 import {
@@ -20,6 +20,27 @@ class TestEnergy extends EnergyCard {
     this.provides = [ type ];
     this.name = CardType[type].charAt(0) + CardType[type].slice(1).toLowerCase() + ' Energy';
     this.fullName = this.name;
+  }
+}
+
+/** Like Ignition Energy: discarded from your Pokémon at the end of the turn. */
+class OneTurnEnergy extends EnergyCard {
+  name = 'One-Turn Energy';
+  fullName = 'One-Turn Energy';
+  set = 'test';
+  provides = [ CardType.COLORLESS ];
+
+  public reduceEffect(store: StoreLike, state: State, effect: Effect): State {
+    if (effect instanceof EndTurnEffect) {
+      for (const player of state.players) {
+        player.forEachPokemon(PlayerType.BOTTOM_PLAYER, slot => {
+          if (slot.energies.cards.includes(this)) {
+            slot.moveCardTo(this, player.discard);
+          }
+        });
+      }
+    }
+    return state;
   }
 }
 
@@ -131,6 +152,40 @@ describe('SimpleTacticsAi learn-mode reasons', () => {
 
     expect(action instanceof PlayCardAction).toBe(true);
     expect(reason).toContain('to get closer to Flamethrower (it still needs 2 more Energy)');
+  });
+
+  it('attaches an Energy that is discarded at the end of the turn when it unlocks an attack now', () => {
+    bot.hand.cards.push(withId(new OneTurnEnergy()));
+
+    const { action, reason } = decide();
+
+    expect(action instanceof PlayCardAction).toBe(true);
+    expect((action as PlayCardAction).target.slot).toBe(SlotType.ACTIVE);
+    expect(reason).toContain('One-Turn Energy is gone at the end of the turn');
+    expect(reason).toContain('use Scratch right away');
+  });
+
+  it('keeps an Energy that is discarded at the end of the turn when it unlocks no attack', () => {
+    bot.active.pokemons.cards[0] = withId(new TestPokemon('Charmander', 50, [
+      { name: 'Flamethrower', cost: [ CardType.FIRE, CardType.FIRE, CardType.COLORLESS ], damage: '60' }
+    ]));
+    bot.hand.cards.push(withId(new OneTurnEnergy()));
+
+    const { action } = decide();
+
+    expect(action instanceof PlayCardAction).toBe(false);
+    expect(bot.hand.cards.length).toBe(1);
+  });
+
+  it('still attaches an ordinary Energy that unlocks no attack this turn', () => {
+    bot.active.pokemons.cards[0] = withId(new TestPokemon('Charmander', 50, [
+      { name: 'Flamethrower', cost: [ CardType.FIRE, CardType.FIRE, CardType.COLORLESS ], damage: '60' }
+    ]));
+    bot.hand.cards.push(withId(new TestEnergy(CardType.COLORLESS)));
+
+    const { action } = decide();
+
+    expect(action instanceof PlayCardAction).toBe(true);
   });
 
   it('explains an evolution with the HP gain', () => {
