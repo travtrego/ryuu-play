@@ -86,6 +86,11 @@ owner handed from the GPT lane to Claude. Issue #2's lane split is retired.
 - **2026-11-21: deck 21 not started again**, same reason (web search only,
   no tool to open a page; subagents ruled out). That run did deck primers
   (tutorial piece 4's second half, entry below).
+- **2026-11-22: deck 21 not started a third time**, same reason (web search
+  only, no tool to open a page; subagents ruled out). That run fixed a bot
+  habit instead: wasting Ignition Energy (entry below). **The owner may want
+  to give these runs a page-reading tool (WebFetch) or allow one web-fetch
+  helper; without it no new deck can be checked.**
 - **Next: deck 21.** Re-check the meta first. dittobase.com's **30C**
   overview page, dittobase.com/tcg/decks/meta/30c, worked on 2026-11-19
   (typed URL) and lists every archetype with its meta share; its variant
@@ -100,9 +105,15 @@ owner handed from the GPT lane to Claude. Issue #2's lane split is retired.
   2026-11-19 when the URL came from a web search result (search
   "<card> PFL 61 limitlesstcg"); scrydex.com and mydextcg.com also worked.
 - **Bot weakness with Honchkrow:** 17 of 20 seeded mirrors ended by deck-out
-  (Ariana, Roto-Stick, Archer and Deceit draw/search a lot; Rocket Feathers
-  does hit, e.g. 120-360 damage). Same family as the Alakazam and Dhelmise
-  deck-out notes below.
+  (15 of 20 after the 2026-11-22 Ignition Energy fix). Traced 2026-11-22: it
+  is mostly not over-drawing at the end (few draws happen below 10 cards in
+  the deck) but long stalls. One side's Active has no Energy, no Energy in
+  hand and no switch card, and both sides pass for 10+ turns while the
+  turn draws empty the deck. The deck's Energy is all Special (Team
+  Rocket's Energy, Ignition Energy), so Night Stretcher can't get it back.
+  A fix would need the bot to plan two steps (e.g. Roto-Stick for Team
+  Rocket's Giovanni to switch). Alakazam deck-outs look the same: long
+  games, not late draws.
 - **Bot stall seen 2026-11-14 (not a Greninja game):** adding sv-greninja to
   the combined modern smoke pool re-paired the seeded games, and one
   Alakazam vs Slowking game (60-game run, seed 1, game 52) hit the 200-turn
@@ -249,6 +260,39 @@ game** with the Tips panel; a recap is piece 4.
   `claude/pokemon-tcg-ai-trainer-3m3qqe` (2026-09-29). Leave it alone.
 
 ---
+
+## 2026-11-22 (1) — Bot keeps Ignition Energy for a turn it can attack
+
+Branch `claude/ryuu-2026-11-22-one-turn-energy`.
+
+- **Why not deck 21:** a third run with web search but no way to open a page,
+  so no current list or card text could be checked. Learn-mode piece 4 is
+  done, so the run took a modern-deck bot weakness instead.
+- **What was wrong:** Ignition Energy (Honchkrow and Greninja lists) is
+  discarded at the end of the turn. The bot attached it like any Energy, so
+  in 10 seeded Honchkrow mirrors 25 of 69 Ignition Energy were attached on a
+  turn the bot then did not attack, i.e. thrown away.
+- **Change (simple-bot `AttachEnergyTactic`):** before attaching, the bot
+  simulates the attachment and the end of the turn. If the card would no
+  longer be on any of its Pokémon, it only attaches it to the Active Pokémon
+  and only when that lets the Active use an attack it can't use without it.
+  Otherwise it tries the next-best attachment or keeps the card. Card-agnostic
+  (no card names), so any later "discard at end of turn" Energy is covered.
+  The "Why?" note says so: "Ignition Energy is gone at the end of the turn,
+  so the bot only attaches it when it lets X use Y right away."
+- **Measured (seed 1):** Honchkrow mirrors, 10 games: wasted Ignition
+  attachments 25 of 69 -> 6 of 59. 20 games: deck-outs 17 -> 15 (within
+  noise). Greninja mirrors, 20 games: games ended by Prizes 17 -> 18 of 20.
+  The 21-game old-formats smoke is unchanged (no-active 11, prizes 8,
+  deck-out 2), as expected (no such Energy there). Bench time is about 25%
+  longer (two extra simulations per Energy attachment).
+- **Not done:** the remaining 6 wasted attachments are turns where the
+  attack got unlocked but the bot then did something else (e.g. retreated).
+  The Honchkrow stall (see Next up) is untouched.
+- meta-audit (unchanged, no deck work): 604 of 629 (13 to verify, 12 missing).
+- Tests: simple-bot 95 specs (3 new), bot-bench 101, 0 failures; old-format
+  smoke and modern Standard smoke 0 errors and 0 rejected bot actions.
+  common, sets, server and play not changed (CI runs them).
 
 ## 2026-11-21 (1) — Deck primers (tutorial piece 4, second half)
 

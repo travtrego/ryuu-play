@@ -1,5 +1,5 @@
 import { Action, Player, State, EnergyCard, PlayCardAction, CardTarget,
-  PlayerType, Card, Attack } from '@ptcg/common';
+  PlayerType, Card, Attack, AttackAction, PassTurnAction, SlotType } from '@ptcg/common';
 import { SimpleTactic } from './simple-tactics';
 import { EnergyScore } from '../state-score/energy-score';
 import { canPay, getOwnSlot, joinList, missingEnergyCount, plural, pokemonName } from '../explain/explain-utils';
@@ -43,9 +43,66 @@ export class AttachEnergyTactic extends SimpleTactic {
     }
 
     targets.sort((a, b) => b.score - a.score);
-    const target = targets[0].target;
-    const index = player.hand.cards.indexOf(targets[0].card);
-    return new PlayCardAction(player.id, index, target); 
+    for (const candidate of targets) {
+      const index = player.hand.cards.indexOf(candidate.card);
+      const action = new PlayCardAction(player.id, index, candidate.target);
+      if (this.isWorthAttaching(state, player, action, candidate.card)) {
+        return action;
+      }
+    }
+    return undefined;
+  }
+
+  /**
+   * Most Energy stays attached, so attaching it is always worth it once the
+   * EnergyScore likes it. Some Energy is gone when the turn ends (Ignition
+   * Energy is discarded at the end of the turn). Attaching that kind is only
+   * worth it when it lets the Active Pokémon use an attack this turn that it
+   * could not use without it; otherwise the card is simply wasted.
+   */
+  private isWorthAttaching(state: State, player: Player, action: PlayCardAction, card: Card): boolean {
+    const lastsOneTurn = this.lastsOnlyThisTurn(state, player, action, card);
+    if (lastsOneTurn === undefined || !lastsOneTurn.oneTurn) {
+      return true;
+    }
+    return this.unlockedAttacks(state, player, action, lastsOneTurn.afterAttach).length > 0;
+  }
+
+  /**
+   * Simulates the attachment and then the end of the turn, and checks whether
+   * the card is still attached to one of the bot's Pokémon afterwards.
+   * Undefined when the simulation fails (then the old behaviour is kept).
+   */
+  private lastsOnlyThisTurn(state: State, player: Player, action: PlayCardAction, card: Card):
+    { oneTurn: boolean, afterAttach: State } | undefined {
+    const afterAttach = this.simulateAction(state, action);
+    if (afterAttach === undefined) {
+      return undefined;
+    }
+    const afterPass = this.simulateAction(afterAttach, new PassTurnAction(player.id));
+    const me = afterPass && afterPass.players.find(p => p.id === player.id);
+    if (afterPass === undefined || me === undefined) {
+      return undefined;
+    }
+    let kept = false;
+    me.forEachPokemon(PlayerType.BOTTOM_PLAYER, slot => {
+      if (slot.energies.cards.some(c => c.id === card.id)) {
+        kept = true;
+      }
+    });
+    return { oneTurn: !kept, afterAttach };
+  }
+
+  /** Attacks of the Active Pokémon the attachment makes usable this turn. */
+  private unlockedAttacks(state: State, player: Player, action: PlayCardAction, afterAttach: State): string[] {
+    const active = player.active.getPokemonCard();
+    if (action.target.slot !== SlotType.ACTIVE || active === undefined) {
+      return [];
+    }
+    return active.attacks
+      .filter(a => this.simulateAction(state, new AttackAction(player.id, a.name)) === undefined
+        && this.simulateAction(afterAttach, new AttackAction(player.id, a.name)) !== undefined)
+      .map(a => a.name);
   }
 
   public explain(state: State, player: Player, action: Action): string {
@@ -98,7 +155,12 @@ export class AttachEnergyTactic extends SimpleTactic {
     const where = isActive
       ? ''
       : ' The bot prefers to power up its Active Pokémon, but this Benched Pokémon came out ahead.';
-    return `${head} ${reason}. You can attach one Energy per turn.${where}`;
+    const oneTurn = this.lastsOnlyThisTurn(state, player, action, energy);
+    const lasts = oneTurn !== undefined && oneTurn.oneTurn
+      ? ` ${energy.name} is gone at the end of the turn, so the bot only attaches it when it lets`
+        + ` ${pokemonName(slot)} use ${joinList(this.unlockedAttacks(state, player, action, oneTurn.afterAttach))} right away.`
+      : '';
+    return `${head} ${reason}. You can attach one Energy per turn.${where}${lasts}`;
   }
 
 }
