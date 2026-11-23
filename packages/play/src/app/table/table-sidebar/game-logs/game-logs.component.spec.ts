@@ -3,6 +3,7 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatLegacyInputModule as MatInputModule } from '@angular/material/legacy-input';
 import { MatLegacyTooltipModule as MatTooltipModule } from '@angular/material/legacy-tooltip';
+import { Clipboard } from '@angular/cdk/clipboard';
 import { TranslateModule } from '@ngx-translate/core';
 import { GameLog, Player, State, StateLog } from '@ptcg/common';
 
@@ -10,12 +11,15 @@ import { ApiModule } from '../../../api/api.module';
 import { GameLogsComponent } from './game-logs.component';
 import { LocalGameState } from '../../../shared/session/session.interface';
 import { SessionService } from '../../../shared/session/session.service';
+import { AlertService } from '../../../shared/alert/alert.service';
 
 describe('GameLogsComponent', () => {
   let component: GameLogsComponent;
   let fixture: ComponentFixture<GameLogsComponent>;
+  let alertService: jasmine.SpyObj<AlertService>;
 
   beforeEach(waitForAsync(() => {
+    alertService = jasmine.createSpyObj('AlertService', ['toast']);
     TestBed.configureTestingModule({
       imports: [
         ApiModule,
@@ -25,6 +29,7 @@ describe('GameLogsComponent', () => {
         TranslateModule.forRoot()
       ],
       declarations: [ GameLogsComponent ],
+      providers: [ { provide: AlertService, useValue: alertService } ],
       schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
     })
     .compileComponents();
@@ -105,6 +110,21 @@ describe('GameLogsComponent', () => {
       setLogs([createLog(1, GameLog.LOG_PLAYER_ENDS_TURN, { name: 'Bot' })]);
       expect(component.hasReasons).toBe(false);
       expect(fixture.nativeElement.querySelector('.ptcg-game-logs-reasons-toggle')).toBeNull();
+    });
+
+    it('should copy the game for Claude with the bot reasons', () => {
+      setLogs([
+        createLog(1, GameLog.LOG_PLAYER_ENDS_TURN, { name: 'Bot' }),
+        createLog(2, GameLog.LOG_BOT_REASON, { text: 'Ended the turn without attacking.' })
+      ]);
+      const clipboard = TestBed.inject(Clipboard);
+      spyOn(clipboard, 'copy').and.returnValue(true);
+
+      const text = component.copyForClaude();
+
+      expect(clipboard.copy).toHaveBeenCalledWith(text as string);
+      expect(text).toContain('Recent game log (last 2 lines');
+      expect(alertService.toast).toHaveBeenCalled();
     });
   });
 });

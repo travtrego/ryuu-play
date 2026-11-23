@@ -9,6 +9,12 @@
     matTooltipShowDelay="500">
     lightbulb_outline
   </mat-icon>
+  <mat-icon class="ptcg-game-logs-copy-for-claude"
+    (click)="copyForClaude()"
+    [matTooltip]="'GAME_LOGS_COPY_FOR_CLAUDE' | translate"
+    matTooltipShowDelay="500">
+    content_copy
+  </mat-icon>
   <mat-icon (click)="clearLogs()"
     matTooltip="Clear logs"
     matTooltipShowDelay="1000">
