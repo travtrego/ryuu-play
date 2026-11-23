@@ -307,6 +307,10 @@ Branch `claude/ryuu-2026-11-23-attack-lock`.
   old-format smoke (21 games, end reasons unchanged: no-active 11, prizes 8,
   deck-out 2) and modern Standard smoke 0 errors and 0 rejected bot actions;
   sets, server and play not changed (CI runs them).
+- **CI:** the modern Standard smoke step's limit went from 5 to 10 minutes.
+  Master's own run after #65 (2026-11-22) and this PR's first run both hit
+  the 5-minute limit (the step took about 3 minutes on #65's branch); no
+  game failed, the step was just slow.
 
 ## 2026-11-22 (1) — Bot keeps Ignition Energy for a turn it can attack
 

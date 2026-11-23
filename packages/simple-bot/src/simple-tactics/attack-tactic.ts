@@ -5,8 +5,11 @@ import { describeChanges, joinList } from '../explain/explain-utils';
 
 export class AttackTactic extends SimpleTactic {
 
+  private lastChoice: { action?: AttackAction, instead?: string } = {};
+
   public useTactic(state: State, player: Player): Action | undefined {
-    return this.chooseAttack(state, player).action;
+    this.lastChoice = this.chooseAttack(state, player);
+    return this.lastChoice.action;
   }
 
   /**
@@ -76,7 +79,9 @@ export class AttackTactic extends SimpleTactic {
     const after = this.simulateAction(state, action);
     const facts = after !== undefined ? describeChanges(state, after, player.id) : [];
     const result = facts.length > 0 ? `: it ${joinList(facts)}` : '';
-    const instead = this.chooseAttack(state, player).instead;
+    // explain() runs right after useTactic() returned this action, so reuse
+    // that choice instead of simulating every attack again.
+    const instead = this.lastChoice.action === action ? this.lastChoice.instead : undefined;
     const others = instead !== undefined
       ? ` It takes as many Prize cards as ${instead}, which would stop this Pokémon attacking next turn.`
       : (player.active.getPokemonCard()?.attacks.length || 0) > 1
