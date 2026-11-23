@@ -1,10 +1,13 @@
 import { Component, Input, ElementRef } from '@angular/core';
+import { Clipboard } from '@angular/cdk/clipboard';
 import { TranslateService } from '@ngx-translate/core';
 import { GameLog as GameLogMessage, StateLog, StateLogParam } from '@ptcg/common';
 
 import { GameService } from '../../../api/services/game.service';
 import { LocalGameState } from '../../../shared/session/session.interface';
 import { SessionService } from '../../../shared/session/session.service';
+import { AlertService } from '../../../shared/alert/alert.service';
+import { buildClaudeSnapshot } from './claude-snapshot';
 
 interface GameLog {
   id: number;
@@ -53,8 +56,30 @@ export class GameLogsComponent {
     private elementRef: ElementRef<HTMLElement>,
     private gameService: GameService,
     private sessionService: SessionService,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private clipboard: Clipboard,
+    private alertService: AlertService
   ) { }
+
+  /**
+   * Learn mode: copy the visible table and the recent log as plain text, to paste
+   * into a chat with Claude and ask about the game. See claude-snapshot.ts for what
+   * is (and is not) included.
+   */
+  public copyForClaude(): string | undefined {
+    if (!this.state || !this.state.state) {
+      return undefined;
+    }
+    const why = this.translate.instant('GAME_LOGS_WHY');
+    const lines = this.logs.map(log => {
+      const text = this.translate.instant('GAME_LOGS.' + log.message, log.params);
+      return log.isReason ? `${why} (${log.name}) ${text}` : `${log.name}: ${text}`;
+    });
+    const text = buildClaudeSnapshot(this.state.state, this.sessionService.session.clientId, lines);
+    const copied = this.clipboard.copy(text);
+    this.alertService.toast(this.translate.instant(copied ? 'GAME_LOGS_COPIED_FOR_CLAUDE' : 'GAME_LOGS_COPY_FAILED'));
+    return text;
+  }
 
   public clearLogs() {
     this.state.logs = [];

@@ -264,6 +264,33 @@ game** with the Tips panel; a recap is piece 4.
 
 ---
 
+## 2026-11-23 (2) — "Copy game for Claude" button
+
+Branch `claude/ryuu-2026-11-23-copy-for-claude`. Asked for by the owner in a
+live session.
+
+- **What the player sees:** a copy icon in the Messages (game log) header.
+  Clicking it copies the table as plain text and shows "Game copied. Paste it
+  into a chat with Claude and add your question." The text starts with a
+  one-line request ("I'm learning the Pokémon TCG... please explain..."), then
+  format, turn and whose turn it is (or who won), each side's Prize cards
+  left, deck and hand counts, the player's own hand, both Active and Benched
+  Pokémon (name with set code, type, HP left / printed HP, what it evolved
+  from, Energy, Tool, Special Conditions), both discard piles, the Stadium,
+  the last 40 log lines including the bot's "Why?" notes, and ends with "My
+  question: ".
+- **Hidden information stays hidden:** the opponent's hand (unless revealed),
+  both decks and face-down Prize cards are only counted, never named, even
+  though the client may hold their names. A spectator gets no hand at all.
+- Code: `packages/play/src/app/table/table-sidebar/game-logs/claude-snapshot.ts`
+  (pure function), wired in `GameLogsComponent.copyForClaude()` with the CDK
+  clipboard. No server, account or AI service involved.
+- Not done: HP shown is printed HP (HP-raising Tools not counted); the log
+  part is what the Messages panel holds (it keeps the last 100 lines; clearing
+  it clears them from the copy too). Not yet tried by a person in a browser.
+- Tests: play 222 specs (7 new), lint and `ng build` ok. No other package
+  changed.
+
 ## 2026-11-23 (1) — Bot keeps its Pokémon able to attack next turn
 
 Branch `claude/ryuu-2026-11-23-attack-lock`.
