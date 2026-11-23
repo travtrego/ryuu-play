@@ -91,6 +91,10 @@ owner handed from the GPT lane to Claude. Issue #2's lane split is retired.
   habit instead: wasting Ignition Energy (entry below). **The owner may want
   to give these runs a page-reading tool (WebFetch) or allow one web-fetch
   helper; without it no new deck can be checked.**
+- **2026-11-23: deck 21 not started a fourth time**, same reason. That run
+  fixed the N's Zoroark Night Joker choice instead (entry below). **Four runs
+  in a row could not start a deck: the owner needs to give these runs a
+  page-reading tool (WebFetch) or allow one web-fetch helper.**
 - **Next: deck 21.** Re-check the meta first. dittobase.com's **30C**
   overview page, dittobase.com/tcg/decks/meta/30c, worked on 2026-11-19
   (typed URL) and lists every archetype with its meta share; its variant
@@ -156,11 +160,10 @@ owner handed from the GPT lane to Claude. Issue #2's lane split is retired.
 - **Bot weakness with Mega Excadrill:** it retreats a lot (in 6 seeded
   mirrors: Genesect ex 169 times, Metagross 89) and never used Metallic
   Hammer's discard or Empoleon ex's Iron Feathers. Games still finish.
-- **Bot weakness with N's Zoroark:** the bot picks the Night Joker attack to
-  copy by printed damage (`ChooseAttackPromptResolver`), so with N's Zekrom on
-  the Bench it always copies Rampaging Thunder and then can't attack next turn.
-  It also attacks with Night Joker when no N's Pokémon is on the Bench (the
-  attack then does nothing).
+- **Bot weakness with N's Zoroark:** ~~always copies Rampaging Thunder~~
+  (fixed 2026-11-23: it takes an attack without the lock when that already
+  Knocks Out). It still attacks with Night Joker when no N's Pokémon is on
+  the Bench (the attack then does nothing).
 - **Bot weakness with Alakazam:** it draws too much (Run Away Draw, Psychic
   Draw, Enriching Energy) and loses by deck-out in about half the mirror
   games (9 of 20).
@@ -260,6 +263,50 @@ game** with the Tips panel; a recap is piece 4.
   `claude/pokemon-tcg-ai-trainer-3m3qqe` (2026-09-29). Leave it alone.
 
 ---
+
+## 2026-11-23 (1) — Bot keeps its Pokémon able to attack next turn
+
+Branch `claude/ryuu-2026-11-23-attack-lock`.
+
+- **Why not deck 21:** a fourth run with web search but no way to open a
+  page (no WebFetch; subagents are ruled out by the run budget). A search
+  for a current Lopunny Dusknoir list returned only titles and links, no
+  list or card text. Learn-mode piece 4 is done, so the run took a
+  modern-deck bot weakness from Next up instead (N's Zoroark).
+- **What was wrong:** when N's Zoroark ex copied an attack with Night Joker,
+  the bot picked the attack with the biggest printed damage, so with N's
+  Zekrom on the Bench it always took Rampaging Thunder (250, "During your
+  next turn, this Pokémon can't use attacks") even when Shred (70) or N's
+  Reshiram's Virtuous Flame (170) already Knocked Out the Active Pokémon.
+- **Change (simple-bot):** new `attack-utils.ts` with
+  `locksOwnAttackNextTurn(attack)`, read from the attack text (modern "During
+  your next turn, this Pokémon can't attack / use X" and older "Onix can't
+  attack during your next turn"; locks on the opponent and retreat locks
+  don't count). `ChooseAttackPromptResolver`, when copying during an attack,
+  takes an attack without the lock if its printed damage (doubled for a ×2
+  Weakness) already reaches the defender's remaining HP. `AttackTactic`
+  does the same for a Pokémon's own attacks, using its simulation: if the
+  best attack locks the attacker and another attack takes as many Prize
+  cards, it uses that one, and the "Why?" note says so ("It takes as many
+  Prize cards as Rampaging Thunder, which would stop this Pokémon attacking
+  next turn."). Switch: `scores.tactics.avoidAttackLock` (default true);
+  bot-bench variant `attack-lock-blind` keeps the old behaviour.
+- **Measured:** the copy rule fires in N's Zoroark games (6 seeded mirrors:
+  Rampaging Thunder -> Shred 12 times, -> Virtuous Flame 16 times, counting
+  the bot's look-ahead simulations). The own-attack rule did not fire in 6
+  Mega Lucario or 6 Dragapult / Blaziken mirrors. **No measurable win-rate
+  gain:** default vs `attack-lock-blind`, N's Zoroark only, 180 games
+  (seeds 1, 7, 11): 85 wins, 47.2% (±7 points at 95%), so inside noise.
+  Shipped on the argument that the same Knock Out without the lock is never
+  worse, not on a measured gain.
+- **Not done:** N's Zoroark still attacks with Night Joker when no N's
+  Pokémon is on the Bench (the attack does nothing; the turn would end
+  anyway, so it costs nothing but a log line).
+- meta-audit (unchanged, no deck work): 604 of 629 (13 to verify, 12 missing).
+- Tests: simple-bot 102 specs (7 new), bot-bench 101, common 374, 0 failures;
+  old-format smoke (21 games, end reasons unchanged: no-active 11, prizes 8,
+  deck-out 2) and modern Standard smoke 0 errors and 0 rejected bot actions;
+  sets, server and play not changed (CI runs them).
 
 ## 2026-11-22 (1) — Bot keeps Ignition Energy for a turn it can attack
 

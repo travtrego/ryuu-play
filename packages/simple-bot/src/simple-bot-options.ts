@@ -63,6 +63,13 @@ export interface StateScores {
     passTurn: number;
     attackBonus: number;
     supporterBonus: number;
+    /**
+     * When the best attack stops the attacker attacking next turn, prefer
+     * one without that drawback which takes as many Prize cards (and, when
+     * copying an attack, one whose printed damage already Knocks Out).
+     * Default true; false is the behaviour before 2026-11-23.
+     */
+    avoidAttackLock?: boolean;
   };
   /**
    * Choosing which Pokémon goes into the Active Spot (a new Active after a

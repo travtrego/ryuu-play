@@ -73,7 +73,7 @@ All options (`node packages/bot-bench/dist/cli.js --help`):
 | --- | --- | --- |
 | `--games N` | 100 | games to play |
 | `--seed S` | 1 | run seed. Game *i* uses `deriveSeed(S, i)` |
-| `--bot-a`, `--bot-b` | `default` | bot variants: `default`, `no-retreat`, `no-trainers`, `energy-blind-active` |
+| `--bot-a`, `--bot-b` | `default` | bot variants: `default`, `no-retreat`, `no-trainers`, `energy-blind-active`, `attack-lock-blind` |
 | `--decks a,b,...` | all 7 | deck pool |
 | `--only i,j` | | play only these game indexes of the run |
 | `--max-turns N` | 200 | loop guard: abort once `state.turn > N` |
