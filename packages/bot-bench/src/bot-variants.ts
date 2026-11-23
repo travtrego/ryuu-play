@@ -46,6 +46,12 @@ export function simpleBotVariant(
   };
 }
 
+const ATTACK_LOCK_BLIND = 'SimpleBot taking its best attack even when a smaller one also Knocks Out '
+  + 'without the "can\'t attack next turn" drawback (the behaviour before 2026-11-23)';
+const ATTACK_LOCK_BLIND_OPTIONS: Partial<SimpleBotOptions> = {
+  scores: { ...defaultStateScores, tactics: { ...defaultStateScores.tactics, avoidAttackLock: false } }
+};
+
 export const botVariants: BotVariant[] = [
   simpleBotVariant('default', 'SimpleBot with its default tactics, resolvers and scores'),
   simpleBotVariant('no-retreat', 'SimpleBot without RetreatTactic', withoutTactics('RetreatTactic')),
@@ -53,6 +59,7 @@ export const botVariants: BotVariant[] = [
     withoutTactics('PlayTrainerTactic', 'PlaySupporterTactic')),
   simpleBotVariant('energy-blind-active', 'SimpleBot choosing its Active without counting attached Energy '
     + '(the behaviour before 2026-11-02)', { scores: { ...defaultStateScores, activeChoice: { canAttack: 0 } } }),
+  simpleBotVariant('attack-lock-blind', ATTACK_LOCK_BLIND, ATTACK_LOCK_BLIND_OPTIONS),
 ];
 
 export function findBotVariant(name: string): BotVariant {

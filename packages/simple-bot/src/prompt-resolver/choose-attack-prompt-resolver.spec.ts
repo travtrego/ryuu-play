@@ -1,5 +1,5 @@
 import { State, Player, ResolvePromptAction, GameMessage, ChooseAttackPrompt,
-  PokemonCard, CardType, Attack, PowerType, Power } from '@ptcg/common';
+  PokemonCard, CardType, Attack, PowerType, Power, GamePhase } from '@ptcg/common';
 import { ChooseAttackPromptResolver } from './choose-attack-prompt-resolver';
 import {
   allSimpleTactics,
@@ -289,6 +289,61 @@ describe('ChooseAttackPromptResolver', () => {
       useFromDiscard: true,
       name: 'Power 2',
       text: ''
+    });
+  });
+
+  describe('when copying an attack that locks the attacker', () => {
+    const lockText = 'During your next turn, this Pokémon can\'t use attacks.';
+    let opponent: Player;
+    let defender: TestPokemon;
+
+    beforeEach(() => {
+      player.id = 1;
+      opponent = new Player();
+      opponent.id = 2;
+      state.players = [player, opponent];
+      state.phase = GamePhase.ATTACK;
+      const attacker = new TestPokemon();
+      attacker.cardTypes = [CardType.DARK];
+      player.active.pokemons.cards = [attacker];
+      defender = new TestPokemon();
+      defender.hp = 70;
+      opponent.active.pokemons.cards = [defender];
+      prompt.cards[0].attacks = [{
+        name: 'Shred',
+        damage: '70',
+        cost: [],
+        text: ''
+      }, {
+        name: 'Rampaging Thunder',
+        damage: '250',
+        cost: [],
+        text: lockText
+      }];
+    });
+
+    it('Should take the attack without the lock when it also Knocks Out', () => {
+      const action = resolver.resolvePrompt(state, player, prompt) as ResolvePromptAction;
+      expect(action.result.name).toEqual('Shred');
+    });
+
+    it('Should count Weakness when checking the Knock Out', () => {
+      defender.hp = 130;
+      defender.weakness = [{ type: CardType.DARK }];
+      const action = resolver.resolvePrompt(state, player, prompt) as ResolvePromptAction;
+      expect(action.result.name).toEqual('Shred');
+    });
+
+    it('Should take the bigger attack when the smaller one does not Knock Out', () => {
+      defender.hp = 200;
+      const action = resolver.resolvePrompt(state, player, prompt) as ResolvePromptAction;
+      expect(action.result.name).toEqual('Rampaging Thunder');
+    });
+
+    it('Should keep picking by damage outside the attack phase', () => {
+      state.phase = GamePhase.PLAYER_TURN;
+      const action = resolver.resolvePrompt(state, player, prompt) as ResolvePromptAction;
+      expect(action.result.name).toEqual('Rampaging Thunder');
     });
   });
 

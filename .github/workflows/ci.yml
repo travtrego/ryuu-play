@@ -107,8 +107,10 @@ jobs:
         timeout-minutes: 5
         run: npm run bench:smoke -w packages/bot-bench
       # Modern Standard decks under today's rules: each mirror and the cross matchup.
+      # 10 minutes: it took 3-5 minutes on 2026-11-22/23 and a 5-minute limit
+      # failed master's own run once on a slow runner.
       - name: bot-bench - modern Standard smoke
-        timeout-minutes: 5
+        timeout-minutes: 10
         run: npm run bench:smoke:modern -w packages/bot-bench
 
   play:

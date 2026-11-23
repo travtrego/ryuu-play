@@ -92,7 +92,8 @@ export const defaultStateScores = {
   tactics: {
     passTurn: -1000,
     attackBonus: 100,
-    supporterBonus: 25
+    supporterBonus: 25,
+    avoidAttackLock: true
   },
   activeChoice: {
     canAttack: 60
