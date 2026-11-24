@@ -262,4 +262,19 @@ export const DECK_PRIMERS: { [deckId: string]: DeckPrimerText } = {
     ]
   },
 
+  'sv-lucario-hariyama': {
+    plan: 'Mega Lucario ex is the main attacker: Aura Jab (130) attaches up to 3 Basic Fighting Energy from your '
+      + 'discard pile to your Benched Pokémon, and Mega Brave (270) is the big hit. Hariyama picks the target: '
+      + 'when you evolve Makuhita into it from your hand, Heave-Ho Catcher may switch in 1 of the opponent\'s '
+      + 'Benched Pokémon, and Wild Press does 210 (and 70 to Hariyama itself).',
+    tips: [
+      'Evolve Hariyama on the turn you want to Knock Out a Benched Pokémon: the Ability only works as it evolves.',
+      'Salvatore evolves a Pokémon straight from your deck, even one you put down this turn, but only into a '
+        + 'card without an Ability (Mega Lucario ex, not Hariyama). Mega Signal finds Mega Lucario ex.',
+      'Lunatone\'s Lunar Cycle (with Solrock in play) discards a Fighting Energy from your hand to draw 3; that '
+        + 'Energy is then ready for Aura Jab.',
+      'Mega Lucario ex gives up 3 Prize cards and Meowth ex 2.',
+    ]
+  },
+
 };

@@ -95,19 +95,19 @@ owner handed from the GPT lane to Claude. Issue #2's lane split is retired.
   fixed the N's Zoroark Night Joker choice instead (entry below). **Four runs
   in a row could not start a deck: the owner needs to give these runs a
   page-reading tool (WebFetch) or allow one web-fetch helper.**
-- **Next: deck 21.** Re-check the meta first. dittobase.com's **30C**
-  overview page, dittobase.com/tcg/decks/meta/30c, worked on 2026-11-19
-  (typed URL) and lists every archetype with its meta share; its variant
-  pages show a representative list. Individual list pages
-  (`.../variants/<id>/<event>-<place>`) and play.limitlesstcg.com decklists
-  needed a permission the unattended run could not get. Highest not yet in
-  RyuuPlay on 2026-11-19: **Lucario Hariyama 2.88%** (11th), Crustle 1.91%
-  (blocked, see below), Lopunny Dusknoir 1.60% (probably few new cards),
-  Grimmsnarl Froslass 1.48%, Mega Greninja 1.44%. Check each list for
-  Delta Reign (DLR) cards before starting.
-  limitlesstcg.com/cards/<SET>/<n> and pkmncards.com card pages worked on
-  2026-11-19 when the URL came from a web search result (search
-  "<card> PFL 61 limitlesstcg"); scrydex.com and mydextcg.com also worked.
+- **Deck 21, Lucario Hariyama — done end-to-end** (2026-11-24, first
+  entry below), 23 of 23 cards. This run was allowed one web-fetch helper
+  for reading pages, which worked (dittobase.com and limitlesstcg.com deck
+  pages, pkmncards.com and dittobase.com card pages).
+- **Next: deck 22.** dittobase.com/tcg/decks/meta (Delta Reign, 6-23 Nov
+  2026, 10,294 entries) top 25, not yet in RyuuPlay: Mega Rayquaza 8.99%
+  (2nd, blocked: DLR cards), Talonflame Dusknoir 3.14% (DLR Talonflame ex),
+  Crustle 2.21% (DLR split Stadium), **Mega Golisopod 1.26% (22nd)**,
+  Grimmsnarl Froslass 1.07% (25th). Try Mega Golisopod, then Grimmsnarl
+  Froslass; check each list for Delta Reign (DLR) cards first. Lists:
+  search "<archetype> decklist limitlesstcg" and read the
+  limitlesstcg.com/decks/list/<n> page with the highest number (newest);
+  that page gives set codes and numbers.
 - **Bot weakness with Honchkrow:** 17 of 20 seeded mirrors ended by deck-out
   (15 of 20 after the 2026-11-22 Ignition Energy fix). Traced 2026-11-22: it
   is mostly not over-drawing at the end (few draws happen below 10 cards in
@@ -265,6 +265,42 @@ game** with the Tips panel; a recap is piece 4.
   `claude/pokemon-tcg-ai-trainer-3m3qqe` (2026-09-29). Leave it alone.
 
 ---
+
+## 2026-11-24 (1) — Lucario Hariyama end-to-end (deck 21)
+
+Branch `claude/ryuu-2026-11-24-lucario-hariyama`.
+
+- **Meta check:** dittobase.com/tcg/decks/meta (Delta Reign, 6-23 Nov 2026)
+  has Lucario Hariyama at 1.18% (23rd). List: Victor Muñoz, 55th at Special
+  Event Buenos Aires, 14 Nov 2026 (limitlesstcg.com/decks/list/31312),
+  cross-checked with a 24 Oct Puebla Regional list (same core). Stored in
+  `data/meta-decks/online-2026-lucario-hariyama.json`.
+- **New cards (4), each with specs:** Makuhita MEG 72, Hariyama MEG 73
+  (Heave-Ho Catcher when it evolves from the hand, also through Rare Candy;
+  Wild Press 210 and 70 to itself), Mega Signal MEG 121 (Item, a Mega
+  Evolution Pokémon ex from the deck) and Salvatore TEF (Supporter, evolves a
+  Pokémon from the deck into a card with no Abilities, also a Pokémon put
+  down at setup or put into play this turn). No engine change was needed.
+  Salvatore lets a Basic put into play this turn evolve but not a Pokémon
+  that already evolved this turn (it was not "put into play" this turn); the
+  player going first still can't play it on turn 1 (modern Supporter rule).
+- **Verified against:** pkmncards.com (Hariyama, Mega Signal, Salvatore),
+  dittobase.com English and limitlesstcg.com French (Makuhita: attack names
+  differ only by language; costs, damage, HP, Retreat match). **Not
+  verified:** Salvatore's text was partly paraphrased by the page reader
+  (the conditions above were confirmed); the list gives Salvatore as TEF 160 (the uncommon 160/162 print, per a
+  shop listing); the card page read was TEF 202, a higher-rarity print.
+- **Deck:** `sv-lucario-hariyama` in `MODERN_DECKS`, valid in the modern
+  Standard format (formats spec), a primer, its own 6-game modern smoke step
+  and 3 seeded "Why?" mirrors in the bot-bench spec.
+- **Bot:** 6-game smoke 0 errors, 0 rejected actions, 0 stalls. In 20 seeded
+  mirrors (seeds 1-20) every game finished with a winner; the bot played
+  Salvatore 18 times, Mega Signal 9, Wild Press 40, Aura Jab 127, Mega Brave
+  80.
+- **Tests:** common 374, sets 3110, simple-bot 100, bot-bench 104, server
+  76, play 222; 0 failures. meta-audit: 26 decks, 652 unique cards (was 25
+  / 629), 627 implemented, 13 verify print, 12 missing (unchanged: the NAIC
+  Crustle and Clefairy lists).
 
 ## 2026-11-23 (3) — Repo cleanup
 
