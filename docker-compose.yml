@@ -7,6 +7,8 @@ services:
       context: docker
       dockerfile: ./Dockerfile
       args:
+        REPO: "https://github.com/travtrego/ryuu-play.git"
+        TAG: "master"
         EXTERNAL_URL: "http://localhost:12021"
 
     restart: unless-stopped

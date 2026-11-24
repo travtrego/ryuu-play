@@ -5,6 +5,13 @@
 [![Strider](https://strider.kuro.ryuu.eu/keeshii/ryuu-play/badge?branch=master)](https://strider.kuro.ryuu.eu/keeshii/ryuu-play/)
 [![Matrix](https://matrix.to/img/matrix-badge.svg)](https://matrix.to/#/#ryuu-play:matrix.org)
 
+> **This fork (travtrego/ryuu-play)** is set up for learning the current
+> Standard format against the bot: modern Scarlet & Violet / Mega Evolution
+> decks, plus a learn mode (tutorial game, bot "Why?" notes, deck primers,
+> after-game recap). Start with [AGENTS.md](AGENTS.md) for the map,
+> [docs/BUILD.md](docs/BUILD.md) to build and [docs/HOSTING.md](docs/HOSTING.md)
+> to run it on your own machine. The rest of this README is upstream's.
+
 RyuuPlay is a simulator for the Pokémon Trading Card Game written in TypeScript. The source code is entirely open source and published under MIT licence.
 
 The project is created for the educational purpose only. There is no plans to port all possible cards or provide new features.

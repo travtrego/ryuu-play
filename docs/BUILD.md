@@ -126,7 +126,7 @@ These numbers were reproduced on a second clean-room run from an empty
 
 ## Known failing tests
 
-None. All 838 specs pass on the pinned Node version.
+None. CI runs every spec on each push and pull request; see the latest master run for current counts (the table above is the 2026-10-20 baseline).
 
 If that changes, list the failing spec here with whether it is a tooling
 problem or a real game-logic bug, so daily runs can tell regressions from known
@@ -144,9 +144,10 @@ breakage.
      `npm ci` reproducible, but it changes what the Android client ships and
      cannot be verified here.
   2. Building it needs the Android SDK, which CI does not have.
-- **No test runner for `packages/play`.** `npm test -w packages/play` runs
-  `ng test` (Karma + Chrome headless); it is not wired into CI and has not been
-  verified. `packages/cordova`'s `test` script is a no-op `echo`.
+- **`packages/play` tests run in CI** with Karma and headless Chrome
+  (`npm run test -w packages/play -- --watch=false --browsers=ChromeDocker`;
+  locally set `CHROME_BIN` if Chrome isn't found). `packages/cordova`'s `test`
+  script is a no-op `echo`.
 - **`npm audit` reports 139 vulnerabilities** (8 critical, 83 high) across the
   dev toolchain — Angular 16, protractor, eslint 8 and friends are all past
   end-of-life. None are fixable without major upgrades.
