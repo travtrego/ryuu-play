@@ -683,6 +683,37 @@ export const MODERN_DECKS: ModernDeck[] = [
       ['Team Rocket\'s Watchtower DRI', 3],
       ['Darkness Energy EVO', 9]
     ]
+  },
+
+  {
+    id: 'sv-lucario-hariyama',
+    name: 'Lucario Hariyama',
+    source: 'Fall 2026 online (data/meta-decks/online-2026-lucario-hariyama.json)',
+    cards: [
+      ['Riolu MEG', 4],
+      ['Mega Lucario ex MEG', 3],
+      ['Makuhita MEG', 2],
+      ['Hariyama MEG', 2],
+      ['Lunatone MEG', 2],
+      ['Solrock MEG', 2],
+      ['Meowth ex POR', 1],
+      ['Lillie\'s Determination MEG', 4],
+      ['Judge POR', 2],
+      ['Boss\'s Orders MEG', 2],
+      ['Salvatore TEF', 1],
+      ['Wally\'s Compassion MEG', 1],
+      ['Fighting Gong MEG', 4],
+      ['Premium Power Pro MEG', 4],
+      ['Poké Pad POR', 3],
+      ['Ultra Ball MEG', 3],
+      ['Switch MEG', 2],
+      ['Mega Signal MEG', 1],
+      ['Secret Box TWM', 1],
+      ['Air Balloon ASC', 2],
+      ['Gravity Mountain SSP', 2],
+      ['Fighting Energy EVO', 10],
+      ['Rocky Fighting Energy POR', 2]
+    ]
   }
 
 ];

@@ -23,6 +23,9 @@ import { SwitchMEG } from './switch';
 import { MegaKangaskhanEx } from './mega-kangaskhan-ex';
 import { StrangeTimepiece } from './strange-timepiece';
 import { YveltalMEG } from './yveltal';
+import { MakuhitaMEG } from './makuhita';
+import { HariyamaMEG } from './hariyama';
+import { MegaSignal } from './mega-signal';
 
 export const setMegaEvolution: Card[] = [
   new Abra(),
@@ -49,4 +52,7 @@ export const setMegaEvolution: Card[] = [
   new WallysCompassion(),
   new StrangeTimepiece(),
   new YveltalMEG(),
+  new MakuhitaMEG(),
+  new HariyamaMEG(),
+  new MegaSignal(),
 ];
