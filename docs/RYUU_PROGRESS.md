@@ -176,8 +176,8 @@ owner handed from the GPT lane to Claude. Issue #2's lane split is retired.
   within noise), and mirrors still ended with no Active Pokémon about as
   often. Needs a sharper fix (look at the Run Away Draw / Tuck Tail choice
   itself), measured the same way.
-- **Merged with PR #1, not to be extended:** a superseded coach in
-  `packages/simple-bot/src/coach`.
+- ~~Superseded coach in `packages/simple-bot/src/coach`~~ — removed
+  2026-11-23 (unused).
 
 ### Learn mode (now second)
 
@@ -254,8 +254,10 @@ game** with the Tips panel; a recap is piece 4.
   a browser by a person. `docs/HOSTING.md`, "Option A - your own machine":
   Docker locally, SQLite, no database server.
 - **Hosting stays on hold.** Do not deploy anything or create accounts.
-- **Merged `claude/ryuu-*` branches pile up**, one per run. Deleting them is
-  blocked for an automated session, so do not spend a run trying. The owner can
+- **Merged `claude/ryuu-*` branches pile up**, one per run (66 merged branches
+  on 2026-11-23). Deleting them is blocked for Claude sessions, even live
+  ones (the GitHub proxy refuses ref deletion; changing the repo setting was
+  refused too), so do not spend a run trying. The owner can
   turn on automatic branch deletion on merge in the repository settings.
   `git merge-base --is-ancestor` is the **wrong** merged-test here (every PR is
   squash-merged); check `merged_at` on the branch's PR. Exactly one `claude/*`
@@ -263,6 +265,32 @@ game** with the Tips panel; a recap is piece 4.
   `claude/pokemon-tcg-ai-trainer-3m3qqe` (2026-09-29). Leave it alone.
 
 ---
+
+## 2026-11-23 (3) — Repo cleanup
+
+Branch `claude/ryuu-2026-11-23-repo-cleanup`. Asked for by the owner in a
+live session ("make sure it's cleaned up and everything is in the right
+place").
+
+- **Checked:** no open PRs; master CI green after #67; every one of the 66
+  non-master branches belongs to a merged PR except
+  `claude/pokemon-tcg-ai-trainer-3m3qqe` (2026-09-29, no PR; left alone); no
+  stray logs, databases or large files tracked; issue #2 (retired agent
+  board) is the only open issue.
+- **Removed:** the superseded coach (`packages/simple-bot/src/coach`, its
+  exports and its spec). Nothing imported it; the bot's "Why?" notes and
+  learn mode don't use it.
+- **Rewrote `AGENTS.md`** for how the fork works now (one agent, nightly
+  run, docs map, merge rules, the invariants that still matter). The
+  two-agent lanes and issue #2 board are described as retired.
+- **README:** a short "this fork" note at the top pointing to the docs.
+- **docker-compose.yml** now builds this fork's `master` instead of
+  upstream's `develop` (HOSTING.md updated). Not built here (no Docker).
+- **BUILD.md:** play tests do run in CI (the old "no test runner" note was
+  stale); the 838-spec line now points at CI for current counts.
+- **Not done, needs the owner:** deleting the 66 merged branches, and turning
+  on "Automatically delete head branches" in the repo settings (both refused
+  for Claude). Closing issue #2 is left to the owner.
 
 ## 2026-11-23 (2) — "Copy game for Claude" button
 

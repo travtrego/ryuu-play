@@ -62,8 +62,8 @@ no exposure to the internet.
 ### A1. Docker (simplest)
 
 `docker-compose.yml` and `docker/Dockerfile` already exist. The Dockerfile
-clones a repo at build time and defaults to **upstream** `keeshii/ryuu-play`,
-so point it at this fork:
+clones a repo at build time and defaults to **upstream** `keeshii/ryuu-play`;
+`docker-compose.yml` points it at this fork (since 2026-11-23):
 
 ```yaml
 # docker-compose.yml
