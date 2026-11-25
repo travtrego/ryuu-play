@@ -5,6 +5,7 @@ export * from './set-black-and-white-3';
 export * from './set-black-and-white-4';
 export * from './set-black-bolt';
 export * from './set-chaos-rising';
+export * from './set-delta-reign';
 export * from './set-destined-rivals';
 export * from './set-diamond-and-pearl';
 export * from './set-hgss';

@@ -714,6 +714,38 @@ export const MODERN_DECKS: ModernDeck[] = [
       ['Fighting Energy EVO', 10],
       ['Rocky Fighting Energy POR', 2]
     ]
+  },
+
+  {
+    id: 'sv-mega-golisopod',
+    name: 'Mega Golisopod ex',
+    source: 'Fall 2026 online (data/meta-decks/online-2026-mega-golisopod.json)',
+    cards: [
+      ['Wimpod DLR', 4],
+      ['Mega Golisopod ex DLR', 3],
+      ['Cacnea DLR', 1],
+      ['Cacturne DLR', 1],
+      ['Dreepy TWM', 3],
+      ['Drakloak TWM', 3],
+      ['Munkidori TWM', 2],
+      ['Lillie\'s Determination MEG', 4],
+      ['Wally\'s Compassion MEG', 4],
+      ['Boss\'s Orders MEG', 3],
+      ['Hilda WHT', 2],
+      ['Buddy-Buddy Poffin TEF', 4],
+      ['Ultra Ball MEG', 3],
+      ['Poké Pad POR', 3],
+      ['Pokégear 3.0 SVI', 2],
+      ['Night Stretcher ASC', 1],
+      ['Special Red Card CRI', 1],
+      ['Air Balloon ASC', 1],
+      ['Hero\'s Cape TEF', 1],
+      ['Risky Ruins MEG', 4],
+      ['Darkness Energy EVO', 3],
+      ['Grass Energy EVO', 2],
+      ['Growing Grass Energy POR', 4],
+      ['Ignition Energy WHT', 1]
+    ]
   }
 
 ];

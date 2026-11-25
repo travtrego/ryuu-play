@@ -51,6 +51,7 @@ export const modernStandardSets: Card[][] = [
   standard.setWhiteFlare,
   standard.setPitchBlack,
   standard.set30thCelebration,
+  standard.setDeltaReign,
 ];
 
 export function modernStandardRules(): Rules {

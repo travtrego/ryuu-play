@@ -1,0 +1,35 @@
+{
+  "id": "online-2026-mega-golisopod",
+  "name": "Mega Golisopod ex — Fall 2026",
+  "format": "standard",
+  "asOf": "2026-11-25",
+  "source": "LittleDarkFury's list in Mike Likes, \"Searching Standard: Mega Golisopod ex\", Flipside Gaming, 19 Nov 2026, flipsidegaming.com/blogs/pokemon-blog/searching-standard-mega-golisopod-ex (read 2026-11-25). Not a tournament placing: no limitlesstcg.com tournament list with Mega Golisopod ex was found (its DLR 11 card page lists none) and dittobase.com/tcg/decks/meta could not be read this run. Mega Golisopod was 1.26% (22nd) of Delta Reign entries on dittobase.com, 6-23 Nov 2026 (read 2026-11-24). The article gives card numbers without set codes; most numbers (Boss's Orders 183, Poffin 184, Lillie's 192, Night Stretcher 196, Poké Pad 198, Ultra Ball 213, Dreepy 158, Drakloak 159) look like Ascended Heroes reprints, so the same cards' RyuuPlay printings are listed here.",
+  "cards": [
+    { "count": 4, "name": "Wimpod", "set": "DLR", "number": "10", "category": "pokemon" },
+    { "count": 3, "name": "Mega Golisopod ex", "set": "DLR", "number": "11", "category": "pokemon" },
+    { "count": 1, "name": "Cacnea", "set": "DLR", "number": "4", "category": "pokemon" },
+    { "count": 1, "name": "Cacturne", "set": "DLR", "number": "5", "category": "pokemon" },
+    { "count": 3, "name": "Dreepy", "set": "TWM", "number": "128", "category": "pokemon" },
+    { "count": 3, "name": "Drakloak", "set": "TWM", "number": "129", "category": "pokemon" },
+    { "count": 2, "name": "Munkidori", "set": "TWM", "number": "95", "category": "pokemon" },
+
+    { "count": 4, "name": "Lillie's Determination", "set": "MEG", "number": "119", "category": "trainer" },
+    { "count": 4, "name": "Wally's Compassion", "set": "MEG", "number": "132", "category": "trainer" },
+    { "count": 3, "name": "Boss's Orders", "set": "MEG", "number": "114", "category": "trainer" },
+    { "count": 2, "name": "Hilda", "set": "WHT", "number": "84", "category": "trainer" },
+    { "count": 4, "name": "Buddy-Buddy Poffin", "set": "TEF", "number": "144", "category": "trainer" },
+    { "count": 3, "name": "Ultra Ball", "set": "MEG", "number": "131", "category": "trainer" },
+    { "count": 3, "name": "Poké Pad", "set": "POR", "number": "81", "category": "trainer" },
+    { "count": 2, "name": "Pokégear 3.0", "set": "SVI", "number": "186", "category": "trainer" },
+    { "count": 1, "name": "Night Stretcher", "set": "ASC", "number": "196", "category": "trainer" },
+    { "count": 1, "name": "Special Red Card", "set": "CRI", "number": "82", "category": "trainer" },
+    { "count": 1, "name": "Air Balloon", "set": "ASC", "number": "181", "category": "trainer" },
+    { "count": 1, "name": "Hero's Cape", "set": "TEF", "number": "152", "category": "trainer" },
+    { "count": 4, "name": "Risky Ruins", "set": "MEG", "number": "127", "category": "trainer" },
+
+    { "count": 3, "name": "Darkness Energy", "set": "MEE", "number": "15", "category": "energy", "basic": true },
+    { "count": 2, "name": "Grass Energy", "set": "MEE", "number": "9", "category": "energy", "basic": true },
+    { "count": 4, "name": "Growing Grass Energy", "set": "POR", "number": "86", "category": "energy" },
+    { "count": 1, "name": "Ignition Energy", "set": "WHT", "number": "86", "category": "energy" }
+  ]
+}

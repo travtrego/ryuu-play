@@ -277,4 +277,20 @@ export const DECK_PRIMERS: { [deckId: string]: DeckPrimerText } = {
     ]
   },
 
+  'sv-mega-golisopod': {
+    plan: 'Mega Golisopod ex is the attacker: Finishing Blow costs only 1 Grass Energy and does 60, or 220 when '
+      + 'the opponent\'s Active Pokémon already has damage counters on it. Set those counters up first: Risky '
+      + 'Ruins puts 2 on every Basic non-Darkness Pokémon the opponent benches, Munkidori\'s Adrena-Brain '
+      + '(with a Darkness Energy on Munkidori) moves counters onto it, and Cacturne\'s Linear Attack does 30 to any of their Pokémon.',
+    tips: [
+      'Quadruple Hold (160) stops the Defending Pokémon from retreating during the opponent\'s next turn.',
+      'Wimpod has no Retreat Cost while the opponent has any Pokémon ex in play (its Punk Out Ability).',
+      'Wally\'s Compassion heals all damage from a Mega Evolution Pokémon ex, but its Energy goes back to your '
+        + 'hand; Finishing Blow needs only 1 Energy to get going again.',
+      'Cacturne\'s Punishing Needles does 50 more for each of the opponent\'s Pokémon in play with an Ability.',
+      'Risky Ruins hits your own Benched Basics too (Wimpod, Dreepy), so Adrena-Brain has counters to move.',
+      'Mega Golisopod ex gives up 3 Prize cards. Hero\'s Cape (+100 HP) keeps it alive longer.',
+    ]
+  },
+
 };
