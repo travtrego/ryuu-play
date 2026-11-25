@@ -80,7 +80,7 @@ describe('Modern Standard format', () => {
     'regional-2026-alakazam-dudunsparce.json', 'regional-2026-ns-zoroark.json',
     'regional-2026-mega-excadrill.json', 'online-2026-alakazam-dusknoir.json',
     'online-2026-cynthias-garchomp.json', 'online-2026-sharpedo-toxtricity.json',
-    'online-2026-lucario-hariyama.json'].forEach(file => {
+    'online-2026-lucario-hariyama.json', 'online-2026-mega-golisopod.json'].forEach(file => {
   it(`accepts the full 60-card list ${file} as a valid deck`, () => {
     const deck = JSON.parse(fs.readFileSync(path.resolve(__dirname, '../../../data/meta-decks', file), 'utf8'));
     const names: string[] = [];

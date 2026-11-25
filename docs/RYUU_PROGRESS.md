@@ -99,15 +99,22 @@ owner handed from the GPT lane to Claude. Issue #2's lane split is retired.
   entry below), 23 of 23 cards. This run was allowed one web-fetch helper
   for reading pages, which worked (dittobase.com and limitlesstcg.com deck
   pages, pkmncards.com and dittobase.com card pages).
-- **Next: deck 22.** dittobase.com/tcg/decks/meta (Delta Reign, 6-23 Nov
-  2026, 10,294 entries) top 25, not yet in RyuuPlay: Mega Rayquaza 8.99%
-  (2nd, blocked: DLR cards), Talonflame Dusknoir 3.14% (DLR Talonflame ex),
-  Crustle 2.21% (DLR split Stadium), **Mega Golisopod 1.26% (22nd)**,
-  Grimmsnarl Froslass 1.07% (25th). Try Mega Golisopod, then Grimmsnarl
-  Froslass; check each list for Delta Reign (DLR) cards first. Lists:
-  search "<archetype> decklist limitlesstcg" and read the
-  limitlesstcg.com/decks/list/<n> page with the highest number (newest);
-  that page gives set codes and numbers.
+- **Deck 22, Mega Golisopod ex — done end-to-end** (2026-11-25, first
+  entry below), 24 of 24 cards. **Delta Reign (DLR) is in RyuuPlay now**
+  (`set-delta-reign`, in the modern Standard format) with Wimpod, Mega
+  Golisopod ex, Cacnea and Cacturne. The list is a content creator's
+  (Flipside Gaming, 19 Nov 2026), not a tournament placing: no tournament
+  list was found.
+- **Next: deck 23.** dittobase.com/tcg/decks/meta (Delta Reign, 6-23 Nov
+  2026, read 2026-11-24) top 25, not yet in RyuuPlay: Mega Rayquaza 8.99%
+  (2nd, blocked: DLR split Stadium Legendary Pyroduct), Talonflame Dusknoir
+  3.14% (DLR Talonflame ex), Crustle 2.21% (DLR split Stadium), **Grimmsnarl
+  Froslass 1.07% (25th)**. Try Grimmsnarl Froslass next; re-read the meta
+  page first (it could not be opened on 2026-11-25: "permission request not
+  answered in time"). Lists: search "<archetype> decklist limitlesstcg" and
+  read the limitlesstcg.com/decks/list/<n> page with the highest number
+  (newest; Delta Reign lists are above ~31000). limitlesstcg.com/cards/DLR/<n>
+  card pages worked on 2026-11-25; pokemoncard.io did not.
 - **Bot weakness with Honchkrow:** 17 of 20 seeded mirrors ended by deck-out
   (15 of 20 after the 2026-11-22 Ignition Energy fix). Traced 2026-11-22: it
   is mostly not over-drawing at the end (few draws happen below 10 cards in
@@ -265,6 +272,48 @@ game** with the Tips panel; a recap is piece 4.
   `claude/pokemon-tcg-ai-trainer-3m3qqe` (2026-09-29). Leave it alone.
 
 ---
+
+## 2026-11-25 (1) — Mega Golisopod ex end-to-end (deck 22)
+
+Branch `claude/ryuu-2026-11-25-mega-golisopod`.
+
+- **Meta check:** Mega Golisopod was 1.26% (22nd) on dittobase.com for Delta
+  Reign, 6-23 Nov 2026 (read 2026-11-24; the page could not be opened this
+  run). No tournament list was found: the limitlesstcg.com card page for
+  Mega Golisopod ex lists no decks in its main database (4 Japanese City
+  League lists only). The list used is LittleDarkFury's, from Mike Likes,
+  "Searching Standard: Mega Golisopod ex", Flipside Gaming, 19 Nov 2026.
+  It gives card numbers without set codes; most look like Ascended Heroes
+  reprints, so the RyuuPlay printing of the same card is listed. Stored in
+  `data/meta-decks/online-2026-mega-golisopod.json`.
+- **New set and cards (4), each with specs:** a new `set-delta-reign` (DLR,
+  added to the modern Standard format) with Wimpod DLR 10 (Punk Out: no
+  Retreat Cost while the opponent has any Pokémon ex in play), Mega
+  Golisopod ex DLR 11 (Finishing Blow 60, +160 if the opponent's Active
+  already has damage counters; Quadruple Hold 160, the Defending Pokémon
+  can't retreat next turn; Mega Evolution ex rule), Cacnea DLR 4 (Knock
+  Away 10, +10 on heads) and Cacturne DLR 5 (Linear Attack 30 to any 1 of
+  the opponent's Pokémon; Punishing Needles 10, +50 for each of the
+  opponent's Pokémon in play with an Ability). Hero's Cape TEF was already
+  in. No engine change was needed.
+- **Verified against:** limitlesstcg.com (Mega Golisopod ex, Cacturne),
+  dittobase.com (Wimpod, Cacnea, Cacturne, Punishing Needles attack page),
+  serebii.net (Mega Golisopod ex, Wimpod, Cacturne). **Disagreement:**
+  serebii says Punishing Needles counts the opponent's *Benched* Pokémon
+  with an Ability; limitlesstcg.com and dittobase.com both say "Pokémon in
+  play", which is what is implemented. **Not verified:** Cacnea was read on
+  dittobase.com only; Dreepy 158 / Drakloak 159 in the list are taken to be
+  reprints of the TWM cards (not checked).
+- **Deck:** `sv-mega-golisopod` in `MODERN_DECKS`, valid in the modern
+  Standard format (formats spec), a primer, its own 6-game modern smoke step
+  and 3 seeded "Why?" mirrors in the bot-bench spec.
+- **Bot:** 6-game smoke 0 errors, 0 rejected actions, 0 stalls. 20 seeded
+  mirrors (seeds 1-20): every game had a winner, 0 errors, 0 rejected
+  actions; ended by prizes 17, no Active Pokémon 2, deck-out 1.
+- **Tests:** common 374, sets 3120, simple-bot 100, bot-bench 107, server
+  76, play 222; 0 failures; modern smoke green. meta-audit: 27 decks, 676 unique cards (was 26 /
+  652), 651 implemented, 13 verify print, 12 missing (was 627 / 13 / 12); the missing list is unchanged
+  (the NAIC Crustle and Clefairy lists).
 
 ## 2026-11-24 (1) — Lucario Hariyama end-to-end (deck 21)
 
