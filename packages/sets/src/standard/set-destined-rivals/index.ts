@@ -29,6 +29,10 @@ import { CynthiasRoselia } from './cynthias-roselia';
 import { CynthiasRoserade } from './cynthias-roserade';
 import { CynthiasSpiritomb } from './cynthias-spiritomb';
 import { CynthiasPowerWeight } from './cynthias-power-weight';
+import { MarniesImpidimp } from './marnies-impidimp';
+import { MarniesMorgrem } from './marnies-morgrem';
+import { MarniesGrimmsnarlEx } from './marnies-grimmsnarl-ex';
+import { SpikemuthGym } from './spikemuth-gym';
 export const setDestinedRivals: Card[] = [
   new SacredAsh(),
   new CombuskenDRI(),
@@ -59,4 +63,8 @@ export const setDestinedRivals: Card[] = [
   new CynthiasRoserade(),
   new CynthiasSpiritomb(),
   new CynthiasPowerWeight(),
+  new MarniesImpidimp(),
+  new MarniesMorgrem(),
+  new MarniesGrimmsnarlEx(),
+  new SpikemuthGym(),
 ];

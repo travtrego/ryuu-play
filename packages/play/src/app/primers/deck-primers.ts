@@ -293,4 +293,22 @@ export const DECK_PRIMERS: { [deckId: string]: DeckPrimerText } = {
     ]
   },
 
+  'sv-grimmsnarl-froslass': {
+    plan: 'Marnie\'s Grimmsnarl ex is the attacker: Shadow Bullet (2 Darkness Energy) does 180 to the Active '
+      + 'Pokémon and 30 to a Benched one. Evolve it from your hand (Rare Candy works too) and its Punk Up Ability '
+      + 'attaches up to 5 Darkness Energy from your deck to your Marnie\'s Pokémon, so it can attack at once. '
+      + 'Froslass and Munkidori spread damage counters on the side.',
+    tips: [
+      'Froslass\'s Freezing Shroud puts 1 damage counter on every Pokémon with an Ability between turns, yours '
+        + 'too (Munkidori, Shaymin), but never on a Froslass.',
+      'Munkidori\'s Adrena-Brain (with a Darkness Energy on it) moves up to 3 damage counters from your Pokémon '
+        + 'onto one of the opponent\'s, so Freezing Shroud\'s counters on your side are not wasted.',
+      'Spikemuth Gym lets each player search their deck for a Marnie\'s Pokémon once a turn; '
+        + 'Team Rocket\'s Petrel finds any Trainer card (Rare Candy, Boss\'s Orders).',
+      'Shaymin keeps your Benched Pokémon without a Rule Box safe from attack damage.',
+      'Budew\'s Itchy Pollen stops the opponent playing Item cards during their next turn.',
+      'Marnie\'s Grimmsnarl ex gives up 2 Prize cards.',
+    ]
+  },
+
 };
