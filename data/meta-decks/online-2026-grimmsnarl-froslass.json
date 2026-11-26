@@ -1,0 +1,36 @@
+{
+  "id": "online-2026-grimmsnarl-froslass",
+  "name": "Grimmsnarl Froslass — Fall 2026",
+  "format": "standard",
+  "asOf": "2026-11-26",
+  "source": "Bruno Henrique Alves E Silva, 440th at LAIC 2026-27 São Paulo, 20 Nov 2026, limitlesstcg.com/decks/list/31650 (read 2026-11-26; the newest Grimmsnarl Froslass list on limitlesstcg.com/cards/ASC/287/decklists). Grimmsnarl Froslass was 1.07% (25th) of Delta Reign entries on dittobase.com, 6-23 Nov 2026 (read 2026-11-24; the meta page could not be opened this run).",
+  "cards": [
+    { "count": 4, "name": "Marnie's Impidimp", "set": "DRI", "number": "134", "category": "pokemon" },
+    { "count": 2, "name": "Marnie's Morgrem", "set": "DRI", "number": "135", "category": "pokemon" },
+    { "count": 2, "name": "Marnie's Grimmsnarl ex", "set": "DRI", "number": "136", "category": "pokemon" },
+    { "count": 4, "name": "Munkidori", "set": "TWM", "number": "95", "category": "pokemon" },
+    { "count": 2, "name": "Snorunt", "set": "ASC", "number": "46", "category": "pokemon" },
+    { "count": 2, "name": "Froslass", "set": "TWM", "number": "53", "category": "pokemon" },
+    { "count": 1, "name": "Budew", "set": "ASC", "number": "16", "category": "pokemon" },
+    { "count": 1, "name": "Shaymin", "set": "DRI", "number": "10", "category": "pokemon" },
+    { "count": 1, "name": "Yveltal", "set": "MEG", "number": "88", "category": "pokemon" },
+
+    { "count": 4, "name": "Team Rocket's Petrel", "set": "DRI", "number": "176", "category": "trainer" },
+    { "count": 4, "name": "Lillie's Determination", "set": "MEG", "number": "119", "category": "trainer" },
+    { "count": 3, "name": "Boss's Orders", "set": "MEG", "number": "114", "category": "trainer" },
+    { "count": 2, "name": "Gwynn", "set": "PBL", "number": "78", "category": "trainer" },
+    { "count": 1, "name": "Judge", "set": "POR", "number": "76", "category": "trainer" },
+    { "count": 4, "name": "Poké Pad", "set": "POR", "number": "81", "category": "trainer" },
+    { "count": 2, "name": "Buddy-Buddy Poffin", "set": "TEF", "number": "144", "category": "trainer" },
+    { "count": 2, "name": "Rare Candy", "set": "MEG", "number": "125", "category": "trainer" },
+    { "count": 2, "name": "Night Stretcher", "set": "ASC", "number": "196", "category": "trainer" },
+    { "count": 1, "name": "Special Red Card", "set": "CRI", "number": "82", "category": "trainer" },
+    { "count": 1, "name": "Energy Switch", "set": "MEG", "number": "115", "category": "trainer" },
+    { "count": 1, "name": "Secret Box", "set": "TWM", "number": "163", "category": "trainer" },
+    { "count": 1, "name": "Air Balloon", "set": "ASC", "number": "181", "category": "trainer" },
+    { "count": 3, "name": "Spikemuth Gym", "set": "DRI", "number": "169", "category": "trainer" },
+    { "count": 1, "name": "Team Rocket's Watchtower", "set": "DRI", "number": "180", "category": "trainer" },
+
+    { "count": 9, "name": "Darkness Energy", "set": "MEE", "number": "15", "category": "energy", "basic": true }
+  ]
+}

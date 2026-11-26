@@ -105,16 +105,23 @@ owner handed from the GPT lane to Claude. Issue #2's lane split is retired.
   Golisopod ex, Cacnea and Cacturne. The list is a content creator's
   (Flipside Gaming, 19 Nov 2026), not a tournament placing: no tournament
   list was found.
-- **Next: deck 23.** dittobase.com/tcg/decks/meta (Delta Reign, 6-23 Nov
-  2026, read 2026-11-24) top 25, not yet in RyuuPlay: Mega Rayquaza 8.99%
+- **Deck 23, Grimmsnarl Froslass — done end-to-end** (2026-11-26, first
+  entry below), 25 of 25 cards. `isMarniesPokemon` (name starts with
+  "Marnie's") is in `set-destined-rivals/marnie-utils.ts`, and
+  `TeamRocketsWatchtower.removesAbilities` answers "does this Pokémon have
+  no Abilities right now" for effects that count Abilities.
+- **Next: deck 24.** dittobase.com/tcg/decks/meta (Delta Reign, 6-23 Nov
+  2026, read 2026-11-24) top 25 not yet in RyuuPlay: Mega Rayquaza 8.99%
   (2nd, blocked: DLR split Stadium Legendary Pyroduct), Talonflame Dusknoir
-  3.14% (DLR Talonflame ex), Crustle 2.21% (DLR split Stadium), **Grimmsnarl
-  Froslass 1.07% (25th)**. Try Grimmsnarl Froslass next; re-read the meta
-  page first (it could not be opened on 2026-11-25: "permission request not
-  answered in time"). Lists: search "<archetype> decklist limitlesstcg" and
-  read the limitlesstcg.com/decks/list/<n> page with the highest number
-  (newest; Delta Reign lists are above ~31000). limitlesstcg.com/cards/DLR/<n>
-  card pages worked on 2026-11-25; pokemoncard.io did not.
+  3.14% (needs DLR Talonflame ex, whose stage was disputed on 2026-11-13),
+  Crustle 2.21% (DLR split Stadium). The meta page could not be opened on
+  2026-11-25 or 2026-11-26 ("permission request not answered in time"), so
+  re-read it first, or use another current meta page from a web search. Try
+  Talonflame Dusknoir next if Talonflame ex's text can be pinned down on two
+  sources; otherwise the next archetype below the top 25. Lists: the
+  limitlesstcg.com/cards/<SET>/<n>/decklists page of the deck's main card
+  lists its newest tournament lists first (worked 2026-11-26); Delta Reign
+  lists are above ~31000. limitlesstcg.com card pages worked on 2026-11-26.
 - **Bot weakness with Honchkrow:** 17 of 20 seeded mirrors ended by deck-out
   (15 of 20 after the 2026-11-22 Ignition Energy fix). Traced 2026-11-22: it
   is mostly not over-drawing at the end (few draws happen below 10 cards in
@@ -272,6 +279,49 @@ game** with the Tips panel; a recap is piece 4.
   `claude/pokemon-tcg-ai-trainer-3m3qqe` (2026-09-29). Leave it alone.
 
 ---
+
+## 2026-11-26 (1) — Grimmsnarl Froslass end-to-end (deck 23)
+
+Branch `claude/ryuu-2026-11-26-grimmsnarl-froslass`.
+
+- **Meta check:** dittobase.com/tcg/decks/meta could not be opened this run
+  (permission request not answered in time); on 2026-11-24 it had
+  Grimmsnarl Froslass at 1.07% (25th) for Delta Reign, 6-23 Nov 2026. List:
+  Bruno Henrique Alves E Silva, 440th at LAIC 2026-27 São Paulo, 20 Nov 2026
+  (limitlesstcg.com/decks/list/31650), the newest list on the
+  limitlesstcg.com Marnie's Grimmsnarl ex (ASC 287) decklists page. Stored
+  in `data/meta-decks/online-2026-grimmsnarl-froslass.json`.
+- **New cards (5), each with specs:** Marnie's Impidimp DRI 134 (Filch:
+  draw a card; Corkscrew Punch 10), Marnie's Morgrem DRI 135 (Corkscrew
+  Punch 60), Marnie's Grimmsnarl ex DRI 136 (Punk Up: when played from the
+  hand to evolve, also through Rare Candy, up to 5 Basic Darkness Energy
+  from the deck onto your Marnie's Pokémon in any way; Shadow Bullet 180 and
+  30 to 1 Benched Pokémon), Froslass TWM 53 (Freezing Shroud: during
+  Pokémon Checkup, 1 damage counter on each Pokémon in play with an Ability
+  except any Froslass; each Froslass adds its own) and Spikemuth Gym DRI 169
+  (Stadium: once during each player's turn, search the deck for a Marnie's
+  Pokémon, reveal it, put it into the hand). No engine change was needed.
+- **Choices made:** Freezing Shroud skips Pokémon that "have no Abilities"
+  under Team Rocket's Watchtower (C Pokémon) and the opponent's Pokémon
+  with Hide 'n' Sneak. Other "no Abilities" effects (none are in the
+  modern pool's decks today besides Watchtower) are not checked by it.
+- **Verified against:** limitlesstcg.com (Impidimp, Morgrem, Grimmsnarl ex,
+  Froslass), scrydex.com (Grimmsnarl ex: same text, Weakness Grass ×2, the
+  Pokémon ex rule), dittobase.com and serebii.net (Spikemuth Gym: same
+  effect, only the Stadium reminder text is worded differently). **Not
+  verified on a second source:** Impidimp, Morgrem and Froslass were read on
+  limitlesstcg.com only.
+- **Deck:** `sv-grimmsnarl-froslass` in `MODERN_DECKS`, valid in the modern
+  Standard format (bot-bench spec), a primer, its own 6-game modern smoke
+  step and 3 seeded "Why?" mirrors in the bot-bench spec.
+- **Bot:** 6-game smoke 0 errors, 0 rejected actions, 0 stalls. 20 seeded
+  mirrors (seeds 1-20): every game had a winner, 0 errors, 0 rejected
+  actions; ended by prizes 18, no Active Pokémon 2.
+- **Tests:** common 374, sets 3131, simple-bot 100, bot-bench 110, server
+  76, play 222; 0 failures; play lint and `ng build` ok. meta-audit before:
+  27 decks, 676 unique cards, 651 implemented, 13 verify print, 12 missing;
+  after: 28 decks, 701 / 676 / 13 / 12 (the missing list is unchanged: the
+  NAIC Crustle and Clefairy lists).
 
 ## 2026-11-25 (1) — Mega Golisopod ex end-to-end (deck 22)
 

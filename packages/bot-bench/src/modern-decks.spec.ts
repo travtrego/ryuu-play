@@ -69,7 +69,8 @@ describe('Modern Standard bench decks', () => {
     'sv-mega-excadrill', 'sv-slowking', 'sv-festival-lead', 'sv-basic-box', 'sv-dhelmise',
     'sv-ogerpon-meganium', 'sv-mega-lucario', 'sv-lopunny', 'sv-greninja', 'sv-dragapult-dudunsparce',
     'sv-rockets-honchkrow', 'sv-alakazam-dusknoir', 'sv-cynthias-garchomp',
-    'sv-sharpedo-toxtricity', 'sv-lucario-hariyama', 'sv-mega-golisopod'].forEach(name => (
+    'sv-sharpedo-toxtricity', 'sv-lucario-hariyama', 'sv-mega-golisopod',
+    'sv-grimmsnarl-froslass'].forEach(name => (
     // Dhelmise seed 2 is a real 2-turn game (a lone 30 HP Poltchageist is Knocked
     // Out on turn 2, 0 errors), too short to check the "Why?" notes; seed 4 instead.
     name === 'sv-dhelmise' ? [1, 3, 4] : [1, 2, 3]).forEach(seed => {

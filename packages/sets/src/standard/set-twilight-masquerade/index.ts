@@ -1,3 +1,4 @@
+import { FroslassTWM } from './froslass';
 import { Card } from '@ptcg/common';
 import { BugCatchingSet } from './bug-catching-set';
 import { ChiYu } from './chi-yu';
@@ -57,4 +58,5 @@ export const setTwilightMasquerade: Card[] = [
   new GreninjaEx(),
   new AbraTWM(),
   new EnhancedHammerTWM(),
+  new FroslassTWM(),
 ];

@@ -746,6 +746,39 @@ export const MODERN_DECKS: ModernDeck[] = [
       ['Growing Grass Energy POR', 4],
       ['Ignition Energy WHT', 1]
     ]
+  },
+
+  {
+    id: 'sv-grimmsnarl-froslass',
+    name: 'Grimmsnarl Froslass',
+    source: 'Fall 2026 online (data/meta-decks/online-2026-grimmsnarl-froslass.json)',
+    cards: [
+      ['Marnie\'s Impidimp DRI', 4],
+      ['Marnie\'s Morgrem DRI', 2],
+      ['Marnie\'s Grimmsnarl ex DRI', 2],
+      ['Munkidori TWM', 4],
+      ['Snorunt ASC', 2],
+      ['Froslass TWM', 2],
+      ['Budew ASC', 1],
+      ['Shaymin DRI', 1],
+      ['Yveltal MEG', 1],
+      ['Team Rocket\'s Petrel DRI', 4],
+      ['Lillie\'s Determination MEG', 4],
+      ['Boss\'s Orders MEG', 3],
+      ['Gwynn PBL', 2],
+      ['Judge POR', 1],
+      ['Poké Pad POR', 4],
+      ['Buddy-Buddy Poffin TEF', 2],
+      ['Rare Candy MEG', 2],
+      ['Night Stretcher ASC', 2],
+      ['Special Red Card CRI', 1],
+      ['Energy Switch MEG', 1],
+      ['Secret Box TWM', 1],
+      ['Air Balloon ASC', 1],
+      ['Spikemuth Gym DRI', 3],
+      ['Team Rocket\'s Watchtower DRI', 1],
+      ['Darkness Energy EVO', 9]
+    ]
   }
 
 ];

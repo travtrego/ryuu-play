@@ -5,6 +5,7 @@ import {
   GameError,
   GameMessage,
   PowerEffect,
+  PokemonSlot,
   PowerType,
   State,
   StateUtils,
@@ -23,6 +24,20 @@ export class TeamRocketsWatchtower extends TrainerCard {
   public fullName: string = 'Team Rocket\'s Watchtower DRI';
 
   public text: string = 'C Pokémon in play (both yours and your opponent\'s) have no Abilities.';
+
+  /**
+   * True when a Team Rocket's Watchtower in play takes away the Abilities of
+   * the Pokémon in `slot` (it is a C Pokémon). For effects that ask whether a
+   * Pokémon "has an Ability" (Froslass's Freezing Shroud).
+   */
+  public static removesAbilities(store: StoreLike, state: State, slot: PokemonSlot): boolean {
+    if (!(StateUtils.getStadiumCard(state) instanceof TeamRocketsWatchtower)) {
+      return false;
+    }
+    const checkType = new CheckPokemonTypeEffect(slot);
+    store.reduceEffect(state, checkType);
+    return checkType.cardTypes.includes(CardType.COLORLESS);
+  }
 
   public reduceEffect(store: StoreLike, state: State, effect: Effect): State {
     if (effect instanceof PowerEffect
