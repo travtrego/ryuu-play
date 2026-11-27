@@ -10,6 +10,7 @@ import { PlayStadiumTactic } from './simple-tactics/play-stadium-tactic';
 import { PlaySupporterTactic } from './simple-tactics/play-supporter-tactic';
 import { PlayTrainerTactic } from './simple-tactics/play-trainer-tactic';
 import { UseDiscardAbilityTactic } from './simple-tactics/use-discard-ability-tactic';
+import { UseHandAbilityTactic } from './simple-tactics/use-hand-ability-tactic';
 import { UseAbilityTactic } from './simple-tactics/use-ability-tactic';
 import { UseStadiumTactic } from './simple-tactics/use-stadium-tactic';
 import { AlertPromptResolver } from './prompt-resolver/alert-prompt-resolver';
@@ -129,6 +130,7 @@ export const allSimpleTactics: SimpleTacticList = [
   AttachEnergyTactic,
   AttachToolTactic,
   UseDiscardAbilityTactic,
+  UseHandAbilityTactic,
   PlayTrainerTactic,
   PlayStadiumTactic,
   PlaySupporterTactic,

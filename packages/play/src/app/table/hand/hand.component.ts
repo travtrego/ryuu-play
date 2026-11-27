@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges } from '@angular/core';
-import { Player, Card, CardList } from '@ptcg/common';
+import { Player, Card, CardList, CardTarget, PlayerType, PokemonCard, SlotType, SuperType } from '@ptcg/common';
 import { SortableSpec, DraggedItem } from '@ng-dnd/sortable';
 
 import { CardsBaseService } from '../../shared/cards/cards-base.service';
@@ -76,7 +76,29 @@ export class HandComponent implements OnChanges {
   public showCardInfo(card: Card) {
     const facedown = this.isFaceDown;
     const allowReveal = facedown && !!this.gameState.replay;
-    this.cardsBaseService.showCardInfo({ card, allowReveal, facedown });
+
+    // A Pokémon with an Ability used from the hand (Talonflame ex's Excited
+    // Dive) gets an ability button in the card popup.
+    const canUseFromHand = this.isOwner && !this.isDeleted && !facedown
+      && card.superType === SuperType.POKEMON && ((card as PokemonCard).powers || []).some(p => p.useFromHand);
+    if (!canUseFromHand) {
+      this.cardsBaseService.showCardInfo({ card, allowReveal, facedown });
+      return;
+    }
+
+    const options = { enableAbility: { useFromHand: true }, enableAttack: false };
+    this.cardsBaseService.showCardInfo({ card, options })
+      .then(result => {
+        if (!result || !result.ability) {
+          return;
+        }
+        const index = this.player.hand.cards.indexOf(card);
+        if (index === -1) {
+          return;
+        }
+        const target: CardTarget = { player: PlayerType.BOTTOM_PLAYER, slot: SlotType.HAND, index };
+        this.gameService.ability(this.gameState.gameId, result.ability, target);
+      });
   }
 
   private dispatchAction(list: HandItem[]) {

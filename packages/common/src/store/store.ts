@@ -2,6 +2,9 @@ import { Action } from './actions/action';
 import { AbortGameAction } from './actions/abort-game-action';
 import { AppendLogAction } from './actions/append-log-action';
 import { Card } from './card/card';
+import { StateUtils } from './state-utils';
+import { TrainerCard } from './card/trainer-card';
+import { SuperType, TrainerType } from './card/card-types';
 import { ChangeAvatarAction } from './actions/change-avatar-action';
 import { Effect } from './effects/effect';
 import { GameEffects } from './effects/game-effects';
@@ -219,14 +222,23 @@ export class Store implements StoreLike {
 
   private propagateEffect(state: State, effect: Effect): State {
     const cards: Card[] = [];
+    // Jamming Tower: "Pokémon Tool cards in play have no effect" - attached
+    // Tools are left out while such a Stadium is in play.
+    const stadium = StateUtils.getStadiumCard(state);
+    const toolsOff = stadium !== undefined && (stadium as TrainerCard).toolsInPlayHaveNoEffect === true;
+    const attached = (c: Card) => {
+      if (!toolsOff || c.superType !== SuperType.TRAINER || (c as TrainerCard).trainerType !== TrainerType.TOOL) {
+        cards.push(c);
+      }
+    };
     for (const player of state.players) {
       player.stadium.cards.forEach(c => cards.push(c));
       player.supporter.cards.forEach(c => cards.push(c));
-      player.active.trainers.cards.forEach(c => cards.push(c));
+      player.active.trainers.cards.forEach(attached);
       player.active.energies.cards.forEach(c => cards.push(c));
       player.active.pokemons.cards.forEach(c => cards.push(c));
       for (const bench of player.bench) {
-        bench.trainers.cards.forEach(c => cards.push(c));
+        bench.trainers.cards.forEach(attached);
         bench.energies.cards.forEach(c => cards.push(c));
         bench.pokemons.cards.forEach(c => cards.push(c));
       }

@@ -779,6 +779,39 @@ export const MODERN_DECKS: ModernDeck[] = [
       ['Team Rocket\'s Watchtower DRI', 1],
       ['Darkness Energy EVO', 9]
     ]
+  },
+
+  {
+    id: 'sv-talonflame-dusknoir',
+    name: 'Talonflame Dusknoir',
+    source: 'Fall 2026 LAIC (data/meta-decks/online-2026-talonflame-dusknoir.json)',
+    cards: [
+      ['Duskull PRE', 4],
+      ['Dusclops PRE', 3],
+      ['Dusknoir PRE', 3],
+      ['Mega Kangaskhan ex MEG', 4],
+      ['Talonflame ex DLR', 3],
+      ['Latias ex SSP', 2],
+      ['Meowth ex POR', 2],
+      ['Fezandipiti ex ASC', 1],
+      ['Bloodmoon Ursaluna ex TWM', 1],
+      ['Lillie\'s Determination MEG', 3],
+      ['Hilda WHT', 3],
+      ['Boss\'s Orders MEG', 3],
+      ['Black Belt\'s Training JTG', 2],
+      ['Judge POR', 1],
+      ['Dawn PFL', 1],
+      ['Dusk Ball SSP', 4],
+      ['Ultra Ball MEG', 4],
+      ['Rare Candy MEG', 3],
+      ['Buddy-Buddy Poffin TEF', 2],
+      ['Special Red Card CRI', 2],
+      ['Night Stretcher ASC', 1],
+      ['Switch MEG', 1],
+      ['Jamming Tower TWM', 2],
+      ['Ignition Energy WHT', 4],
+      ['Neo Upper Energy TEF', 1]
+    ]
   }
 
 ];

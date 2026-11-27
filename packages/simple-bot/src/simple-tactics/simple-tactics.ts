@@ -54,6 +54,13 @@ export abstract class SimpleTactic {
       return `Played ${name}`;
     }
     if (action instanceof UseAbilityAction) {
+      // An Ability used from the hand or discard pile shows the card anyway.
+      const pile = action.target.slot === SlotType.HAND ? player.hand
+        : action.target.slot === SlotType.DISCARD ? player.discard : undefined;
+      if (pile !== undefined) {
+        const card = pile.cards[action.target.index];
+        return `Used ${card ? card.name : 'a Pokémon'}'s ${action.name}`;
+      }
       const slot = getOwnSlot(player, action.target);
       return `Used ${pokemonName(slot)}'s ${action.name}`;
     }

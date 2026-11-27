@@ -311,4 +311,22 @@ export const DECK_PRIMERS: { [deckId: string]: DeckPrimerText } = {
     ]
   },
 
+  'sv-talonflame-dusknoir': {
+    plan: 'Mega Kangaskhan ex draws cards (Run Errand, in the Active Spot) and hits with Rapid-Fire Combo. '
+      + 'Once it is in play, Talonflame ex\'s Excited Dive puts Talonflame ex straight from your hand onto your '
+      + 'Bench, no Fletchling needed; its Talon Hunt (150) only costs 2 Energy and finds any 2 cards. '
+      + 'Dusclops and Dusknoir Knock Themselves Out with Cursed Blast to put 5 or 13 damage counters where you need them.',
+    tips: [
+      'To use Excited Dive, open Talonflame ex in your hand (click it) and press its Ability. '
+        + 'You need a Colorless Mega Evolution Pokémon ex (Mega Kangaskhan ex) in play and room on your Bench.',
+      'Ignition Energy gives CCC on an Evolution Pokémon, so one is enough for Talon Hunt, but it is discarded '
+        + 'at the end of your turn. Neo Upper Energy gives every type, 2 at a time, on a Stage 2 Pokémon.',
+      'Cursed Blast Knocks Out your own Dusclops or Dusknoir, so the opponent takes a Prize card for it: '
+        + 'use it when it wins a Prize race, not just because it can.',
+      'Dusk Ball looks at the bottom 7 cards of your deck for a Pokémon; Hilda finds an Evolution Pokémon and an Energy.',
+      'Jamming Tower turns off every Pokémon Tool in play, yours and the opponent\'s (Hero\'s Cape, Air Balloon).',
+      'Latias ex\'s Skyliner lets your Basic Pokémon retreat for free; Mega Kangaskhan ex gives up 3 Prize cards.',
+    ]
+  },
+
 };
