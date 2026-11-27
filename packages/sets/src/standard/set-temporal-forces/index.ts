@@ -18,6 +18,7 @@ import { IronLeavesEx } from './iron-leaves-ex';
 import { ExplorersGuidance } from './explorers-guidance';
 import { PrimeCatcher } from './prime-catcher';
 import { Salvatore } from './salvatore';
+import { NeoUpperEnergy } from './neo-upper-energy';
 
 export const setTemporalForces: Card[] = [
   new BuddyBuddyPoffin(),
@@ -39,4 +40,5 @@ export const setTemporalForces: Card[] = [
   new ExplorersGuidance(),
   new PrimeCatcher(),
   new Salvatore(),
+  new NeoUpperEnergy(),
 ];

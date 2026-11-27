@@ -16,4 +16,9 @@ export abstract class TrainerCard extends Card {
   // TrainerCard instead of extending it. Absence means the normal first-turn
   // Supporter restriction applies; only explicit `true` opts a card in.
   public canUseOnFirstTurn?: boolean = false;
+
+  // A Stadium that turns off Pokémon Tool cards in play (Jamming Tower TWM).
+  // While such a Stadium is in play, the store does not pass effects to Tool
+  // cards attached to Pokémon. Optional for the same reason as above.
+  public toolsInPlayHaveNoEffect?: boolean = false;
 }

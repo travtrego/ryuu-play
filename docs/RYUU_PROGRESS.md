@@ -110,18 +110,27 @@ owner handed from the GPT lane to Claude. Issue #2's lane split is retired.
   "Marnie's") is in `set-destined-rivals/marnie-utils.ts`, and
   `TeamRocketsWatchtower.removesAbilities` answers "does this Pokémon have
   no Abilities right now" for effects that count Abilities.
-- **Next: deck 24.** dittobase.com/tcg/decks/meta (Delta Reign, 6-23 Nov
-  2026, read 2026-11-24) top 25 not yet in RyuuPlay: Mega Rayquaza 8.99%
-  (2nd, blocked: DLR split Stadium Legendary Pyroduct), Talonflame Dusknoir
-  3.14% (needs DLR Talonflame ex, whose stage was disputed on 2026-11-13),
-  Crustle 2.21% (DLR split Stadium). The meta page could not be opened on
-  2026-11-25 or 2026-11-26 ("permission request not answered in time"), so
-  re-read it first, or use another current meta page from a web search. Try
-  Talonflame Dusknoir next if Talonflame ex's text can be pinned down on two
-  sources; otherwise the next archetype below the top 25. Lists: the
-  limitlesstcg.com/cards/<SET>/<n>/decklists page of the deck's main card
-  lists its newest tournament lists first (worked 2026-11-26); Delta Reign
-  lists are above ~31000. limitlesstcg.com card pages worked on 2026-11-26.
+- **Deck 24, Talonflame Dusknoir — done end-to-end** (2026-11-27, first
+  entry below), 25 of 25 cards. **Abilities used from the hand are in**: the
+  bot has a `UseHandAbilityTactic` and the hand in the client opens an
+  ability button (Talonflame ex's Excited Dive). **Jamming Tower** is an
+  engine flag (`TrainerCard.toolsInPlayHaveNoEffect`): while such a Stadium
+  is in play the store does not pass effects to attached Pokémon Tools.
+- **Next: deck 25.** dittobase.com/tcg/decks/meta (Delta Reign, 6-26 Nov
+  2026, read 2026-11-27) archetypes not yet in RyuuPlay, by share: Mega
+  Rayquaza 8.37% (2nd, blocked: DLR split Stadium Legendary Pyroduct),
+  Crustle 2.35% (DLR split Stadium), **Iron Thorns 0.91% (26th)**, Mega
+  Greninja 0.85%, Ethan's Typhlosion 0.81%, Toucannon 0.78%, Igglybuff
+  0.69%, Ogerpon Meganium Arboliva 0.67%, Mega Starmie 0.64%. Try Iron
+  Thorns next. Lists: the limitlesstcg.com/cards/<SET>/<n>/decklists page of
+  the deck's main card lists its newest tournament lists first (worked
+  2026-11-26 and 2026-11-27; its ?page=2 returned page 1 again).
+  limitlesstcg.com, dittobase.com, pkmncards.com, serebii.net,
+  pokemoncard.io, cardcodex.com and tcgcollector.com card pages worked on
+  2026-11-27; bulbapedia.bulbagarden.net did not (client error).
+- **Bot weakness with Talonflame Dusknoir:** 12 of 20 seeded mirrors ended
+  by deck-out (Mega Kangaskhan ex's Run Errand draws 2 every turn it is
+  Active, and Talon Hunt takes 2 more). Same family as priority 2(b).
 - **Bot weakness with Honchkrow:** 17 of 20 seeded mirrors ended by deck-out
   (15 of 20 after the 2026-11-22 Ignition Energy fix). Traced 2026-11-22: it
   is mostly not over-drawing at the end (few draws happen below 10 cards in
@@ -279,6 +288,62 @@ game** with the Tips panel; a recap is piece 4.
   `claude/pokemon-tcg-ai-trainer-3m3qqe` (2026-09-29). Leave it alone.
 
 ---
+
+## 2026-11-27 (1) — Talonflame Dusknoir end-to-end (deck 24)
+
+Branch `claude/ryuu-2026-11-27-talonflame-dusknoir`.
+
+- **Meta check:** dittobase.com/tcg/decks/meta (Delta Reign, 6-26 Nov 2026,
+  216 events, read 2026-11-27) has Talonflame Dusknoir at 3.38% (8th), the
+  highest-share archetype not yet in RyuuPlay that is not blocked by a DLR
+  split Stadium. List: Damian Fernandez Urroz, 2nd of 2646 at LAIC 2026-27
+  São Paulo, 20 Nov 2026 (limitlesstcg.com/decks/list/31360), the newest
+  Talonflame Dusknoir list on limitlesstcg.com/cards/DLR/88/decklists.
+  Stored in `data/meta-decks/online-2026-talonflame-dusknoir.json`. The list
+  plays no Fletchling line: Talonflame ex only comes into play through its
+  Excited Dive Ability.
+- **New cards (4), each with specs:** Talonflame ex DLR 88 (Stage 2, 280
+  HP; Excited Dive: once during your turn, from your hand, if you have a C
+  Mega Evolution Pokémon ex in play, put it onto your Bench; Talon Hunt CC
+  150, search the deck for up to 2 cards), Dusk Ball SSP 175 (a Pokémon
+  from the bottom 7 cards of the deck), Neo Upper Energy TEF 162 (ACE SPEC:
+  C, or every type 2 at a time on a Stage 2 Pokémon) and Jamming Tower TWM
+  153 (Stadium: Pokémon Tools in play have no effect).
+- **Engine and client:** (1) Abilities used from the hand were already
+  allowed by the engine (`useFromHand`) but nothing used them: the bot now
+  has `UseHandAbilityTactic` (with a "Why?" naming the card) and clicking
+  such a card in your hand opens it with an ability button. (2) Jamming
+  Tower: `TrainerCard.toolsInPlayHaveNoEffect`; while a Stadium with it is
+  in play, `Store.propagateEffect` skips Pokémon Tool cards attached to
+  Pokémon. Tools stay attached and other cards can still see or discard
+  them. No card in an older format sets the flag, so older formats play
+  as before.
+- **Verified against:** Talonflame ex on limitlesstcg.com, dittobase.com
+  (DLR 88 and 124), serebii.net, pokemoncard.io and cardcodex.com: all
+  agree on HP, type, Excited Dive, Talon Hunt 150, Weakness Lightning ×2,
+  Resistance Fighting -30 and the ex rule. **Disagreements / single-source:**
+  Retreat Cost 0 is shown on limitlesstcg.com only (no other page showed a
+  value); Stage 2 is on limitlesstcg.com and dittobase.com, but
+  limitlesstcg.com says "Evolves from Fletchling" while cardcodex.com says
+  Fletchinder; Fletchinder is used (a Stage 2 evolves from a Stage 1, and
+  the deck plays neither). serebii.net names the attack "Hunting Talons";
+  limitlesstcg.com and dittobase.com say Talon Hunt. cardcodex.com's summary
+  gave Talon Hunt one C; dittobase.com shows CC, which is used. Dusk Ball:
+  pkmncards.com and dittobase.com (same text). Neo Upper Energy:
+  pkmncards.com and tcgcollector.com (same text). **Jamming Tower was read
+  on serebii.net only** (bulbapedia failed).
+- **Deck:** `sv-talonflame-dusknoir` in `MODERN_DECKS`, valid in the modern
+  Standard format (bot-bench spec), a primer, its own 6-game modern smoke
+  step, 3 seeded "Why?" mirrors and a spec that the bot uses Excited Dive.
+- **Bot:** 20 seeded mirrors (seeds 1-20): every game had a winner, 0
+  errors, 0 rejected actions; ended by deck-out 12, prizes 8 (see the bot
+  weakness note in Next up).
+- **Tests:** common 374, sets 3140, simple-bot 100, bot-bench 114, server
+  76; 0 failures; play lint ok. meta-audit before: 28 decks, 701 unique
+  cards, 676 implemented, 13 verify print, 12 missing; after: 29 decks, 726
+  / 703 / 13 / 10 (Jamming Tower was also missing from the NAIC Dragapult
+  Dusknoir list and Dusk Ball from the NAIC Clefairy list; still missing:
+  the NAIC Crustle list's 8, Poke Pad ASC 198 and Koraidon ex ASC 121).
 
 ## 2026-11-26 (1) — Grimmsnarl Froslass end-to-end (deck 23)
 

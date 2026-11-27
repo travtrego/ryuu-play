@@ -70,7 +70,7 @@ describe('Modern Standard bench decks', () => {
     'sv-ogerpon-meganium', 'sv-mega-lucario', 'sv-lopunny', 'sv-greninja', 'sv-dragapult-dudunsparce',
     'sv-rockets-honchkrow', 'sv-alakazam-dusknoir', 'sv-cynthias-garchomp',
     'sv-sharpedo-toxtricity', 'sv-lucario-hariyama', 'sv-mega-golisopod',
-    'sv-grimmsnarl-froslass'].forEach(name => (
+    'sv-grimmsnarl-froslass', 'sv-talonflame-dusknoir'].forEach(name => (
     // Dhelmise seed 2 is a real 2-turn game (a lone 30 HP Poltchageist is Knocked
     // Out on turn 2, 0 errors), too short to check the "Why?" notes; seed 4 instead.
     name === 'sv-dhelmise' ? [1, 3, 4] : [1, 2, 3]).forEach(seed => {
@@ -89,4 +89,20 @@ describe('Modern Standard bench decks', () => {
       expect(a.reasons.length + b.reasons.length).toBeGreaterThan(10);
     });
   }));
+
+  it('uses Talonflame ex\'s Excited Dive from the hand, with a "Why?" naming the card', () => {
+    const deck = findDeck('sv-talonflame-dusknoir');
+    const reasons: string[] = [];
+    [1, 2, 3].forEach(seed => {
+      const a = new ReasonRecorder('a');
+      const b = new ReasonRecorder('b');
+      const seats: [GameSeat, GameSeat] = [
+        { name: 'a', bot: a, deck: deck.cards },
+        { name: 'b', bot: b, deck: deck.cards }
+      ];
+      playGame(seats, seed, {}, rulesForDecks(deck, deck));
+      reasons.push(...a.reasons, ...b.reasons);
+    });
+    expect(reasons.some(r => r.includes('Used Talonflame ex\'s Excited Dive'))).toBeTrue();
+  });
 });

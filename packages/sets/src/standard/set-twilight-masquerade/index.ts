@@ -28,6 +28,7 @@ import { LegacyEnergy } from './legacy-energy';
 import { GreninjaEx } from './greninja-ex';
 import { AbraTWM } from './abra';
 import { EnhancedHammerTWM } from './enhanced-hammer';
+import { JammingTower } from './jamming-tower';
 
 export const setTwilightMasquerade: Card[] = [
   new HandheldFan(),
@@ -59,4 +60,5 @@ export const setTwilightMasquerade: Card[] = [
   new AbraTWM(),
   new EnhancedHammerTWM(),
   new FroslassTWM(),
+  new JammingTower(),
 ];
