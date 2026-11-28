@@ -812,6 +812,41 @@ export const MODERN_DECKS: ModernDeck[] = [
       ['Ignition Energy WHT', 4],
       ['Neo Upper Energy TEF', 1]
     ]
+  },
+
+  {
+    id: 'sv-mega-greninja',
+    name: 'Mega Greninja ex',
+    source: 'Fall 2026 LAIC (data/meta-decks/online-2026-mega-greninja.json)',
+    cards: [
+      ['Froakie CRI', 4],
+      ['Frogadier CRI', 2],
+      ['Greninja ex TWM', 2],
+      ['Greninja ex 30C', 1],
+      ['Mega Greninja ex CRI', 2],
+      ['Mega Kangaskhan ex MEG', 3],
+      ['Latias ex SSP', 2],
+      ['Talonflame ex DLR', 2],
+      ['Meowth ex POR', 1],
+      ['Fezandipiti ex ASC', 1],
+      ['Lillie\'s Determination MEG', 4],
+      ['Boss\'s Orders MEG', 3],
+      ['Hilda WHT', 2],
+      ['Judge POR', 1],
+      ['Zinnia\'s Trust DLR', 1],
+      ['Cyrano SSP', 1],
+      ['Ultra Ball MEG', 4],
+      ['Buddy-Buddy Poffin TEF', 3],
+      ['Rare Candy MEG', 3],
+      ['Switch MEG', 2],
+      ['Night Stretcher ASC', 1],
+      ['Special Red Card CRI', 1],
+      ['Air Balloon ASC', 1],
+      ['Surfing Beach MEG', 2],
+      ['Water Energy EVO', 7],
+      ['Ignition Energy WHT', 3],
+      ['Neo Upper Energy TEF', 1]
+    ]
   }
 
 ];

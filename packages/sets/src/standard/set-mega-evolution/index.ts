@@ -26,6 +26,7 @@ import { YveltalMEG } from './yveltal';
 import { MakuhitaMEG } from './makuhita';
 import { HariyamaMEG } from './hariyama';
 import { MegaSignal } from './mega-signal';
+import { SurfingBeach } from './surfing-beach';
 
 export const setMegaEvolution: Card[] = [
   new Abra(),
@@ -55,4 +56,5 @@ export const setMegaEvolution: Card[] = [
   new MakuhitaMEG(),
   new HariyamaMEG(),
   new MegaSignal(),
+  new SurfingBeach(),
 ];
