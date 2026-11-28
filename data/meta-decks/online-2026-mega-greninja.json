@@ -1,0 +1,38 @@
+{
+  "id": "online-2026-mega-greninja",
+  "name": "Mega Greninja ex — Fall 2026",
+  "format": "standard",
+  "asOf": "2026-11-28",
+  "source": "Yan Barbosa, 383rd of 2646 at LAIC 2026-27 São Paulo, 20 Nov 2026, limitlesstcg.com/decks/list/31616 (read 2026-11-28; the newest list on limitlesstcg.com/cards/en/MEP/81/decklists). Mega Greninja was 0.85% (27th) of Delta Reign entries on dittobase.com/tcg/decks/meta, 6-26 Nov 2026 (read 2026-11-28); Iron Thorns (26th) was skipped because its newest list plays the Legendary Pyroduct split Stadium.",
+  "cards": [
+    { "count": 4, "name": "Froakie", "set": "CRI", "number": "20", "category": "pokemon" },
+    { "count": 2, "name": "Frogadier", "set": "CRI", "number": "21", "category": "pokemon" },
+    { "count": 2, "name": "Greninja ex", "set": "TWM", "number": "106", "category": "pokemon" },
+    { "count": 1, "name": "Greninja ex", "set": "30C", "number": "21", "category": "pokemon" },
+    { "count": 2, "name": "Mega Greninja ex", "set": "CRI", "number": "22", "category": "pokemon" },
+    { "count": 3, "name": "Mega Kangaskhan ex", "set": "MEG", "number": "104", "category": "pokemon" },
+    { "count": 2, "name": "Latias ex", "set": "SSP", "number": "76", "category": "pokemon" },
+    { "count": 2, "name": "Talonflame ex", "set": "DLR", "number": "88", "category": "pokemon" },
+    { "count": 1, "name": "Meowth ex", "set": "POR", "number": "62", "category": "pokemon" },
+    { "count": 1, "name": "Fezandipiti ex", "set": "ASC", "number": "142", "category": "pokemon" },
+
+    { "count": 4, "name": "Lillie's Determination", "set": "MEG", "number": "119", "category": "trainer" },
+    { "count": 3, "name": "Boss's Orders", "set": "MEG", "number": "114", "category": "trainer" },
+    { "count": 2, "name": "Hilda", "set": "WHT", "number": "84", "category": "trainer" },
+    { "count": 1, "name": "Judge", "set": "POR", "number": "76", "category": "trainer" },
+    { "count": 1, "name": "Zinnia's Trust", "set": "DLR", "number": "103", "category": "trainer" },
+    { "count": 1, "name": "Cyrano", "set": "SSP", "number": "170", "category": "trainer" },
+    { "count": 4, "name": "Ultra Ball", "set": "MEG", "number": "131", "category": "trainer" },
+    { "count": 3, "name": "Buddy-Buddy Poffin", "set": "TEF", "number": "144", "category": "trainer" },
+    { "count": 3, "name": "Rare Candy", "set": "MEG", "number": "125", "category": "trainer" },
+    { "count": 2, "name": "Switch", "set": "MEG", "number": "130", "category": "trainer" },
+    { "count": 1, "name": "Night Stretcher", "set": "ASC", "number": "196", "category": "trainer" },
+    { "count": 1, "name": "Special Red Card", "set": "CRI", "number": "82", "category": "trainer" },
+    { "count": 1, "name": "Air Balloon", "set": "ASC", "number": "181", "category": "trainer" },
+    { "count": 2, "name": "Surfing Beach", "set": "MEG", "number": "129", "category": "trainer" },
+
+    { "count": 7, "name": "Water Energy", "set": "MEE", "number": "11", "category": "energy", "basic": true },
+    { "count": 3, "name": "Ignition Energy", "set": "WHT", "number": "86", "category": "energy" },
+    { "count": 1, "name": "Neo Upper Energy", "set": "TEF", "number": "162", "category": "energy" }
+  ]
+}

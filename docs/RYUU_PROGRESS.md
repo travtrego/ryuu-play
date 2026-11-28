@@ -116,18 +116,27 @@ owner handed from the GPT lane to Claude. Issue #2's lane split is retired.
   ability button (Talonflame ex's Excited Dive). **Jamming Tower** is an
   engine flag (`TrainerCard.toolsInPlayHaveNoEffect`): while such a Stadium
   is in play the store does not pass effects to attached Pokémon Tools.
-- **Next: deck 25.** dittobase.com/tcg/decks/meta (Delta Reign, 6-26 Nov
-  2026, read 2026-11-27) archetypes not yet in RyuuPlay, by share: Mega
-  Rayquaza 8.37% (2nd, blocked: DLR split Stadium Legendary Pyroduct),
-  Crustle 2.35% (DLR split Stadium), **Iron Thorns 0.91% (26th)**, Mega
-  Greninja 0.85%, Ethan's Typhlosion 0.81%, Toucannon 0.78%, Igglybuff
-  0.69%, Ogerpon Meganium Arboliva 0.67%, Mega Starmie 0.64%. Try Iron
-  Thorns next. Lists: the limitlesstcg.com/cards/<SET>/<n>/decklists page of
-  the deck's main card lists its newest tournament lists first (worked
-  2026-11-26 and 2026-11-27; its ?page=2 returned page 1 again).
-  limitlesstcg.com, dittobase.com, pkmncards.com, serebii.net,
-  pokemoncard.io, cardcodex.com and tcgcollector.com card pages worked on
-  2026-11-27; bulbapedia.bulbagarden.net did not (client error).
+- **Deck 25, Mega Greninja ex — done end-to-end** (2026-11-28, first
+  entry below), 27 of 27 cards. **Iron Thorns (26th) was skipped**: its
+  newest list (theotheo95, 8th, Team Corna Weekly, 23 Nov 2026, on
+  dittobase.com) plays 4 Legendary Pyroduct (DLR split Stadium).
+- **Next: deck 26.** dittobase.com/tcg/decks/meta (Delta Reign, 6-26 Nov
+  2026, read 2026-11-28) archetypes not yet in RyuuPlay, by share: Mega
+  Rayquaza 8.37% and Crustle 2.35% (blocked: DLR split Stadiums), Iron
+  Thorns 0.91% (blocked: Legendary Pyroduct), **Ethan's Typhlosion 0.81%
+  (28th)**, Toucannon 0.78%, Igglybuff 0.69%, Ogerpon Meganium Arboliva
+  0.67%, Mega Starmie 0.64%. Try Ethan's Typhlosion next: a current list was
+  read 2026-11-28 (Yasmin Kiss, 82nd of 2646 at LAIC 2026-27 São Paulo, 20
+  Nov 2026, limitlesstcg.com/decks/list/31415, the newest on
+  limitlesstcg.com/cards/en/DRI/34/decklists). It needs Ethan's Cyndaquil /
+  Quilava / Typhlosion DRI 32-34, Ethan's Adventure DRI 165, Sacred Ash DRI
+  168, Victini SSP 21, Shaymin DRI 10 (in), Kieran TWM 154, Lana's Aid TWM
+  155, Secret Box TWM 163, Redeemable Ticket JTG 156, Blowtorch PFL 86, Brave
+  Bangle WHT 80 and others; run meta-audit on it first. Lists: the
+  limitlesstcg.com/cards/<SET>/<n>/decklists page of the deck's main card
+  (it shows no dates; the decklist page's tournament link does).
+  limitlesstcg.com, dittobase.com, serebii.net and tcgcollector.com card
+  pages worked on 2026-11-28; pokemoncard.io did not (client error).
 - **Bot weakness with Talonflame Dusknoir:** 12 of 20 seeded mirrors ended
   by deck-out (Mega Kangaskhan ex's Run Errand draws 2 every turn it is
   Active, and Talon Hunt takes 2 more). Same family as priority 2(b).
@@ -288,6 +297,53 @@ game** with the Tips panel; a recap is piece 4.
   `claude/pokemon-tcg-ai-trainer-3m3qqe` (2026-09-29). Leave it alone.
 
 ---
+
+## 2026-11-28 (1) — Mega Greninja ex end-to-end (deck 25)
+
+Branch `claude/ryuu-2026-11-28-mega-greninja`.
+
+- **Meta check:** dittobase.com/tcg/decks/meta (Delta Reign, 6-26 Nov 2026,
+  216 events, read 2026-11-28). Iron Thorns (0.91%, 26th) was skipped: its
+  newest list plays the Legendary Pyroduct split Stadium. Mega Greninja is
+  0.85% (27th). List: Yan Barbosa, 383rd of 2646 at LAIC 2026-27 São Paulo,
+  20 Nov 2026 (limitlesstcg.com/decks/list/31616), the newest Mega Greninja
+  ex list on limitlesstcg.com/cards/en/MEP/81/decklists. Not a top finish,
+  but the newest complete list found. Stored in
+  `data/meta-decks/online-2026-mega-greninja.json`.
+- **New cards (4), each with specs:** Mega Greninja ex CRI 22 (Stage 2 from
+  Frogadier, Water, 350 HP, Mega Evolution ex; Mortal Shuriken: once during
+  your turn, in the Active Spot, discard a Basic W Energy card from your hand
+  to put 6 damage counters on 1 of the opponent's Pokémon; Ninja Spinner WW
+  120+, may put a W Energy from it into your hand for 80 more), Greninja ex
+  30C 21 (a different card from Greninja ex TWM: Water, 300 HP; Stealthy
+  Slash W, 30 for each damage counter on 1 of the opponent's Pokémon; Aqua
+  Edge WW 160), Zinnia's Trust DLR 103 (Supporter: switch your Active
+  Pokémon with a Benched one, then move an Energy from the old Active to the
+  new one) and Surfing Beach MEG 129 (Stadium: once during each player's
+  turn, switch their Active W Pokémon with a Benched W Pokémon). Mortal
+  Shuriken respects Hide 'n' Sneak and Battle Cage like Cursed Blast.
+- **No engine change:** the Mega Evolution ex rule (3 Prize cards) was
+  already in. Not checked by a spec: Rare Candy from Froakie straight to
+  Mega Greninja ex (the bot games play the deck's 3 Rare Candy without
+  errors).
+- **Verified against:** Mega Greninja ex on dittobase.com and serebii.net
+  (agree on every field) and limitlesstcg.com's JP page with its unofficial
+  translation (calls the Ability "Deadly Shuriken"; the English sites say
+  Mortal Shuriken, which is used). "Evolves from Frogadier" is on
+  limitlesstcg.com only. Greninja ex 30C on limitlesstcg.com, dittobase.com
+  and serebii.net (agree). Zinnia's Trust on limitlesstcg.com and
+  dittobase.com (same text). Surfing Beach on dittobase.com and
+  tcgcollector.com (same text). pokemoncard.io failed.
+- **Deck:** `sv-mega-greninja` in `MODERN_DECKS`, valid in the modern
+  Standard format (bot-bench spec), a primer, its own 6-game modern smoke
+  step, 3 seeded "Why?" mirrors and a spec that the bot uses Mortal Shuriken.
+- **Bot:** 20 seeded mirrors (seeds 1-20): every game had a winner, 0
+  errors, 0 rejected actions; ended by prizes 19, no Active Pokémon 1, no
+  deck-outs. Average 19.3 turns.
+- **Tests:** common 374, sets 3158, simple-bot 100, bot-bench 118, server
+  76; 0 failures; play lint ok (play Karma tests and `ng build` left to CI).
+  meta-audit before: 29 decks, 726 unique cards, 703 implemented, 13 verify
+  print, 10 missing; after: 30 decks, 753 / 730 / 13 / 10.
 
 ## 2026-11-27 (1) — Talonflame Dusknoir end-to-end (deck 24)
 

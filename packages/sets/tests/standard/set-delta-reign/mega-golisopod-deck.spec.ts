@@ -66,7 +66,7 @@ describe('Mega Golisopod deck cards', () => {
       ['Linear Attack', [CardType.COLORLESS]], ['Punishing Needles', [CardType.GRASS]]]);
 
     expect(setDeltaReign.map(c => c.fullName)).toEqual([
-      'Cacnea DLR', 'Cacturne DLR', 'Wimpod DLR', 'Mega Golisopod ex DLR', 'Talonflame ex DLR']);
+      'Cacnea DLR', 'Cacturne DLR', 'Wimpod DLR', 'Mega Golisopod ex DLR', 'Talonflame ex DLR', 'Zinnia\'s Trust DLR']);
   });
 
   it('Punk Out: no Retreat Cost only while the opponent has a Pokémon ex in play', () => {

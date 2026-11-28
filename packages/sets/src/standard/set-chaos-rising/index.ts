@@ -7,6 +7,7 @@ import { FroakieCRI } from './froakie';
 import { FrogadierCRI } from './frogadier';
 import { BubblyWaterEnergy } from './bubbly-water-energy';
 import { Patrat } from './patrat';
+import { MegaGreninjaEx } from './mega-greninja-ex';
 
 export const setChaosRising: Card[] = [
   new PrismTower(),
@@ -17,4 +18,5 @@ export const setChaosRising: Card[] = [
   new FrogadierCRI(),
   new BubblyWaterEnergy(),
   new Patrat(),
+  new MegaGreninjaEx(),
 ];

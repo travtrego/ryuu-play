@@ -329,4 +329,23 @@ export const DECK_PRIMERS: { [deckId: string]: DeckPrimerText } = {
     ]
   },
 
+  'sv-mega-greninja': {
+    plan: 'Mega Greninja ex is the attacker. Evolve Froakie into Frogadier, then Mega Greninja ex (Rare Candy '
+      + 'skips Frogadier). In the Active Spot, its Mortal Shuriken Ability discards a Basic Water Energy from your '
+      + 'hand to put 6 damage counters on any of the opponent\'s Pokémon, and Ninja Spinner (2 Water) does 120, '
+      + 'or 200 if you put a Water Energy from it back into your hand. Greninja ex finishes damaged Pokémon.',
+    tips: [
+      'Mortal Shuriken is once a turn and only while Mega Greninja ex is Active: keep Basic Water Energy in your '
+        + 'hand for it. Ninja Spinner\'s returned Energy can be attached again next turn, or discarded to Shuriken.',
+      'Greninja ex (30th Celebration) Stealthy Slash costs 1 Water and does 30 for each damage counter on 1 of the '
+        + 'opponent\'s Pokémon: after a Shuriken (6 counters) that is 180 to a Benched one.',
+      'Greninja ex (Twilight Masquerade) Shinobi Blade does 170 and finds any card; Mirage Barrage hits 2 Pokémon for 120.',
+      'Surfing Beach lets each player switch their Active Water Pokémon with a Benched Water Pokémon once a turn, '
+        + 'so a damaged Mega Greninja ex can step back. Zinnia\'s Trust switches and brings an Energy along.',
+      'Mega Kangaskhan ex draws 2 cards a turn in the Active Spot (Run Errand) and lets Talonflame ex dive onto '
+        + 'your Bench from your hand; Talon Hunt finds any 2 cards.',
+      'Mega Greninja ex and Mega Kangaskhan ex each give up 3 Prize cards.',
+    ]
+  },
+
 };
